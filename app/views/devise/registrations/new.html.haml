@@ -6,6 +6,14 @@
     %br/
     = f.email_field :email, autofocus: true, autocomplete: "email"
   .field
+    = f.label :name
+    %br/
+    =f.text_field :name
+  .field
+    = f.label :user_type
+    %br/
+    = f.select :user_type, options_for_select("Administrador"=>:A)
+  .field
     = f.label :password
     - if @minimum_password_length
       %em
