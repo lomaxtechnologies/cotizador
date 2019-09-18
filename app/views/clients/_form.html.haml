@@ -5,18 +5,30 @@
       %ul
         - @client.errors.full_messages.each do |message|
           %li= message
-
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :address
-    = f.text_area :address
-  .field
-    = f.label :nit
-    = f.text_field :nit
-  .field
-    = f.label :phone
-    = f.text_field :phone
-  .actions
-    = f.submit 'Save'
+  .form-row
+    .input-group.mb-3
+      .input-group-prepend
+        .input-group-text.bg-white.text-primary
+          %b Nombre&nbsp;&nbsp;&nbsp;
+      = f.text_field :name, class: "form-control"
+  .form-row
+    .input-group.mb-3
+      .input-group-prepend
+        .input-group-text.bg-white.text-primary
+          %b Dirección
+      = f.text_area :address, class: "form-control"
+  .form-row
+    .input-group.mb-3
+      .input-group-prepend
+        .input-group-text.bg-white.text-primary
+          %b Nit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      = f.text_field :nit, class: "form-control"
+  .form-row
+    .input-group.mb-3
+      .input-group-prepend
+        .input-group-text.bg-white.text-primary
+          %b Teléfono&nbsp;
+      = f.text_field :phone, class: "form-control"
+  .form-row.actions.text-right
+    .col-12
+      = f.submit 'Guardar', class: "btn btn-primary btn-sm px-2"
