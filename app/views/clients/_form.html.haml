@@ -1,34 +1,53 @@
-= form_for @client do |f|
-  - if @client.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@client.errors.count, "error")} prohibited this client from being saved:"
-      %ul
-        - @client.errors.full_messages.each do |message|
-          %li= message
-  .form-row
+.card.card-body
+  = form_for @client do |f|
+    - if @client.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@client.errors.count, "error")} prohibited this client from being saved:"
+        %ul
+          - @client.errors.full_messages.each do |message|
+            %li= message
+    .form-row.mb-2
+      = f.label :name, "Nombre", class:"mb-0 text-primary font-weight-bold"
+      = f.text_field :name, class: "form-control form-control-sm"
+    .form-row.mb-2
+      = f.label :address, "Dirección", class: "mb-0 text-primary font-weight-bold"
+      = f.text_area :address, class: "form-control form-control-sm"
+    .form-row.mb-2
+      .col-6
+        = f.label :nit, "Nit", class: "mb-0 text-primary font-weight-bold"
+        = f.phone_field :nit, class: "form-control form-control-sm"
+      .col-6
+        = f.label :phone, "Teléfono", class: "mb-0 text-primary font-weight-bold"
+        = f.phone_field :phone, class: "form-control form-control-sm"
+    .form-row.actions.text-right
+      .col-12
+        = f.submit 'Guardar', class: "btn btn-primary btn-sm px-2"
+
+-#.form-row
     .input-group.mb-3
       .input-group-prepend
-        .input-group-text.bg-white.text-primary
+        .input-group-text.bg-white.text-primary.border-white.text-monospace
           %b Nombre&nbsp;&nbsp;&nbsp;
       = f.text_field :name, class: "form-control"
   .form-row
     .input-group.mb-3
       .input-group-prepend
-        .input-group-text.bg-white.text-primary
+        .input-group-text.bg-white.text-primary.border-white.text-monospace
           %b Dirección
       = f.text_area :address, class: "form-control"
   .form-row
-    .input-group.mb-3
-      .input-group-prepend
-        .input-group-text.bg-white.text-primary
-          %b Nit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      = f.text_field :nit, class: "form-control"
-  .form-row
-    .input-group.mb-3
-      .input-group-prepend
-        .input-group-text.bg-white.text-primary
-          %b Teléfono&nbsp;
-      = f.text_field :phone, class: "form-control"
+    .col-6.px-0
+      .input-group.mb-3
+        .input-group-prepend
+          .input-group-text.bg-white.text-primary.border-white.text-monospace
+            %b Nit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        = f.text_field :nit, class: "form-control"
+    .col-6.px-0
+      .input-group.mb-3
+        .input-group-prepend
+          .input-group-text.bg-white.text-primary.border-white.text-monospace
+            %b Teléfono&nbsp;
+        = f.text_field :phone, class: "form-control"
   .form-row.actions.text-right
     .col-12
       = f.submit 'Guardar', class: "btn btn-primary btn-sm px-2"
