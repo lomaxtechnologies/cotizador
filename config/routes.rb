@@ -5,7 +5,10 @@ Rails.application.routes.draw do
   end
   resources :measure_units
   resources :clients
+
   
+  get '/account', to: 'users/registrations#account'
+
   root to: 'pages#home'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   # Overriding routes to make them point to generated controllers
