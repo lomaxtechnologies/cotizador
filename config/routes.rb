@@ -18,5 +18,6 @@ Rails.application.routes.draw do
     unlocks: 'users/unlocks',
     registrations: 'users/registrations'
   }
+  resources :materials
 
 end
