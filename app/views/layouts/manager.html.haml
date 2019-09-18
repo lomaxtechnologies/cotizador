@@ -28,8 +28,7 @@
               %a.nav-link{:href => "#"}
                 Unidades de Medida
             %li.nav-item
-              %a.nav-link{:href => "#"}
-                Materiales
+              = link_to 'Materiales', materials_path, class: 'nav-link'
             %li.nav-item.dropdown
               %a#nav-dropdown-prices.nav-link.dropdown-toggle{"aria-expanded" => "false", 
                 "aria-haspopup" => "true",
