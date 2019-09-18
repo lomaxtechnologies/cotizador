@@ -1,4 +1,4 @@
-class ClientsController < ApplicationController
+class ClientsController < ApplicationLoggedController
   layout "manager"
   before_action :set_client, only: [:show, :edit, :update, :destroy]
   
