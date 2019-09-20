@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   }
   resources :materials
 
+  resources :quotions
+
 end
