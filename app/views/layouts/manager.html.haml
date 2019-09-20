@@ -24,6 +24,8 @@
             = link_to 'Clientes', clients_path, class: 'nav-link'
           %li.nav-item
             = link_to 'Unidades de Medida', measure_units_path, class: 'nav-link'
+          %li.nav-item
+            = link_to 'Materiales', materials_path, class: 'nav-link'
           %li.nav-item.dropdown
             %a#nav-dropdown-prices.nav-link.dropdown-toggle{"aria-expanded" => "false", 
               "aria-haspopup" => "true",
@@ -64,11 +66,6 @@
             method: :delete, 
             class: "btn btn-outline-primary my-2 my-sm-0"
     .container-fluid
-          %li.nav-item
-              = link_to 'Materiales', materials_path, class: 'nav-link'
-                %a.dropdown-item{:href => "#"}
-                  %i.fas.fa-tasks
-                  Administrar
       %p.notice= notice
       %p.alert= alert
       = yield
