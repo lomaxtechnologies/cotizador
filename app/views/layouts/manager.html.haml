@@ -48,6 +48,10 @@
               :role => "button"}
               Cotizaciones
             .dropdown-menu{"aria-labelledby" => "nav-dropdown-quotations"}
+              .dropdown-item
+                = link_to quotations_path do
+                  %i.fas.fa-tasks
+                  Administrar
               %a.dropdown-item{:href => "#"}
                 %i.fas.fa-history
                 Historial

@@ -3,4 +3,8 @@ class QuotationsController < ApplicationLoggedController
   
   def index
   end
+
+  def admin
+  end
+
 end
