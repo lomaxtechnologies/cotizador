@@ -1,0 +1,87 @@
+.row
+  .col-12.col-md-10.offset-md-1
+    .form-row.mb-3
+      .col-3
+        %h4.text-primary Precios
+      .col-6
+        .input-group.mb-3
+          .input-group-prepend
+            .input-group-text.border-dark
+              %i.fas.fa-search
+          %input.form-control.form-control-sm.border.border-dark{placeholder: "Buscar Material" }
+      .col-2
+        = link_to 'Subir Excel', new_price_path, class: "btn btn-primary btn-sm"
+
+    %table.table.table-sm.table-striped
+      %thead
+        %tr.bg-primary.text-light
+          %th Material
+          %th Unidad
+          %th precio
+          %th
+            %button Guardar Todo
+      %tbody
+        %tr
+          %td{rowspan: "4"} Cable UTP cat 5
+          %td 1 mt
+          %td
+            %input{placeholder: "Q8.00", type: "text"}/
+          %td.text-right
+            %button Guardar
+        %tr
+          %td 1 yd
+          %td
+            %input{placeholder: "Q30.00", type: "text"}/
+          %td.text-right
+            %button Guardar
+        %tr
+          %td 1 bobina
+          %td
+            %input{placeholder: "Q900.00", type: "text"}/
+          %td.text-right
+            %button Guardar
+        %tr
+          %td 100mt
+          %td
+            %input{placeholder: "Q250.00", type: "text"}/
+          %td.text-right
+            %button Guardar
+
+          %tr
+            %td{rowspan: "2"} Cable UTP cat 6
+            %td 1 mt
+            %td
+              %input{placeholder: "Q20.00", type: "text"}/
+            %td.text-right
+              %button Guardar
+          %tr
+            %td 1 yd
+            %td
+              %input{placeholder: "Q90.00", type: "text"}/
+            %td.text-right
+              %button Guardar
+        %tr
+          %td{rowspan: "4"} Cable UTP cat 5 e
+          %td 1 mt
+          %td
+            %input{placeholder: "Q10.00", type: "text"}/
+          %td.text-right
+            %button Guardar
+        %tr
+          %td 1 yd
+          %td
+            %input{placeholder: "Q50.00", type: "text"}/
+          %td.text-right
+            %button Guardar
+        %tr
+          %td 1 bobina
+          %td
+            %input{placeholder: "Q1000.00", type: "text"}/
+          %td.text-right
+            %button Guardar
+        %tr
+          %td 100mt
+          %td
+            %input{placeholder: "Q250.00", type: "text"}/
+          %td.text-right
+            %button Guardar

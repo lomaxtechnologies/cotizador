@@ -11,11 +11,11 @@
     %nav.navbar.navbar-expand-lg.bg-gray
       %a.navbar-brand{:href => "/"}
         %i.fas.fa-home.fa-lg
-      %button.navbar-light.navbar-toggler{"aria-controls" => "navbarSupportedContent", 
-        "aria-expanded" => "false", 
-        "aria-label" => "Toggle navigation", 
-        "data-target" => "#navbarSupportedContent", 
-        "data-toggle" => "collapse", 
+      %button.navbar-light.navbar-toggler{"aria-controls" => "navbarSupportedContent",
+        "aria-expanded" => "false",
+        "aria-label" => "Toggle navigation",
+        "data-target" => "#navbarSupportedContent",
+        "data-toggle" => "collapse",
         :type => "button"}
         %span.navbar-toggler-icon
       #navbarSupportedContent.collapse.navbar-collapse
@@ -27,21 +27,19 @@
           %li.nav-item
             = link_to 'Materiales', materials_path, class: 'nav-link'
           %li.nav-item.dropdown
-            %a#nav-dropdown-prices.nav-link.dropdown-toggle{"aria-expanded" => "false", 
+            %a#nav-dropdown-prices.nav-link.dropdown-toggle{"aria-expanded" => "false",
               "aria-haspopup" => "true",
               "data-toggle" => "dropdown",
               :href => "#",
               :role => "button"}
               Precios
             .dropdown-menu{"aria-labelledby" => "nav-dropdown-prices"}
-              %a.dropdown-item{:href => "#"}
-                %i.fas.fa-tasks
-                Administrar
-              %a.dropdown-item{:href => "#"}
-                %i.fas.fa-file-excel
-                Subir Excel
+              %a.dropdown-item
+              = link_to 'Administrar', prices_url, class: 'nav-link fas fa-tasks'
+              %a.dropdown-item
+                = link_to 'Subir Excel', new_price_path, class: 'nav-link fas fa-file-excel'
           %li.nav-item.dropdown
-            %a#nav-dropdown-quotations.nav-link.dropdown-toggle{"aria-expanded" => "false", 
+            %a#nav-dropdown-quotations.nav-link.dropdown-toggle{"aria-expanded" => "false",
               "aria-haspopup" => "true",
               "data-toggle" => "dropdown",
               :href => "#",
@@ -65,9 +63,9 @@
           = link_to account_path, class: "mr-3" do
             %i.fas.fa-user-circle
             Mi Cuenta
-          = link_to 'Cerrar Sesión', 
-            destroy_user_session_path, 
-            method: :delete, 
+          = link_to 'Cerrar Sesión',
+            destroy_user_session_path,
+            method: :delete,
             class: "btn btn-outline-primary my-2 my-sm-0"
     .container-fluid
       %p.notice= notice
