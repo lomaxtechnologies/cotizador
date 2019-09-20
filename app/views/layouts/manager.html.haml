@@ -25,8 +25,7 @@
           %li.nav-item
             = link_to 'Unidades de Medida', measure_units_path, class: 'nav-link'
           %li.nav-item
-            %a.nav-link{:href => "#"}
-              Materiales
+            = link_to 'Materiales', materials_path, class: 'nav-link'
           %li.nav-item.dropdown
             %a#nav-dropdown-prices.nav-link.dropdown-toggle{"aria-expanded" => "false", 
               "aria-haspopup" => "true",
@@ -49,9 +48,10 @@
               :role => "button"}
               Cotizaciones
             .dropdown-menu{"aria-labelledby" => "nav-dropdown-quotations"}
-              %a.dropdown-item{:href => "#"}
-                %i.fas.fa-tasks
-                Administrar
+              .dropdown-item
+                = link_to quotations_path do
+                  %i.fas.fa-tasks
+                  Administrar
               %a.dropdown-item{:href => "#"}
                 %i.fas.fa-history
                 Historial

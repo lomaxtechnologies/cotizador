@@ -24,6 +24,13 @@ ActiveRecord::Schema.define(version: 2019_09_18_143604) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "materials", force: :cascade do |t|
+    t.string "name"
+    t.string "unit"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "measure_units", force: :cascade do |t|
     t.string "name"
     t.string "unit_type"

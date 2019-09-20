@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   
   get '/account', to: 'users/registrations#account'
 
+  get '/quotations', to: 'quotations#admin'
+
   root to: 'quotations#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   # Overriding routes to make them point to generated controllers
@@ -18,5 +20,7 @@ Rails.application.routes.draw do
     unlocks: 'users/unlocks',
     registrations: 'users/registrations'
   }
+  resources :materials
+
 
 end

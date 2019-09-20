@@ -1,0 +1,27 @@
+.card.card-body
+    .form-row
+        .input-group.mb-3
+            .input-group-prepend
+                .input-group-text.bg-white.text-primary
+                    %b Material&nbsp;&nbsp;&nbsp;
+            %text.form-control
+    .form-row
+        .input-group.mb-3
+            .input-group-prepend
+                .input-group-text.bg-white.text-primary
+                    %b Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            %select.custom-select.form-control
+                %option.selected 
+                    %b Seleccione una unidad
+                %option
+                    %b Metro
+                %option
+                    %b Caja
+                %option
+                    %b Bobina
+                %option
+                    %b Unidad
+    .form-row.actions.text-right
+        .col-12
+        %button.btn-primary.btn-lg.px-2
+            %b Guardar
