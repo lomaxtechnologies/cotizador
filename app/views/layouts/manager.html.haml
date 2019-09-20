@@ -34,10 +34,14 @@
               :role => "button"}
               Precios
             .dropdown-menu{"aria-labelledby" => "nav-dropdown-prices"}
-              %a.dropdown-item
-              = link_to 'Administrar', prices_url, class: 'nav-link fas fa-tasks'
-              %a.dropdown-item
-                = link_to 'Subir Excel', new_price_path, class: 'nav-link fas fa-file-excel'
+              .dropdown-item
+                = link_to prices_url do
+                  %i.nav-link.fas.fa-tasks
+                  Administrar
+              .dropdown-item
+                = link_to new_price_path do
+                  %i.nav-link.fas.fa-file-excel
+                  Subir Excel
           %li.nav-item.dropdown
             %a#nav-dropdown-quotations.nav-link.dropdown-toggle{"aria-expanded" => "false",
               "aria-haspopup" => "true",
