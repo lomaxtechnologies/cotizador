@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
-  
+
+
   namespace :users do
     resources :registrations
   end
   resources :measure_units
   resources :clients
+  resources :prices
 
-  
   get '/account', to: 'users/registrations#account'
 
   get '/quotations', to: 'quotations#admin'
