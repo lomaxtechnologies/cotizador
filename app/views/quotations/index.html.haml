@@ -1,0 +1,155 @@
+.row
+  .col-12
+    .form-row.mb-3
+      .col-9.mb-3
+        %h4.text-primary Cotizaciones
+      .col-3.mb-3.text-right
+        %button.btn.btn-sm.btn-primary Nueva Cotización
+      .col-3
+        .input-group.mb-3
+          .input-group-prepend
+            .input-group-text
+              %i.fas.fa-user-tie
+          %input.form-control.form-control-sm.border{placeholder: "Buscar por Cliente" }
+      .col-2
+        .input-group.mb-3
+          .input-group-prepend
+            .input-group-text
+              %i.fas.fa-calendar
+          %input.form-control.form-control-sm{placeholder: "Fecha" }
+      .col-2
+        .input-group.mb-3
+          .input-group-prepend
+            .input-group-text
+              %i.fas.fa-copyright
+          %select.form-control.form-control-sm
+            %option Marca
+            %option Siemon
+            %option Supranet
+      .col-2
+        .input-group.mb-3
+          .input-group-prepend
+            .input-group-text
+              %i.fas.fa-coins
+          %input.form-control.form-control-sm{placeholder: "Precio Mínimo" }
+      .col-2
+        .input-group.mb-3
+          .input-group-prepend
+            .input-group-text
+              %i.fas.fa-money-bill
+          %input.form-control.form-control-sm{placeholder: "Precio Máximo" }
+      .col-1
+        %buttom.btn.btn-info.btn-sm.btn-block Buscar
+    %table.table.table-sm.table-striped
+      %thead
+        %tr.bg-primary.text-light
+          %th.text-right #
+          %th Fecha
+          %th Cliente
+          %th Estado
+          %th.text-right Total Siemon
+          %th.text-right Total Supranet
+          %th.text-right
+      %tbody
+        %tr
+          %td.text-right 1
+          %td 19/07/2019
+          %td 
+            %a{"data-toggle"=>"collapse", href: "#collapseExample", role: "button", "aria-expanded"=>"false"} Municipalidad de Guatemala
+          %td Aprobada
+          %td.text-right 10,525.00
+          %td.text-right 12,665.10
+          %td.text-right
+            %button.btn.btn-success.btm-sm
+              %i.fas.fa-eye.fa-xs
+            %button.btn.btn-outline-warning.btm-sm.disabled
+              %i.fas.fa-edit.fa-xs
+            %button.btn.btn-outline-danger.btm-sm.disabled
+              %i.fas.fa-trash-alt.fa-xs
+        %tr
+          %td#collapseExample.collapse{colspan: "7"}
+            .row
+              .col-7
+                %b
+                  Notas y Comentarios
+                %br.mb-2
+                %small 20/07/2019 a las 14:55:00,
+                %b Israel:
+                Le mande por correo la cotización al cliente
+                %br
+                %small 20/07/2019 a las 15:03:25,
+                %b Israel:
+                Pidieron utilizar Supranet, dicen que si aprueban la cotización el fin de semana podemos empezar el lunes
+                %br
+                %small 22/07/2019 a las 10:01:00,
+                %b Israel:
+                Ya esta aprobada la cotización, dicen que hay que preguntar por Rodrigo Lopez para el acceso
+                %br
+                %small 22/07/2019 a las 16:03:25,
+                %b Jose:
+                Ya me dieron acceso al lugar, voy a empezar mañana
+                .form-row.mt-2
+                  .col-10
+                    %textarea.form-control{rows: 1}
+                  .col-2
+                    %button.btn.btn-primary.btm-sm Comentar
+              .col-5
+                %b Archivos Adjuntos
+                %br.mb-2
+                .form-row
+                  .col-11
+                    %small 20/07/2019 a las 14:55:00,
+                    %b Israel:
+                    %a{href: "#", onclick: "return false;"} diagrama_del_lugar.pdf
+                  .col-1
+                    %a.close{href: "#"} &times;
+                  .col-11
+                    %small 22/07/2019 a las 15:55:00,
+                    %b Israel:
+                    %a{href: "#", onclick: "return false;"} medidas_del_lugar.xlsx
+                  .col-1
+                    %a.close{href: "#"} &times;
+                  .col-12.text-right.mt-2
+                    %buttn.btn.btn-primary.btn-sm.px-3 Examinar
+        %tr
+          %td.text-right 2
+          %td 16/08/2019
+          %td Operadora De Tiendas S.A. La Fragua
+          %td Congelada
+          %td.text-right 10,525.00
+          %td.text-right 12,665.10
+          %td.text-right
+            %button.btn.btn-success.btm-sm
+              %i.fas.fa-eye.fa-xs
+            %button.btn.btn-outline-warning.btm-sm
+              %i.fas.fa-edit.fa-xs
+            %button.btn.btn-danger.btm-sm
+              %i.fas.fa-trash-alt.fa-xs
+        %tr
+          %td.text-right 3
+          %td 17/08/2019
+          %td Cervecería Centro Americana, S.A.
+          %td Expirada
+          %td.text-right 8,525.00
+          %td.text-right 9,665.10
+          %td.text-right
+            %button.btn.btn-success.btm-sm
+              %i.fas.fa-eye.fa-xs
+            %button.btn.btn-outline-warning.btm-sm
+              %i.fas.fa-edit.fa-xs
+            %button.btn.btn-danger.btm-sm
+              %i.fas.fa-trash-alt.fa-xs
+        %tr
+          %td.text-right 4
+          %td 01/08/2019
+          %td Banco de Guatemala
+          %td Generada
+          %td.text-right 19,525.00
+          %td.text-right 22,665.10
+          %td.text-right
+            %button.btn.btn-success.btm-sm
+              %i.fas.fa-eye.fa-xs
+            %button.btn.btn-warning.btm-sm
+              %i.fas.fa-edit.fa-xs
+            %button.btn.btn-danger.btm-sm
+              %i.fas.fa-trash-alt.fa-xs

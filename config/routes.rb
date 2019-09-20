@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   
   get '/account', to: 'users/registrations#account'
 
-  root to: 'pages#home'
+  root to: 'quotations#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   # Overriding routes to make them point to generated controllers
   devise_for :users, controllers: {

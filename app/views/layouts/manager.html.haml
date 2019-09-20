@@ -8,68 +8,68 @@
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   %body
-    .container-fluid.px-0
-      %nav.navbar.navbar-expand-lg.bg-gray
-        %a.navbar-brand{:href => "/"}
-          %i.fas.fa-home.fa-lg
-        %button.navbar-light.navbar-toggler{"aria-controls" => "navbarSupportedContent", 
-          "aria-expanded" => "false", 
-          "aria-label" => "Toggle navigation", 
-          "data-target" => "#navbarSupportedContent", 
-          "data-toggle" => "collapse", 
-          :type => "button"}
-          %span.navbar-toggler-icon
-        #navbarSupportedContent.collapse.navbar-collapse
-          %ul.navbar-nav.mr-auto
-            %li.nav-item
-              = link_to 'Clientes', clients_path, class: 'nav-link'
-            %li.nav-item
-              = link_to 'Unidades de Medida', measure_units_path, class: 'nav-link'
-            %li.nav-item
-              %a.nav-link{:href => "#"}
-                Materiales
-            %li.nav-item.dropdown
-              %a#nav-dropdown-prices.nav-link.dropdown-toggle{"aria-expanded" => "false", 
-                "aria-haspopup" => "true",
-                "data-toggle" => "dropdown",
-                :href => "#",
-                :role => "button"}
-                Precios
-              .dropdown-menu{"aria-labelledby" => "nav-dropdown-prices"}
-                %a.dropdown-item{:href => "#"}
-                  %i.fas.fa-tasks
-                  Administrar
-                %a.dropdown-item{:href => "#"}
-                  %i.fas.fa-file-excel
-                  Subir Excel
-            %li.nav-item.dropdown
-              %a#nav-dropdown-quotations.nav-link.dropdown-toggle{"aria-expanded" => "false", 
-                "aria-haspopup" => "true",
-                "data-toggle" => "dropdown",
-                :href => "#",
-                :role => "button"}
-                Cotizaciones
-              .dropdown-menu{"aria-labelledby" => "nav-dropdown-quotations"}
-                %a.dropdown-item{:href => "#"}
-                  %i.fas.fa-tasks
-                  Administrar
-                %a.dropdown-item{:href => "#"}
-                  %i.fas.fa-history
-                  Historial
-                %a.dropdown-item{:href => "#"}
-                  %i.fas.fa-eraser
-                  Eliminadas
-          %form.form-inline.my-2.my-lg-0
-            = link_to users_registrations_path, class: "mr-3" do
-              %i.fas.fa-users
-              Usuarios
-            = link_to account_path, class: "mr-3" do
-              %i.fas.fa-user-circle
-              Mi Cuenta
-            = link_to 'Cerrar Sesión', 
-              destroy_user_session_path, 
-              method: :delete, 
-              class: "btn btn-outline-primary my-2 my-sm-0"
+    %nav.navbar.navbar-expand-lg.bg-gray
+      %a.navbar-brand{:href => "/"}
+        %i.fas.fa-home.fa-lg
+      %button.navbar-light.navbar-toggler{"aria-controls" => "navbarSupportedContent", 
+        "aria-expanded" => "false", 
+        "aria-label" => "Toggle navigation", 
+        "data-target" => "#navbarSupportedContent", 
+        "data-toggle" => "collapse", 
+        :type => "button"}
+        %span.navbar-toggler-icon
+      #navbarSupportedContent.collapse.navbar-collapse
+        %ul.navbar-nav.mr-auto
+          %li.nav-item
+            = link_to 'Clientes', clients_path, class: 'nav-link'
+          %li.nav-item
+            = link_to 'Unidades de Medida', measure_units_path, class: 'nav-link'
+          %li.nav-item
+            %a.nav-link{:href => "#"}
+              Materiales
+          %li.nav-item.dropdown
+            %a#nav-dropdown-prices.nav-link.dropdown-toggle{"aria-expanded" => "false", 
+              "aria-haspopup" => "true",
+              "data-toggle" => "dropdown",
+              :href => "#",
+              :role => "button"}
+              Precios
+            .dropdown-menu{"aria-labelledby" => "nav-dropdown-prices"}
+              %a.dropdown-item{:href => "#"}
+                %i.fas.fa-tasks
+                Administrar
+              %a.dropdown-item{:href => "#"}
+                %i.fas.fa-file-excel
+                Subir Excel
+          %li.nav-item.dropdown
+            %a#nav-dropdown-quotations.nav-link.dropdown-toggle{"aria-expanded" => "false", 
+              "aria-haspopup" => "true",
+              "data-toggle" => "dropdown",
+              :href => "#",
+              :role => "button"}
+              Cotizaciones
+            .dropdown-menu{"aria-labelledby" => "nav-dropdown-quotations"}
+              %a.dropdown-item{:href => "#"}
+                %i.fas.fa-tasks
+                Administrar
+              %a.dropdown-item{:href => "#"}
+                %i.fas.fa-history
+                Historial
+              %a.dropdown-item{:href => "#"}
+                %i.fas.fa-eraser
+                Eliminadas
+        %form.form-inline.my-2.my-lg-0
+          = link_to users_registrations_path, class: "mr-3" do
+            %i.fas.fa-users
+            Usuarios
+          = link_to account_path, class: "mr-3" do
+            %i.fas.fa-user-circle
+            Mi Cuenta
+          = link_to 'Cerrar Sesión', 
+            destroy_user_session_path, 
+            method: :delete, 
+            class: "btn btn-outline-primary my-2 my-sm-0"
+    .container-fluid
       %p.notice= notice
       %p.alert= alert
       = yield
