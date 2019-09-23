@@ -16,6 +16,17 @@ class Users::RegistrationsController < ApplicationLoggedController
 
   # POST /registrations
   def create
+    @user = User.new(user_params)
+    @user_detail = UserDetail.new(user_detail_params)
+    respond_to do |format|
+      if @user.save_user(@user_detail)
+        format.html { redirect_to users_registrations_url , notice: "El usuario #{@user_detail.name} ha sido creado satisfactoriamente" }
+      else
+        notice = @user.errors.full_messages.join(".") 
+        notice += @user_detail.errors.full_messages.join(".") 
+        format.html { redirect_to new_users_registration_url, notice: notice}
+      end
+    end
   end
 
   # GET /registrations/1/edit

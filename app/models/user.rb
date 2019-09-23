@@ -5,5 +5,13 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   belongs_to :role
+
+  def save_user(user_detail)
+    ActiveRecord::Base.transaction do
+      self.save
+      user_detail.user = self
+      user_detail.save
+    end
+  end
   
 end
