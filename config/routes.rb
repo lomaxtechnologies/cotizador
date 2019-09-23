@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  resources :services
   namespace :users do
     resources :registrations
   end

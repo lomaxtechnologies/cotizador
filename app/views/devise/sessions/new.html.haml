@@ -10,13 +10,13 @@
         = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
           .input-group.mb-3
             .input-group-prepend
-              .input-group-text 
+              .input-group-text
                 %i.fas.fa-envelope
             = f.email_field :email, autofocus: true,
             autocomplete: "email", class: "form-control",placeholder: "Correo Electrónico"
           .input-group.mb-4
             .input-group-prepend
-              .input-group-text 
+              .input-group-text
                 %i.fas.fa-key
             = f.password_field :password, autofocus: true,
             autocomplete: "current-password", class: "form-control",placeholder: "Contraseña"
