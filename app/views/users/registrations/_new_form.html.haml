@@ -16,6 +16,9 @@
       = f.label "Apellidos(s)", class:"mb-0 text-primary font-weight-bold", for: "user_detail_name"
       %input{ type:"text", class: "form-control form-control-sm", name: "user_detail[last_name]", id: "user_detail_last_name" }
     .form-row.mb-2
+      = f.label "Teléfono", class:"mb-0 text-primary font-weight-bold", for: "user_detail_phone"
+      %input{ type:"text", class: "form-control form-control-sm", name: "user_detail[phone]", id: "user_detail_phone" }
+    .form-row.mb-2
       .col-6
         = f.label :email, "Correo Electrónico", class: "mb-0 text-primary font-weight-bold"
         = f.email_field :email, class: "form-control form-control-sm"

@@ -1,3 +1,5 @@
+= javascript_pack_tag "registrations", media: "all", "data-turbolinks-track": "reload"
+= render partial: "confirmation_modal"
 .row
   .col-12.col-md-10.offset-md-1
     .form-row.mb-3
@@ -10,7 +12,7 @@
               %i.fas.fa-search
           %input.form-control.form-control-sm.border.border-dark{placeholder: "Buscar Usuario" }
       .col-2
-        = link_to 'Nuevo Usuario', new_users_registration_path, class: "btn btn-primary btn-sm"
+        = link_to "Nuevo Usuario", new_users_registration_path, class: "btn btn-primary btn-sm"
     %table.table.table-sm.table-striped
       %thead
         %tr.bg-primary.text-light
@@ -19,30 +21,19 @@
           %th Tipo
           %th
       %tbody
+      - User.all.each do |user|
         %tr
-          %td Luis Donis
-          %td ldonis@lomax.com.gt
-          %td Administrador
+          %td 
+            = user.user_detail.name
+            = user.user_detail.last_name
+          %td
+            = user.email
+          %td
+            = user.role.name
           %td.text-right
-            = link_to edit_users_registration_path(id: 1), class: "btn btn-success btm-sm mr-1" do
+            = link_to edit_users_registration_path(user), class: "btn btn-success btm-sm mr-1" do
               %i.fas.fa-edit.fa-xs
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
-        %tr
-          %td Rodolfo Rodas
-          %td rrodas@lomax.com.gt
-          %td Administrador
-          %td.text-right
-            = link_to edit_users_registration_path(id: 1), class: "btn btn-success btm-sm mr-1" do
-              %i.fas.fa-edit.fa-xs
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
-        %tr
-          %td Josue Mente
-          %td jmente@lomax.com.gt
-          %td Administrador
-          %td.text-right
-            = link_to edit_users_registration_path(id: 1), class: "btn btn-success btm-sm mr-1" do
-              %i.fas.fa-edit.fa-xs
-            %button.btn.btn-danger.btm-sm
+            %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
+              action: users_registration_path(user),
+              method: :delete}
               %i.fas.fa-trash-alt.fa-xs
