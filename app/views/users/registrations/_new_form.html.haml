@@ -24,8 +24,10 @@
         = f.email_field :email, class: "form-control form-control-sm"
       .col-6
         = f.label :role, "Rol", class: "mb-0 text-primary font-weight-bold"
-        %select.form-control.form-control-sm{ name: "user[role_id]", id: "user_role_id" }
-          = options_from_collection_for_select(Role.all, :id, :name)
+        %select.form-control.form-control-sm{ name: "user[role]", id: "user_role" }
+          - User.roles.each do |key,value|
+            %option{:value => key}
+              = value
     .form-row.mb-2
       = f.label :password, "Contraseña", class: "mb-0 text-primary font-weight-bold"
       = f.password_field :password, class: "form-control form-control-sm"

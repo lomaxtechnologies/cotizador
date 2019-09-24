@@ -37,7 +37,8 @@
           %td
             = user_detail.phone
           %td
-            = user.role.name
+            - print User.role_index_to_string(user.role)
+            = User.role_index_to_string(user.role)
           %td.text-right
             = link_to edit_users_registration_path(user), class: "btn btn-success btm-sm mr-1" do
               %i.fas.fa-edit.fa-xs

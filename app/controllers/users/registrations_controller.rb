@@ -79,7 +79,7 @@ class Users::RegistrationsController < ApplicationController
     end
 
     def user_params
-      return params.require(:user).permit(:email,:password,:password_confirmation,:role_id)
+      return params.require(:user).permit(:email,:password,:password_confirmation,:role)
     end
 
     def user_detail_params

@@ -30,8 +30,10 @@
         = f.email_field :email, class: "form-control form-control-sm", readonly: true
       .col-6
         = f.label :user_type, "Tipo de Usuario", class: "mb-0 text-primary font-weight-bold"
-        %select.form-control.form-control-sm{ name: "user[role_id]", id: "user_role_id" }
-          = options_from_collection_for_select(Role.all, :id, :name)
+        %select.form-control.form-control-sm{ name: "user[role]", id: "user_role" }
+          - User.roles.each do |key,value|
+            %option{:value => key}
+              = value
     .form-row.actions
       .col-6
         %button.btn.btn-danger.btn-sm Reiniciar Contraseña

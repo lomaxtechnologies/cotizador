@@ -2,8 +2,30 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :registerable, :trackable and :omniauthable
   devise :database_authenticatable, :lockable, :timeoutable, :recoverable, :rememberable, :validatable
-  belongs_to :role
   has_one :user_detail
+
+  @@roles = {
+    1 => "Administrador"
+  }
+
+  validates :role, presence: true, inclusion: {in: @@roles}
+
+  
+
+  def self.roles
+    return @@roles
+  end
+
+  def self.role_index_to_string(role)
+    begin
+      role = @@roles[role]
+      if role
+        return role
+      end
+    rescue TypeError
+    end
+    return ""
+  end
 
   def create_user(user_detail)
     user_detail.user = self
