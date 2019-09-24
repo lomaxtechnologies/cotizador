@@ -21,52 +21,17 @@
           %th
       %tbody
         %tr
-          %td Sandra Dominguez
-          %td 9 Ave. 11-43, Zona 12, Colonia La Esperanza
-          %td 994452-K
-          %td (+502) 4444-9875
-          %td.text-right
-            %button.btn.btn-success.btm-sm
-              %i.fas.fa-edit.fa-xs
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
-        %tr
-          %td Rodrigo Diaz
-          %td Europlaza World Business Center 5ta. avenida, 5-55 zona 14. Torre 4, nivel 8
-          %td 852476-2
-          %td (+502) 2464-7353
-          %td.text-right
-            %button.btn.btn-success.btm-sm
-              %i.fas.fa-edit.fa-xs
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
-        %tr
-          %td Fernando Salazar
-          %td 7a. avenida 12-11, zona 1, Palacio de Correos, Ala Sur, Guatemala
-          %td 214756-1
-          %td (+502) 6899-5544
-          %td.text-right
-            %button.btn.btn-success.btm-sm
-              %i.fas.fa-edit.fa-xs
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
-        %tr
-          %td Andrea Perez
-          %td Ciudad
-          %td 963586-3
-          %td (+502) 6052-5455
-          %td.text-right
-            %button.btn.btn-success.btm-sm
-              %i.fas.fa-edit.fa-xs
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
-        -# @clients.each do |client|
+        - @clients.each do |client|
           %tr
             %td= client.name
             %td= client.address
             %td= client.nit
             %td= client.phone
-            %td= link_to 'Show', client
-            %td= link_to 'Edit', edit_client_path(client)
-            %td= link_to 'Destroy', client, method: :delete, data: { confirm: 'Are you sure?' }
+            %td.text-right
+              %button.btn.btn-success.btm-sm
+                = link_to edit_client_path(client) do
+                  %i.fas.fa-edit.fa-xs.text-white
+              %button.btn.btn-danger.btm-sm
+                = link_to client, method: :delete, data: { confirm: '¿Estas seguro de eliminarlo' } do
+                  %i.fas.fa-trash-alt.fa-xs.text-white
 

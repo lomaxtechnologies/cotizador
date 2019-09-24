@@ -57,3 +57,6 @@ gem 'cancancan'
 
 # Haml for Rails
 gem 'haml-rails'
+
+# ActsAsParanoid
+gem 'acts_as_paranoid'
