@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  code: 1
+  quotation_date: 2019-09-23
+  currency: MyString
+  credits: MyText
+  payment_condition: MyText
+  warranty: MyText
+
+two:
+  code: 1
+  quotation_date: 2019-09-23
+  currency: MyString
+  credits: MyText
+  payment_condition: MyText
+  warranty: MyText
