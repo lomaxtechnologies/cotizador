@@ -57,3 +57,9 @@ gem 'cancancan'
 
 # Haml for Rails
 gem 'haml-rails'
+
+# RSpec for Testing
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
+end
