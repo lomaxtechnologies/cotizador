@@ -1,4 +1,4 @@
-class QuotationsController < ApplicationLoggedController
+class QuotationsController < ApplicationController
   layout "manager"
   
   def index

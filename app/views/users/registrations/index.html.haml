@@ -1,7 +1,7 @@
 = javascript_pack_tag "registrations", media: "all", "data-turbolinks-track": "reload"
 = render partial: "confirmation_modal"
 .row
-  .col-12.col-md-10.offset-md-1
+  .col-12
     .form-row.mb-3
       .col-2.my-auto
         %h4.text-primary Usuarios
@@ -16,18 +16,26 @@
     %table.table.table-sm.table-striped
       %thead
         %tr.bg-primary.text-light
+          %th Correo (Usuario)
           %th Nombre
-          %th Correo
+          %th Teléfono
           %th Tipo
           %th
       %tbody
-      - User.all.each do |user|
+      - data = User.page(@current_page)
+      - @total_pages = data.total_pages
+      - if data.out_of_range?
+        - data = User.page(@total_pages)
+      - data.each do |user|
+        - user_detail = user.user_detail
         %tr
-          %td 
-            = user.user_detail.name
-            = user.user_detail.last_name
           %td
             = user.email
+          %td 
+            = user_detail.name
+            = user_detail.last_name
+          %td
+            = user_detail.phone
           %td
             = user.role.name
           %td.text-right
@@ -37,3 +45,33 @@
               action: users_registration_path(user),
               method: :delete}
               %i.fas.fa-trash-alt.fa-xs
+    %nav{"aria-label" => "Page navigation example"}
+      %ul.pagination.justify-content-center
+        %li.page-item
+          - if @current_page > 1
+            = link_to users_registrations_path(page: @current_page-1), class: "page-link", "aria-label"=>"Previous" do
+              %span{"aria-hidden" => "true"} «
+              %span.sr-only Previous
+          - else
+            %a.page-link{href: "#","aria-label"=>"Previous"}
+              %span{"aria-hidden" => "true"} «
+              %span.sr-only Previous
+        - paging_array(@current_page, @total_pages).each do |key,value|
+          - if value
+            %li.page-item.active
+              = link_to users_registrations_path(page: key), class: "page-link" do
+                = key
+          - else
+            %li.page-item
+              = link_to users_registrations_path(page: key), class: "page-link" do
+                = key
+        %li.page-item
+          - if @current_page < @total_pages
+            = link_to users_registrations_path(page: @current_page+1), class: "page-link", "aria-label"=>"Next" do
+              %span{"aria-hidden" => "true"} »
+              %span.sr-only Next
+          - else
+            %a.page-link{href: "#","aria-label"=>"Next"}
+              %span{"aria-hidden" => "true"} »
+              %span.sr-only Next
+            

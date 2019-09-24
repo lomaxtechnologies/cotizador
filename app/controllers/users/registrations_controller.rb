@@ -1,10 +1,16 @@
-class Users::RegistrationsController < ApplicationLoggedController
+class Users::RegistrationsController < ApplicationController
   layout "manager"
   before_action :set_registration, only: [:show, :edit, :update, :destroy]
 
   # GET /registrations
   # GET /registrations.json
   def index
+    begin
+      @current_page = Integer(params[:page])
+      @current_page = 1 unless @current_page > 0
+    rescue ArgumentError, TypeError
+      @current_page = 1
+    end
     @users = User.all
   end
 

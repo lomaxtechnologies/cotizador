@@ -63,3 +63,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_bot_rails'
 end
+
+# Kaminari
+gem 'kaminari'
