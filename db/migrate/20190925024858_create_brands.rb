@@ -4,6 +4,7 @@ class CreateBrands < ActiveRecord::Migration[6.0]
       t.string :name
       t.string :modifier_user
       t.string :creator_user
+      t.datetime :deleted_at, index: true
 
       t.timestamps
     end
