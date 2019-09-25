@@ -38,7 +38,6 @@ class User < ApplicationRecord
         end
       end
       raise ActiveRecord::Rollback
-      return false
     end
   end
 
@@ -50,7 +49,6 @@ class User < ApplicationRecord
         end
       end
       raise ActiveRecord::Rollback
-      return false
     end
   end
 

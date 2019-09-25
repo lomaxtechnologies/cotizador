@@ -1,5 +1,5 @@
 .card.card-body
-  = form_with scope: :user, url: users_registration_path, method: :put do |f|
+  = form_with scope: @user, url: users_registration_path, method: :put do |f|
     - if @user.errors.any?
       #error_explanation
         %h2= "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
@@ -11,6 +11,7 @@
       %input{class: "form-control form-control-sm",
         name:"user_detail[name]",
         id:"user_detail_name",
+        required: true,
         value: @user.user_detail.name}
     .form-row.mb-2
       = f.label  "Apellidos(s)", class:"mb-0 text-primary font-weight-bold", for:"user_detail_last_name"
@@ -27,10 +28,11 @@
     .form-row.mb-2
       .col-6
         = f.label :email, "Correo Electrónico", class: "mb-0 text-primary font-weight-bold"
-        = f.email_field :email, class: "form-control form-control-sm", readonly: true
+        %span.form-control.form-control-sm
+          = @user.email
       .col-6
         = f.label :user_type, "Tipo de Usuario", class: "mb-0 text-primary font-weight-bold"
-        %select.form-control.form-control-sm{ name: "user[role]", id: "user_role" }
+        %select.form-control.form-control-sm{ name: "user[role]", id: "user_role" , required: true}
           - User.roles.each do |key,value|
             %option{:value => key}
               = value
@@ -38,4 +40,4 @@
       .col-6
         %button.btn.btn-danger.btn-sm Reiniciar Contraseña
       .col-6.text-right
-        = f.submit 'Guardar', class: "btn btn-primary btn-sm px-2"
+        = f.submit "Guardar", class: "btn btn-primary btn-sm px-2"
