@@ -8,4 +8,5 @@ class User < ApplicationRecord
   has_many :quotations
   has_many :attachments
   has_many :comments
+  
 end
