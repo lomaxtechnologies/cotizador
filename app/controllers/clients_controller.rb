@@ -60,7 +60,7 @@ class ClientsController < ApplicationLoggedController
     end
   end
 
-  def list_delete_client
+  def  list_deleted_clients
    @clients = Client.only_deleted
   end
 
