@@ -11,7 +11,9 @@ class Users::RegistrationsController < ApplicationController
     rescue ArgumentError, TypeError
       @current_page = 1
     end
-    @users = User.all
+    @query_params = query_params
+    @q = User.ransack(@query_params)
+    @users = @q.result
   end
 
   # GET /registrations/new
@@ -76,6 +78,14 @@ class Users::RegistrationsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_registration
       @user = User.find(params[:id])
+    end
+
+    def query_params
+      begin
+        return params.require(:q).permit(:email_cont)
+      rescue ActionController::ParameterMissing
+        return {email_cont: ""}
+      end
     end
 
     def user_params

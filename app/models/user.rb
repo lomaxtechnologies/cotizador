@@ -10,8 +10,6 @@ class User < ApplicationRecord
 
   validates :role, presence: true, inclusion: {in: @@roles}
 
-  
-
   def self.roles
     return @@roles
   end
@@ -29,15 +27,7 @@ class User < ApplicationRecord
 
   def create_user(user_detail)
     user_detail.user = self
-    ActiveRecord::Base.transaction do
-      if self.save
-        if user_detail.save
-          return true
-        end
-      end
-      raise ActiveRecord::Rollback
-      return false
-    end
+    return self.save
   end
 
   def update_user(user_params,user_detail_params)

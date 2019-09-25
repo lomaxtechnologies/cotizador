@@ -66,3 +66,6 @@ end
 
 # Kaminari
 gem 'kaminari'
+
+# Search Ransack
+gem 'ransack'
