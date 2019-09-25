@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_23_224019) do
+ActiveRecord::Schema.define(version: 2019_09_25_001658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,9 @@ ActiveRecord::Schema.define(version: 2019_09_23_224019) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "quotation_id", null: false
+    t.bigint "user_id", null: false
     t.index ["quotation_id"], name: "index_attachments_on_quotation_id"
+    t.index ["user_id"], name: "index_attachments_on_user_id"
   end
 
   create_table "brands", force: :cascade do |t|
@@ -40,6 +42,17 @@ ActiveRecord::Schema.define(version: 2019_09_23_224019) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "modifier_user"
     t.string "creator_user"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "note"
+    t.string "commentable_type"
+    t.bigint "commentable_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "materials", force: :cascade do |t|
@@ -112,14 +125,6 @@ ActiveRecord::Schema.define(version: 2019_09_23_224019) do
     t.index ["user_id"], name: "index_quotations_on_user_id"
   end
 
-  create_table "quotations_notes", force: :cascade do |t|
-    t.text "note"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "quotation_id", null: false
-    t.index ["quotation_id"], name: "index_quotations_notes_on_quotation_id"
-  end
-
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -166,6 +171,8 @@ ActiveRecord::Schema.define(version: 2019_09_23_224019) do
   end
 
   add_foreign_key "attachments", "quotations"
+  add_foreign_key "attachments", "users"
+  add_foreign_key "comments", "users"
   add_foreign_key "prices", "products"
   add_foreign_key "products", "brands"
   add_foreign_key "products", "materials"
@@ -176,7 +183,6 @@ ActiveRecord::Schema.define(version: 2019_09_23_224019) do
   add_foreign_key "quotation_services", "services"
   add_foreign_key "quotations", "clients"
   add_foreign_key "quotations", "users"
-  add_foreign_key "quotations_notes", "quotations"
   add_foreign_key "user_details", "users"
   add_foreign_key "users", "roles"
 end

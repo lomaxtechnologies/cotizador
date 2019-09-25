@@ -6,4 +6,6 @@ class User < ApplicationRecord
 
   belongs_to :role
   has_many :quotations
+  has_many :attachments
+  has_many :comments, as: :commentable
 end
