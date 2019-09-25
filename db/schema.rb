@@ -10,25 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_23_224019) do
+ActiveRecord::Schema.define(version: 2019_09_25_040810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "attachments", force: :cascade do |t|
     t.text "location"
+    t.datetime "deleted_at"
+    t.bigint "quotation_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "quotation_id", null: false
+    t.index ["deleted_at"], name: "index_attachments_on_deleted_at"
     t.index ["quotation_id"], name: "index_attachments_on_quotation_id"
+    t.index ["user_id"], name: "index_attachments_on_user_id"
   end
 
   create_table "brands", force: :cascade do |t|
     t.string "name"
     t.string "modifier_user"
     t.string "creator_user"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_brands_on_deleted_at"
   end
 
   create_table "clients", force: :cascade do |t|
@@ -36,63 +42,88 @@ ActiveRecord::Schema.define(version: 2019_09_23_224019) do
     t.text "address"
     t.string "nit"
     t.string "phone"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "modifier_user"
-    t.string "creator_user"
+    t.index ["deleted_at"], name: "index_clients_on_deleted_at"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "note"
+    t.datetime "deleted_at"
+    t.string "commentable_type"
+    t.bigint "commentable_id"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
+    t.index ["deleted_at"], name: "index_comments_on_deleted_at"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "materials", force: :cascade do |t|
     t.string "name"
     t.string "unit"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_materials_on_deleted_at"
   end
 
   create_table "measure_units", force: :cascade do |t|
     t.string "name"
     t.string "unit_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_measure_units_on_deleted_at"
   end
 
   create_table "prices", force: :cascade do |t|
     t.decimal "prices"
+    t.bigint "product_id", null: false
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "product_id", null: false
+    t.index ["deleted_at"], name: "index_prices_on_deleted_at"
     t.index ["product_id"], name: "index_prices_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
     t.bigint "material_id", null: false
+    t.bigint "measure_unit_id", null: false
+    t.bigint "brand_id", null: false
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "brand_id", null: false
-    t.bigint "measure_unit_id", null: false
     t.index ["brand_id"], name: "index_products_on_brand_id"
+    t.index ["deleted_at"], name: "index_products_on_deleted_at"
     t.index ["material_id"], name: "index_products_on_material_id"
     t.index ["measure_unit_id"], name: "index_products_on_measure_unit_id"
   end
 
   create_table "quotation_products", force: :cascade do |t|
     t.decimal "amount"
-    t.decimal "holgura"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.decimal "percent"
     t.bigint "quotation_id", null: false
     t.bigint "product_id", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_quotation_products_on_deleted_at"
     t.index ["product_id"], name: "index_quotation_products_on_product_id"
     t.index ["quotation_id"], name: "index_quotation_products_on_quotation_id"
   end
 
   create_table "quotation_services", force: :cascade do |t|
     t.decimal "amount"
-    t.decimal "holgura"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.decimal "percent"
+    t.datetime "deleted_at"
     t.bigint "service_id", null: false
     t.bigint "quotation_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_quotation_services_on_deleted_at"
     t.index ["quotation_id"], name: "index_quotation_services_on_quotation_id"
     t.index ["service_id"], name: "index_quotation_services_on_service_id"
   end
@@ -104,26 +135,14 @@ ActiveRecord::Schema.define(version: 2019_09_23_224019) do
     t.text "credits"
     t.text "payment_condition"
     t.text "warranty"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.bigint "client_id", null: false
     t.bigint "user_id", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["client_id"], name: "index_quotations_on_client_id"
+    t.index ["deleted_at"], name: "index_quotations_on_deleted_at"
     t.index ["user_id"], name: "index_quotations_on_user_id"
-  end
-
-  create_table "quotations_notes", force: :cascade do |t|
-    t.text "note"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "quotation_id", null: false
-    t.index ["quotation_id"], name: "index_quotations_notes_on_quotation_id"
-  end
-
-  create_table "roles", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "services", force: :cascade do |t|
@@ -133,8 +152,10 @@ ActiveRecord::Schema.define(version: 2019_09_23_224019) do
     t.decimal "actual_price"
     t.string "creator_user"
     t.string "modifier_user"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_services_on_deleted_at"
   end
 
   create_table "user_details", force: :cascade do |t|
@@ -150,7 +171,8 @@ ActiveRecord::Schema.define(version: 2019_09_23_224019) do
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.bigint "role_id", null: false
+    t.integer "role", null: false
+    t.datetime "deleted_at"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -159,13 +181,15 @@ ActiveRecord::Schema.define(version: 2019_09_23_224019) do
     t.datetime "locked_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
   add_foreign_key "attachments", "quotations"
+  add_foreign_key "attachments", "users"
+  add_foreign_key "comments", "users"
   add_foreign_key "prices", "products"
   add_foreign_key "products", "brands"
   add_foreign_key "products", "materials"
@@ -176,7 +200,5 @@ ActiveRecord::Schema.define(version: 2019_09_23_224019) do
   add_foreign_key "quotation_services", "services"
   add_foreign_key "quotations", "clients"
   add_foreign_key "quotations", "users"
-  add_foreign_key "quotations_notes", "quotations"
   add_foreign_key "user_details", "users"
-  add_foreign_key "users", "roles"
 end

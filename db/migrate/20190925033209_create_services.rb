@@ -7,7 +7,7 @@ class CreateServices < ActiveRecord::Migration[6.0]
       t.decimal :actual_price
       t.string :creator_user
       t.string :modifier_user
-      t.boolean :status, default: true
+      t.datetime :deleted_at, index: true
 
       t.timestamps
     end
