@@ -58,3 +58,12 @@ gem 'cancancan'
 
 # Haml for Rails
 gem 'haml-rails'
+
+# ActsAsParanoid
+gem 'acts_as_paranoid'
+
+# Kaminari
+gem 'kaminari'
+
+# Search Ransack
+gem 'ransack'
