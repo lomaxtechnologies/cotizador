@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 2019_09_25_040810) do
 
   create_table "quotation_products", force: :cascade do |t|
     t.decimal "amount"
-    t.decimal "holgura"
+    t.decimal "percent"
     t.bigint "quotation_id", null: false
     t.bigint "product_id", null: false
     t.datetime "deleted_at"
@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(version: 2019_09_25_040810) do
 
   create_table "quotation_services", force: :cascade do |t|
     t.decimal "amount"
-    t.decimal "holgura"
+    t.decimal "percent"
     t.datetime "deleted_at"
     t.bigint "service_id", null: false
     t.bigint "quotation_id", null: false
