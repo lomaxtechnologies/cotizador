@@ -5,15 +5,9 @@ class Users::RegistrationsController < ApplicationController
   # GET /registrations
   # GET /registrations.json
   def index
-    begin
-      @current_page = Integer(params[:page])
-      @current_page = 1 unless @current_page > 0
-    rescue ArgumentError, TypeError
-      @current_page = 1
-    end
-    @query_params = query_params
-    @q = User.ransack(@query_params)
+    @q = User.ransack(query_params)
     @users = @q.result
+    @users = @users.page(params[:page])
   end
 
   # GET /registrations/new

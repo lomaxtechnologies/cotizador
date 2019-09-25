@@ -3,10 +3,11 @@ class User < ApplicationRecord
   # :confirmable, :registerable, :trackable and :omniauthable
   devise :database_authenticatable, :lockable, :timeoutable, :recoverable, :rememberable, :validatable
   has_one :user_detail
-
   has_many :quotations
   has_many :attachments
   has_many :comments
+
+  paginates_per 10
   
   @@roles = {
     1 => "Administrador"
@@ -25,8 +26,9 @@ class User < ApplicationRecord
         return role
       end
     rescue TypeError
+      ''
     end
-    return ""
+    ''
   end
 
   def create_user(user_detail)
