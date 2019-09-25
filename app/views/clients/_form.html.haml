@@ -7,17 +7,17 @@
           - @client.errors.full_messages.each do |message|
             %li= message
     .form-row.mb-2
-      = f.label :name, "Nombre", class:"mb-0 text-primary font-weight-bold"
+      = f.label :name, class:"mb-0 text-primary font-weight-bold"
       = f.text_field :name, :required => true, class: "form-control form-control-sm"
     .form-row.mb-2
-      = f.label :address, "Dirección", class: "mb-0 text-primary font-weight-bold"
+      = f.label :address, class: "mb-0 text-primary font-weight-bold"
       = f.text_area :address, class: "form-control form-control-sm"
     .form-row.mb-2
       .col-6
-        = f.label :nit, "NIT", class: "mb-0 text-primary font-weight-bold"
+        = f.label :nit, class: "mb-0 text-primary font-weight-bold"
         = f.phone_field :nit, class: "form-control form-control-sm"
       .col-6
-        = f.label :phone, "Teléfono", class: "mb-0 text-primary font-weight-bold"
+        = f.label :phone, class: "mb-0 text-primary font-weight-bold"
         = f.telephone_field :phone, class: "form-control form-control-sm"
     .form-row.actions.text-right
       .col-12

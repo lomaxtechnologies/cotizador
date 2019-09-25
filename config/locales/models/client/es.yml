@@ -1,0 +1,7 @@
+es:
+  activerecord:
+    models:
+      name: Nombre
+      address: Dirección
+      nit: NIT 
+      phone: Teléfono

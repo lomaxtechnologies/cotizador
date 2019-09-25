@@ -1,0 +1,19 @@
+es:
+  clients:
+    index:
+      name: Nombre
+      address: Dirección
+      nit: NIT 
+      phone: Teléfono
+      newclient: Nuevo Cliente
+  clientstitle: Clientes
+  return: Regresar
+  save: Guardar
+  helpers:
+    label:
+      client:
+        name: Nombre
+        address: Dirección
+        nit: NIT 
+        phone: Teléfono
+        save: Guardar
