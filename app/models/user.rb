@@ -4,6 +4,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :lockable, :timeoutable, :recoverable, :rememberable, :validatable
   has_one :user_detail
 
+  has_many :quotations
+  has_many :attachments
+  has_many :comments
+  
   @@roles = {
     1 => "Administrador"
   }
