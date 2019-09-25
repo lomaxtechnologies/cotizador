@@ -4,7 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :lockable, :timeoutable,
          :recoverable, :rememberable, :validatable
 
-  belongs_to :role
   has_many :quotations
   has_many :attachments
   has_many :comments

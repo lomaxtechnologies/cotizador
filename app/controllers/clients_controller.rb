@@ -8,7 +8,7 @@ class ClientsController < ApplicationLoggedController
   def index
     @q = Client.ransack(search_client_params)
     @clients = @q.result
-    @clients = @clients.page(params[:page]).per(4)
+    @clients = @clients.page(params[:page])
   end
 
   # GET /clients/new
