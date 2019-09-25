@@ -1,0 +1,13 @@
+= javascript_pack_tag "confirmation_modal", media: "all", "data-turbolinks-track": "reload"
+.modal#confirmation-modal{:role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %h5.modal-title#confirmation-modal-title
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      .modal-body
+        %p#confirmation-modal-body.text-justify
+      .modal-footer
+        %a.btn.btn-primary.text-white#confirmation-modal-yes{rel:"nofollow"}
+        %button.btn.btn-secondary#confirmation-modal-no{"data-dismiss" => "modal", :type => "button"}

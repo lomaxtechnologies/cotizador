@@ -9,7 +9,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
 
 
       ## Role
-      t.integer :role,              null: false, default: ""
+      t.integer :role, null: false
       t.datetime :deleted_at, index: true
       ## Recoverable
       t.string   :reset_password_token

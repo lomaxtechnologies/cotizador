@@ -1,48 +1,50 @@
+= javascript_pack_tag "users/registrations/index", media: "all", "data-turbolinks-track": "reload"
+= render partial: "confirmation_modal"
 .row
-  .col-12.col-md-10.offset-md-1
+  .col-12
     .form-row.mb-3
       .col-2.my-auto
         %h4.text-primary Usuarios
       .col-8
-        .input-group.mb-3
-          .input-group-prepend
-            .input-group-text.border-dark
-              %i.fas.fa-search
-          %input.form-control.form-control-sm.border.border-dark{placeholder: "Buscar Usuario" }
-      .col-2
-        = link_to 'Nuevo Usuario', new_users_registration_path, class: "btn btn-primary btn-sm"
-    %table.table.table-sm.table-striped
-      %thead
-        %tr.bg-primary.text-light
-          %th Nombre
-          %th Correo
-          %th Tipo
-          %th
-      %tbody
-        %tr
-          %td Luis Donis
-          %td ldonis@lomax.com.gt
-          %td Administrador
-          %td.text-right
-            = link_to edit_users_registration_path(id: 1), class: "btn btn-success btm-sm mr-1" do
-              %i.fas.fa-edit.fa-xs
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
-        %tr
-          %td Rodolfo Rodas
-          %td rrodas@lomax.com.gt
-          %td Administrador
-          %td.text-right
-            = link_to edit_users_registration_path(id: 1), class: "btn btn-success btm-sm mr-1" do
-              %i.fas.fa-edit.fa-xs
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
-        %tr
-          %td Josue Mente
-          %td jmente@lomax.com.gt
-          %td Administrador
-          %td.text-right
-            = link_to edit_users_registration_path(id: 1), class: "btn btn-success btm-sm mr-1" do
-              %i.fas.fa-edit.fa-xs
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
+        = search_form_for @q, url: users_registrations_path do |f|
+          .input-group.mb-3
+            = f.text_field :email_cont, class: 'form-control  border border-dark',placeholder: "Buscar Usuario"
+            .input-group-append
+              %button.btn.border-dark.border-left-0{ type: "submit", value: "Search"}
+                %i.fas.fa-search.fa-sm
+      .col-2.text-right
+        = link_to "Nuevo Usuario", new_users_registration_path, class: "btn btn-primary"
+    - if @users.length > 0
+      %table.table.table-sm.table-striped
+        %thead
+          %tr.bg-primary.text-light
+            %th Correo (Usuario)
+            %th Nombre
+            %th Teléfono
+            %th Tipo
+            %th
+        %tbody
+        - @users.each do |user|
+          - user_detail = user.user_detail
+          %tr
+            %td
+              = user.email
+            %td 
+              = user_detail.name
+              = user_detail.last_name
+            %td
+              = user_detail.phone
+            %td
+              = User.role_index_to_string(user.role)
+            %td.text-right
+              = link_to edit_users_registration_path(user), class: "btn btn-success btm-sm mr-1" do
+                %i.fas.fa-edit.fa-xs
+              %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
+                action: users_registration_path(user),
+                method: :delete}
+                %i.fas.fa-trash-alt.fa-xs
+      = paginate @users
+    - else
+      .text-center.text-muted.mt-5
+        %h2
+          No hay resultados para mostrar.
