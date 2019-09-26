@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :clients
   resources :prices
   resources :materials
-  resources :brands
+  resources :brands, except: [:edit, :show, :new]
 
   get '/account', to: 'users/registrations#account'
 

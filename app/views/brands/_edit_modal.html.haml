@@ -1,12 +1,12 @@
-.modal#new-brand-modal{:role => "dialog", :tabindex => "-1"}
+.modal#edit-brand-modal{:role => "dialog", :tabindex => "-1"}
   .modal-dialog{:role => "document"}
     .modal-content
       .modal-header
-        %h5.modal-title Nueva Marca
+        %h5.modal-title Editar Marca
         %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} &times;
       %div
-        = form_for @brand do |f|
+        = form_for @brand, method: :put, html:{id: "edit_brand"} do |f|
           .modal-body
             .row
               .col-12

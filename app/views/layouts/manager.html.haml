@@ -29,20 +29,20 @@
               "data-toggle" => "dropdown",
               :href => "#",
               :role => "button"}
-              Productos
+              Materiales
             .dropdown-menu{"aria-labelledby" => "nav-dropdown-prices"}
               .dropdown-item
-                = link_to measure_units_path do
-                  %i.nav-link.fas.fa-ruler-combined
-                  Unidades de Medida
+                = link_to materials_path do
+                  %i.nav-link.fas.fa-hammer
+                  Materiales
               .dropdown-item
                 = link_to brands_path do
                   %i.nav-link.fas.fa-copyright
                   Marcas
               .dropdown-item
-                = link_to materials_path do
-                  %i.nav-link.fas.fa-hammer
-                  Materiales
+                = link_to measure_units_path do
+                  %i.nav-link.fas.fa-ruler-combined
+                  Unidades de Medida
               .dropdown-item
                 = link_to prices_path do
                   %i.nav-link.fas.fa-dollar-sign

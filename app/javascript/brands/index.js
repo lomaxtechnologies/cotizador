@@ -22,3 +22,13 @@ const NEW_BRAND_MODAL = 'new-brand-modal';
 window.show_new_brand_modal = (element)=>{
    $(`#${NEW_BRAND_MODAL}`).modal();
 }
+
+const EDIT_BRAND_MODAL = 'edit-brand-modal';
+const EDIT_BRAND_FORM = 'edit_brand';
+const EDIT_BRAND_URL = '/brands/';
+window .show_edit_brand_modal = (element)=>{
+   $(`#${EDIT_BRAND_MODAL}`).modal();
+   form = $(`#${EDIT_BRAND_FORM}`);
+   form.attr('action',`${EDIT_BRAND_URL}${$(element).attr('brand_id')}`);
+   form.find("#brand_name").val($(element).html());
+}

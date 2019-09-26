@@ -1,6 +1,6 @@
 class BrandsController < ApplicationController
   layout 'manager'
-  before_action :set_brand, only: %i[show edit update destroy]
+  before_action :set_brand, only: %i[update destroy]
 
   # GET /brands
   # GET /brands.json
@@ -11,20 +11,6 @@ class BrandsController < ApplicationController
     @brand = Brand.new
   end
 
-  # GET /brands/1
-  # GET /brands/1.json
-  def show
-  end
-
-  # GET /brands/new
-  def new
-    @brand = Brand.new
-  end
-
-  # GET /brands/1/edit
-  def edit
-  end
-
   # POST /brands
   # POST /brands.json
   def create
@@ -32,14 +18,14 @@ class BrandsController < ApplicationController
 
     respond_to do |format|
       if @brand.save
-        format.html { redirect_to brands_path, notice: "La marca #{@brand.name} ha sido creada satisfactoriamente." }
+        notice = "La marca #{@brand.name} ha sido creada satisfactoriamente."
       else
         notice = []
         @brand.errors.each do |_attribute, error|
           notice.push(error)
         end
-        format.html { redirect_to brands_path, notice: notice}
       end
+      format.html { redirect_to brands_path, notice: notice}
     end
   end
 
@@ -48,10 +34,14 @@ class BrandsController < ApplicationController
   def update
     respond_to do |format|
       if @brand.update(brand_params)
-        format.html { redirect_to @brand, notice: "La marca #{@brand.name} ha sido actualizada satisfactoriamente." }
+        notice = "La marca #{@brand.name} ha sido actualizada satisfactoriamente."
       else
-        format.html { render :edit }
+        notice = []
+        @brand.errors.full_messages.each do |error|
+          notice.push(error)
+        end
       end
+      format.html { redirect_to brands_path, notice: notice }
     end
   end
 
