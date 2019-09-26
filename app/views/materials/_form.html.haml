@@ -1,11 +1,5 @@
 .card.card-body
   = form_for @material do |f|
-    -# if @material.errors.any?
-      #error_explanation
-        %h2= "#{pluralize(@material.errors.count, "error")} prohibited this material from being saved:"
-        %ul
-          - @material.errors.full_messages.each do |message|
-            %li= message
     .form-row.mb-2
       = f.label :code, "Código", class: "mb-0 text-primary font-weight-bold font-weight-bold"
       = f.phone_field :code, :required => true, class: "form-control form-control-sm"
