@@ -1,49 +1,85 @@
 class MaterialsController < ApplicationController
-    layout "manager"
-    before_action :set_material, only: [:show, :edit, :update, :destroy]
-    
-    
-    # GET /clients
-    # GET /clients.json
-    def index
+  layout "manager"
+  before_action :set_material, only: [:show, :edit, :update, :destroy]
+
+
+  # GET /materials
+  # GET /materials.json
+  def index
+    @q = Material.ransack(search_material_params)
+    @materials = @q.result
+    @materials = @materials.page(params[:page])
+  end
+
+  # GET /materials/new
+  def new
+    @material = Material.new
+  end
+
+  # GET /materials/1/edit
+  def edit
+  end
+
+  # POST /materials
+  # POST /materials.json
+  def create
+    @material = Material.new(material_params)
+
+    respond_to do |format|
+      if @material.save
+        format.html { redirect_to materials_url, notice: 'Material was successfully created.' }
+        format.json { render :index, status: :created, location: @material }
+      else
+        format.html { render :new }
+        format.json { render json: @material.errors, status: :unprocessable_entity }
+      end
     end
-    
-    # GET /clients/1
-    # GET /clients/1.json
-    def show
+  end
+
+  # PATCH/PUT /materials/1
+  # PATCH/PUT /materials/1.json
+  def update
+    respond_to do |format|
+      if @material.update(material_params)
+        format.html { redirect_to materials_url, notice: 'Material was successfully updated.' }
+        format.json { render :index, status: :ok, location: @material }
+      else
+        format.html { render :edit }
+        format.json { render json: @material.errors, status: :unprocessable_entity }
+      end
     end
-    
-    # GET /clients/new
-    def new
-        @material = Material.new
+  end
+
+  # DELETE /materials/1
+  # DELETE /materials/1.json
+  def destroy
+    @material.destroy
+    respond_to do |format|
+      format.html { redirect_to materials_url, notice: 'Material was successfully destroyed.' }
+      format.json { head :no_content }
     end
-    
-    # GET /clients/1/edit
-    def edit
+  end
+
+  def  list_deleted_materials
+   @materials = Material.only_deleted
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_material
+      @material = Material.find(params[:id])
     end
-    
-    # POST /clients
-    # POST /clients.json
-    def create
-        @material = Material.new
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def material_params
+      params.require(:material).permit(:code, :name, :description)
     end
-    
-    # PATCH/PUT /clients/1
-    # PATCH/PUT /clients/1.json
-    def update
+
+    def search_material_params
+      begin
+        return params.require(:q).permit(:name_cont)
+      rescue ActionController::ParameterMissing
+        return {email_cont: ""}
+      end
     end
-    
-    # DELETE /clients/1
-    # DELETE /clients/1.json
-    def destroy
-    end
-    
-    private
-        # Use callbacks to share common setup or constraints between actions.
-        def set_material
-        end
-    
-        # Never trust parameters from the scary internet, only allow the white list through.
-        def material_params
-        end      
 end
