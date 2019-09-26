@@ -1,8 +1,9 @@
 es:
   users:
-    create:
-      success: El servicio fue creado.
-    update:
-      update: El servicio se actualizó.
-    destroy:
-      destroy: El servicio fue dado de baja, para acceder de nuevo dirigirse a la ventana de ...
+    registrations:
+      create:
+        success: "El usuario %{username} ha sido creado satisfactoriamente"
+      update:
+        update: "El usuario %{username} ha sido actualizada exitosamente"
+      destroy:
+        destroy: "El usuario %{username} ha sido eliminado exitosamente"

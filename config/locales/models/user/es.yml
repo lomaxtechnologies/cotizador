@@ -7,3 +7,4 @@ es:
         name: Nombre
         email: Correo Electrónico
         user_type: Tipo de Usuario
+        role: Rol

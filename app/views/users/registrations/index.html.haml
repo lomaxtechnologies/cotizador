@@ -18,10 +18,10 @@
       %table.table.table-sm.table-striped
         %thead
           %tr.bg-primary.text-light
-            %th t('.email')
-            %th t('.name')
-            %th Teléfono
-            %th t('.role')
+            %th= t('.email')
+            %th= t('.name')
+            %th= t('.phon')
+            %th= t('.role')
             %th
         %tbody
         - @users.each do |user|

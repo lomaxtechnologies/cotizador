@@ -5,7 +5,8 @@ es:
         name: Nombre
         email: Correo Electrónico
         role: Tipo
-        usertitle: Servicios
+        phone: Teléfono
+        usertitle: Usuarios
         newuser: Nuevo Usuario
         search: Buscar Usuario
       new:
@@ -19,7 +20,7 @@ es:
               role: Tipo
               save: Guardar
       edit:
-        edituser: Editar Unidad de Medida
+        edituser: Editar Usuarios
         return: Regresar
       show:
         name: Nombre
@@ -42,7 +43,7 @@ es:
         save: Guardar
       account_form:
         save: Actualizar mis datos
-        name: Nomnre
+        name: Nombre
         email: Correo Electrónico
         user_type: Tipo de Usuario
         password: Contraseña
