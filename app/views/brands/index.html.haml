@@ -1,0 +1,41 @@
+= javascript_pack_tag "brands/index", media: "all", "data-turbolinks-track": "reload"
+= render partial: "confirmation_modal"
+= render partial: "new_modal"
+.row
+  .col-md-12.col-lg-10.offset-lg-1.col-xl-8.offset-xl-2
+    .form-row.mb-3
+      .col-2.my-auto
+        %h4.text-primary Marcas
+      .col-8
+        = search_form_for @q, url: brands_path do |f|
+          .input-group.mb-3
+            = f.text_field :name_cont, class: 'form-control  border border-dark',placeholder: "Buscar Marca"
+            .input-group-append
+              %button.btn.border-dark.border-left-0{ type: "submit", value: "Search"}
+                %i.fas.fa-search.fa-sm
+      .col-2.text-right
+        %button.btn.btn-primary{onclick: "show_new_brand_modal()"}
+          Nueva Marca
+    - if @brands.length > 0
+      %table.table.table-sm.table-striped
+        %thead
+          %tr.bg-primary.text-light
+            %th Nombre
+            %th
+        %tbody
+        - @brands.each do |brand|
+          %tr
+            %td
+              = link_to edit_brand_path(brand), class: "w-100", "data-toggle"=>"tooltip", "data-placement"=>"top", title: "Editar esta marca" do
+                = brand.name
+            %td.text-right
+              
+              %button.close{onclick: "show_confirmation_modal(this)",
+                action: brand_path(brand),
+                method: :delete}
+                &times;
+      = paginate @brands
+    - else
+      .text-center.text-muted.mt-5
+        %h2
+          No hay resultados para mostrar.

@@ -77,6 +77,10 @@
             method: :delete,
             class: "btn btn-outline-primary my-2 my-sm-0"
     .container-fluid
-      %p.notice= notice
+      - if notice.is_a? Array
+        - notice.each do |message|
+          %p.notice= message
+      - else
+        %p.notice= notice
       %p.alert= alert
       = yield
