@@ -10,21 +10,21 @@
       .col-4.offset-4.text-center
         .i.fas.fa-portrait.fa-10x
     .form-row.mb-2
-      = f.label :name, "Nombre", class:"mb-0 text-primary font-weight-bold"
+      = f.label :name, class:"mb-0 text-primary font-weight-bold"
       = f.text_field :name, class: "form-control form-control-sm"
     .form-row.mb-2
       .col-6
-        = f.label :email, "Correo Electrónico", class: "mb-0 text-primary font-weight-bold"
+        = f.label :email, class: "mb-0 text-primary font-weight-bold"
         = f.email_field :email, class: "form-control form-control-sm"
       .col-6
-        = f.label :user_type, "Tipo de Usuario", class: "mb-0 text-primary font-weight-bold"
+        = f.label :user_type,  class: "mb-0 text-primary font-weight-bold"
         %span.form-control.form-control-sm Administrador
     .form-row.mb-2
-      = f.label :password, "Contraseña Nueva", class: "mb-0 text-primary font-weight-bold"
+      = f.label :password,  class: "mb-0 text-primary font-weight-bold"
       = f.password_field :password, class: "form-control form-control-sm"
     .form-row.mb-2
-      = f.label :password_confirmation, "Confirmar Contraseña", class: "mb-0 text-primary font-weight-bold"
+      = f.label :password_confirmation, class: "mb-0 text-primary font-weight-bold"
       = f.password_field :password_confirmation, class: "form-control form-control-sm"
     .form-row.actions.text-right
       .col-12
-        = f.submit 'Actualizar mis Datos', class: "btn btn-primary btn-sm px-2"
+        = f.submit t('.save'), class: "btn btn-primary btn-sm px-2"
