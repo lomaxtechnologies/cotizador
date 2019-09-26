@@ -1,0 +1,15 @@
+#Dissable the method length
+Metrics/MethodLength:
+  Enabled: false
+
+#Dissable the checks for duplicate gem entries in Gemfile
+Bundler/DuplicatedGem:
+  Enabled: false
+
+#Dissable the Put end statement of multiline block on its own line
+Layout/BlockEndNewline:
+  Enabled: false
+
+#Dissable Indentation of comments.
+Layout/CommentIndentation:
+  Enabled: false

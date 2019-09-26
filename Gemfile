@@ -59,6 +59,12 @@ gem 'cancancan'
 # Haml for Rails
 gem 'haml-rails'
 
+# RSpec for Testing
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
+end
+
 # ActsAsParanoid
 gem 'acts_as_paranoid'
 
@@ -67,6 +73,9 @@ gem 'kaminari'
 
 # Search Ransack
 gem 'ransack'
+
+# Rubocop
+gem 'rubocop'
 
 # i18n
 gem 'rails-i18n', '~> 6.0.0' # For 6.0.0 or higher
