@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-
   resources :services
   namespace :users do
     resources :registrations
@@ -8,6 +7,8 @@ Rails.application.routes.draw do
   resources :measure_units
   resources :clients
   resources :prices
+  resource :materials
+  resource :brands
 
   get '/account', to: 'users/registrations#account'
 
@@ -22,7 +23,5 @@ Rails.application.routes.draw do
     unlocks: 'users/unlocks',
     registrations: 'users/registrations'
   }
-  resources :materials
-
 
 end

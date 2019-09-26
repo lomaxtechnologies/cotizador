@@ -22,27 +22,31 @@
           %li.nav-item
             = link_to 'Clientes', clients_path, class: 'nav-link'
           %li.nav-item
-            = link_to 'Unidades de Medida', measure_units_path, class: 'nav-link'
-          %li.nav-item
-            = link_to 'Materiales', materials_path, class: 'nav-link'
-            %li.nav-item
-              = link_to 'Servicios', services_path, class: 'nav-link'
+            = link_to 'Servicios', services_path, class: 'nav-link'
           %li.nav-item.dropdown
             %a#nav-dropdown-prices.nav-link.dropdown-toggle{"aria-expanded" => "false",
               "aria-haspopup" => "true",
               "data-toggle" => "dropdown",
               :href => "#",
               :role => "button"}
-              Precios
+              Productos
             .dropdown-menu{"aria-labelledby" => "nav-dropdown-prices"}
               .dropdown-item
-                = link_to prices_url do
-                  %i.nav-link.fas.fa-tasks
-                  Administrar
+                = link_to measure_units_path do
+                  %i.nav-link.fas.fa-ruler-combined
+                  Unidades de Medida
               .dropdown-item
-                = link_to new_price_path do
-                  %i.nav-link.fas.fa-file-excel
-                  Subir Excel
+                = link_to brands_path do
+                  %i.nav-link.fas.fa-copyright
+                  Marcas
+              .dropdown-item
+                = link_to materials_path do
+                  %i.nav-link.fas.fa-hammer
+                  Materiales
+              .dropdown-item
+                = link_to prices_path do
+                  %i.nav-link.fas.fa-dollar-sign
+                  Precios
           %li.nav-item.dropdown
             %a#nav-dropdown-quotations.nav-link.dropdown-toggle{"aria-expanded" => "false",
               "aria-haspopup" => "true",
