@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   resources :measure_units
   resources :clients
   resources :prices
-  resource :materials
-  resource :brands
+  resources :materials
+  resources :brands
 
   get '/account', to: 'users/registrations#account'
 
