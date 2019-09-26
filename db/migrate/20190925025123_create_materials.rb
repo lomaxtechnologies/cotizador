@@ -2,7 +2,8 @@ class CreateMaterials < ActiveRecord::Migration[6.0]
   def change
     create_table :materials do |t|
       t.string :name
-      t.string :unit
+      t.text :description 
+      t.string :code
       t.datetime :deleted_at, index: true
 
       t.timestamps

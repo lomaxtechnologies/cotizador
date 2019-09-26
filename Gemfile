@@ -73,3 +73,6 @@ gem 'kaminari'
 
 # Search Ransack
 gem 'ransack'
+
+# Rubocop
+gem 'rubocop'
