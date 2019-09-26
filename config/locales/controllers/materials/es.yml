@@ -1,0 +1,8 @@
+es:
+  materials:
+    create:
+      success: El material fue creado.
+    update:
+      update: El material se actualizó.
+    destroy:
+      destroy: El material fue dado de baja, para acceder de nuevo dirigirse a la ventana de ...

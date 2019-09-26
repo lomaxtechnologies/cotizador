@@ -1,27 +1,20 @@
 .card.card-body
-    .form-row
-        .input-group.mb-3
-            .input-group-prepend
-                .input-group-text.bg-white.text-primary
-                    %b Material&nbsp;&nbsp;&nbsp;
-            %text.form-control
-    .form-row
-        .input-group.mb-3
-            .input-group-prepend
-                .input-group-text.bg-white.text-primary
-                    %b Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            %select.custom-select.form-control
-                %option.selected 
-                    %b Seleccione una unidad
-                %option
-                    %b Metro
-                %option
-                    %b Caja
-                %option
-                    %b Bobina
-                %option
-                    %b Unidad
+  = form_for @material do |f|
+    -# if @client.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@client.errors.count, "error")} prohibited this client from being saved:"
+        %ul
+          - @client.errors.full_messages.each do |message|
+            %li= message
+    .form-row.mb-2
+      = f.label :code, class:"mb-0 text-primary font-weight-bold"
+      = f.text_field :code, :required => true, class: "form-control form-control-sm"
+    .form-row.mb-2
+      = f.label :name, class: "mb-0 text-primary font-weight-bold"
+      = f.text_area :name, class: "form-control form-control-sm"
+    .form-row.mb-2
+      = f.label :description, class: "mb-0 text-primary font-weight-bold"
+      = f.phone_field :description, class: "form-control form-control-sm"
     .form-row.actions.text-right
-        .col-12
-        %button.btn-primary.btn-lg.px-2
-            %b Guardar
+      .col-12
+        = f.submit t('.save'), class: "btn btn-primary btn-sm px-2"

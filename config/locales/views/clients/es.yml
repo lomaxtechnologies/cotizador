@@ -1,11 +1,14 @@
 es:
   clients:
+    form:
+      save: Guardar
     index:
       name: Nombre
       address: Dirección
       nit: NIT 
       phone: Teléfono
       clientstitle: Clientes
+      newclient: Nuevo Cliente
     new:
       newclient: Nuevo Cliente
       return: Regresar

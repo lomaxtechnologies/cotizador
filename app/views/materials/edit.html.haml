@@ -1,7 +1,11 @@
-.row.justify-content-center.align-items-center
-    .col-12.col-md-10.offset-md-2
-        .form-row.mb-3
-            .col-5.my-auto.text-primary
-                %h1 Editar Material
-    .col-2.col-md-4.py-5
-        = render 'form'
+.row.py-5
+    .col-12.col-md-10.offset-md-1.col-lg-6.offset-lg-3
+        .row
+            .col-6
+                %h4.text-primary= t('editmaterial')
+            .col-6.text-right
+                = link_to materials_path do
+                    %i.fas.fa-undo
+                    = t('.return')
+            .col-12.col-md-8.offset-md-2.py-5
+                = render 'form'
