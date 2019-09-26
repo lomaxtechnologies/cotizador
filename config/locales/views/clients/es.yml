@@ -5,15 +5,15 @@ es:
       address: Dirección
       nit: NIT 
       phone: Teléfono
+      clientstitle: Clientes
+    new:
       newclient: Nuevo Cliente
-  clientstitle: Clientes
-  return: Regresar
-  save: Guardar
-  helpers:
-    label:
-      client:
-        name: Nombre
-        address: Dirección
-        nit: NIT 
-        phone: Teléfono
-        save: Guardar
+      return: Regresar
+      helpers:
+        label:
+          client:
+            name: Nombre
+            address: Dirección
+            nit: NIT 
+            phone: Teléfono
+            save: Guardar
