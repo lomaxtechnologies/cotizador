@@ -1,7 +1,11 @@
-%h1 Editing service
-
-= render 'form'
-
-= link_to 'Show', @service
-\|
-= link_to 'Back', services_path
+.row.py-5
+    .col-12.col-md-10.offset-md-1.col-lg-6.offset-lg-3
+        .row
+            .col-6
+                %h4.text-primary= t('.editservice')
+            .col-6.text-right
+                = link_to services_path do
+                    %i.fas.fa-undo
+                    = t('.return')
+            .col-12.col-md-8.offset-md-2.py-5
+                = render 'form'

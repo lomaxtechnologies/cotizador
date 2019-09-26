@@ -1,16 +1,16 @@
 %p#notice= notice
 
 %p
-  %b Nombre:
+  %b= t('.name')
   = @service.name
 %p
-  %b Descripción:
+  %b= t('.description')
   = @service.description
 %p
-  %b Precio:
+  %b= t('.actual_price')
   = @service.creation_price
 
 
-= link_to 'Edit', edit_service_path(@service)
+= link_to t('.edit'), edit_service_path(@service)
 \|
-= link_to 'Back', services_path
+= link_to t('.back'), services_path

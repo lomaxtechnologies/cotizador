@@ -14,11 +14,8 @@ es:
       helpers:
         label:
           measure_unit:
-            name: Nombre
-            address: Dirección
-            nit: NIT 
-            phone: Teléfono
-            save: Guardar
+            name: Unidad de Medida
+            unit_type: Tipo de Medida
     edit:
       editmeasure: Editar Unidad de Medida
       return: Regresar
