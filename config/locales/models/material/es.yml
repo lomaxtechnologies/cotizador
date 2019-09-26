@@ -3,6 +3,7 @@ es:
     models:
       material: Material
     attributes:
-      name: Material
-      description: Descripción
-      code: Código
+      material:
+        name: Material
+        description: Descripción
+        code: Código

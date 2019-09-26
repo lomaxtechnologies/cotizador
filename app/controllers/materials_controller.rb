@@ -23,11 +23,11 @@ class MaterialsController < ApplicationController
 
     respond_to do |format|
       if @material.save
-        format.html { redirect_to materials_url, notice: 'Material was successfully created.' }
+        format.html { redirect_to materials_url, notice: t('.success')}
         format.json { render :index, status: :created, location: @material }
       else
         format.html { render :new }
-        format.json { render json: @material.errors, status: :unprocessable_entity }
+        format.json { render json: @material.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -37,11 +37,11 @@ class MaterialsController < ApplicationController
   def update
     respond_to do |format|
       if @material.update(material_params)
-        format.html { redirect_to materials_url, notice: 'Material was successfully updated.' }
+        format.html { redirect_to materials_url, notice: t('.update')}
         format.json { render :index, status: :ok, location: @material }
       else
         format.html { render :edit }
-        format.json { render json: @material.errors, status: :unprocessable_entity }
+        format.json { render json: @material.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -51,7 +51,7 @@ class MaterialsController < ApplicationController
   def destroy
     @material.destroy
     respond_to do |format|
-      format.html { redirect_to materials_url, notice: 'Material was successfully destroyed.' }
+      format.html { redirect_to materials_url, notice: t('.destroy')}
       format.json { head :no_content }
     end
   end
