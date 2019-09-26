@@ -1,20 +1,14 @@
 .card.card-body
   = form_for @material do |f|
-    -# if @client.errors.any?
-      #error_explanation
-        %h2= "#{pluralize(@client.errors.count, "error")} prohibited this client from being saved:"
-        %ul
-          - @client.errors.full_messages.each do |message|
-            %li= message
     .form-row.mb-2
-      = f.label :code, class:"mb-0 text-primary font-weight-bold"
-      = f.text_field :code, :required => true, class: "form-control form-control-sm"
+      = f.label :code, class: "mb-0 text-primary font-weight-bold font-weight-bold"
+      = f.phone_field :code, :required => true, class: "form-control form-control-sm"
     .form-row.mb-2
-      = f.label :name, class: "mb-0 text-primary font-weight-bold"
-      = f.text_area :name, class: "form-control form-control-sm"
+      = f.label :name, class:"mb-0 text-primary font-weight-bold font-weight-bold"
+      = f.text_field :name, :required => true, class: "form-control form-control-sm"
     .form-row.mb-2
       = f.label :description, class: "mb-0 text-primary font-weight-bold"
-      = f.phone_field :description, class: "form-control form-control-sm"
+      = f.text_field :description, class: "form-control form-control-sm"
     .form-row.actions.text-right
       .col-12
         = f.submit t('.save'), class: "btn btn-primary btn-sm px-2"

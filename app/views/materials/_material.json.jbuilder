@@ -1,2 +1,2 @@
-json.extract! material
-json.url material_url(client, format: :json)
+json.extract! material, :id, :name :description :code, :created_at, :updated_at
+json.url material_url(material, format: :json)

@@ -1,15 +1,16 @@
 .row
-  .col-12.col-md-10.offset-md-1
+  .col
     .form-row.mb-3
       .col-2.my-auto
         %h4.text-primary= t('.materialtitle')
       .col-8
-        .input-group.mb-3
-          .input-group-prepend
-            .input-group-text.border-dark
-              %i.fas.fa-search
-          %input.form-control.form-control-sm.border.border-dark{placeholder: t('.search') }
-      .col-2
+        = search_form_for @q do |f|
+          .input-group
+            = f.text_field :name_cont, class: 'form-control'
+            %span.input-group-btn
+              %button.btn.border-dark{ :name => "commit", :type => "submit", :value => "Search"}
+                %i.fas.fa-search
+      .col-2.text-right
         = link_to 'Nuevo Material', new_material_path, class: "btn btn-primary"
     %table.table.table-sm.table-striped
       %thead
@@ -20,39 +21,16 @@
           %th
       %tbody
         %tr
-          %td Cable categoría 6 A F/FTP
-          %td Metro, Caja, Bobina
-          %td.text-right
-            %button.btn.btn-success.btm-sm
-              = link_to new_material_path do
-                %i.fas.fa-edit.fa-xs.text-white
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
-        %tr
-          %td Cable de fibra óptica multimodo OM4 unitubo
-          %td Metro, Caja
-          %td.text-right
-            %button.btn.btn-success.btm-sm
-              = link_to new_material_path do
-                %i.fas.fa-edit.fa-xs.text-white
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
-        %tr
-          %td Canaletas
-          %td Unidades
-          %td.text-right
-            %button.btn.btn-success.btm-sm
-              = link_to new_material_path do
-                %i.fas.fa-edit.fa-xs.text-white
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
-        -# @clients.each do |client|
+        - @materials.each do |material|
           %tr
-            %td= client.name
-            %td= client.address
-            %td= client.nit
-            %td= client.phone
-            %td= link_to 'Show', client
-            %td= link_to 'Edit', edit_client_path(client)
-            %td= link_to 'Destroy', client, method: :delete, data: { confirm: 'Are you sure?' }
-
+            %td= material.code
+            %td= material.name
+            %td= material.description
+            %td.text-right
+              %button.btn.btn-success.btm-sm
+                = link_to edit_material_path(material) do
+                  %i.fas.fa-edit.fa-xs.text-white
+              %button.btn.btn-danger.btm-sm
+                = link_to material, method: :delete, data: { confirm: "¿Estas seguro de eliminar #{material.name}?" } do
+                  %i.fas.fa-trash-alt.fa-xs.text-white
+    = paginate @materials

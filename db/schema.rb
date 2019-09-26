@@ -29,8 +29,6 @@ ActiveRecord::Schema.define(version: 2019_09_25_040810) do
 
   create_table "brands", force: :cascade do |t|
     t.string "name"
-    t.string "modifier_user"
-    t.string "creator_user"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -63,7 +61,8 @@ ActiveRecord::Schema.define(version: 2019_09_25_040810) do
 
   create_table "materials", force: :cascade do |t|
     t.string "name"
-    t.string "unit"
+    t.string "description"
+    t.string "code"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
