@@ -17,3 +17,6 @@ es:
             nit: NIT 
             phone: Teléfono
             save: Guardar
+    edit:
+      editclient: Editar Cliente
+      return: Regresar
