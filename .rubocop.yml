@@ -1,0 +1,16 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops :
+  Include :
+    - ' app / ** / * '
+    - ' config / ** / * '
+    - ' bin / ** / * '
+
+
+  Exclude :
+    - ' test / ** / * '
+    - ' vendedor / ** / * '
+    - ' .git / ** / * '
+    - ' .public / ** / * '
+    - ' gemfile '
+    - ' db / ** / * '
