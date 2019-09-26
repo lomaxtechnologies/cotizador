@@ -2,55 +2,22 @@
   .col-12.col-md-10.offset-md-1
     .form-row.mb-3
       .col-3
-        %h4.text-primary Unidades de Medida
+        %h4.text-primary= t('.measuretitle')
       .col-6
         .input-group.mb-3
           .input-group-prepend
             .input-group-text.border-dark
               %i.fas.fa-search
-          %input.form-control.form-control-sm.border.border-dark{placeholder: "Buscar Unidad de Medida" }
+          %input.form-control.form-control-sm.border.border-dark{placeholder: t('.search') }
       .col-3
-        = link_to 'Nueva Unidad', new_measure_unit_path, class: "btn btn-primary btn-sm"
+        = link_to t('.newmeasure'), new_measure_unit_path, class: "btn btn-primary"
     %table.table.table-sm.table-striped
       %thead
         %tr.bg-primary.text-light
-          %th Unidad
-          %th Tipo
+          %th= t('.name')
+          %th= t('.unit_type')
           %th
       %tbody
-        %tr
-          %td Cajas de 10
-          %td Unidad
-          %td.text-right
-            %button.btn.btn-success.btm-sm
-              %i.fas.fa-edit.fa-xs
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
-        %tr
-          %td Metros
-          %td Longitud
-          %td.text-right
-            %button.btn.btn-success.btm-sm
-              %i.fas.fa-edit.fa-xs
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
-        %tr
-          %td Libras
-          %td Peso
-          %td.text-right
-            %button.btn.btn-success.btm-sm
-              %i.fas.fa-edit.fa-xs
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
-        %tr
-          %td Bobinas de 100m
-          %td Unidad
-          %td.text-right
-            %button.btn.btn-success.btm-sm
-              %i.fas.fa-edit.fa-xs
-            %button.btn.btn-danger.btm-sm
-              %i.fas.fa-trash-alt.fa-xs
-
 
     -# @measure_units.each do |measure_unit|
       %tr

@@ -1,0 +1,29 @@
+es:
+  measure_units:
+    form:
+      save: Guardar
+    index:
+      name: Unidad de Medida
+      unit_type: Tipo de Medida
+      measuretitle: Unidades de Medida
+      newmeasure: Nueva Unidad de Medida
+      search: Buscar Unidad de Medida
+    new:
+      newmeasure: Nueva Unidad de Medida
+      return: Regresar
+      helpers:
+        label:
+          measure_unit:
+            name: Nombre
+            address: Dirección
+            nit: NIT 
+            phone: Teléfono
+            save: Guardar
+    edit:
+      editmeasure: Editar Unidad de Medida
+      return: Regresar
+    show:
+      name: Unidad de Medida
+      unit_type: Tipo de Medida
+      edit: Editar
+      back: Regresar
