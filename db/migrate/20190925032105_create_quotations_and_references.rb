@@ -1,5 +1,5 @@
 class CreateQuotationsAndReferences < ActiveRecord::Migration[6.0]
-  def change
+  def change # rubocop:disable Metrics/MethodLength
     create_table :quotations do |t|
       t.integer :code
       t.date :quotation_date
