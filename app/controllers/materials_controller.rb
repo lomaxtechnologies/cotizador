@@ -16,10 +16,6 @@ class MaterialsController < ApplicationController
     @material = Material.new
   end
 
-  # GET /materials/1/edit
-  def edit
-  end
-
   # POST /materials
   # POST /materials.json
   def create
