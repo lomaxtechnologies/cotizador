@@ -1,5 +1,5 @@
 es:
-  quotations:
+  users:
     create:
       success: El servicio fue creado.
     update:

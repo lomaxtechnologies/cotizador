@@ -1,0 +1,21 @@
+es:
+  quotations:
+    index:
+      brand: Marca
+      quotationstitle: Cotizaciones
+      newquotation: Nueva Cotización
+      search: Buscar Cotización
+      date: Fecha
+      name: Cliente
+      status: Estado
+    admin:
+      client: Clientes
+      brand:  Marcas
+      service: Servicios
+      date: Fecha
+      searchc: Buscar cliente
+      searchb: Buscar marca
+      searchs: Buscar servicio
+      searchm: Buscar material
+      totals: Totales
+      material: Materiales

@@ -1,0 +1,6 @@
+es:
+  activerecord:
+    models:
+      quotation: Cotización
+    attributes:
+      quotation:
