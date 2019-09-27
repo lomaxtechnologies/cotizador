@@ -1,0 +1,13 @@
+es:
+  activerecord:
+    models:
+      brand: Marca
+    attributes:
+      brand:
+        name: Nombre
+    errors:
+        models:
+          brand:
+            attributes:
+              name:
+                duplicated: 'La marca ya se encuentra registrada.'

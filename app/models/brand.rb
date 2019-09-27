@@ -9,8 +9,8 @@ class Brand < ApplicationRecord
   end
 
   def save
-    if duplicated?
-      errors.add(:name, :blank, message: 'La marca ya se encuentra registrada.' )
+    if new_record? && duplicated?
+      errors.add(:name, :duplicated)
       false
     else
       super
