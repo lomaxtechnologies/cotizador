@@ -1,0 +1,9 @@
+es:
+  activerecord:
+    models:
+      material: Material
+    attributes:
+      material:
+        name: Material
+        description: Descripción
+        code: Código

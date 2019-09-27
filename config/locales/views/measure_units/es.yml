@@ -1,0 +1,17 @@
+es:
+  measure_units:
+    save: Guardar
+    name: Unidad de Medida
+    unit_type: Tipo de Medida
+    return: Regresar
+    index:
+      title: Unidades de Medida
+      new: Nueva
+      search: Buscar Unidad de Medida
+    new:
+      new_measure: Nueva Unidad de Medida
+    edit:
+      edit_measure: Editar Unidad de Medida
+    show:
+      edit: Editar
+      back: Regresar

@@ -1,0 +1,8 @@
+es:
+  clients:
+    create:
+      success: El cliente fue creado.
+    update:
+      update: El cliente se actualizó.
+    destroy:
+      destroy: El cliente fue dado de baja, para acceder de nuevo dirigirse a la ventana de ...

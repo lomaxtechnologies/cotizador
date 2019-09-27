@@ -2,10 +2,10 @@
   .col-12.col-md-10.offset-md-1.col-lg-6.offset-lg-3
     .row
       .col-6
-        %h4.text-primary Nuevo Material
+        %h4.text-primary= t('.edit_material')
       .col-6.text-right
         = link_to materials_path do
           %i.fas.fa-undo
-          Regresar
+          = t('materials.return')
       .col-12.mt-2
         = render 'form'

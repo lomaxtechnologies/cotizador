@@ -1,0 +1,38 @@
+es:
+  users:
+    name: Nombre
+    email: Correo Electrónico
+    role: Tipo
+    phone: Teléfono
+    return: Regresar
+    save: Guardar
+    user_type: Tipo de Usuario
+    registrations:
+      index:
+        title: Usuarios
+        new: Nuevo
+        search: Buscar Usuario
+      new:
+        new_user: Nuevo Usuario
+      edit:
+        edit_user: Editar Usuario  
+      show:
+        edit: Editar
+        back: Regresar
+      account:
+        account: Mi Cuenta
+        logout: Cerrar Sesión
+        login: Iniciar Sesión
+      new_form:
+        name: Nombres(s)
+        lastname: Apellido(s)
+        role: Rol
+      edit_form:
+        name: Nombres(s)
+        lastname: Apellido(s)
+        role: Rol
+      account_form:
+        save: Actualizar mis datos
+        password: Contraseña
+        password_confirmation: Confirmar Contraseña
+

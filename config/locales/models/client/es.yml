@@ -1,0 +1,10 @@
+es:
+  activerecord:
+    models:
+      client: Cliente
+    attributes:
+      client:
+        name: Nombre
+        address: Dirección
+        nit: NIT
+        phone: Teléfono

@@ -22,7 +22,7 @@ class Users::RegistrationsController < ApplicationController
     @user_detail = UserDetail.new(user_detail_params)
     respond_to do |format|
       if @user.create_user(@user_detail)
-        notice = "El usuario #{@user_detail.name} ha sido creado satisfactoriamente"
+        notice = t('.success',username: @user.user_detail.name)
         format.html { redirect_to users_registrations_url, notice: notice }
       else
         notice = @user.errors.full_messages.join('.')
@@ -40,7 +40,7 @@ class Users::RegistrationsController < ApplicationController
   def update
     respond_to do |format|
       if @user.update_user(update_user_params, user_detail_params)
-        notice = "El usuario #{@user.user_detail.name} ha sido actualizada exitosamente"
+        notice = t('.update',username: @user.user_detail.name)
         format.html { redirect_to users_registrations_url, notice: notice }
       else
         notice = @user.errors.full_messages.join('.')
@@ -54,7 +54,7 @@ class Users::RegistrationsController < ApplicationController
   def destroy
     respond_to do |format|
       if @user.destroy_user
-        notice = "El usuario #{@user.user_detail.name} ha sido eliminado exitosamente"
+        notice = t('.destroy',username: @user.user_detail.name)
       else
         notice = @user.errors.full_messages.join('.')
         notice += @user_detail.errors.full_messages.join('.')

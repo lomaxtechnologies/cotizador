@@ -2,7 +2,7 @@
 %html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %title Project Manager
+    %title= t('title')
     = csrf_meta_tags
     = csp_meta_tag
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
@@ -20,55 +20,55 @@
       #navbarSupportedContent.collapse.navbar-collapse
         %ul.navbar-nav.mr-auto
           %li.nav-item
-            = link_to 'Clientes', clients_path, class: 'nav-link'
+            = link_to t('clients.index.title'), clients_path, class: 'nav-link'
           %li.nav-item
-            = link_to 'Unidades de Medida', measure_units_path, class: 'nav-link'
+            = link_to t('measure_units.index.title'), measure_units_path, class: 'nav-link'
           %li.nav-item
-            = link_to 'Materiales', materials_path, class: 'nav-link'
+            = link_to t('materials.index.title'), materials_path, class: 'nav-link'
             %li.nav-item
-              = link_to 'Servicios', services_path, class: 'nav-link'
+              = link_to t('services.index.title'), services_path, class: 'nav-link'
           %li.nav-item.dropdown
             %a#nav-dropdown-prices.nav-link.dropdown-toggle{"aria-expanded" => "false",
               "aria-haspopup" => "true",
               "data-toggle" => "dropdown",
               :href => "#",
               :role => "button"}
-              Precios
+              = t('prices.title')
             .dropdown-menu{"aria-labelledby" => "nav-dropdown-prices"}
               .dropdown-item
                 = link_to prices_url do
                   %i.nav-link.fas.fa-tasks
-                  Administrar
+                  = t('prices.manager')
               .dropdown-item
                 = link_to new_price_path do
                   %i.nav-link.fas.fa-file-excel
-                  Subir Excel
+                  = t('prices.upload')
           %li.nav-item.dropdown
             %a#nav-dropdown-quotations.nav-link.dropdown-toggle{"aria-expanded" => "false",
               "aria-haspopup" => "true",
               "data-toggle" => "dropdown",
               :href => "#",
               :role => "button"}
-              Cotizaciones
+              = t('quotations.index.title')
             .dropdown-menu{"aria-labelledby" => "nav-dropdown-quotations"}
               .dropdown-item
                 = link_to quotations_path do
                   %i.fas.fa-tasks
-                  Administrar
+                  = t('quotations.manager')
               %a.dropdown-item{:href => "#"}
                 %i.fas.fa-history
-                Historial
+                = t('quotations.log')
               %a.dropdown-item{:href => "#"}
                 %i.fas.fa-eraser
-                Eliminadas
+                = t('quotations.deleted_list')
         %form.form-inline.my-2.my-lg-0
           = link_to users_registrations_path, class: "mr-3" do
             %i.fas.fa-users
-            Usuarios
+            = t('users.registrations.index.title')
           = link_to account_path, class: "mr-3" do
             %i.fas.fa-user-circle
-            Mi Cuenta
-          = link_to 'Cerrar Sesión',
+            = t('users.registrations.account.account')
+          = link_to t('users.registrations.account.logout'),
             destroy_user_session_path,
             method: :delete,
             class: "btn btn-outline-primary my-2 my-sm-0"

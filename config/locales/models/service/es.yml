@@ -1,0 +1,10 @@
+es:
+  activerecord:
+    models:
+      service: Servicio
+    attributes:
+      service:
+        name: Servicio
+        description: Descripción
+        actual_price: Precio
+        creation_price: Precio inicial

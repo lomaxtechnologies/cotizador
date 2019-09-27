@@ -24,16 +24,16 @@
         #collapse1.collapse
             .card.card-body
                 .row.py-4
-                    %h3.text-primary &nbsp;&nbsp;&nbsp;Clientes
+                    %h3.text-primary= t('.client')
                 .row
                     .col-7.offset-md-1
                         .input-group.mb-3
                             .input-group-prepend
                                 .input-group-text.bg-white.text-primary
-                                    %b Cliente&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    %b= t('.name')
                             %select.custom-select.form-control
                                 %option.selected 
-                                    %b Seleccione un cliente
+                                    %b= t('.search_client')
                                 %option
                                     %b Metro
                                 %option
@@ -47,13 +47,13 @@
                         .input-group.mb-3
                             .input-group-prepend
                                 .input-group-text.bg-white.text-primary
-                                    %b Fecha&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    %b= t('.date')
                             %input
                 .row.py-4
                     .col-6
-                        %h3.text-primary Marcas
+                        %h3.text-primary= t('.brand')
                     .col-6
-                        %h3.text-primary Servicios
+                        %h3.text-primary= t('.service')
                 .row
                     .col-2.offset-md-1
                         .custom-control.custom-checkbox
@@ -85,13 +85,13 @@
                     .col-12
                         .form-row.mb-3
                             .col-2.my-auto
-                                %h3.text-primary Materiales
+                                %h3.text-primary= t('.material')
                             .col-8
                                 .input-group.mb-3
                                     .input-group-prepend
                                         .input-group-text.border-dark
                                             %i.fas.fa-search
-                                    %input.form-control.form-control-sm.border.border-dark{placeholder: "Buscar Material" }
+                                    %input.form-control.form-control-sm.border.border-dark{placeholder: t('.search_materials') }
                             .col-2
                                 = link_to 'Agregar Material', new_material_path, class: "btn btn-primary btn-sm"                       
                         %table.table.table-sm.table-striped
@@ -182,13 +182,13 @@
                     .col-12
                         .form-row.mb-3
                             .col-2.my-auto
-                                %h3.text-primary Servicios
+                                %h3.text-primary= t('.service')
                             .col-8
                                 .input-group.mb-3
                                     .input-group-prepend
                                         .input-group-text.border-dark
                                             %i.fas.fa-search
-                                    %input.form-control.form-control-sm.border.border-dark{placeholder: "Buscar Servicio" }
+                                    %input.form-control.form-control-sm.border.border-dark{placeholder: t('.search_service') }
                             .col-2
                                 = link_to 'Agregar Servicio', new_material_path, class: "btn btn-primary btn-sm"  
                     .col-8.offset-md-2                     
@@ -229,7 +229,7 @@
             .card.card-body
                 .row.py-4
                     .col-12
-                        %h3.text-primary Totales
+                        %h3.text-primary= t('.totals')
                     .col-8.offset-md-2                     
                         %table.table.table-sm
                             %tr 

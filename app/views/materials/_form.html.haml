@@ -1,14 +1,14 @@
 .card.card-body
   = form_for @material do |f|
     .form-row.mb-2
-      = f.label :code, "Código", class: "mb-0 text-primary font-weight-bold font-weight-bold"
+      = f.label :code, class: "mb-0 text-primary font-weight-bold font-weight-bold"
       = f.phone_field :code, :required => true, class: "form-control form-control-sm"
     .form-row.mb-2
-      = f.label :name, "Nombre", class:"mb-0 text-primary font-weight-bold font-weight-bold"
+      = f.label :name, class:"mb-0 text-primary font-weight-bold font-weight-bold"
       = f.text_field :name, :required => true, class: "form-control form-control-sm"
     .form-row.mb-2
-      = f.label :description, "Descripción", class: "mb-0 text-primary font-weight-bold"
+      = f.label :description, class: "mb-0 text-primary font-weight-bold"
       = f.text_field :description, class: "form-control form-control-sm"
     .form-row.actions.text-right
       .col-12
-        = f.submit 'Guardar', class: "btn btn-primary btn-sm px-2"
+        = f.submit t('materials.save'), class: "btn btn-primary btn-sm px-2"
