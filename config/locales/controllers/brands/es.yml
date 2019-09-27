@@ -1,0 +1,8 @@
+es:
+  brands:
+    create:
+      success: "La marca %{name} ha sido creada satisfactoriamente."
+    update:
+      update: "La marca %{name} ha sido actualizada satisfactoriamente."
+    destroy:
+      destroy: "La marca %{name} ha sido eliminada satisfactoriamente."

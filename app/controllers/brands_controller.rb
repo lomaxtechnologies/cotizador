@@ -18,7 +18,7 @@ class BrandsController < ApplicationController
 
     respond_to do |format|
       if @brand.save
-        notice = "La marca #{@brand.name} ha sido creada satisfactoriamente."
+        notice = t('.success',name:@brand.name)
       else
         notice = []
         @brand.errors.each do |_attribute, error|
@@ -34,7 +34,7 @@ class BrandsController < ApplicationController
   def update
     respond_to do |format|
       if @brand.update(brand_params)
-        notice = "La marca #{@brand.name} ha sido actualizada satisfactoriamente."
+        notice = t('.update', name: @brand.name)
       else
         notice = []
         @brand.errors.full_messages.each do |error|
@@ -50,7 +50,8 @@ class BrandsController < ApplicationController
   def destroy
     @brand.destroy
     respond_to do |format|
-      format.html { redirect_to brands_url, notice: "La marca #{@brand.name} ha sido eliminada satisfactoriamente." }
+      notice = t('.destroy', name: @brand.name)
+      format.html { redirect_to brands_url, notice: notice }
     end
   end
 
