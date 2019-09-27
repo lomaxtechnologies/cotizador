@@ -1,0 +1,9 @@
+es:
+  users:
+    registrations:
+      create:
+        success: "El usuario %{username} ha sido creado satisfactoriamente"
+      update:
+        update: "El usuario %{username} ha sido actualizada exitosamente"
+      destroy:
+        destroy: "El usuario %{username} ha sido eliminado exitosamente"

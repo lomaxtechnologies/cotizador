@@ -1,0 +1,7 @@
+es:
+  activerecord:
+    models:
+      price: Precio
+    attributes:
+      price:
+      

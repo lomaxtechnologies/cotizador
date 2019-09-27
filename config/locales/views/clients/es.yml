@@ -1,0 +1,15 @@
+es:
+  clients:
+    save: Guardar
+    return: Regresar
+    name: Nombre
+    address: Dirección
+    nit: NIT 
+    phone: Teléfono
+    index:
+      title: Clientes
+      new: Nuevo Cliente
+    new:
+      new_client: Nuevo Cliente
+    edit:
+      edit_client: Editar Cliente

@@ -1,0 +1,19 @@
+es:
+  services:
+    save: Guardar
+    name: Servicio
+    description: Descripción
+    actual_price: Precio
+    creation_price: Precio inicial
+    return: Regresar
+    index:
+      title: Servicios
+      new: Nuevo
+      search: Buscar Servicio
+    new:
+      new_service: Nuevo Servicio
+    edit:
+      edit_service: Editar Unidad de Medida
+    show:
+      edit: Editar
+      back: Regresar

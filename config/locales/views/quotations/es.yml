@@ -1,0 +1,24 @@
+es:
+  quotations:
+    deleted_list: Eliminadas
+    manager: Administración
+    log: Historial
+    index:
+      brand: Marca
+      title: Cotizaciones
+      new_quotation: Nueva Cotización
+      search: Buscar Cotización
+      date: Fecha
+      name: Cliente
+      status: Estado
+    admin:
+      client: Clientes
+      brand:  Marcas
+      service: Servicios
+      date: Fecha
+      search_client: Buscar cliente
+      search_brand: Buscar marca
+      search_service: Buscar servicio
+      search_material: Buscar material
+      totals: Totales
+      material: Materiales

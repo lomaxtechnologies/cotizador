@@ -76,3 +76,9 @@ gem 'ransack'
 
 # Rubocop
 gem 'rubocop'
+
+# i18n
+gem 'rails-i18n', '~> 6.0.0' # For 6.0.0 or higher
+
+# devise i18n
+gem 'devise-i18n'

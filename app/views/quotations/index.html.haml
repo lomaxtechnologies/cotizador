@@ -2,9 +2,9 @@
   .col-12
     .form-row.mb-3
       .col-9.mb-3
-        %h4.text-primary Cotizaciones
+        %h4.text-primary= t('.title')
       .col-3.mb-3.text-right
-        %button.btn.btn-sm.btn-primary Nueva Cotización
+        %button.btn.btn-sm.btn-primary= t('.new_quotation')
       .col-3
         .input-group.mb-3
           .input-group-prepend
@@ -23,7 +23,7 @@
             .input-group-text
               %i.fas.fa-copyright
           %select.form-control.form-control-sm
-            %option Marca
+            %option= t('.brand')
             %option Siemon
             %option Supranet
       .col-2
@@ -39,14 +39,14 @@
               %i.fas.fa-money-bill
           %input.form-control.form-control-sm{placeholder: "Precio Máximo" }
       .col-1
-        %buttom.btn.btn-info.btn-sm.btn-block Buscar
+        %buttom.btn.btn-info.btn-sm.btn-block= t('.search')
     %table.table.table-sm.table-striped
       %thead
         %tr.bg-primary.text-light
           %th.text-right #
-          %th Fecha
-          %th Cliente
-          %th Estado
+          %th= t('.date')
+          %th= t('.name')
+          %th= t('.status')
           %th.text-right Total Siemon
           %th.text-right Total Supranet
           %th.text-right
