@@ -21,6 +21,8 @@ es:
         back: Regresar
       account:
         account: Mi Cuenta
+        logout: Cerrar Sesión
+        login: Iniciar Sesión
       new_form:
         name: Nombres(s)
         lastname: Apellido(s)

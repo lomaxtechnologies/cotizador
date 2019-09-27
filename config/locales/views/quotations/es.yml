@@ -1,5 +1,8 @@
 es:
   quotations:
+    deleted_list: Eliminadas
+    manager: Administración
+    log: Historial
     index:
       brand: Marca
       title: Cotizaciones

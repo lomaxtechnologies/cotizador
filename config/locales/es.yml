@@ -1,4 +1,5 @@
 es:
+  title: Cotizador
   #Added kaminari es
   helpers:
     page_entries_info:
