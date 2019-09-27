@@ -1,51 +1,36 @@
 es:
   users:
+    name: Nombre
+    email: Correo Electrónico
+    role: Tipo
+    phone: Teléfono
+    return: Regresar
+    save: Guardar
+    user_type: Tipo de Usuario
     registrations:
       index:
-        name: Nombre
-        email: Correo Electrónico
-        role: Tipo
-        phone: Teléfono
-        usertitle: Usuarios
-        newuser: Nuevo Usuario
+        title: Usuarios
+        new: Nuevo
         search: Buscar Usuario
       new:
-        newuser: Nuevo Usuario
-        return: Regresar
-        helpers:
-          label:
-            user:
-              name: Nombre
-              email: Correo Electrónico
-              role: Tipo
-              save: Guardar
+        new_user: Nuevo Usuario
       edit:
-        edituser: Editar Usuarios
-        return: Regresar
+        edit_user: Editar Usuario  
       show:
-        name: Nombre
-        email: Email
-        role: Tipo
         edit: Editar
         back: Regresar
       account:
         account: Mi Cuenta
       new_form:
-        save: Guardar
         name: Nombres(s)
         lastname: Apellido(s)
-        email: Correo Electrónico
         role: Rol
       edit_form:
-        name: Nomnre
-        email: Correo Electrónico
-        user_type: Tipo de Usuario
-        save: Guardar
+        name: Nombres(s)
+        lastname: Apellido(s)
+        role: Rol
       account_form:
         save: Actualizar mis datos
-        name: Nombre
-        email: Correo Electrónico
-        user_type: Tipo de Usuario
         password: Contraseña
         password_confirmation: Confirmar Contraseña
 

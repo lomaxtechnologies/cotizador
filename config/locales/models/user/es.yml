@@ -8,3 +8,5 @@ es:
         email: Correo Electrónico
         user_type: Tipo de Usuario
         role: Rol
+        password: Contraseña
+        password_confirmation: Confirmar Contraseña

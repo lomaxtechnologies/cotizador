@@ -2,7 +2,7 @@
   .col 
     .form-row.mb-3
       .col-2.my-auto
-        %h4.text-primary= t('.clientstitle')
+        %h4.text-primary= t('.title')
       .col-8
         = search_form_for @q do |f|
           .input-group
@@ -11,14 +11,14 @@
               %button.btn.border-dark{ :name => "commit", :type => "submit", :value => "Search"}
                 %i.fas.fa-search
       .col-2.text-right
-        = link_to t('.newclient'), new_client_path, class: "btn btn-primary"
+        = link_to t('.new'), new_client_path, class: "btn btn-primary"
     %table.table.table-sm.table-striped
       %thead
         %tr.bg-primary.text-light
-          %th= t('.name')
-          %th= t('.address')
-          %th= t('.nit')
-          %th= t('.phone')
+          %th= t('clients.name')
+          %th= t('clients.address')
+          %th= t('clients.nit')
+          %th= t('clients.phone')
           %th
       %tbody
         - @clients.each do |client|

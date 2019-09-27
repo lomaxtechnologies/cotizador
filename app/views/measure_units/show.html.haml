@@ -1,10 +1,10 @@
 %p#notice= notice
 
 %p
-  %b= t('.name')
+  %b= t('measure_units.name')
   = @measure_unit.name
 %p
-  %b= t('.unit_type')
+  %b= t('measure_units.unit_type')
   = @measure_unit.unit_type
 
 = link_to t('.edit'), edit_measure_unit_path(@measure_unit)

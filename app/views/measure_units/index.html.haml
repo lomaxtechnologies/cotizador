@@ -2,7 +2,7 @@
   .col-12.col-md-10.offset-md-1
     .form-row.mb-3
       .col-3
-        %h4.text-primary= t('.measuretitle')
+        %h4.text-primary= t('.title')
       .col-6
         .input-group.mb-3
           .input-group-prepend
@@ -10,12 +10,12 @@
               %i.fas.fa-search
           %input.form-control.form-control-sm.border.border-dark{placeholder: t('.search') }
       .col-3
-        = link_to t('.newmeasure'), new_measure_unit_path, class: "btn btn-primary"
+        = link_to t('.new'), new_measure_unit_path, class: "btn btn-primary"
     %table.table.table-sm.table-striped
       %thead
         %tr.bg-primary.text-light
-          %th= t('.name')
-          %th= t('.unit_type')
+          %th= t('measure_units.name')
+          %th= t('measure_units.unit_type')
           %th
       %tbody
 

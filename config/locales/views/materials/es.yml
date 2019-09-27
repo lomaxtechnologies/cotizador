@@ -1,17 +1,15 @@
 es:
   materials:
-    form:
-      save: Guardar
+    return: Regresar
+    save: Guardar
     index:
-      materialtitle: Materiales
+      title: Materiales
       newmaterial: Nuevo Material
       search: Buscar Material
       name: Material
       description: Descripción
       code: Código
     new:
-      newmaterial: Nuevo Material
-      return: Regresar
+      new_material: Nuevo Material
     edit:
-      editmaterial: Editar Material
-      return: Regresar
+      edit_material: Editar Material

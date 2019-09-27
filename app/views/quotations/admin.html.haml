@@ -33,7 +33,7 @@
                                     %b= t('.name')
                             %select.custom-select.form-control
                                 %option.selected 
-                                    %b= t('.searchc')
+                                    %b= t('.search_client')
                                 %option
                                     %b Metro
                                 %option
@@ -91,7 +91,7 @@
                                     .input-group-prepend
                                         .input-group-text.border-dark
                                             %i.fas.fa-search
-                                    %input.form-control.form-control-sm.border.border-dark{placeholder: t('.searchm') }
+                                    %input.form-control.form-control-sm.border.border-dark{placeholder: t('.search_materials') }
                             .col-2
                                 = link_to 'Agregar Material', new_material_path, class: "btn btn-primary btn-sm"                       
                         %table.table.table-sm.table-striped
@@ -188,7 +188,7 @@
                                     .input-group-prepend
                                         .input-group-text.border-dark
                                             %i.fas.fa-search
-                                    %input.form-control.form-control-sm.border.border-dark{placeholder: t('.searchs') }
+                                    %input.form-control.form-control-sm.border.border-dark{placeholder: t('.search_service') }
                             .col-2
                                 = link_to 'Agregar Servicio', new_material_path, class: "btn btn-primary btn-sm"  
                     .col-8.offset-md-2                     

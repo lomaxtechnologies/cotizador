@@ -3,10 +3,10 @@
   .col-12.col-md-10.offset-md-1.col-lg-6.offset-lg-3
     .row
       .col-6
-        %h4.text-primary= t('.newuser')
+        %h4.text-primary= t('.new_user')
       .col-6.text-right
         = link_to users_registrations_path do
           %i.fas.fa-undo
-          = t('.return')
+          = t('users.return')
       .col-12.mt-2
         = render 'new_form'

@@ -1,25 +1,15 @@
 es:
   clients:
-    form:
-      save: Guardar
+    save: Guardar
+    return: Regresar
+    name: Nombre
+    address: Dirección
+    nit: NIT 
+    phone: Teléfono
     index:
-      name: Nombre
-      address: Dirección
-      nit: NIT 
-      phone: Teléfono
-      clientstitle: Clientes
-      newclient: Nuevo Cliente
+      title: Clientes
+      new: Nuevo Cliente
     new:
-      newclient: Nuevo Cliente
-      return: Regresar
-      helpers:
-        label:
-          client:
-            name: Nombre
-            address: Dirección
-            nit: NIT 
-            phone: Teléfono
-            save: Guardar
+      new_client: Nuevo Cliente
     edit:
-      editclient: Editar Cliente
-      return: Regresar
+      edit_client: Editar Cliente
