@@ -10,3 +10,9 @@ es:
         role: Rol
         password: Contraseña
         password_confirmation: Confirmar Contraseña
+    errors:
+        models:
+          user:
+            attributes:
+              role:
+                does_not_exist: 'El rol seleccionado no existe'

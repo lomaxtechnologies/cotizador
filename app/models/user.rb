@@ -15,9 +15,22 @@ class User < ApplicationRecord
 
   validates :role, presence: true, inclusion: { in: :role }
 
-  def create_user(user_detail)
-    user_detail.user = self
-    save
+  def self.valid_role?(role)
+    User.roles.keys.include?(role)
+  end
+
+  def self.create_user(user_params, user_detail_params)
+    if User.valid_role? user_params[:role]
+      user = User.new(user_params)
+      user_detail = UserDetail.new(user_detail_params)
+      user.user_detail = user_detail
+      user.save
+    else
+      user = User.new
+      user.user_detail = UserDetail.new
+      user.errors.add(:role, :does_not_exist)
+    end
+    user
   end
 
   def update_user(user_params,user_detail_params)

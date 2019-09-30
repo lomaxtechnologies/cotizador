@@ -18,16 +18,15 @@ class Users::RegistrationsController < ApplicationController
 
   # POST /registrations
   def create
-    @user = User.new(create_user_params)
-    @user_detail = UserDetail.new(user_detail_params)
     respond_to do |format|
-      if @user.create_user(@user_detail)
-        notice = t('.success',username: @user.user_detail.name)
-        format.html { redirect_to users_registrations_url, notice: notice }
-      else
+      @user = User.create_user(create_user_params, user_detail_params)
+      if @user.errors.any?
         notice = @user.errors.full_messages.join('.')
-        notice += @user_detail.errors.full_messages.join('.')
+        notice += @user.user_detail.errors.full_messages.join('.')
         format.html { redirect_to new_users_registration_url, notice: notice }
+      else
+        notice = t('.success', username: @user.user_detail.name)
+        format.html { redirect_to users_registrations_url, notice: notice }
       end
     end
   end
