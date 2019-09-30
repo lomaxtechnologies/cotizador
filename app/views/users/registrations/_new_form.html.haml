@@ -24,10 +24,10 @@
         = f.email_field :email, class: "form-control form-control-sm", required: true
       .col-6
         = f.label :role, class: "mb-0 text-primary font-weight-bold"
-        %select.form-control.form-control-sm{ name: "user[role]", id: "user_role", required: true}
-          - User.roles.each do |key,value|
-            %option{:value => key}
-              = value
+        = f.select(:role,
+          options_for_select(User.roles.keys, :Administrador),
+          {include_blank: t('users.registrations.new.role_blank')},
+          { class: "form-control form-control-sm", required: true })
     .form-row.mb-2
       = f.label :password, class: "mb-0 text-primary font-weight-bold"
       = f.password_field(:password, 

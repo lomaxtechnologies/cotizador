@@ -6,7 +6,7 @@ class Users::RegistrationsController < ApplicationController
   # GET /registrations.json
   def index
     @q = User.ransack(query_params)
-    @users = @q.result
+    @users = @q.result.order('email ASC')
     @users = @users.page(params[:page])
   end
 

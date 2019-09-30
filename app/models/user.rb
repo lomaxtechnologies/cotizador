@@ -11,24 +11,9 @@ class User < ApplicationRecord
   paginates_per 10
 
   # All the possible roles are stored in this class variable
-  @@roles = { 1 => 'Administrador' }
+  enum role: [:Administrador, :Consulta]
 
-  validates :role, presence: true, inclusion: { in: @@roles }
-
-  def self.roles
-    @@roles
-  end
-
-  # Maps one integer representing a role to its respective string 
-  def self.role_index_to_string(role)
-    begin
-      role = @@roles[role]
-      return role if role
-    rescue TypeError
-      ''
-    end
-    ''
-  end
+  validates :role, presence: true, inclusion: { in: :role }
 
   def create_user(user_detail)
     user_detail.user = self
