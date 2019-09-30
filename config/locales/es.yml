@@ -44,16 +44,6 @@ es:
         unconfirmed_email: Email no confirmado
         unlock_token: Código de desbloqueo
         updated_at: Actualizado en
-    models:
-      user:
-        one: Usuario
-        other: Usuarios
-    errors:
-      models:
-        brand:
-          attributes:
-            name:
-              duplicated: 'La marca ya se encuentra registrada.'
   devise:
     confirmations:
       confirmed: Tu cuenta ha sido confirmada satisfactoriamente.

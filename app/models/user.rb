@@ -11,28 +11,26 @@ class User < ApplicationRecord
   paginates_per 10
 
   # All the possible roles are stored in this class variable
-  @@roles = { 1 => 'Administrador' }
+  enum role: [:administrador, :consultor]
 
-  validates :role, presence: true, inclusion: { in: @@roles }
+  validates :role, presence: true, inclusion: { in: :role }
 
-  def self.roles
-    @@roles
+  def self.valid_role?(role)
+    User.roles.keys.include?(role)
   end
 
-  # Maps one integer representing a role to its respective string 
-  def self.role_index_to_string(role)
-    begin
-      role = @@roles[role]
-      return role if role
-    rescue TypeError
-      ''
+  def self.create_user(user_params, user_detail_params)
+    if User.valid_role? user_params[:role]
+      user = User.new(user_params)
+      user_detail = UserDetail.new(user_detail_params)
+      user.user_detail = user_detail
+      user.save
+    else
+      user = User.new
+      user.user_detail = UserDetail.new
+      user.errors.add(:role, :does_not_exist)
     end
-    ''
-  end
-
-  def create_user(user_detail)
-    user_detail.user = self
-    save
+    user
   end
 
   def update_user(user_params,user_detail_params)

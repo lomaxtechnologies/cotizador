@@ -6,7 +6,7 @@ class Users::RegistrationsController < ApplicationController
   # GET /registrations.json
   def index
     @q = User.ransack(query_params)
-    @users = @q.result
+    @users = @q.result.order('email ASC')
     @users = @users.page(params[:page])
   end
 
@@ -18,16 +18,16 @@ class Users::RegistrationsController < ApplicationController
 
   # POST /registrations
   def create
-    @user = User.new(create_user_params)
-    @user_detail = UserDetail.new(user_detail_params)
     respond_to do |format|
-      if @user.create_user(@user_detail)
-        notice = t('.success',username: @user.user_detail.name)
-        format.html { redirect_to users_registrations_url, notice: notice }
-      else
+      @user = User.create_user(create_user_params, user_detail_params)
+      user_detail = @user.user_detail
+      if @user.errors.any? || user_detail.errors.any?
         notice = @user.errors.full_messages.join('.')
-        notice += @user_detail.errors.full_messages.join('.')
+        notice += user_detail.errors.full_messages.join('.')
         format.html { redirect_to new_users_registration_url, notice: notice }
+      else
+        notice = t('.success', username: user_detail.name)
+        format.html { redirect_to users_registrations_url, notice: notice }
       end
     end
   end
@@ -40,7 +40,7 @@ class Users::RegistrationsController < ApplicationController
   def update
     respond_to do |format|
       if @user.update_user(update_user_params, user_detail_params)
-        notice = t('.update',username: @user.user_detail.name)
+        notice = t('.update', username: @user.user_detail.name)
         format.html { redirect_to users_registrations_url, notice: notice }
       else
         notice = @user.errors.full_messages.join('.')

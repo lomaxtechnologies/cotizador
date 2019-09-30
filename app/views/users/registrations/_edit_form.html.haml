@@ -32,10 +32,10 @@
           = @user.email
       .col-6
         = f.label :user_type, class: "mb-0 text-primary font-weight-bold"
-        %select.form-control.form-control-sm{ name: "user[role]", id: "user_role" , required: true}
-          - User.roles.each do |key,value|
-            %option{:value => key}
-              = value
+        = f.select(:role,
+          options_for_select(User.roles.keys.map {|role| [role.titleize,role]}, @user.role),
+          {include_blank: t('users.registrations.new.role_blank')},
+          { class: "form-control form-control-sm", required: true })
     .form-row.actions
       .col-6
         -# %button.btn.btn-danger.btn-sm Reiniciar Contraseña
