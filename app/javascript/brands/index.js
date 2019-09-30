@@ -4,7 +4,7 @@ const CONFIRM_DELETE_USER_BODY = `
    Todas la información asociada a esta marca (productos, cotizaciones, etc.) seguirá existiendo.
 `;
 const CONFIRM_DELETE_USER_YES_TEXT = 'Sí, elimínala';
-const CONFIRM_DELETE_USER_NO_TEXT = 'Espera...';
+const CONFIRM_DELETE_USER_NO_TEXT = 'Cancelar';
 
 window.show_confirmation_modal = (element)=>{
    element = $(element);
@@ -23,12 +23,14 @@ window.show_new_brand_modal = (element)=>{
    $(`#${NEW_BRAND_MODAL}`).modal();
 }
 
-const EDIT_BRAND_MODAL = 'edit-brand-modal';
-const EDIT_BRAND_FORM = 'edit_brand';
-const EDIT_BRAND_URL = '/brands/';
-window .show_edit_brand_modal = (element)=>{
-   $(`#${EDIT_BRAND_MODAL}`).modal();
-   form = $(`#${EDIT_BRAND_FORM}`);
-   form.attr('action',`${EDIT_BRAND_URL}${$(element).attr('brand_id')}`);
-   form.find("#brand_name").val($(element).html());
+const ATTR_EDIT_FORM_TARGET = 'edit_form_target';
+window.show_hide_edit_form = (element)=>{
+   element = $(element);
+   var target = $(`#${element.attr(ATTR_EDIT_FORM_TARGET)}`);
+
+   if(target.hasClass('d-none')){
+      target.removeClass('d-none');
+   }else{
+      target.addClass('d-none');
+   }
 }

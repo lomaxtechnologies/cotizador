@@ -1,6 +1,5 @@
 = render partial: "confirmation_modal"
 = render partial: "new_modal"
-= render partial: "edit_modal"
 .row
   .col-md-12.col-lg-10.offset-lg-1.col-xl-8.offset-xl-2
     .form-row.mb-3
@@ -24,26 +23,35 @@
             %th= t('brands.name')
             %th
         %tbody
-        - @brands.each do |brand|
-          %tr
-            %td
-              %a{"data-toggle"=>"tooltip",
-              "data-placement"=>"top", 
-              title: t('brands.index.tooltip.edit_brand'), 
-              href: "javascript:void(0);", 
-              onclick: "show_edit_brand_modal(this)", 
-              brand_id: brand.id,
-              rel:"nofollow"}
-                = brand.name
-            %td.text-right
-              
-              %button.close{onclick: "show_confirmation_modal(this)",
-                action: brand_path(brand),
-                method: :delete,
-                "data-toggle"=>"tooltip",
-                "data-placement"=>"top", 
-                title: t('brands.index.tooltip.delete_brand')}
-                &times;
+          - @brands.each do |brand|
+            %tr
+              %td
+                %a{"data-toggle"=>"tooltip",
+                  "data-placement"=>"top", 
+                  title: t('brands.index.tooltip.edit_brand'), 
+                  href: "javascript:void(0);", 
+                  onclick: "show_hide_edit_form(this)", 
+                  edit_form_target: "form_brand_#{brand.id}",
+                  rel:"nofollow"}
+                  = brand.name
+                .d-none{id: "form_brand_#{brand.id}"}
+                  = form_for brand do |f|
+                    .form-row
+                      .col-11
+                        = f.text_field(:name,
+                          required: true,
+                          class: "form-control form-control-sm")
+                      .col-1
+                        = f.button class: "btn btn-success btn-sm btn-block", name: "commit", "data-disabled-with"=>t('brands.save'), value: t('brands.save') do
+                          %i.fas.fa-save &nbsp;
+              %td.text-right
+                %button.close{onclick: "show_confirmation_modal(this)",
+                  action: brand_path(brand),
+                  method: :delete,
+                  "data-toggle"=>"tooltip",
+                  "data-placement"=>"top", 
+                  title: t('brands.index.tooltip.delete_brand')}
+                  &times;
       = paginate @brands
     - else
       .text-center.text-muted.mt-5

@@ -1,7 +1,7 @@
 es:
   brands:
     save: Guardar
-    cancel: Espera...
+    cancel: Cancelar
     return: Regresar
     name: Nombre
     index:

@@ -9,7 +9,7 @@ class Brand < ApplicationRecord
   end
 
   def save
-    if new_record? && duplicated?
+    if duplicated?
       errors.add(:name, :duplicated)
       false
     else
