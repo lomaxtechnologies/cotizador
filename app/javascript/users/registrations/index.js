@@ -4,7 +4,7 @@ const CONFIRM_DELETE_USER_BODY = `
    Todas la información asociada a este usuario seguirá existiendo.
 `;
 const CONFIRM_DELETE_USER_YES_TEXT = 'Sí, elimínalo';
-const CONFIRM_DELETE_USER_NO_TEXT = 'Espera...';
+const CONFIRM_DELETE_USER_NO_TEXT = 'Cancelar';
 
 window.show_confirmation_modal = (element)=>{
    element = $(element);

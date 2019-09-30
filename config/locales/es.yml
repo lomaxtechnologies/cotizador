@@ -48,6 +48,12 @@ es:
       user:
         one: Usuario
         other: Usuarios
+    errors:
+      models:
+        brand:
+          attributes:
+            name:
+              duplicated: 'La marca ya se encuentra registrada.'
   devise:
     confirmations:
       confirmed: Tu cuenta ha sido confirmada satisfactoriamente.

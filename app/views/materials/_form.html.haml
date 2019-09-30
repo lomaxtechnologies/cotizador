@@ -2,10 +2,10 @@
   = form_for @material do |f|
     .form-row.mb-2
       = f.label :code, class: "mb-0 text-primary font-weight-bold font-weight-bold"
-      = f.phone_field :code, :required => true, class: "form-control form-control-sm"
+      = f.phone_field :code, required: true, class: "form-control form-control-sm"
     .form-row.mb-2
       = f.label :name, class:"mb-0 text-primary font-weight-bold font-weight-bold"
-      = f.text_field :name, :required => true, class: "form-control form-control-sm"
+      = f.text_field :name, required: true, class: "form-control form-control-sm"
     .form-row.mb-2
       = f.label :description, class: "mb-0 text-primary font-weight-bold"
       = f.text_field :description, class: "form-control form-control-sm"

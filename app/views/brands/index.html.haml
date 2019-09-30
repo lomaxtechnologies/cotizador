@@ -1,0 +1,59 @@
+= render partial: "confirmation_modal"
+= render partial: "new_modal"
+.row
+  .col-md-12.col-lg-10.offset-lg-1.col-xl-8.offset-xl-2
+    .form-row.mb-3
+      .col-2.my-auto
+        %h4.text-primary 
+          = t('brands.index.title')
+      .col-8
+        = search_form_for @q, url: brands_path do |f|
+          .input-group.mb-3
+            = f.text_field :name_cont, class: 'form-control  border border-dark',placeholder: t('brands.index.placeholder.search')
+            .input-group-append
+              %button.btn.border-dark.border-left-0{ type: "submit", value: "Search"}
+                %i.fas.fa-search.fa-sm
+      .col-2.text-right
+        %button.btn.btn-primary{onclick: "show_new_brand_modal()"}
+          = t('brands.index.new')
+    - if @brands.length > 0
+      %table.table.table-sm.table-striped
+        %thead
+          %tr.bg-primary.text-light
+            %th= t('brands.name')
+            %th
+        %tbody
+          - @brands.each do |brand|
+            %tr
+              %td
+                %a{"data-toggle"=>"tooltip",
+                  "data-placement"=>"top", 
+                  title: t('brands.index.tooltip.edit_brand'), 
+                  href: "javascript:void(0);", 
+                  onclick: "show_hide_edit_form(this)", 
+                  edit_form_target: "form_brand_#{brand.id}",
+                  rel:"nofollow"}
+                  = brand.name
+                .d-none{id: "form_brand_#{brand.id}"}
+                  = form_for brand do |f|
+                    .form-row
+                      .col-11
+                        = f.text_field(:name,
+                          required: true,
+                          class: "form-control form-control-sm")
+                      .col-1
+                        = f.button class: "btn btn-success btn-sm btn-block", name: "commit", "data-disabled-with"=>t('brands.save'), value: t('brands.save') do
+                          %i.fas.fa-save &nbsp;
+              %td.text-right
+                %button.close{onclick: "show_confirmation_modal(this)",
+                  action: brand_path(brand),
+                  method: :delete,
+                  "data-toggle"=>"tooltip",
+                  "data-placement"=>"top", 
+                  title: t('brands.index.tooltip.delete_brand')}
+                  &times;
+      = paginate @brands
+    - else
+      .text-center.text-muted.mt-5
+        %h2= t('brands.index.no_results_found')
+= javascript_pack_tag "brands/index", media: "all", "data-turbolinks-track": "reload"

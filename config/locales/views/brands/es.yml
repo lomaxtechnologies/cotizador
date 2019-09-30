@@ -1,0 +1,19 @@
+es:
+  brands:
+    save: Guardar
+    cancel: Cancelar
+    return: Regresar
+    name: Nombre
+    index:
+      title: Marcas
+      new: Nueva Marca
+      no_results_found: No hay resultados para mostrar.
+      placeholder:
+        search: Buscar Marca
+      tooltip:
+        edit_brand: Editar esta marca
+        delete_brand: Eliminar esta marca
+    new:
+      new_brand: Nueva Marca
+    edit:
+      edit_brand: Editar Marca

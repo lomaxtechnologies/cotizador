@@ -22,27 +22,31 @@
           %li.nav-item
             = link_to t('clients.index.title'), clients_path, class: 'nav-link'
           %li.nav-item
-            = link_to t('measure_units.index.title'), measure_units_path, class: 'nav-link'
-          %li.nav-item
-            = link_to t('materials.index.title'), materials_path, class: 'nav-link'
-            %li.nav-item
-              = link_to t('services.index.title'), services_path, class: 'nav-link'
+            = link_to t('services.index.title'), services_path, class: 'nav-link'
           %li.nav-item.dropdown
             %a#nav-dropdown-prices.nav-link.dropdown-toggle{"aria-expanded" => "false",
               "aria-haspopup" => "true",
               "data-toggle" => "dropdown",
               :href => "#",
               :role => "button"}
-              = t('prices.title')
+              = t('materials.index.title')
             .dropdown-menu{"aria-labelledby" => "nav-dropdown-prices"}
               .dropdown-item
-                = link_to prices_url do
-                  %i.nav-link.fas.fa-tasks
-                  = t('prices.manager')
+                = link_to materials_path do
+                  %i.nav-link.fas.fa-hammer
+                  = t('materials.index.title')
               .dropdown-item
-                = link_to new_price_path do
-                  %i.nav-link.fas.fa-file-excel
-                  = t('prices.upload')
+                = link_to brands_path do
+                  %i.nav-link.fas.fa-copyright
+                  = t('brands.index.title')
+              .dropdown-item
+                = link_to measure_units_path do
+                  %i.nav-link.fas.fa-ruler-combined
+                  = t('measure_units.index.title')
+              .dropdown-item
+                = link_to prices_path do
+                  %i.nav-link.fas.fa-dollar-sign
+                  = t('prices.title')
           %li.nav-item.dropdown
             %a#nav-dropdown-quotations.nav-link.dropdown-toggle{"aria-expanded" => "false",
               "aria-haspopup" => "true",
@@ -73,6 +77,10 @@
             method: :delete,
             class: "btn btn-outline-primary my-2 my-sm-0"
     .container-fluid
-      %p.notice= notice
+      - if notice.is_a? Array
+        - notice.each do |message|
+          %p.notice= message
+      - else
+        %p.notice= notice
       %p.alert= alert
       = yield
