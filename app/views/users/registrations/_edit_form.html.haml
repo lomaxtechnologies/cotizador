@@ -33,7 +33,7 @@
       .col-6
         = f.label :user_type, class: "mb-0 text-primary font-weight-bold"
         = f.select(:role,
-          options_for_select(User.roles.keys, @user.role),
+          options_for_select(User.roles.keys.map {|role| [role.titleize,role]}, @user.role),
           {include_blank: t('users.registrations.new.role_blank')},
           { class: "form-control form-control-sm", required: true })
     .form-row.actions

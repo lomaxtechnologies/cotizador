@@ -11,7 +11,7 @@ class User < ApplicationRecord
   paginates_per 10
 
   # All the possible roles are stored in this class variable
-  enum role: [:Administrador, :Consulta]
+  enum role: [:administrador, :consultor]
 
   validates :role, presence: true, inclusion: { in: :role }
 
