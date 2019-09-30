@@ -1,25 +1,19 @@
 class MeasureUnitsController < ApplicationController
-  layout "manager"
+layout "manager"
   before_action :set_measure_unit, only: [:show, :edit, :update, :destroy]
+  
 
   # GET /measure_units
   # GET /measure_units.json
   def index
-    @measure_units = MeasureUnit.all
-  end
-
-  # GET /measure_units/1
-  # GET /measure_units/1.json
-  def show
+    @q = MeasureUnit.ransack(search_measure_unit_params)
+    @measure_units = @q.result
+    @measure_units = @measure_units.page(params[:page])
   end
 
   # GET /measure_units/new
   def new
     @measure_unit = MeasureUnit.new
-  end
-
-  # GET /measure_units/1/edit
-  def edit
   end
 
   # POST /measure_units
@@ -29,8 +23,8 @@ class MeasureUnitsController < ApplicationController
 
     respond_to do |format|
       if @measure_unit.save
-        format.html { redirect_to @measure_unit, notice: t('.success') }
-        format.json { render :show, status: :created, location: @measure_unit }
+        format.html { redirect_to measure_units_url, notice: t('.success') }
+        format.json { render :index, status: :created, location: @measure_unit }
       else
         format.html { render :new }
         format.json { render json: @measure_unit.errors, status: :unprocessable_entity }
@@ -43,8 +37,8 @@ class MeasureUnitsController < ApplicationController
   def update
     respond_to do |format|
       if @measure_unit.update(measure_unit_params)
-        format.html { redirect_to @measure_unit, notice: t('.update') }
-        format.json { render :show, status: :ok, location: @measure_unit }
+        format.html { redirect_to measure_units_url, notice: t('.update') }
+        format.json { render :index, status: :ok, location: @measure_unit }
       else
         format.html { render :edit }
         format.json { render json: @measure_unit.errors, status: :unprocessable_entity }
@@ -57,9 +51,13 @@ class MeasureUnitsController < ApplicationController
   def destroy
     @measure_unit.destroy
     respond_to do |format|
-      format.html { redirect_to measure_units_url, notice: t('.destroy')}
+      format.html { redirect_to measure_units_url, notice: t('.destroy') }
       format.json { head :no_content }
     end
+  end
+
+  def  list_deleted_measure_units
+   @measure_units = MeasureUnit.only_deleted
   end
 
   private
@@ -71,5 +69,13 @@ class MeasureUnitsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def measure_unit_params
       params.require(:measure_unit).permit(:name, :unit_type)
+    end
+
+    def search_measure_unit_params
+      begin
+        return params.require(:q).permit(:name_cont)
+      rescue ActionController::ParameterMissing
+        return {email_cont: ""}
+      end
     end
 end

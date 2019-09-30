@@ -1,15 +1,16 @@
 .row
-  .col-12.col-md-10.offset-md-1
+  .col 
     .form-row.mb-3
-      .col-3
+      .col-2.my-auto
         %h4.text-primary= t('.title')
-      .col-6
-        .input-group.mb-3
-          .input-group-prepend
-            .input-group-text.border-dark
-              %i.fas.fa-search
-          %input.form-control.form-control-sm.border.border-dark{placeholder: t('.search') }
-      .col-3
+      .col-8
+        = search_form_for @q do |f|
+          .input-group
+            = f.text_field :name_cont, class: 'form-control'
+            %span.input-group-btn
+              %button.btn.border-dark{ :name => "commit", :type => "submit", :value => "Search"}
+                %i.fas.fa-search
+      .col-2.text-right
         = link_to t('.new'), new_measure_unit_path, class: "btn btn-primary"
     %table.table.table-sm.table-striped
       %thead
@@ -18,11 +19,15 @@
           %th= t('measure_units.unit_type')
           %th
       %tbody
-
-    -# @measure_units.each do |measure_unit|
-      %tr
-        %td= measure_unit.name
-        %td= measure_unit.unit_type
-        %td= link_to 'Show', measure_unit
-        %td= link_to 'Edit', edit_measure_unit_path(measure_unit)
-        %td= link_to 'Destroy', measure_unit, method: :delete, data: { confirm: 'Are you sure?' }
+        - @measure_units.each do |measure_unit|
+          %tr
+            %td= measure_unit.name
+            %td= measure_unit.unit_type
+            %td.text-right
+              %button.btn.btn-success.btm-sm
+                = link_to edit_measure_unit_path(measure_unit) do
+                  %i.fas.fa-edit.fa-xs.text-white
+              %button.btn.btn-danger.btm-sm
+                = link_to measure_unit, method: :delete, data: { confirm: '¿Estas seguro de eliminarlo' } do
+                  %i.fas.fa-trash-alt.fa-xs.text-white
+    = paginate @measure_units

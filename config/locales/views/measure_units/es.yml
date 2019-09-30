@@ -6,7 +6,7 @@ es:
     return: Regresar
     index:
       title: Unidades de Medida
-      new: Nueva
+      new: Nueva Unidad de Medida
       search: Buscar Unidad de Medida
     new:
       new_measure: Nueva Unidad de Medida
