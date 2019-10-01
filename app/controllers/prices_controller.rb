@@ -1,5 +1,4 @@
 class PricesController < ApplicationController
-  before_action only: [:show, :edit, :update, :destroy]
 layout "manager"
   # GET /prices
   # GET /prices.json
@@ -9,7 +8,8 @@ layout "manager"
 
   def import
     #MaterialsParser.new({path: params[:file]}).charge_data
-    redirect_to root_url, notice: "Prices imported."
+    notice = t('.import')
+    redirect_to prices_path, notice: notice
   end
   
 end
