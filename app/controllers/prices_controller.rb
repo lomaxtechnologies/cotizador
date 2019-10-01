@@ -6,8 +6,10 @@ layout "manager"
   def index
     @prices = Price.all
   end
+
   def import
-    Price.import(params[:file])
+    #MaterialsParser.new({path: params[:file]}).charge_data
     redirect_to root_url, notice: "Prices imported."
   end
+  
 end
