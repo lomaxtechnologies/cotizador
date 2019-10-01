@@ -2,11 +2,19 @@ es:
   users:
     name: Nombre
     email: Correo Electrónico
-    role: Tipo
+    password: Contraseña
+    new_password: Nueva Contraseña
+    password_confirmation: Confirmar Contraseña
+    role: Rol
     phone: Teléfono
     return: Regresar
     save: Guardar
     user_type: Tipo de Usuario
+    reset:
+      email_title: Reiniciar Contraseña
+      reset_title: Cambia tu Contraseña
+      verifications:
+        password_length: "(Mínimo %{length} caracteres)"
     registrations:
       index:
         title: Usuarios
@@ -21,9 +29,16 @@ es:
         edit: Editar
         back: Regresar
       account:
+        register: Registrate
         account: Mi Cuenta
         logout: Cerrar Sesión
         login: Iniciar Sesión
+        forgot_password: ¿Olvidaste tu contraseña?
+        reset_email_not_received: ¿No recibiste instrucciones de reinicio?
+        unlock_email_not_received: ¿No recibiste instrucciones para desbloquear?
+        omniauth: 'Inciar sesión con %{provider}'
+        send_reset_email: Envíar Correo
+        reset: Cambiar Contraseña
       new_form:
         name: Nombres(s)
         lastname: Apellido(s)
