@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   resources :materials
   resources :brands, except: [:edit, :show, :new]
 
+  get '/upload_prices', to: 'prices#upload'
+
   get '/account', to: 'users/registrations#account'
 
   get '/quotations', to: 'quotations#admin'

@@ -32,7 +32,7 @@ layout "manager"
         format.json { render :show, status: :created, location: @price }
       else
         format.html { render :new }
-        format.json { render json: @price.errors, status: :unprocessable_entity }
+        format.json { render json: @price.errors.full_messages, status: :unprocessable_entity }
       end
     end
   end
@@ -59,6 +59,11 @@ layout "manager"
       format.html { redirect_to prices_url, notice: 'Price was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def upload
+    path = 'storage/listado.xlsx'
+    MaterialsParser.new({path: path}).charge_data
   end
 
   private
