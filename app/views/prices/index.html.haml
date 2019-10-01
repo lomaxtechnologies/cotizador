@@ -1,5 +1,21 @@
  
-%h2 Import Prices
+%h2 Importar precios
 = form_tag import_prices_path, multipart: true 
-= file_field_tag :file
-= submit_tag "Importar"
+
+%button.btn.btn-primary.btn-lg{"data-target" => "#myModal", "data-toggle" => "modal", type: "button"}
+  Subir Excel
+#myModal.modal.fade{"aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+  .modal-dialog{role: "document"}
+    .modal-content
+      .modal-header
+        %h4#myModalLabel.modal-title{style: "text-align: left"} Subir Excel
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
+        %span{"aria-hidden" => "true"} X
+      .modal-body
+        1)Seleccione el archivo que desea cargar.
+        %br
+        2)De click en importar para cargar el archivo.
+      .modal-footer
+        = submit_tag "Importar"
+        = file_field_tag :file
+        
