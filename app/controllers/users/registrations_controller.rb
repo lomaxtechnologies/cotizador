@@ -13,20 +13,18 @@ class Users::RegistrationsController < ApplicationController
   # GET /registrations/new
   def new
     @user = User.new
-    @user_detail = UserDetail.new
+    @user.user_detail = UserDetail.new
   end
 
   # POST /registrations
   def create
     respond_to do |format|
-      @user = User.create_user(create_user_params, user_detail_params)
-      user_detail = @user.user_detail
-      if @user.errors.any? || user_detail.errors.any?
+      @user = User.create_user(create_user_params)
+      if @user.errors.any?
         notice = @user.errors.full_messages.join('.')
-        notice += user_detail.errors.full_messages.join('.')
         format.html { redirect_to new_users_registration_url, notice: notice }
       else
-        notice = t('.success', username: user_detail.name)
+        notice = t('.success', username: @user.user_detail.name)
         format.html { redirect_to users_registrations_url, notice: notice }
       end
     end
@@ -39,12 +37,11 @@ class Users::RegistrationsController < ApplicationController
   # PATCH/PUT /registrations/1
   def update
     respond_to do |format|
-      if @user.update_user(update_user_params, user_detail_params)
+      if @user.update(update_user_params)
         notice = t('.update', username: @user.user_detail.name)
         format.html { redirect_to users_registrations_url, notice: notice }
       else
         notice = @user.errors.full_messages.join('.')
-        notice += @user_detail.errors.full_messages.join('.')
         format.html { redirect_to edit_users_registration_url, notice: notice}
       end
     end
@@ -53,11 +50,10 @@ class Users::RegistrationsController < ApplicationController
   # DELETE /registrations/1
   def destroy
     respond_to do |format|
-      if @user.destroy_user
-        notice = t('.destroy',username: @user.user_detail.name)
+      if @user.destroy
+        notice = t('.destroy', username: @user.user_detail.name)
       else
         notice = @user.errors.full_messages.join('.')
-        notice += @user_detail.errors.full_messages.join('.')
       end
       format.html { redirect_to users_registrations_url, notice: notice }
     end
@@ -84,16 +80,15 @@ class Users::RegistrationsController < ApplicationController
 
   # Allows some params for user creation
   def create_user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :role)
+    params.require(:user).permit(
+      :email, :password, :password_confirmation, :role,
+      user_detail_attributes: [:name, :last_name, :phone]
+    )
   end
 
   # Allows some params for user modification
   def update_user_params
-    params.require(:user).permit(:password, :password_confirmation, :role)
+    params.require(:user).permit(:role, user_detail_attributes: [:name, :last_name, :phone])
   end
 
-  # Allows some params for user detal modification
-  def user_detail_params
-    params.require(:user_detail).permit(:name, :last_name, :phone)
-  end
 end
