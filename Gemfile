@@ -82,3 +82,6 @@ gem 'rails-i18n', '~> 6.0.0' # For 6.0.0 or higher
 
 # devise i18n
 gem 'devise-i18n'
+
+#rubyxl
+gem 'rubyXL'
