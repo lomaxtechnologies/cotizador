@@ -1,1 +1,1 @@
-import '../../../users/registrations/new.js'
+import '../../../users/registrations/password_handler.js'

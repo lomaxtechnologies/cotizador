@@ -4,6 +4,7 @@ es:
       user: Usuario
     attributes:
       user:
+        avatar: Foto de Perfil
         email: Correo Electrónico
         role: Rol
         password: Contraseña

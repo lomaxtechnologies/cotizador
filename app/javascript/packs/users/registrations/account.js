@@ -1,2 +1,1 @@
-import 'bootstrap/js/dist/tooltip'
-import '../../../application/tooltip_initializer.js'
+import '../../../users/registrations/password_handler.js'
