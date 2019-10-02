@@ -38,7 +38,7 @@ class Users::RegistrationsController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(update_user_params)
-        notice = t('.update', username: @user.email)
+        notice = t('.update', username: @user.user_detail.name)
         format.html { redirect_to users_registrations_url, notice: notice }
       else
         notice = @user.errors.full_messages.join('.')
@@ -51,7 +51,7 @@ class Users::RegistrationsController < ApplicationController
   def destroy
     respond_to do |format|
       if @user.destroy
-        notice = t('.destroy', username: @user.email)
+        notice = t('.destroy', username: @user.user_detail.name)
       else
         notice = @user.errors.full_messages.join('.')
       end
@@ -63,7 +63,7 @@ class Users::RegistrationsController < ApplicationController
   def reset_password
     respond_to do |format|
       if @user.reset_password
-        notice = t('.reset_password', username: @user.email)
+        notice = t('.reset_password', username: @user.user_detail.name)
       else
         notice = @user.errors.full_messages.join('.')
       end
