@@ -32,4 +32,18 @@ class User < ApplicationRecord
     user
   end
 
+  def generate_password
+    SecureRandom.base64(16)
+  end
+
+  def reset_password
+    new_password = generate_password
+    self.password = new_password
+    self.password_confirmation = new_password
+    save
+    UserMailer.password_reset_email(self).deliver
+    puts("---- THE NEW PASSWORD IS #{new_password}")
+    return true
+  end
+
 end

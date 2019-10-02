@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :brands, except: [:edit, :show, :new]
 
   get '/account', to: 'users/registrations#account'
+  post '/users/registrations/reset-password/:id', to: 'users/registrations#reset_password' , as: 'reset_password_users_registration'
 
   get '/quotations', to: 'quotations#admin'
 

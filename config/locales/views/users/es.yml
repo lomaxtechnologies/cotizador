@@ -46,6 +46,10 @@ es:
       edit_form:
         name: Nombres(s)
         lastname: Apellido(s)
+        reset:
+          title: Reiniciar Contraseña
+          body: "¿Estas seguro que deseas reiniciar la contraseña de este usuario? Una nueva contraseña será generada y enviada al correo: %{email}" 
+          confirm: "Sí, reiniciala"
         role: Rol
       account_form:
         save: Actualizar mis datos
