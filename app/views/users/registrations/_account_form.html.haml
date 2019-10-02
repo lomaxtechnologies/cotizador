@@ -2,12 +2,13 @@
   = form_for @user, url: user_account_url, method: :put do |f|
     = f.fields_for :user_detail do |nested_form|
       .form-row
-        = image_tag "default-profile-picture.png", 
-          alt: "logo", 
-          class: "rounded mx-auto d-block img-thumbnail clickable", 
-          "data-toggle"=>"tooltip", 
-          "data-placement"=>"top", 
-          title:t(".edit_image")
+        - if @user.avatar.attached?
+          %image{src: url_for(@user.avatar), class: "rounded mx-auto d-block img-thumbnail avatar" }
+        - else
+          = image_tag "default-profile-picture.png", alt: "profile_picture", class: "rounded mx-auto d-block img-thumbnail"
+      .form_row.mb-2
+        = f.label :avatar, class: "mb-0 text-primary font-weight-bold"
+        = f.file_field :avatar, class: "form-control-file"
       .form-row.mb-2
         = nested_form.label :name, class:"mb-0 text-primary font-weight-bold"
         = nested_form.text_field :name, class: "form-control form-control-sm"

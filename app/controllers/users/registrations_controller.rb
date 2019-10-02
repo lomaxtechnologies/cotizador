@@ -120,6 +120,7 @@ class Users::RegistrationsController < ApplicationController
   # Allows some params for a user to update their own account
   def update_self_params
     params.require(:user).permit(
+      :avatar,
       :password,
       :password_confirmation,
       user_detail_attributes: %i[name last_name phone]

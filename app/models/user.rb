@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :quotations
   has_many :attachments
   has_many :comments
+  has_one_attached :avatar
 
   accepts_nested_attributes_for :user_detail, update_only: true
 
@@ -40,6 +41,9 @@ class User < ApplicationRecord
     if user_params[:password].empty?
       user_params = user_params.except(:password,:password_confirmation)
     end
+    puts "-----------------"
+    puts user_params
+    puts "-----------------"
     update(user_params)
   end
 
