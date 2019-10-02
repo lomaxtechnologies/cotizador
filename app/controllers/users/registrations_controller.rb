@@ -1,6 +1,6 @@
 class Users::RegistrationsController < ApplicationController
   layout 'manager'
-  before_action :set_registration, only: %i[show edit update destroy]
+  before_action :set_registration, only: %i[show edit update destroy reset_password]
 
   # GET /registrations
   # GET /registrations.json
@@ -52,6 +52,18 @@ class Users::RegistrationsController < ApplicationController
     respond_to do |format|
       if @user.destroy
         notice = t('.destroy', username: @user.user_detail.name)
+      else
+        notice = @user.errors.full_messages.join('.')
+      end
+      format.html { redirect_to users_registrations_url, notice: notice }
+    end
+  end
+
+  # POST /reset-password/1
+  def reset_password
+    respond_to do |format|
+      if @user.reset_password
+        notice = t('.reset_password', username: @user.user_detail.name)
       else
         notice = @user.errors.full_messages.join('.')
       end

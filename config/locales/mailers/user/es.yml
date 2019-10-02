@@ -1,0 +1,8 @@
+es:
+  password_reset_email:
+    subject: 'Su Contraseña ha sido Reiniciada'
+    action: 'Ingresa aquí'
+    greeting: '¡Hola %{name}!'
+    instruction: 'Su contraseña ha sido reiniciada por un administrador. Por favor ingrese al portal del cotizador con el enlace de abajo y utlize la siguiente contraseña: '
+    instruction_2: 'Una vez adentro, le recomendamos cambiar la contraseña por una de su preferencia.'
+    instruction_3: 'Si no esta al tanto de este reinicio, por favor comuniquese con uno de los administradores para mas información.' 

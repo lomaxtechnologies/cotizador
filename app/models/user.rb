@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
-  # :confirmable, :registerable, :trackable and :omniauthable
-  devise :database_authenticatable, :lockable, :timeoutable, :recoverable, :rememberable, :validatable
+  # :confirmable, :registerable, :trackable and :omniauthable, :lockable
+  devise :database_authenticatable, :timeoutable, :recoverable, :rememberable, :validatable
   acts_as_paranoid
   has_one :user_detail
   has_many :quotations
@@ -30,6 +30,20 @@ class User < ApplicationRecord
       user.errors.add(:role, :does_not_exist)
     end
     user
+  end
+
+  def generate_password
+    SecureRandom.base64(16)
+  end
+
+  def reset_password
+    new_password = generate_password
+    self.password = new_password
+    self.password_confirmation = new_password
+    save
+    UserMailer.password_reset_email(self).deliver
+    puts("---- THE NEW PASSWORD IS #{new_password}")
+    return true
   end
 
 end

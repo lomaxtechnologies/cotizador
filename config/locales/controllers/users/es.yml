@@ -4,6 +4,8 @@ es:
       create:
         success: "El usuario %{username} ha sido creado satisfactoriamente"
       update:
-        update: "El usuario %{username} ha sido actualizada exitosamente"
+        update: "El usuario %{username} ha sido actualizada satisfactoriamente"
       destroy:
-        destroy: "El usuario %{username} ha sido eliminado exitosamente"
+        destroy: "El usuario %{username} ha sido eliminado satisfactoriamente"
+      reset_password:
+        reset_password: "La contraseña del usuario %{username} ha sido reiniciada satisfactoriamente"

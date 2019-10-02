@@ -26,6 +26,7 @@
             { class: "form-control form-control-sm", required: true })
       .form-row.actions
         .col-6
-          %button.btn.btn-danger.btn-sm Reiniciar Contraseña
+          %button.btn.btn-danger.btn-sm{type: "button", "data-toggle"=>"modal", "data-target"=>"#reset-password-confirmation-modal"}
+            Reiniciar Contraseña
         .col-6.text-right
           = f.submit t('users.save'), class: "btn btn-primary btn-sm px-2"
