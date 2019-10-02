@@ -76,7 +76,7 @@
             destroy_user_session_path,
             method: :delete,
             class: "btn btn-outline-primary my-2 my-sm-0"
-    .container-fluid
+    .container-fluid.mb-5.pb-5
       - if notice.is_a? Array
         - notice.each do |message|
           %p.notice= message

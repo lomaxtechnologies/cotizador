@@ -1,9 +1,13 @@
 .card.card-body
   = form_for @user, url: user_account_url, method: :put do |f|
     = f.fields_for :user_detail do |nested_form|
-      .form-row.mb-2
-        .col-4.offset-4.text-center
-          .i.fas.fa-portrait.fa-10x
+      .form-row
+        = image_tag "default-profile-picture.png", 
+          alt: "logo", 
+          class: "rounded mx-auto d-block img-thumbnail clickable", 
+          "data-toggle"=>"tooltip", 
+          "data-placement"=>"top", 
+          title:t(".edit_image")
       .form-row.mb-2
         = nested_form.label :name, class:"mb-0 text-primary font-weight-bold"
         = nested_form.text_field :name, class: "form-control form-control-sm"
