@@ -1,6 +1,11 @@
 .card.card-body
   = form_for @user, url: users_registration_path do |f|
     = f.fields_for :user_detail do |nested_form|
+      .form-row
+        - if @user.avatar.attached?
+          = image_tag url_for(@user.avatar), alt: "profile_picture", class: "rounded mx-auto d-block img-thumbnail avatar"
+        - else
+          = image_tag "default-profile-picture.png", alt: "profile_picture", class: "rounded mx-auto d-block img-thumbnail"
       .form-row.mb-2
         .col-12
           = nested_form.label :name, class:"mb-0 text-primary font-weight-bold"
