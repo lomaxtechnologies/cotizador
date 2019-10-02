@@ -76,6 +76,20 @@ class Users::RegistrationsController < ApplicationController
     @user = current_user
   end
 
+  # POST /account
+  def update_account
+    @user = current_user
+    respond_to do |format|
+      if @user.update_own_account(update_self_params)
+        sign_in(@user,bypass: true)
+        notice = t('.update', username: @user.user_detail.name)
+      else
+        notice = @user.errors.full_messages.join('.')
+      end
+      format.html { redirect_to user_account_url, notice: notice }
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -94,13 +108,21 @@ class Users::RegistrationsController < ApplicationController
   def create_user_params
     params.require(:user).permit(
       :email, :password, :password_confirmation, :role,
-      user_detail_attributes: [:name, :last_name, :phone]
+      user_detail_attributes: %i[name last_name phone]
     )
   end
 
   # Allows some params for user modification
   def update_user_params
-    params.require(:user).permit(:role, user_detail_attributes: [:name, :last_name, :phone])
+    params.require(:user).permit(:role, user_detail_attributes: %i[name last_name phone])
   end
 
+  # Allows some params for a user to update their own account
+  def update_self_params
+    params.require(:user).permit(
+      :password,
+      :password_confirmation,
+      user_detail_attributes: %i[name last_name phone]
+    )
+  end
 end

@@ -1,5 +1,5 @@
 .card.card-body
-  = form_for @user, url: users_registrations_path do |f|
+  = form_for @user, url: user_account_url, method: :put do |f|
     = f.fields_for :user_detail do |nested_form|
       .form-row.mb-2
         .col-4.offset-4.text-center

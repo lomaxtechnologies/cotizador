@@ -36,13 +36,19 @@ class User < ApplicationRecord
     SecureRandom.base64(16)
   end
 
+  def update_own_account(user_params)
+    if user_params[:password].empty?
+      user_params = user_params.except(:password,:password_confirmation)
+    end
+    update(user_params)
+  end
+
   def reset_password
     new_password = generate_password
     self.password = new_password
     self.password_confirmation = new_password
     save
     UserMailer.password_reset_email(self).deliver
-    puts("---- THE NEW PASSWORD IS #{new_password}")
     return true
   end
 
