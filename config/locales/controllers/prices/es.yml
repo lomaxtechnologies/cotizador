@@ -1,5 +1,7 @@
 es:
   prices:
+    import:
+      import: Se ha importado el archivo y actualizado los precios.
     create:
       success: El precio fue creado.
     update:

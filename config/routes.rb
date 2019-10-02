@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   end
   resources :measure_units
   resources :clients
-  resources :prices
+  resources :prices do
+    collection { post :import }
+  end
   resources :materials
   resources :brands, except: [:edit, :show, :new]
 
