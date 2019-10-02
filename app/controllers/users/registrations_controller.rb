@@ -62,7 +62,7 @@ class Users::RegistrationsController < ApplicationController
   # POST /reset-password/1
   def reset_password
     respond_to do |format|
-      if @user.reset_password
+      if @user.generate_and_reset_password
         notice = t('.reset_password', username: @user.user_detail.name)
       else
         notice = @user.errors.full_messages.join('.')

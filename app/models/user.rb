@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :attachments
   has_many :comments
   has_one_attached :avatar
+  validate :correct_avatar_file_type
 
   accepts_nested_attributes_for :user_detail, update_only: true
 
@@ -39,21 +40,25 @@ class User < ApplicationRecord
 
   def update_own_account(user_params)
     if user_params[:password].empty?
-      user_params = user_params.except(:password,:password_confirmation)
+      user_params = user_params.except(:password, :password_confirmation)
     end
-    puts "-----------------"
-    puts user_params
-    puts "-----------------"
     update(user_params)
   end
 
-  def reset_password
+  def generate_and_reset_password
     new_password = generate_password
-    self.password = new_password
-    self.password_confirmation = new_password
-    save
+    return false unless reset_password(new_password,new_password)
+
     UserMailer.password_reset_email(self).deliver
     return true
+  end
+
+  private
+
+  def correct_avatar_file_type
+    if avatar.attached? && !avatar.content_type.in?(['image/png', 'image/gif', 'image/jpg', 'image/jpeg'])
+      errors.add(:avatar, :invalid_file_type)
+    end
   end
 
 end

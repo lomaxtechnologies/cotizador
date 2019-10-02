@@ -8,7 +8,7 @@
           = image_tag "default-profile-picture.png", alt: "profile_picture", class: "rounded mx-auto d-block img-thumbnail"
       .form_row.mb-2
         = f.label :avatar, class: "mb-0 text-primary font-weight-bold"
-        = f.file_field :avatar, class: "form-control-file"
+        = f.file_field :avatar, class: "form-control-file", accept: 'image/*'
       .form-row.mb-2
         = nested_form.label :name, class:"mb-0 text-primary font-weight-bold"
         = nested_form.text_field :name, class: "form-control form-control-sm", required: true
@@ -26,8 +26,7 @@
         .col-6
           = f.label :password,  class: "mb-0 text-primary font-weight-bold"
           = f.password_field(:password, 
-            class: "form-control form-control-sm", 
-            required: true, 
+            class: "form-control form-control-sm",
             minlength:6,
             confirmation: "user_password_confirmation", 
             onchange: "confirm_password(this)")
@@ -36,7 +35,6 @@
           = f.password_field(:password_confirmation, 
             class: "form-control form-control-sm", 
             minlength:6,
-            required: true, 
             confirmation: "user_password", 
             onchange: "confirm_password(this)")
       .form-row.mb-2

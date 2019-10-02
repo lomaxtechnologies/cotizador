@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   put '/account', to: 'users/registrations#update_account'
 
   # Allows admin users to reset other users's passwords
-  post '/users/registrations/reset-password/:id', to: 'users/registrations#reset_password' , as: 'reset_password_users_registration'
+  post '/users/registrations/reset-password/:id', to: 'users/registrations#reset_password', as: 'reset_password_users_registration'
 
   get '/quotations', to: 'quotations#admin'
 
