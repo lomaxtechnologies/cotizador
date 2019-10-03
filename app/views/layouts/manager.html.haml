@@ -69,14 +69,14 @@
           = link_to users_registrations_path, class: "mr-3" do
             %i.fas.fa-users
             = t('users.registrations.index.title')
-          = link_to account_path, class: "mr-3" do
+          = link_to user_account_path, class: "mr-3" do
             %i.fas.fa-user-circle
             = t('users.registrations.account.account')
           = link_to t('users.registrations.account.logout'),
             destroy_user_session_path,
             method: :delete,
             class: "btn btn-outline-primary my-2 my-sm-0"
-    .container-fluid
+    .container-fluid.mb-5.pb-5
       - if notice.is_a? Array
         - notice.each do |message|
           %p.notice= message
