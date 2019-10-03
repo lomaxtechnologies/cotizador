@@ -17,3 +17,21 @@
     width:200px;
     height:200px;
 }
+
+.alert{
+    font-weight: bold;
+    margin-top:10px;
+    z-index: 999;
+    margin-left:2%;
+    position: absolute;
+    background-color: rgb(248, 108, 107);
+}
+
+.notice{
+    font-weight: bold;
+    margin-top:10px;
+    z-index: 999;
+    margin-left:2%;
+    position: absolute;
+    background-color: rgb(99, 194, 222);
+}

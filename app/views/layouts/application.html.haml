@@ -8,6 +8,8 @@
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   %body
-    %p.notice= notice
-    %p.alert= alert
-    = yield
+    .container-fluid
+      - if notice || alert
+        = render partial: "notifications"
+      .pt-5
+        = yield

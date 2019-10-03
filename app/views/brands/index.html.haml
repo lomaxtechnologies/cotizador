@@ -3,9 +3,9 @@
 .row
   .col-md-12.col-lg-10.offset-lg-1.col-xl-8.offset-xl-2
     .form-row.mb-3
-      .col-2.my-auto
+      .col-12.my-auto
         %h4.text-primary 
-          = t('brands.index.title')
+          %b= t('brands.index.title')
       .col-8
         = search_form_for @q, url: brands_path do |f|
           .input-group.mb-3

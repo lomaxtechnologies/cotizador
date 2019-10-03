@@ -7,6 +7,8 @@
     = csp_meta_tag
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   %body
+    - if notice || alert
+      = render partial: "notifications"
     %nav.navbar.navbar-expand-lg.bg-gray
       %a.navbar-brand{:href => "/"}
         %i.fas.fa-home.fa-lg
@@ -76,11 +78,5 @@
             destroy_user_session_path,
             method: :delete,
             class: "btn btn-outline-primary my-2 my-sm-0"
-    .container-fluid.mb-5.pb-5
-      - if notice.is_a? Array
-        - notice.each do |message|
-          %p.notice= message
-      - else
-        %p.notice= notice
-      %p.alert= alert
+    .container-fluid.pb-5.pt-5
       = yield
