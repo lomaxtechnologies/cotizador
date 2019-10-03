@@ -1,3 +1,5 @@
 class Price < ApplicationRecord
-    belongs_to :product
+  acts_as_paranoid
+  belongs_to :product
+  paginates_per 10
 end

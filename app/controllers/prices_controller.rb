@@ -63,7 +63,7 @@ layout "manager"
 
   def upload
     path = 'storage/listado.xlsx'
-    MaterialsParser.new({path: path}).charge_data
+    MaterialsParser.new({path: path}).load_data
   end
 
   private

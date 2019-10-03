@@ -83,5 +83,8 @@ gem 'rails-i18n', '~> 6.0.0' # For 6.0.0 or higher
 # devise i18n
 gem 'devise-i18n'
 
-# RubyXÑ
+# RubyXL
 gem 'rubyXL', '~> 3.4.6'
+
+# RubyZip
+gem 'rubyzip'
