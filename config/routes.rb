@@ -12,10 +12,14 @@ Rails.application.routes.draw do
   resources :materials
   resources :brands, except: [:edit, :show, :new]
 
+  # Allows users to manage their own account
+  get '/account', to: 'users/registrations#account', as: 'user_account'
+  put '/account', to: 'users/registrations#update_account'
   get '/upload_prices', to: 'prices#upload'
 
-  get '/account', to: 'users/registrations#account'
-  post '/users/registrations/reset-password/:id', to: 'users/registrations#reset_password' , as: 'reset_password_users_registration'
+
+  # Allows admin users to reset other users's passwords
+  post '/users/registrations/reset-password/:id', to: 'users/registrations#reset_password', as: 'reset_password_users_registration'
 
   get '/quotations', to: 'quotations#admin'
 

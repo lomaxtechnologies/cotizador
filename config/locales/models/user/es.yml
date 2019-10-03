@@ -4,6 +4,7 @@ es:
       user: Usuario
     attributes:
       user:
+        avatar: Foto de Perfil
         email: Correo Electrónico
         role: Rol
         password: Contraseña
@@ -14,3 +15,5 @@ es:
             attributes:
               role:
                 does_not_exist: 'El rol seleccionado no existe'
+              avatar:
+                invalid_file_type: 'El archivo seleccionado no es una imagen'
