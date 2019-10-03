@@ -23,14 +23,25 @@ window.show_new_brand_modal = (element)=>{
    $(`#${NEW_BRAND_MODAL}`).modal();
 }
 
+window.hide_all_edit_forms = function(){
+   $('#brands-body').find('a').each(function(){
+      var element = $(this);
+      var target = $(`#${element.attr(ATTR_EDIT_FORM_TARGET)}`);
+      target.addClass('d-none');
+      element.removeClass('d-none');
+   });
+}
+
 const ATTR_EDIT_FORM_TARGET = 'edit_form_target';
 window.show_hide_edit_form = (element)=>{
    element = $(element);
    var target = $(`#${element.attr(ATTR_EDIT_FORM_TARGET)}`);
-
+   hide_all_edit_forms();
    if(target.hasClass('d-none')){
       target.removeClass('d-none');
+      element.addClass('d-none');
    }else{
       target.addClass('d-none');
+      element.removeClass('d-none');
    }
 }

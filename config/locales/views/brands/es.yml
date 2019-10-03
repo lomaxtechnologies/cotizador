@@ -2,14 +2,16 @@ es:
   brands:
     save: Guardar
     cancel: Cancelar
+    search: Buscar
     return: Regresar
     name: Nombre
     index:
-      title: Marcas
+      search_title: Filtrar por
+      title: Administración de Marcas
       new: Nueva Marca
       no_results_found: No hay resultados para mostrar.
       placeholder:
-        search: Buscar Marca
+        search: Nombre de la Marca
       tooltip:
         edit_brand: Editar esta marca
         delete_brand: Eliminar esta marca
