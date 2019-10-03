@@ -1,0 +1,9 @@
+es:
+  activerecord:
+    models:
+      user_detail: Detalle del Usuario
+    attributes:
+      user_detail:
+        name: Nombre(s)
+        last_name: Apellido(s)
+        phone: Teléfono

@@ -1,19 +1,32 @@
-%h2 Change your password
-= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-  = render "devise/shared/error_messages", resource: resource
-  = f.hidden_field :reset_password_token
-  .field
-    = f.label :password, "New password"
-    %br/
-    - if @minimum_password_length
-      %em
-        (#{@minimum_password_length} characters minimum)
-      %br/
-    = f.password_field :password, autofocus: true, autocomplete: "new-password"
-  .field
-    = f.label :password_confirmation, "Confirm new password"
-    %br/
-    = f.password_field :password_confirmation, autocomplete: "new-password"
-  .actions
-    = f.submit "Change my password"
-= render "devise/shared/links"
+.row
+  .col-12.col-md-8.offset-md-2.col-lg-4.offset-lg-4
+    .card
+      .card-body
+        .row.mb-4
+          .col-8.offset-2
+            = image_tag "lomax-logo.png", alt: "logo", class: "img-fluid"
+        %h4.text-center
+          %b= t('users.reset.reset_title')
+        = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+          = render "devise/shared/error_messages", resource: resource
+          = f.hidden_field :reset_password_token
+          - if @minimum_password_length
+            .text-right
+              %em
+                = t('users.reset.verifications.password_length',length:@minimum_password_length)
+          .input-group.mb-3
+            .input-group-prepend
+              .input-group-text
+                %i.fas.fa-key
+            = f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-control",placeholder: t('users.new_password')
+          .input-group.mb-3
+            .input-group-prepend
+              .input-group-text
+                %i.fas.fa-key
+            = f.password_field :password_confirmation, autofocus: true, autocomplete: "new-password", class: "form-control",placeholder: t('users.password_confirmation')
+          .row
+            .col-12.text-center.mb-4
+              .actions
+                = f.submit t('users.registrations.account.reset'), class: "btn btn-primary btn-block"
+          .input-group.mb-3
+            = render "devise/shared/links"

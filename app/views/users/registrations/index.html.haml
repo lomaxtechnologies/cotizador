@@ -24,25 +24,25 @@
             %th= t('users.role')
             %th
         %tbody
-        - @users.each do |user|
-          - user_detail = user.user_detail
-          %tr
-            %td
-              = user.email
-            %td 
-              = user_detail.name
-              = user_detail.last_name
-            %td
-              = user_detail.phone
-            %td
-              = User.role_index_to_string(user.role)
-            %td.text-right
-              = link_to edit_users_registration_path(user), class: "btn btn-success btm-sm mr-1" do
-                %i.fas.fa-edit.fa-xs
-              %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
-                action: users_registration_path(user),
-                method: :delete}
-                %i.fas.fa-trash-alt.fa-xs
+          - @users.each do |user|
+            - user_detail = user.user_detail
+            %tr
+              %td
+                = user.email
+              %td 
+                = user_detail.name
+                = user_detail.last_name
+              %td
+                = user_detail.phone
+              %td
+                = user.role.capitalize
+              %td.text-right
+                = link_to edit_users_registration_path(user), class: "btn btn-success btm-sm mr-1" do
+                  %i.fas.fa-edit.fa-xs
+                %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
+                  action: users_registration_path(user),
+                  method: :delete}
+                  %i.fas.fa-trash-alt.fa-xs
       = paginate @users
     - else
       .text-center.text-muted.mt-5

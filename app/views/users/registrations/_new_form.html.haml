@@ -1,49 +1,45 @@
 .card.card-body
-  = form_with scope:@user, url: users_registrations_path, name: "users-registration-form" do |f|
-    - if @user.errors.any? || @user_detail.errors.any?
-      #error_explanation
-        - error_count = @user.errors.count + @user_detail.errors.count
-        %h2= "#{pluralize(error_count, "error")} prohibited this user from being saved:"
-        %ul
-          - @user.errors.full_messages.each do |message|
-            %li= message
-          - @user_detail.errors.full_messages.each do |message|
-            %li = message
-    .form-row.mb-2
-      = f.label t('.name'), class:"mb-0 text-primary font-weight-bold", for: "user_detail_name"
-      %input{ type:"text", class: "form-control form-control-sm", name: "user_detail[name]", id: "user_detail_name", required: true}
-    .form-row.mb-2
-      = f.label t('.lastname'), class:"mb-0 text-primary font-weight-bold", for: "user_detail_name"
-      %input{ type:"text", class: "form-control form-control-sm", name: "user_detail[last_name]", id: "user_detail_last_name" }
-    .form-row.mb-2
-      = f.label t('users.phone'), class:"mb-0 text-primary font-weight-bold", for: "user_detail_phone"
-      %input{ type:"text", class: "form-control form-control-sm", name: "user_detail[phone]", id: "user_detail_phone" }
-    .form-row.mb-2
-      .col-6
-        = f.label :email, class: "mb-0 text-primary font-weight-bold"
-        = f.email_field :email, class: "form-control form-control-sm", required: true
-      .col-6
-        = f.label :role, class: "mb-0 text-primary font-weight-bold"
-        %select.form-control.form-control-sm{ name: "user[role]", id: "user_role", required: true}
-          - User.roles.each do |key,value|
-            %option{:value => key}
-              = value
-    .form-row.mb-2
-      = f.label :password, class: "mb-0 text-primary font-weight-bold"
-      = f.password_field(:password, 
-        class: "form-control form-control-sm", 
-        required: true, 
-        minlength:6,
-        confirmation: "user_password_confirmation", 
-        onchange: "confirm_password(this)")
-    .form-row.mb-2
-      = f.label :password_confirmation, class: "mb-0 text-primary font-weight-bold"
-      = f.password_field(:password_confirmation, 
-        class: "form-control form-control-sm", 
-        minlength:6,
-        required: true, 
-        confirmation: "user_password", 
-        onchange: "confirm_password(this)")
-    .form-row.actions.text-right
-      .col-12
-        = f.submit t('users.save'), class: "btn btn-primary btn-sm px-2"
+  = form_for @user, url: users_registrations_path do |f|
+    = f.fields_for :user_detail do |nested_form|
+      .form-row.mb-2
+        .col-12
+          = nested_form.label :name, class:"mb-0 text-primary font-weight-bold"
+          = nested_form.text_field :name, class: "form-control form-control-sm", required: true
+      .form-row.mb-2
+        .col-12
+          = nested_form.label :last_name, class:"mb-0 text-primary font-weight-bold"
+          = nested_form.text_field :last_name, class: "form-control form-control-sm"
+      .form-row.mb-2
+        .col-6
+          = f.label :email, class: "mb-0 text-primary font-weight-bold"
+          = f.email_field :email, class: "form-control form-control-sm", required: true
+        .col-6
+          = nested_form.label :phone, class:"mb-0 text-primary font-weight-bold"
+          = nested_form.text_field :phone, class: "form-control form-control-sm"
+      .form-row.mb-2
+        .col-6
+          = f.label :password, class: "mb-0 text-primary font-weight-bold"
+          = f.password_field(:password, 
+            class: "form-control form-control-sm", 
+            required: true, 
+            minlength:6,
+            confirmation: "user_password_confirmation", 
+            onchange: "confirm_password(this)")
+        .col-6
+          = f.label :password_confirmation, class: "mb-0 text-primary font-weight-bold"
+          = f.password_field(:password_confirmation, 
+            class: "form-control form-control-sm", 
+            minlength:6,
+            required: true, 
+            confirmation: "user_password", 
+            onchange: "confirm_password(this)")
+      .form-row.mb-2
+        .col-6
+          = f.label :role, class: "mb-0 text-primary font-weight-bold"
+          = f.select(:role,
+            options_for_select(User.roles.keys.map {|role| [role.titleize,role]}, :administrador),
+            {include_blank: t('users.registrations.new.role_blank')},
+            { class: "form-control form-control-sm", required: true })
+        .col-2.offset-4.text-right.actions
+          %label.mb-0.text-primary.font-weight-bold &nbsp;
+          = f.submit t('users.save'), class: "btn btn-primary btn-block btn-sm px-2"

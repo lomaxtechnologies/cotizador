@@ -1,43 +1,32 @@
 .card.card-body
-  = form_with scope: @user, url: users_registration_path, method: :put do |f|
-    - if @user.errors.any?
-      #error_explanation
-        %h2= "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
-        %ul
-          - @user.errors.full_messages.each do |message|
-            %li= message
-    .form-row.mb-2
-      = f.label  t('.name'), class:"mb-0 text-primary font-weight-bold", for:"user_detail_name"
-      %input{class: "form-control form-control-sm",
-        name:"user_detail[name]",
-        id:"user_detail_name",
-        required: true,
-        value: @user.user_detail.name}
-    .form-row.mb-2
-      = f.label  t('.lastname'), class:"mb-0 text-primary font-weight-bold", for:"user_detail_last_name"
-      %input{class: "form-control form-control-sm",
-        name:"user_detail[last_name]",
-        id:"user_detail_last_name",
-        value: @user.user_detail.last_name}
-    .form-row.mb-2
-      = f.label  t('users.phone'), class:"mb-0 text-primary font-weight-bold", for:"user_detail_phone"
-      %input{class: "form-control form-control-sm",
-        name:"user_detail[phone]",
-        id:"user_detail_phone",
-        value: @user.user_detail.phone}
-    .form-row.mb-2
-      .col-6
-        = f.label :email, class: "mb-0 text-primary font-weight-bold"
-        %span.form-control.form-control-sm
-          = @user.email
-      .col-6
-        = f.label :user_type, class: "mb-0 text-primary font-weight-bold"
-        %select.form-control.form-control-sm{ name: "user[role]", id: "user_role" , required: true}
-          - User.roles.each do |key,value|
-            %option{:value => key}
-              = value
-    .form-row.actions
-      .col-6
-        -# %button.btn.btn-danger.btn-sm Reiniciar Contraseña
-      .col-6.text-right
-        = f.submit t('users.save'), class: "btn btn-primary btn-sm px-2"
+  = form_for @user, url: users_registration_path do |f|
+    = f.fields_for :user_detail do |nested_form|
+      .form-row.mb-2
+        .col-12
+          = nested_form.label :name, class:"mb-0 text-primary font-weight-bold"
+          = nested_form.text_field :name, class: "form-control form-control-sm", required: true
+      .form-row.mb-2
+        .col-12
+          = nested_form.label :last_name, class:"mb-0 text-primary font-weight-bold"
+          = nested_form.text_field :last_name, class: "form-control form-control-sm"
+      .form-row.mb-2
+        .col-6
+          = f.label :email, class: "mb-0 text-primary font-weight-bold"
+          %span.form-control.form-control-sm.text-muted
+            = @user.email
+        .col-6
+          = nested_form.label :phone, class:"mb-0 text-primary font-weight-bold"
+          = nested_form.text_field :phone, class: "form-control form-control-sm"
+      .form-row.mb-2
+        .col-6
+          = f.label :role, class: "mb-0 text-primary font-weight-bold"
+          = f.select(:role,
+            options_for_select(User.roles.keys.map {|role| [role.titleize,role]}, @user.role),
+            {include_blank: t('users.registrations.new.role_blank')},
+            { class: "form-control form-control-sm", required: true })
+      .form-row.actions
+        .col-6
+          %button.btn.btn-danger.btn-sm{type: "button", "data-toggle"=>"modal", "data-target"=>"#reset-password-confirmation-modal"}
+            Reiniciar Contraseña
+        .col-6.text-right
+          = f.submit t('users.save'), class: "btn btn-primary btn-sm px-2"

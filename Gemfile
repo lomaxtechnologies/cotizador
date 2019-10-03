@@ -63,6 +63,7 @@ gem 'haml-rails'
 group :development, :test do
   gem 'rspec-rails'
   gem 'factory_bot_rails'
+  gem 'letter_opener_web'
 end
 
 # ActsAsParanoid
@@ -83,8 +84,8 @@ gem 'rails-i18n', '~> 6.0.0' # For 6.0.0 or higher
 # devise i18n
 gem 'devise-i18n'
 
-# RubyXL
-gem 'rubyXL', '~> 3.4.6'
+#rubyxl
+gem 'rubyXL'
 
 # RubyZip
 gem 'rubyzip'
