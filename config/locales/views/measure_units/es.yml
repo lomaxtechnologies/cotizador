@@ -12,10 +12,10 @@ es:
       new: Nueva Unidad de Medida
       search: Buscar Unidad de Medida
       placeholder:
-        search: Nombre del material
+        search: Nombre de la unidad de medida
       tooltip:
-        edit_brand: Editar este material
-        delete_brand: Eliminar este material
+        edit_brand: Editar esta unidad de medida
+        delete_brand: Eliminar esta unidad de medida
     new:
       new_measure: Nueva Unidad de Medida
     edit:
