@@ -37,7 +37,7 @@ class PricesController < ApplicationController
     if result.success?
       redirect_to prices_path, notice: t('.upload')
     else
-      redirect_to prices_path, notice: result.errors
+      redirect_to prices_path, alert: result.errors
     end
   end
 

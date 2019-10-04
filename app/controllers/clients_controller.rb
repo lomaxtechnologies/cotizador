@@ -41,8 +41,8 @@ class ClientsController < ApplicationController
   def update
     respond_to do |format|
       if @client.update(client_params)
-      notice = t('.update', name: @client.name)
-        format.html { redirect_to clients_path, alert: notice }
+        notice = t('.update', name: @client.name)
+        format.html { redirect_to clients_path, notice: notice }
       else
         alert = @client.errors.full_messages.join('.')
         format.html { redirect_to clients_path, alert: alert }
