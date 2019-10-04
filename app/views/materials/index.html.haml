@@ -1,36 +1,55 @@
+= render partial: "confirmation_modal"
 .row
-  .col
-    .form-row.mb-3
-      .col-2.my-auto
-        %h4.text-primary= t('.title')
-      .col-8
-        = search_form_for @q do |f|
-          .input-group
-            = f.text_field :name_cont, class: 'form-control'
-            %span.input-group-btn
-              %button.btn.border-dark{ :name => "commit", :type => "submit", :value => "Search"}
-                %i.fas.fa-search
-      .col-2.text-right
-        = link_to 'Nuevo Material', new_material_path, class: "btn btn-primary"
-    %table.table.table-sm.table-striped
-      %thead
-        %tr.bg-primary.text-light
-          %th= t('.code')
-          %th= t('.name')
-          %th= t('.description')
-          %th
-      %tbody
-        %tr
+  .col-md-12.col-lg-10.offset-lg-1
+    .form-row
+      .col-12
+        .card
+          .card-header
+            .row
+              .col-8
+                %h4.text-primary 
+                  %b= t('.title')
+              .col-4.text-right
+                = link_to t('.new'), new_material_path, class: "btn btn-primary"
+          .card-body
+            .form-row
+              .col-12.mb-2
+                %b= t('materials.index.search_title')
+            = search_form_for @q, url: materials_path do |f|
+              .form-row
+                .col-10
+                  = f.text_field :name_cont, class: 'form-control',placeholder: t('materials.index.placeholder.search')
+                .col-2.text-right
+                  %button.btn-block.btn.btn-purple{ type: "submit", value: "Search"}
+                    %i.fas.fa-search.fa-sm
+                    = t('materials.search')
+    - if @materials.length > 0
+      %table.table.table-sm.table-striped
+        %thead{onclick: "hide_all_edit_forms()"}
+          %tr.bg-primary.text-light
+            %th= t('materials.code')
+            %th= t('materials.name')
+            %th= t('materials.description')
+            %th
+        %tbody#materials-body
         - @materials.each do |material|
           %tr
-            %td= material.code
-            %td= material.name
-            %td= material.description
+            %td 
+              %span{id: "title_material_#{material.id}"}= material.code
+            %td 
+              %span{id: "title_material_#{material.id}"}= material.name
+            %td 
+              %span{id: "title_material_#{material.id}"}= material.description
             %td.text-right
               %button.btn.btn-success.btm-sm
                 = link_to edit_material_path(material) do
                   %i.fas.fa-edit.fa-xs.text-white
-              %button.btn.btn-danger.btm-sm
-                = link_to material, method: :delete, data: { confirm: "¿Estas seguro de eliminar #{material.name}?" } do
-                  %i.fas.fa-trash-alt.fa-xs.text-white
-    = paginate @materials
+                %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
+                  action: material_path(material),
+                  method: :delete}
+                  %i.fas.fa-trash-alt.fa-xs
+      = paginate @materials
+    - else
+      .text-center.text-muted.mt-5
+        %h2= t('materials.index.no_results_found')
+= javascript_pack_tag "materials/index", media: "all", "data-turbolinks-track": "reload"
