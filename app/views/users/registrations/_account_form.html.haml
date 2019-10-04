@@ -1,46 +1,82 @@
-.card.card-body
-  = form_for @user, url: user_account_url, method: :put do |f|
-    = f.fields_for :user_detail do |nested_form|
-      .form-row
-        - if @user.avatar.attached?
-          = image_tag url_for(@user.avatar), alt: "profile_picture", class: "rounded mx-auto d-block img-thumbnail avatar"
-        - else
-          = image_tag "default-profile-picture.png", alt: "profile_picture", class: "rounded mx-auto d-block img-thumbnail"
-      .form_row.mb-2
-        = f.label :avatar, class: "mb-0 text-primary font-weight-bold"
-        = f.file_field :avatar, class: "form-control-file", accept: 'image/*'
-      .form-row.mb-2
-        = nested_form.label :name, class:"mb-0 text-primary font-weight-bold"
-        = nested_form.text_field :name, class: "form-control form-control-sm", required: true
-      .form-row.mb-2
-        = nested_form.label :last_name, class:"mb-0 text-primary font-weight-bold"
-        = nested_form.text_field :last_name, class: "form-control form-control-sm"
-      .form-row.mb-2
-        .col-6
-          = f.label :email, class: "mb-0 text-primary font-weight-bold"
-          %span.form-control.form-control-sm.text-muted= @user.email
-        .col-6
-          = nested_form.label :phone,  class: "mb-0 text-primary font-weight-bold"
-          = nested_form.text_field :phone, class: "form-control form-control-sm"
-      .form-row.mb-2
-        .col-6
-          = f.label :password,  class: "mb-0 text-primary font-weight-bold"
-          = f.password_field(:password, 
-            class: "form-control form-control-sm",
-            minlength:6,
-            confirmation: "user_password_confirmation", 
-            onchange: "confirm_password(this)")
-        .col-6
-          = f.label :password_confirmation, class: "mb-0 text-primary font-weight-bold"
-          = f.password_field(:password_confirmation, 
-            class: "form-control form-control-sm", 
-            minlength:6,
-            confirmation: "user_password", 
-            onchange: "confirm_password(this)")
-      .form-row.mb-2
-        .col-6
-          = f.label :role,  class: "mb-0 text-primary font-weight-bold"
-          %span.form-control.form-control-sm.text-muted= @user.role.capitalize
-      .form-row.actions.text-right
-        .col-12
-          = f.submit t('users.save'), class: "btn btn-primary btn-sm px-2"
+.card
+  .card-header
+    .row
+      .col-6
+        %h4.text-primary
+          %b= t('users.registrations.account.account')
+      .col-6.text-right
+        = link_to users_registrations_path do
+          %i.fas.fa-undo
+          = t('users.return')
+  .card-body
+    = form_for @user, url: user_account_url, method: :put do |f|
+      = f.fields_for :user_detail do |nested_form|
+        .form-row
+          - if @user.avatar.attached?
+            = image_tag url_for(@user.avatar), alt: "profile_picture", class: "rounded mx-auto d-block img-thumbnail avatar"
+          - else
+            = image_tag "default-profile-picture.png", alt: "profile_picture", class: "rounded mx-auto d-block img-thumbnail"
+        .form_row.mb-2
+          = f.label :avatar, class: "mb-0 text-primary font-weight-bold"
+          = f.file_field :avatar, class: "form-control-file", accept: 'image/*'
+        .form-row.mb-2
+          .col-12
+            = nested_form.label :name, class:"mb-0 text-primary font-weight-bold"
+            .input-group.mb-2
+              .input-group-prepend
+                .input-group-text
+                  %i.fas.fa-pencil-alt
+              = nested_form.text_field :name, class: "form-control form-control-sm", required: true
+        .form-row.mb-2
+          .col-12
+            = nested_form.label :last_name, class:"mb-0 text-primary font-weight-bold"
+            .input-group.mb-2
+              .input-group-prepend
+                .input-group-text
+                  %i.fas.fa-pencil-alt
+              = nested_form.text_field :last_name, class: "form-control form-control-sm"
+        .form-row.mb-2
+          .col-6
+            = f.label :email, class: "mb-0 text-primary font-weight-bold"
+            .input-group.mb-2
+              .input-group-prepend
+                .input-group-text
+                  %i.fas.fa-envelope
+              %span.form-control.form-control-sm.text-muted
+                = @user.email
+          .col-6
+            = nested_form.label :phone, class:"mb-0 text-primary font-weight-bold"
+            .input-group.mb-2
+              .input-group-prepend
+                .input-group-text
+                  %i.fas.fa-phone
+              = nested_form.text_field :phone, class: "form-control form-control-sm"
+          .col-6
+            = f.label :password,  class: "mb-0 text-primary font-weight-bold"
+            .input-group.mb-2
+              .input-group-prepend
+                .input-group-text
+                  %i.fas.fa-key
+              = f.password_field(:password, 
+                class: "form-control form-control-sm",
+                minlength:6,
+                confirmation: "user_password_confirmation", 
+                onchange: "confirm_password(this)")
+          .col-6
+            = f.label :password_confirmation, class: "mb-0 text-primary font-weight-bold"
+            .input-group.mb-2
+              .input-group-prepend
+                .input-group-text
+                  %i.fas.fa-key
+              = f.password_field(:password_confirmation, 
+                class: "form-control form-control-sm", 
+                minlength:6,
+                confirmation: "user_password", 
+                onchange: "confirm_password(this)")
+        .form-row.mb-2
+          .col-6
+            = f.label :role,  class: "mb-0 text-primary font-weight-bold"
+            %span.form-control.form-control-sm.text-muted= @user.role.capitalize
+        .form-row.actions.text-right
+          .col-12
+            = f.submit t('users.save'), class: "btn btn-primary btn-sm px-2"
