@@ -1,21 +1,52 @@
  
-%h2 Importar precios
-= form_tag import_prices_path, multipart: true 
-
-%button.btn.btn-primary.btn-lg{"data-target" => "#myModal", "data-toggle" => "modal", type: "button"}
-  Subir Excel
-#myModal.modal.fade{"aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
-  .modal-dialog{role: "document"}
-    .modal-content
-      .modal-header
-        %h4#myModalLabel.modal-title{style: "text-align: left"} Subir Excel
-        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
-        %span{"aria-hidden" => "true"} X
-      .modal-body
-        1)Seleccione el archivo que desea cargar.
-        %br
-        2)De click en importar para cargar el archivo.
-      .modal-footer
-        = submit_tag "Importar"
-        = file_field_tag :file
-        
+.row
+  .col-2.offset-md-1
+    %h2 Precios
+  .col-6
+    .input-group
+      %input.form-control
+      %span.input-group-btn
+        %button.btn.border-dark{ :name => "commit", :type => "submit", :value => "Search"}
+          %i.fas.fa-search
+  .col-2
+    %button.btn.btn-primary.btn-lg{"data-target" => "#myModal", "data-toggle" => "modal", type: "button"}
+      = t('prices.upload')
+    #myModal.modal.fade{"aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+      .modal-dialog{role: "document"}
+        .modal-content
+          .modal-header
+            %h4#myModalLabel.modal-title{style: "text-align: left"}= t('prices.upload')
+            %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
+            %span{"aria-hidden" => "true"} X
+          .modal-body
+            1)Seleccione el archivo que desea cargar.
+            %br
+            2)De click en importar para cargar el archivo.
+          .modal-footer
+            = form_tag upload_prices_path, multipart: true do
+              = submit_tag "Importar"
+              = file_field_tag :file
+    %button.btn.btn-primary.btn-lg
+      %i.fas.fa-download.fa-xs.text-white 
+      Excel
+.row
+  .col-12
+    %table.table.table-sm.table-striped
+      %thead
+        %tr.bg-primary.text-light
+          %th= t('prices.code')
+          %th= t('prices.material')
+          %th= t('prices.measure_unit')
+          %th= t('prices.price')
+      %tbody
+        - @products.each do |product|
+          %tr
+            %td= Material.find(product.material_id).code
+            %td= Material.find(product.material_id).name
+            %td= MeasureUnit.find(product.measure_unit_id).name
+            %td
+              - price = product.price
+              = form_for price do |f|
+                = f.text_field :prices, :value => product.price.prices, class: 'form-control-sm'
+                = f.submit t('prices.save'), class: 'btn btn-success '
+    = paginate @products      

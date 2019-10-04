@@ -1,0 +1,4 @@
+es:
+  materials_parser:
+    noformat: 'No utiliza el formato estandarizado'
+    nofile: 'No es un archivo permitido'

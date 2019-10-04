@@ -3,3 +3,8 @@ es:
     title: Productos
     manager: Administrar
     upload: Subir Excel
+    code: Código
+    material: Material
+    price: Precio
+    measure_unit: Unidad
+    save: Guardar

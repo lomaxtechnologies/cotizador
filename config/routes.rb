@@ -6,17 +6,17 @@ Rails.application.routes.draw do
   end
   resources :measure_units
   resources :clients
-  resources :prices do
-    collection { post :import }
-  end
+  resources :prices
+  
+  post '/prices/upload', to: 'prices#upload', as: 'upload_prices'
+
   resources :materials
   resources :brands, except: [:edit, :show, :new]
+
 
   # Allows users to manage their own account
   get '/account', to: 'users/registrations#account', as: 'user_account'
   put '/account', to: 'users/registrations#update_account'
-  get '/upload_prices', to: 'prices#upload'
-
 
   # Allows admin users to reset other users's passwords
   post '/users/registrations/reset-password/:id', to: 'users/registrations#reset_password', as: 'reset_password_users_registration'

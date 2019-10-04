@@ -1,5 +1,7 @@
 es:
   title: Cotizador
+  noformat: 'No utiliza el formato estandarizado'
+  nofile: 'No a seleccionado un archivo'
   #Added kaminari es
   helpers:
     page_entries_info:
