@@ -3,7 +3,7 @@
 = render partial: "confirmation_modal"
 .row
   .col-2.offset-md-1
-    %h2 Precios
+    %h2= t('prices.title')
   .col-6
     .input-group
       %input.form-control
@@ -21,12 +21,12 @@
             %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
             %span{"aria-hidden" => "true"} X
           .modal-body
-            1)Seleccione el archivo que desea cargar.
+            = t('.instruction1')
             %br
-            2)De click en importar para cargar el archivo.
+            = t('.instruction2')
           .modal-footer
             = form_tag upload_prices_path, multipart: true do
-              = submit_tag "Importar"
+              = submit_tag t('.import')
               = file_field_tag :file
     -#%button.btn.btn-primary.btn-lg{action: }
       %i.fas.fa-download.fa-xs.text-white 

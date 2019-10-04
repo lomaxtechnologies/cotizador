@@ -9,6 +9,9 @@ es:
     measure_unit: Unidad
     save: Guardar
     index:
+      import: Importar
+      instruction1: '1)Seleccione el archivo que desea cargar.'
+      instruction2: '2)De click en importar para cargar el archivo.'
       tooltip:
         edit_brand: Editar esta marca
         delete_brand: Eliminar esta marca

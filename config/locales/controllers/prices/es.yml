@@ -5,6 +5,6 @@ es:
     create:
       success: El precio fue creado.
     update:
-      update: El precio se actualizó.
+      update: El precio se actualizó satisfactoriamente.
     destroy:
       destroy: "El precio ha sido eliminado satisfactoriamente."

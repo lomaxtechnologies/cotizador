@@ -18,7 +18,7 @@ class PricesController < ApplicationController
     @price.destroy
     price = Price.new(prices_params)
     price.save
-    redirect_to prices_path, notice: "Precio actualizado"
+    redirect_to prices_path, notice: t('.update')
   end
 
   def destroy
@@ -31,12 +31,11 @@ class PricesController < ApplicationController
 
   def upload
     result = OpenStruct.new(success?: true, errors: nil)
-    x = Thread.new do
+    active_thread = Thread.new do
       result = MaterialsParser.new({path: params[:file]}).load_data
     end
     if result.success?
-      notice = t('.upload')
-      redirect_to prices_path, notice: notice
+      redirect_to prices_path, notice: t('.upload')
     else
       redirect_to prices_path, notice: result.errors
     end
