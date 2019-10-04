@@ -1,23 +1,35 @@
 = javascript_pack_tag "users/registrations/index", media: "all", "data-turbolinks-track": "reload"
 = render partial: "confirmation_modal"
 .row
+  .col-md-12.col-lg-10.offset-lg-1
+    .form-row
+      .col-12
+        .card
+          .card-header
+            .row
+              .col-8
+                %h4.text-primary
+                  %b= t('.title')
+              .col-4.text-right
+                = link_to t('.new'), new_users_registration_path, class: "btn btn-primary"
+          .card-body
+            .form-row
+              .col-12.mb-2
+                %b= t('.search_title')
+            = search_form_for @q, url: users_registrations_path do |f|
+              .form-row
+                .col-10
+                  = f.text_field :email_cont, class: 'form-control',placeholder: t('.placeholder.search')
+                .col-2.text-right
+                  %button.btn-block.btn.btn-purple{ type: "submit", value: "Search"}
+                    %i.fas.fa-search.fa-sm
+                    = t('.search')
   .col-12
-    .form-row.mb-3
-      .col-2.my-auto
-        %h4.text-primary= t('.title')
-      .col-8
-        = search_form_for @q, url: users_registrations_path do |f|
-          .input-group.mb-3
-            = f.text_field :email_cont, class: 'form-control  border border-dark',placeholder: "Buscar Usuario"
-            .input-group-append
-              %button.btn.border-dark.border-left-0{ type: "submit", value: t('.search')}
-                %i.fas.fa-search.fa-sm
-      .col-2.text-right
-        = link_to t('.new'), new_users_registration_path, class: "btn btn-primary"
     - if @users.length > 0
       %table.table.table-sm.table-striped
         %thead
           %tr.bg-primary.text-light
+            %th= t('users.avatar')
             %th= t('users.email')
             %th= t('users.name')
             %th= t('users.phone')
@@ -28,18 +40,27 @@
             - user_detail = user.user_detail
             %tr
               %td
+                - if user.avatar.attached?
+                  = image_tag(url_for(user.avatar), 
+                    alt: "profile_picture", 
+                    class: "rounded mx-auto d-block img-thumbnail avatar-xs")
+                - else
+                  = image_tag("default-profile-picture.png",
+                    alt: "profile_picture", 
+                    class: "rounded mx-auto d-block img-thumbnail avatar-xs")
+              %td.align-middle
                 = user.email
-              %td 
+              %td.align-middle
                 = user_detail.name
                 = user_detail.last_name
-              %td
+              %td.align-middle
                 = user_detail.phone
-              %td
+              %td.align-middle
                 = user.role.capitalize
-              %td.text-right
+              %td.text-right.align-middle
                 = link_to edit_users_registration_path(user), class: "btn btn-success btm-sm mr-1" do
                   %i.fas.fa-edit.fa-xs
-                %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
+                %button.btn.btn-danger.btm-sm.mr-1{onclick: "show_confirmation_modal(this)",
                   action: users_registration_path(user),
                   method: :delete}
                   %i.fas.fa-trash-alt.fa-xs

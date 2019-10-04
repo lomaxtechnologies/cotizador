@@ -13,8 +13,8 @@
             .input-group-prepend
               .input-group-text
                 %i.fas.fa-envelope
-            = f.email_field :email, autofocus: true,
-            autocomplete: "email", class: "form-control",placeholder: t('users.email')
+            = f.email_field(:email, autofocus: true, required: true,
+            autocomplete: "email", class: "form-control",placeholder: t('users.email'))
           .row
             .col-12.text-center.mb-4
               .actions

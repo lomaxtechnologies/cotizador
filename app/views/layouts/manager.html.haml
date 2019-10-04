@@ -7,8 +7,10 @@
     = csp_meta_tag
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   %body
-    %nav.navbar.navbar-expand-lg.bg-gray
-      %a.navbar-brand{:href => "/"}
+    - if notice || alert
+      = render partial: "notifications"
+    %nav.navbar.navbar-expand-lg.bg-nav-color
+      %a.navbar-brand.color-nav-icon{:href => "/"}
         %i.fas.fa-home.fa-lg
       %button.navbar-light.navbar-toggler{"aria-controls" => "navbarSupportedContent",
         "aria-expanded" => "false",
@@ -20,11 +22,11 @@
       #navbarSupportedContent.collapse.navbar-collapse
         %ul.navbar-nav.mr-auto
           %li.nav-item
-            = link_to t('clients.index.title'), clients_path, class: 'nav-link'
+            = link_to t('clients.index.title'), clients_path, id: 'color-nav', class: 'nav-link' 
           %li.nav-item
-            = link_to t('services.index.title'), services_path, class: 'nav-link'
+            = link_to t('services.index.title'), services_path, id: 'color-nav', class: 'nav-link'
           %li.nav-item.dropdown
-            %a#nav-dropdown-prices.nav-link.dropdown-toggle{"aria-expanded" => "false",
+            %a#color-nav.nav-link.dropdown-toggle{"aria-expanded" => "false",
               "aria-haspopup" => "true",
               "data-toggle" => "dropdown",
               :href => "#",
@@ -48,7 +50,7 @@
                   %i.nav-link.fas.fa-dollar-sign
                   = t('prices.title')
           %li.nav-item.dropdown
-            %a#nav-dropdown-quotations.nav-link.dropdown-toggle{"aria-expanded" => "false",
+            %a#color-nav.nav-link.dropdown-toggle{"aria-expanded" => "false",
               "aria-haspopup" => "true",
               "data-toggle" => "dropdown",
               :href => "#",
@@ -66,21 +68,16 @@
                 %i.fas.fa-eraser
                 = t('quotations.deleted_list')
         %form.form-inline.my-2.my-lg-0
-          = link_to users_registrations_path, class: "mr-3" do
+          = link_to users_registrations_path, id: 'color-nav', class: "mr-3" do
             %i.fas.fa-users
             = t('users.registrations.index.title')
-          = link_to user_account_path, class: "mr-3" do
+          = link_to user_account_path, id: 'color-nav', class: "mr-3" do
             %i.fas.fa-user-circle
             = t('users.registrations.account.account')
           = link_to t('users.registrations.account.logout'),
             destroy_user_session_path,
             method: :delete,
-            class: "btn btn-outline-primary my-2 my-sm-0"
-    .container-fluid.mb-5.pb-5
-      - if notice.is_a? Array
-        - notice.each do |message|
-          %p.notice= message
-      - else
-        %p.notice= notice
-      %p.alert= alert
+            class: "btn btn-outline-primary my-2 my-sm-0",
+            id: "color-nav"
+    .container-fluid.pb-5.pt-5
       = yield

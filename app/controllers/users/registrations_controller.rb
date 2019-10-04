@@ -21,8 +21,8 @@ class Users::RegistrationsController < ApplicationController
     respond_to do |format|
       @user = User.create_user(create_user_params)
       if @user.errors.any?
-        notice = @user.errors.full_messages.join('.')
-        format.html { redirect_to new_users_registration_url, notice: notice }
+        alert = @user.errors.full_messages.join('.')
+        format.html { redirect_to new_users_registration_url, alert: alert }
       else
         notice = t('.success', username: @user.user_detail.name)
         format.html { redirect_to users_registrations_url, notice: notice }
@@ -41,8 +41,8 @@ class Users::RegistrationsController < ApplicationController
         notice = t('.update', username: @user.user_detail.name)
         format.html { redirect_to users_registrations_url, notice: notice }
       else
-        notice = @user.errors.full_messages.join('.')
-        format.html { redirect_to edit_users_registration_url, notice: notice}
+        alert = @user.errors.full_messages.join('.')
+        format.html { redirect_to edit_users_registration_url, alert: alert}
       end
     end
   end
@@ -52,10 +52,11 @@ class Users::RegistrationsController < ApplicationController
     respond_to do |format|
       if @user.destroy
         notice = t('.destroy', username: @user.user_detail.name)
+        format.html { redirect_to users_registrations_url, notice: notice }
       else
-        notice = @user.errors.full_messages.join('.')
+        alert = @user.errors.full_messages.join('.')
+        format.html { redirect_to users_registrations_url, alert: alert }
       end
-      format.html { redirect_to users_registrations_url, notice: notice }
     end
   end
 
@@ -64,10 +65,11 @@ class Users::RegistrationsController < ApplicationController
     respond_to do |format|
       if @user.generate_and_reset_password
         notice = t('.reset_password', username: @user.user_detail.name)
+        format.html { redirect_to users_registrations_url, notice: notice }
       else
-        notice = @user.errors.full_messages.join('.')
+        alert = @user.errors.full_messages.join('.')
+        format.html { redirect_to users_registrations_url, alert: alert }
       end
-      format.html { redirect_to users_registrations_url, notice: notice }
     end
   end
 
@@ -81,12 +83,13 @@ class Users::RegistrationsController < ApplicationController
     @user = current_user
     respond_to do |format|
       if @user.update_own_account(update_self_params)
-        sign_in(@user,bypass: true)
+        sign_in(@user, bypass: true)
         notice = t('.update', username: @user.user_detail.name)
+        format.html { redirect_to user_account_url, notice: notice }
       else
-        notice = @user.errors.full_messages.join('.')
+        alert = @user.errors.full_messages.join('.')
+        format.html { redirect_to user_account_url, alert: alert }
       end
-      format.html { redirect_to user_account_url, notice: notice }
     end
   end
 

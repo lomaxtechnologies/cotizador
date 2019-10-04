@@ -1,33 +1,53 @@
+= render partial: "confirmation_modal"
 .row
-  .col 
-    .form-row.mb-3
-      .col-2.my-auto
-        %h4.text-primary= t('.title')
-      .col-8
-        = search_form_for @q do |f|
-          .input-group
-            = f.text_field :name_cont, class: 'form-control'
-            %span.input-group-btn
-              %button.btn.border-dark{ :name => "commit", :type => "submit", :value => "Search"}
-                %i.fas.fa-search
-      .col-2.text-right
-        = link_to t('.new'), new_measure_unit_path, class: "btn btn-primary"
-    %table.table.table-sm.table-striped
-      %thead
-        %tr.bg-primary.text-light
-          %th= t('measure_units.name')
-          %th= t('measure_units.unit_type')
-          %th
-      %tbody
-        - @measure_units.each do |measure_unit|
-          %tr
-            %td= measure_unit.name
-            %td= measure_unit.unit_type
-            %td.text-right
-              %button.btn.btn-success.btm-sm
-                = link_to edit_measure_unit_path(measure_unit) do
-                  %i.fas.fa-edit.fa-xs.text-white
-              %button.btn.btn-danger.btm-sm
-                = link_to measure_unit, method: :delete, data: { confirm: '¿Estas seguro de eliminarlo' } do
-                  %i.fas.fa-trash-alt.fa-xs.text-white
-    = paginate @measure_units
+  .col-md-12.col-lg-10.offset-lg-1
+    .form-row
+      .col-12
+        .card
+          .card-header
+            .row
+              .col-8
+                %h4.text-primary 
+                  %b= t('.title')
+              .col-4.text-right
+                = link_to t('.new'), new_measure_unit_path, class: "btn btn-primary"
+          .card-body
+            .form-row
+              .col-12.mb-2
+                %b= t('measure_units.index.search_title')
+            = search_form_for @q, url: measure_units_path do |f|
+              .form-row
+                .col-10
+                  = f.text_field :name_cont, class: 'form-control',placeholder: t('measure_units.index.placeholder.search')
+                .col-2.text-right
+                  %button.btn-block.btn.btn-purple{ type: "submit", value: "Search"}
+                    %i.fas.fa-search.fa-sm
+                    = t('measure_units.search')
+    - if @measure_units.length > 0
+      %table.table.table-sm.table-striped
+        %thead{onclick: "hide_all_edit_forms()"}
+          %tr.bg-primary.text-light
+            %th= t('measure_units.name')
+            %th= t('measure_units.unit_type')
+            %th
+          %tbody#measure_units-body
+          - @measure_units.each do |measure_unit|
+            %tr
+              %td 
+                %span{id: "title_measure_unit_#{measure_unit.id}"}= measure_unit.name
+              %td 
+                %span{id: "title_measure_unit_#{measure_unit.id}"}= measure_unit.unit_type
+              %td.text-right
+                %button.btn.btn-success.btm-sm
+                  = link_to edit_measure_unit_path(measure_unit) do
+                    %i.fas.fa-edit.fa-xs.text-white
+                %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
+                  action: measure_unit_path(measure_unit),
+                  method: :delete}
+                  %i.fas.fa-trash-alt.fa-xs
+      = paginate @measure_units
+    - else
+      .text-center.text-muted.mt-3
+        %h2= t('measure_units.index.no_results_found')
+= javascript_pack_tag "measure_units/index", media: "all", "data-turbolinks-track": "reload"
+

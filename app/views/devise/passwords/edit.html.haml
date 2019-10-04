@@ -18,12 +18,14 @@
             .input-group-prepend
               .input-group-text
                 %i.fas.fa-key
-            = f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-control",placeholder: t('users.new_password')
+            = f.password_field(:password, autofocus: true, autocomplete: "new-password", required: true,
+              class: "form-control",placeholder: t('users.new_password'))
           .input-group.mb-3
             .input-group-prepend
               .input-group-text
                 %i.fas.fa-key
-            = f.password_field :password_confirmation, autofocus: true, autocomplete: "new-password", class: "form-control",placeholder: t('users.password_confirmation')
+            = f.password_field(:password_confirmation, autofocus: true, required: true,
+              autocomplete: "new-password", class: "form-control",placeholder: t('users.password_confirmation'))
           .row
             .col-12.text-center.mb-4
               .actions

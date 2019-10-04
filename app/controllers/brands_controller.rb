@@ -18,14 +18,12 @@ class BrandsController < ApplicationController
 
     respond_to do |format|
       if @brand.save
-        notice = t('.success',name:@brand.name)
+        notice = t('.success', name: @brand.name)
+        format.html { redirect_to brands_path, notice: notice}
       else
-        notice = []
-        @brand.errors.each do |_attribute, error|
-          notice.push(error)
-        end
+        alert = @brand.errors.full_messages.join('.')
+        format.html { redirect_to brands_path, alert: alert}
       end
-      format.html { redirect_to brands_path, notice: notice}
     end
   end
 
@@ -35,13 +33,11 @@ class BrandsController < ApplicationController
     respond_to do |format|
       if @brand.update(brand_params)
         notice = t('.update', name: @brand.name)
+        format.html { redirect_to brands_path, alert: notice }
       else
-        notice = []
-        @brand.errors.full_messages.each do |error|
-          notice.push(error)
-        end
+        alert = @brand.errors.full_messages.join('.')
+        format.html { redirect_to brands_path, alert: alert }
       end
-      format.html { redirect_to brands_path, notice: notice }
     end
   end
 
@@ -51,7 +47,7 @@ class BrandsController < ApplicationController
     @brand.destroy
     respond_to do |format|
       notice = t('.destroy', name: @brand.name)
-      format.html { redirect_to brands_url, notice: notice }
+      format.html { redirect_to brands_url, alert: notice }
     end
   end
 

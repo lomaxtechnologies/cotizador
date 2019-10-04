@@ -12,14 +12,14 @@
             .input-group-prepend
               .input-group-text
                 %i.fas.fa-envelope
-            = f.email_field :email, autofocus: true,
-            autocomplete: "email", class: "form-control",placeholder: t('users.email')
+            = f.email_field(:email, autofocus: true,
+            autocomplete: "email", class: "form-control",placeholder: t('users.email'), required: true)
           .input-group.mb-1
             .input-group-prepend
               .input-group-text
                 %i.fas.fa-key
-            = f.password_field :password, autofocus: true,
-            autocomplete: "current-password", class: "form-control",placeholder: t('users.password')
+            = f.password_field(:password, autofocus: true,
+            autocomplete: "current-password", class: "form-control",placeholder: t('users.password'), required: true)
           .input-group.mb-3
             = render "devise/shared/links"
           .row

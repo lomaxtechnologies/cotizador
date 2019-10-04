@@ -2,14 +2,23 @@ es:
   clients:
     save: Guardar
     return: Regresar
+    search: Buscar
     name: Nombre
     address: Dirección
     nit: NIT 
     phone: Teléfono
     index:
+      search_title: Filtrar por
       title: Clientes
+      no_results_found: No hay resultados para mostrar.
       new: Nuevo Cliente
+      placeholder:
+        search: Nombre del cliente
+      tooltip:
+        edit_brand: Editar este cliente
+        delete_brand: Eliminar este cliente
     new:
       new_client: Nuevo Cliente
     edit:
       edit_client: Editar Cliente
+      

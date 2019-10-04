@@ -27,11 +27,11 @@ class ClientsController < ApplicationController
 
     respond_to do |format|
       if @client.save
-        format.html { redirect_to clients_url, notice: t('.success') }
-        format.json { render :index, status: :created, location: @client }
+        notice = t('.success', name: @client.name)
+        format.html { redirect_to clients_path, notice: notice}
       else
-        format.html { render :new }
-        format.json { render json: @client.errors, status: :unprocessable_entity }
+        alert = @client.errors.full_messages.join('.')
+        format.html { redirect_to clients_path, alert: alert}
       end
     end
   end
@@ -41,11 +41,11 @@ class ClientsController < ApplicationController
   def update
     respond_to do |format|
       if @client.update(client_params)
-        format.html { redirect_to clients_url, notice: t('.update') }
-        format.json { render :index, status: :ok, location: @client }
+      notice = t('.update', name: @client.name)
+        format.html { redirect_to clients_path, alert: notice }
       else
-        format.html { render :edit }
-        format.json { render json: @client.errors, status: :unprocessable_entity }
+        alert = @client.errors.full_messages.join('.')
+        format.html { redirect_to clients_path, alert: alert }
       end
     end
   end
@@ -56,7 +56,6 @@ class ClientsController < ApplicationController
     @client.destroy
     respond_to do |format|
       format.html { redirect_to clients_url, notice: t('.destroy') }
-      format.json { head :no_content }
     end
   end
 
