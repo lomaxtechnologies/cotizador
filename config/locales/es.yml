@@ -1,5 +1,5 @@
 es:
-  title: Cotizador
+  title: Cotizador de Proyectos de Infraestructura
   #Added kaminari es
   helpers:
     page_entries_info:

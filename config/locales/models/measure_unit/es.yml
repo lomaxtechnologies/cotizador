@@ -4,5 +4,5 @@ es:
       measure_unit: Unidad de medida
     attributes:
       measure_unit:
-        name: Unidad de medida
+        name: Nombre
         unit_type: Tipo de medida

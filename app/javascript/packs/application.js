@@ -7,9 +7,12 @@ require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
-
 import '../stylesheets/application'
 import './bootstrap_custom.js'
+import '../application/notification_handler.js'
+//import '../stylesheets/vendors/@coreui/coreui-pro/js/coreui.min.js'
+//import '../stylesheets/vendors/@coreui/coreui-pro/js/coreui.min.js.map'
+//import '../stylesheets/vendors/perfect-scrollbar/js/perfect-scrollbar.min.js'
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)

@@ -1,0 +1,40 @@
+.card
+  .card-header
+    .row
+      .col-6
+        %h4.text-primary
+          %b= t('clients.new.new_client')
+      .col-6.text-right
+        = link_to clients_path do
+          %i.fas.fa-undo
+          = t('clients.return')
+  .card-body
+    = form_for @client do |f|
+      .form-row.mb-2
+        = f.label :name, class:"mb-0 text-primary font-weight-bold"
+        .input-group.mb-2
+          .input-group-prepend
+            .input-group-text
+              %i.fas.fa-pencil-alt
+          = f.text_field :name, :required => true, class: "form-control form-control-sm"
+      .form-row.mb-2
+        = f.label :address, class: "mb-0 text-primary font-weight-bold"
+        = f.text_area :address, class: "form-control form-control-sm"
+      .form-row.mb-2
+        .col-6
+          = f.label :nit, class: "mb-0 text-primary font-weight-bold"
+          .input-group.mb-2
+            .input-group-prepend
+              .input-group-text
+                %i.fas.fa-hashtag
+            = f.phone_field :nit, class: "form-control form-control-sm"
+        .col-6
+          = f.label :phone, class: "mb-0 text-primary font-weight-bold"
+          .input-group.mb-2
+            .input-group-prepend
+              .input-group-text
+                %i.fas.fa-phone
+            = f.telephone_field :phone, class: "form-control form-control-sm"
+      .form-row.actions.text-right
+        .col-12
+          = f.submit t('clients.save'), class: "btn btn-primary btn-sm px-2"

@@ -22,12 +22,12 @@ class MaterialsController < ApplicationController
     @material = Material.new(material_params)
 
     respond_to do |format|
-      if @material.save
-        format.html { redirect_to materials_url, notice: t('.success')}
-        format.json { render :index, status: :created, location: @material }
+      if @client.save
+        notice = t('.success', name: @client.name)
+        format.html { redirect_to clients_path, notice: notice}
       else
-        format.html { render :new }
-        format.json { render json: @material.errors, status: :unprocessable_entity}
+        alert = @client.errors.full_messages.join('.')
+        format.html { redirect_to clients_path, alert: alert}
       end
     end
   end
@@ -36,12 +36,12 @@ class MaterialsController < ApplicationController
   # PATCH/PUT /materials/1.json
   def update
     respond_to do |format|
-      if @material.update(material_params)
-        format.html { redirect_to materials_url, notice: t('.update')}
-        format.json { render :index, status: :ok, location: @material }
+      if @client.update(client_params)
+        notice = t('.update', name: @client.name)
+        format.html { redirect_to clients_path, alert: notice }
       else
-        format.html { render :edit }
-        format.json { render json: @material.errors, status: :unprocessable_entity}
+        alert = @client.errors.full_messages.join('.')
+        format.html { redirect_to clients_path, alert: alert }
       end
     end
   end
@@ -52,7 +52,6 @@ class MaterialsController < ApplicationController
     @material.destroy
     respond_to do |format|
       format.html { redirect_to materials_url, notice: t('.destroy')}
-      format.json { head :no_content }
     end
   end
 

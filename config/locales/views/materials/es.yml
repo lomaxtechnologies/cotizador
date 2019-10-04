@@ -2,13 +2,21 @@ es:
   materials:
     return: Regresar
     save: Guardar
+    search: Buscar
+    name: Nombre
+    description: Descripción
+    code: Código
     index:
+      search_title: Filtrar por
+      no_results_found: No hay resultados para mostrar.
+      new: Nuevo Material
       title: Materiales
-      newmaterial: Nuevo Material
       search: Buscar Material
-      name: Material
-      description: Descripción
-      code: Código
+      placeholder:
+        search: Nombre del material
+      tooltip:
+        edit_brand: Editar este material
+        delete_brand: Eliminar este material
     new:
       new_material: Nuevo Material
     edit:
