@@ -8,19 +8,8 @@ class PricesController < ApplicationController
     #@q = Product.ransack(search_prices_params)
     #@products = @q.result
     #@prooducts = @products.page(params[:page])
-    @products = Product.all
+    @products = Product.order("material_id").all
     @products = @products.page(params[:page])
-  end
-  
-  def upload
-
-    result = MaterialsParser.new({path: params[:file]}).load_data
-    if result.success?
-      notice= t('.import')
-      redirect_to prices_path, notice: notice
-    else
-      redirect_to prices_path, notice: result.errors
-    end
   end
 
   def update
@@ -32,8 +21,33 @@ class PricesController < ApplicationController
     redirect_to prices_path, notice: "Precio actualizado"
   end
 
+  def destroy
+    Product.delete(params[:id])
+    respond_to do |format|
+      notice = t('.destroy')
+      format.html { redirect_to prices_url, notice: notice }
+    end
+  end
+
+  def upload
+    result = OpenStruct.new(success?: true, errors: nil)
+    x = Thread.new do
+      result = MaterialsParser.new({path: params[:file]}).load_data
+    end
+    if result.success?
+      notice = t('.upload')
+      redirect_to prices_path, notice: notice
+    else
+      redirect_to prices_path, notice: result.errors
+    end
+  end
+
+  def create_excel
+    CreateExcel.create
+  end
 
   private
+
     def search_prices_params
       params.fetch(:q,{}).permit(:material_id_cont)
     end

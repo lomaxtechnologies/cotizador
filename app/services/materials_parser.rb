@@ -5,7 +5,9 @@ class MaterialsParser
   end
   
   def load_data
+
     return OpenStruct.new(success?: false, errors: I18n.t('.nofile')) if @path.nil?
+    
     workbook = RubyXL::Parser.parse(@path)
     worksheet = workbook.worksheets[0]
     if isvalidfile?(worksheet)

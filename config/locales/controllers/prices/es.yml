@@ -1,10 +1,10 @@
 es:
   prices:
-    import:
-      import: Se ha importado el archivo y actualizado los precios.
+    upload:
+      upload: Se ha importado el archivo y actualizado los precios.
     create:
       success: El precio fue creado.
     update:
       update: El precio se actualizó.
     destroy:
-      destroy: El precio fue dado de baja, para acceder de nuevo dirigirse a la ventana de ...
+      destroy: "El precio ha sido eliminado satisfactoriamente."

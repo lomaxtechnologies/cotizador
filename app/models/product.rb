@@ -1,4 +1,5 @@
 class Product < ApplicationRecord
+  acts_as_paranoid
   belongs_to :material
   belongs_to :brand, optional: true
   belongs_to :measure_unit

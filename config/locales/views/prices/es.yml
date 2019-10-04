@@ -8,3 +8,7 @@ es:
     price: Precio
     measure_unit: Unidad
     save: Guardar
+    index:
+      tooltip:
+        edit_brand: Editar esta marca
+        delete_brand: Eliminar esta marca
