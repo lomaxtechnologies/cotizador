@@ -44,10 +44,10 @@
               %button.btn.btn-success.btm-sm
                 = link_to edit_material_path(material) do
                   %i.fas.fa-edit.fa-xs.text-white
-                %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
-                  action: material_path(material),
-                  method: :delete}
-                  %i.fas.fa-trash-alt.fa-xs
+              %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
+                action: material_path(material),
+                method: :delete}
+                %i.fas.fa-trash-alt.fa-xs
       = paginate @materials
     - else
       .text-center.text-muted.mt-5

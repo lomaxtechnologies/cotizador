@@ -1,8 +1,8 @@
 es:
   materials:
     create:
-      success: El material fue creado.
+      success: El material fue creado satisfactoriamente.
     update:
-      update: El material se actualizó.
+      update: El material fue actualizado satisfactoriamente.
     destroy:
-      destroy: El material fue dado de baja, para acceder de nuevo dirigirse a la ventana de ...
+      destroy: El material ha sido eliminada satisfactoriamente.
