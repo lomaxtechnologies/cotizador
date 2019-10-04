@@ -18,8 +18,11 @@ es:
     registrations:
       index:
         title: Usuarios
-        new: Nuevo
-        search: Buscar Usuario
+        new: Nuevo Usuario
+        search: Buscar
+        search_title: Filtrar por
+        placeholder:
+          search: Correo del Usuario
       new:
         new_user: Nuevo Usuario
         role_blank: Seleccionar Rol
