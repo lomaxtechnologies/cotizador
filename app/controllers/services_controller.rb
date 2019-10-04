@@ -28,11 +28,11 @@ class ServicesController < ApplicationController
 
     respond_to do |format|
       if @service.save
-        format.html { redirect_to @service, notice: t('.success') }
-        format.json { render :show, status: :created, location: @service }
+        notice = t('.success', name: @service.name)
+        format.html { redirect_to services_path, notice: notice}
       else
-        format.html { render :new }
-        format.json { render json: @service.errors, status: :unprocessable_entity }
+        alert = @service.errors.full_messages.join('.')
+        format.html { redirect_to services_path, alert: alert}
       end
     end
   end
@@ -42,11 +42,11 @@ class ServicesController < ApplicationController
   def update
     respond_to do |format|
       if @service.update(service_params)
-        format.html { redirect_to @service, notice: t('.update') }
-        format.json { render :show, status: :ok, location: @service }
+        notice = t('.update', name: @service.name)
+        format.html { redirect_to services_path, alert: notice }
       else
-        format.html { render :edit }
-        format.json { render json: @service.errors, status: :unprocessable_entity }
+        alert = @service.errors.full_messages.join('.')
+        format.html { redirect_to services_path, alert: alert }
       end
     end
   end

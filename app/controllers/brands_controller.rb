@@ -47,7 +47,7 @@ class BrandsController < ApplicationController
     @brand.destroy
     respond_to do |format|
       notice = t('.destroy', name: @brand.name)
-      format.html { redirect_to brands_url, notice: notice }
+      format.html { redirect_to brands_url, alert: notice }
     end
   end
 

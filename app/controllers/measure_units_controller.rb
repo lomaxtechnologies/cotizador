@@ -23,9 +23,11 @@ layout "manager"
 
     respond_to do |format|
       if @measure_unit.save
-        format.html { redirect_to measure_units_url, notice: t('.success') }
+        notice = t('.success', name: @measure_unit.name)
+        format.html { redirect_to measure_units_path, notice: notice}
       else
-        format.html { render :new }
+        alert = @measure_unit.errors.full_messages.join('.')
+        format.html { redirect_to measure_units_path, alert: alert}
       end
     end
   end
@@ -35,9 +37,11 @@ layout "manager"
   def update
     respond_to do |format|
       if @measure_unit.update(measure_unit_params)
-        format.html { redirect_to measure_units_url, notice: t('.update') }
+        notice = t('.update', name: @measure_unit.name)
+        format.html { redirect_to measure_units_path, alert: notice }
       else
-        format.html { render :edit }
+        alert = @measure_unit.errors.full_messages.join('.')
+        format.html { redirect_to measure_units_path, alert: alert }
       end
     end
   end
@@ -47,7 +51,7 @@ layout "manager"
   def destroy
     @measure_unit.destroy
     respond_to do |format|
-      format.html { redirect_to measure_units_url, alert: t('.destroy') }
+      format.html { redirect_to measure_units_url, notice: t('.destroy') }
     end
   end
 

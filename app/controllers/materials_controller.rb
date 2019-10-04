@@ -22,10 +22,12 @@ class MaterialsController < ApplicationController
     @material = Material.new(material_params)
 
     respond_to do |format|
-      if @material.save
-        format.html { redirect_to materials_url, notice: t('.success')}
+      if @client.save
+        notice = t('.success', name: @client.name)
+        format.html { redirect_to clients_path, notice: notice}
       else
-        format.html { render :new }
+        alert = @client.errors.full_messages.join('.')
+        format.html { redirect_to clients_path, alert: alert}
       end
     end
   end
@@ -34,10 +36,12 @@ class MaterialsController < ApplicationController
   # PATCH/PUT /materials/1.json
   def update
     respond_to do |format|
-      if @material.update(material_params)
-        format.html { redirect_to materials_url, notice: t('.update')}
+      if @client.update(client_params)
+        notice = t('.update', name: @client.name)
+        format.html { redirect_to clients_path, alert: notice }
       else
-        format.html { render :edit }
+        alert = @client.errors.full_messages.join('.')
+        format.html { redirect_to clients_path, alert: alert }
       end
     end
   end
