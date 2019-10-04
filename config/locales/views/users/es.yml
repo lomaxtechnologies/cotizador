@@ -1,5 +1,6 @@
 es:
   users:
+    avatar: Foto
     name: Nombre
     email: Correo Electrónico
     password: Contraseña

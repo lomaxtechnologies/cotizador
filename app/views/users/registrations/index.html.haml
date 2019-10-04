@@ -29,6 +29,7 @@
       %table.table.table-sm.table-striped
         %thead
           %tr.bg-primary.text-light
+            %th= t('users.avatar')
             %th= t('users.email')
             %th= t('users.name')
             %th= t('users.phone')
@@ -39,15 +40,24 @@
             - user_detail = user.user_detail
             %tr
               %td
+                - if user.avatar.attached?
+                  = image_tag(url_for(user.avatar), 
+                    alt: "profile_picture", 
+                    class: "rounded mx-auto d-block img-thumbnail avatar-xs")
+                - else
+                  = image_tag("default-profile-picture.png",
+                    alt: "profile_picture", 
+                    class: "rounded mx-auto d-block img-thumbnail avatar-xs")
+              %td.align-middle
                 = user.email
-              %td 
+              %td.align-middle
                 = user_detail.name
                 = user_detail.last_name
-              %td
+              %td.align-middle
                 = user_detail.phone
-              %td
+              %td.align-middle
                 = user.role.capitalize
-              %td.text-right
+              %td.text-right.align-middle
                 = link_to edit_users_registration_path(user), class: "btn btn-success btm-sm mr-1" do
                   %i.fas.fa-edit.fa-xs
                 %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",

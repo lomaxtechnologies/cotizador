@@ -1,37 +1,63 @@
-.card.card-body
-  = form_for @user, url: users_registration_path do |f|
-    = f.fields_for :user_detail do |nested_form|
-      .form-row
-        - if @user.avatar.attached?
-          = image_tag url_for(@user.avatar), alt: "profile_picture", class: "rounded mx-auto d-block img-thumbnail avatar"
-        - else
-          = image_tag "default-profile-picture.png", alt: "profile_picture", class: "rounded mx-auto d-block img-thumbnail"
-      .form-row.mb-2
-        .col-12
-          = nested_form.label :name, class:"mb-0 text-primary font-weight-bold"
-          = nested_form.text_field :name, class: "form-control form-control-sm", required: true
-      .form-row.mb-2
-        .col-12
-          = nested_form.label :last_name, class:"mb-0 text-primary font-weight-bold"
-          = nested_form.text_field :last_name, class: "form-control form-control-sm"
-      .form-row.mb-2
-        .col-6
-          = f.label :email, class: "mb-0 text-primary font-weight-bold"
-          %span.form-control.form-control-sm.text-muted
-            = @user.email
-        .col-6
-          = nested_form.label :phone, class:"mb-0 text-primary font-weight-bold"
-          = nested_form.text_field :phone, class: "form-control form-control-sm"
-      .form-row.mb-2
-        .col-6
-          = f.label :role, class: "mb-0 text-primary font-weight-bold"
-          = f.select(:role,
-            options_for_select(User.roles.keys.map {|role| [role.titleize,role]}, @user.role),
-            {include_blank: t('users.registrations.new.role_blank')},
-            { class: "form-control form-control-sm", required: true })
-      .form-row.actions
-        .col-6
-          %button.btn.btn-danger.btn-sm{type: "button", "data-toggle"=>"modal", "data-target"=>"#reset-password-confirmation-modal"}
-            Reiniciar Contraseña
-        .col-6.text-right
-          = f.submit t('users.save'), class: "btn btn-primary btn-sm px-2"
+.card
+  .card-header
+    .row
+      .col-6
+        %h4.text-primary
+          %b= t('users.registrations.edit.edit_user')
+      .col-6.text-right
+        = link_to users_registrations_path do
+          %i.fas.fa-undo
+          = t('users.return')
+  .card-body
+    = form_for @user, url: users_registration_path do |f|
+      = f.fields_for :user_detail do |nested_form|
+        .form-row
+          - if @user.avatar.attached?
+            = image_tag url_for(@user.avatar), alt: "profile_picture", class: "rounded mx-auto d-block img-thumbnail avatar"
+          - else
+            = image_tag "default-profile-picture.png", alt: "profile_picture", class: "rounded mx-auto d-block img-thumbnail"
+        .form-row.mb-2
+          .col-12
+            = nested_form.label :name, class:"mb-0 text-primary font-weight-bold"
+            .input-group.mb-2
+              .input-group-prepend
+                .input-group-text
+                  %i.fas.fa-pencil-alt
+              = nested_form.text_field :name, class: "form-control form-control-sm", required: true
+        .form-row.mb-2
+          .col-12
+            = nested_form.label :last_name, class:"mb-0 text-primary font-weight-bold"
+            .input-group.mb-2
+              .input-group-prepend
+                .input-group-text
+                  %i.fas.fa-pencil-alt
+              = nested_form.text_field :last_name, class: "form-control form-control-sm"
+        .form-row.mb-2
+          .col-6
+            = f.label :email, class: "mb-0 text-primary font-weight-bold"
+            .input-group.mb-2
+              .input-group-prepend
+                .input-group-text
+                  %i.fas.fa-envelope
+              %span.form-control.form-control-sm.text-muted
+                = @user.email
+          .col-6
+            = nested_form.label :phone, class:"mb-0 text-primary font-weight-bold"
+            .input-group.mb-2
+              .input-group-prepend
+                .input-group-text
+                  %i.fas.fa-phone
+              = nested_form.text_field :phone, class: "form-control form-control-sm"
+        .form-row.mb-2
+          .col-6
+            = f.label :role, class: "mb-0 text-primary font-weight-bold"
+            = f.select(:role,
+              options_for_select(User.roles.keys.map {|role| [role.titleize,role]}, @user.role),
+              {include_blank: t('users.registrations.new.role_blank')},
+              { class: "form-control form-control-sm", required: true })
+        .form-row.actions
+          .col-6
+            %button.btn.btn-danger.btn-sm{type: "button", onclick: "show_reset_password_confirmation_modal()"}
+              Reiniciar Contraseña
+          .col-6.text-right
+            = f.submit t('users.save'), class: "btn btn-primary btn-sm px-2"
