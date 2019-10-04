@@ -1,37 +1,58 @@
+= render partial: "confirmation_modal"
 .row
-  .col 
-    .form-row.mb-3
-      .col-2.my-auto
-        %h4.text-primary= t('.title')
-      .col-8
-        = search_form_for @q do |f|
-          .input-group
-            = f.text_field :name_cont, class: 'form-control'
-            %span.input-group-btn
-              %button.btn.border-dark{ :name => "commit", :type => "submit", :value => "Search"}
-                %i.fas.fa-search
-      .col-2.text-right
-        = link_to t('.new'), new_client_path, class: "btn btn-primary"
-    %table.table.table-sm.table-striped
-      %thead
-        %tr.bg-primary.text-light
-          %th= t('clients.name')
-          %th= t('clients.address')
-          %th= t('clients.nit')
-          %th= t('clients.phone')
-          %th
-      %tbody
+  .col-md-12.col-lg-10.offset-lg-1
+    .form-row
+      .col-12
+        .card
+          .card-header
+            .row
+              .col-8
+                %h4.text-primary 
+                  %b= t('.title')
+              .col-4.text-right
+                = link_to t('.new'), new_client_path, class: "btn btn-primary"
+          .card-body
+            .form-row
+              .col-12.mb-2
+                %b= t('clients.index.search_title')
+            = search_form_for @q, url: clients_path do |f|
+              .form-row
+                .col-10
+                  = f.text_field :name_cont, class: 'form-control',placeholder: t('clients.index.placeholder.search')
+                .col-2.text-right
+                  %button.btn-block.btn.btn-purple{ type: "submit", value: "Search"}
+                    %i.fas.fa-search.fa-sm
+                    = t('clients.search')
+    - if @clients.length > 0
+      %table.table.table-sm.table-striped
+        %thead{onclick: "hide_all_edit_forms()"}
+          %tr.bg-primary.text-light
+            %th= t('clients.name')
+            %th= t('clients.address')
+            %th= t('clients.nit')
+            %th= t('clients.phone')
+            %th
+        %tbody#clients-body
         - @clients.each do |client|
           %tr
-            %td= client.name
-            %td= client.address
-            %td= client.nit
-            %td= client.phone
+            %td 
+              %span{id: "title_client_#{client.id}"}= client.name
+            %td 
+              %span{id: "title_client_#{client.id}"}= client.address
+            %td 
+              %span{id: "title_client_#{client.id}"}= client.nit
+            %td 
+              %span{id: "title_client_#{client.id}"}= client.phone
             %td.text-right
               %button.btn.btn-success.btm-sm
                 = link_to edit_client_path(client) do
                   %i.fas.fa-edit.fa-xs.text-white
-              %button.btn.btn-danger.btm-sm
-                = link_to client, method: :delete, data: { confirm: '¿Estas seguro de eliminarlo' } do
-                  %i.fas.fa-trash-alt.fa-xs.text-white
-    = paginate @clients
+                %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
+                  action: client_path(client),
+                  method: :delete}
+                  %i.fas.fa-trash-alt.fa-xs
+      = paginate @clients
+    - else
+      .text-center.text-muted.mt-5
+        %h2= t('clients.index.no_results_found')
+= javascript_pack_tag "clients/index", media: "all", "data-turbolinks-track": "reload"

@@ -4,10 +4,18 @@ es:
     name: Unidad de Medida
     unit_type: Tipo de Medida
     return: Regresar
+    search: Buscar
     index:
+      search_title: Filtrar por
       title: Unidades de Medida
+      no_results_found: No hay resultados para mostrar.
       new: Nueva Unidad de Medida
       search: Buscar Unidad de Medida
+      placeholder:
+        search: Nombre del material
+      tooltip:
+        edit_brand: Editar este material
+        delete_brand: Eliminar este material
     new:
       new_measure: Nueva Unidad de Medida
     edit:
