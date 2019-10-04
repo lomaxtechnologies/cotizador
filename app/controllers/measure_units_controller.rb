@@ -24,10 +24,8 @@ layout "manager"
     respond_to do |format|
       if @measure_unit.save
         format.html { redirect_to measure_units_url, notice: t('.success') }
-        format.json { render :index, status: :created, location: @measure_unit }
       else
         format.html { render :new }
-        format.json { render json: @measure_unit.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -38,10 +36,8 @@ layout "manager"
     respond_to do |format|
       if @measure_unit.update(measure_unit_params)
         format.html { redirect_to measure_units_url, notice: t('.update') }
-        format.json { render :index, status: :ok, location: @measure_unit }
       else
         format.html { render :edit }
-        format.json { render json: @measure_unit.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -52,7 +48,6 @@ layout "manager"
     @measure_unit.destroy
     respond_to do |format|
       format.html { redirect_to measure_units_url, alert: t('.destroy') }
-      format.json { head :no_content }
     end
   end
 

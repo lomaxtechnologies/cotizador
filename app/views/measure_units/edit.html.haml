@@ -1,11 +1,3 @@
 .row
   .col-12.col-md-10.offset-md-1.col-lg-6.offset-lg-3
-    .row
-      .col-6
-        %h4.text-primary= t('.edit_measure')
-      .col-6.text-right
-        = link_to measure_units_path do
-          %i.fas.fa-undo
-          = t('measure_units.return')
-      .col-12.mt-2
-        = render 'form'
+    = render 'new_form'

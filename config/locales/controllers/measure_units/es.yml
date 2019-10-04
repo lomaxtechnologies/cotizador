@@ -1,8 +1,8 @@
 es:
   measure_units:
     create:
-      success: La unidad de medida fue creada.
+      success: La unidad ha sido creada satisfactoriamente.
     update:
-      update: La unidad de medida se actualizó.
+      update: La unidad de ha sido actualizada satisfactoriamente.
     destroy:
-      destroy: La unidad de medida fue dada de baja, para acceder de nuevo dirigirse a la ventana de ...
+      destroy: La unidad de medida ha sido eliminada satisfactoriamente.

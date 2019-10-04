@@ -41,10 +41,10 @@
                 %button.btn.btn-success.btm-sm
                   = link_to edit_measure_unit_path(measure_unit) do
                     %i.fas.fa-edit.fa-xs.text-white
-                  %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
-                    action: measure_unit_path(measure_unit),
-                    method: :delete}
-                    %i.fas.fa-trash-alt.fa-xs
+                %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
+                  action: measure_unit_path(measure_unit),
+                  method: :delete}
+                  %i.fas.fa-trash-alt.fa-xs
       = paginate @measure_units
     - else
       .text-center.text-muted.mt-3
