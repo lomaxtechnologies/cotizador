@@ -51,7 +51,7 @@ layout "manager"
   def destroy
     @measure_unit.destroy
     respond_to do |format|
-      format.html { redirect_to measure_units_url, notice: t('.destroy') }
+      format.html { redirect_to measure_units_url, alert: t('.destroy') }
       format.json { head :no_content }
     end
   end

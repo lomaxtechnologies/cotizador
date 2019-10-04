@@ -98,3 +98,11 @@ a:hover{
   .show > .btn-purple.dropdown-toggle:focus {
     box-shadow: 0 0 0 0.2rem rgba(133, 32, 216, 0.5);
   }
+
+  select{
+    height: calc(1.648438rem + 2px);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.765625rem;
+    line-height: 1.5;
+    width: 100%
+  }
