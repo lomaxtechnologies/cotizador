@@ -6,11 +6,13 @@ Rails.application.routes.draw do
   end
   resources :measure_units
   resources :clients
-  resources :prices do
-    collection { post :import }
-  end
+  resources :prices
+  
+  post '/prices/upload', to: 'prices#upload', as: 'upload_prices'
+
   resources :materials
   resources :brands, except: [:edit, :show, :new]
+
 
   # Allows users to manage their own account
   get '/account', to: 'users/registrations#account', as: 'user_account'

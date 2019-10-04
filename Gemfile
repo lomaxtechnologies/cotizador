@@ -86,3 +86,6 @@ gem 'devise-i18n'
 
 #rubyxl
 gem 'rubyXL'
+
+# RubyZip
+gem 'rubyzip'

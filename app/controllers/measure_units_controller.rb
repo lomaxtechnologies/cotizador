@@ -71,10 +71,6 @@ layout "manager"
     end
 
     def search_measure_unit_params
-      begin
-        return params.require(:q).permit(:name_cont)
-      rescue ActionController::ParameterMissing
-        return {email_cont: ""}
-      end
+      params.fetch(:q,{}).permit(:name_cont)
     end
 end

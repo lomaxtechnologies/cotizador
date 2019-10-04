@@ -75,10 +75,6 @@ class ClientsController < ApplicationController
     end
 
     def search_client_params
-      begin
-        return params.require(:q).permit(:name_cont)
-      rescue ActionController::ParameterMissing
-        return {email_cont: ""}
-      end
+      params.fetch(:q,{}).permit(:name_cont)
     end
 end

@@ -6,3 +6,9 @@ es:
       measure_unit:
         name: Nombre
         unit_type: Tipo de medida
+    errors:
+        models:
+          measure_unit:
+            attributes:
+              name:
+                duplicated: 'La unidad ya se encuentra registrada.'
