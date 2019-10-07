@@ -6,7 +6,9 @@ class Service < ApplicationRecord
   paginates_per 10
 
   def save
-    self.actual_price = creation_price
+    if new_record?
+      self.actual_price = creation_price
+    end
     super
   end
 end

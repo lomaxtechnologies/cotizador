@@ -26,7 +26,7 @@ class ServicesController < ApplicationController
   # POST /services
   # POST /services.json
   def create
-    @service = Service.new(service_params)
+    @service = Service.new(new_service_params)
     respond_to do |format|
       if @service.save
         notice = t('.success', name: @service.name)
@@ -42,7 +42,7 @@ class ServicesController < ApplicationController
   # PATCH/PUT /services/1.json
   def update
     respond_to do |format|
-      if @service.update(service_params)
+      if @service.update(update_service_params)
         notice = t('.update', name: @service.name)
         format.html { redirect_to services_path, notice: notice }
       else
@@ -69,8 +69,12 @@ class ServicesController < ApplicationController
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
-  def service_params
-    params.require(:service).permit(:name, :description, :creation_price, :actual_price, :creator_user, :modifier_user, :status)
+  def new_service_params
+    params.require(:service).permit(:name, :description, :creation_price)
+  end
+
+  def update_service_params
+    params.require(:service).permit(:name, :description, :actual_price)
   end
 
   def search_service_params
