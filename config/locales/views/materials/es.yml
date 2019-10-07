@@ -9,7 +9,7 @@ es:
     index:
       delete_modal: 
         title: ¿Realmente deseas eliminar este material?
-        body: Una vez eliminado no podrás recuperarlo y deberás crear uno nuevo. Todas la información asociada a este material (productos, cotizaciones, etc.) seguirá existiendo.
+        body: Una vez eliminado no podrás recuperarlo y deberás crear uno nuevo. Toda las cotizaciones asociadas a este precio seguirán existiendo.
         yes_text: Sí, elimínalo
         no_text: Cancelar
       search_title: Filtrar por
