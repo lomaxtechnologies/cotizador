@@ -89,3 +89,6 @@ gem 'rubyXL'
 
 # RubyZip
 gem 'rubyzip'
+
+# i18n-js
+gem 'i18n-js'
