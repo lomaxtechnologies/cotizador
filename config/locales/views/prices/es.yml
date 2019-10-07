@@ -5,8 +5,8 @@ es:
       upload: Subir Excel
       import: Importar
       title: Precios
-      instruction1: '1)Seleccione el archivo que desea cargar.'
-      instruction2: '2)De click en importar para cargar el archivo.'
+      instruction1: '1) Seleccione el archivo que desea cargar.'
+      instruction2: '2) De click en importar para cargar el archivo.'
     manager: Administrar
     code: Código
     material: Material
