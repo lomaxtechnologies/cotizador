@@ -18,6 +18,11 @@ es:
         password_length: "(Mínimo %{length} caracteres)"
     registrations:
       index:
+        delete_modal: 
+          title: ¿Realmente deseas eliminiar a este usuario?
+          body: Una vez eliminado no podrás crear un nuevo usuario con este correo. Todas la información asociada a este usuario seguirá existiendo.
+          yes_text: Sí, elimínalo
+          no_text: Cancelar
         title: Usuarios
         new: Nuevo Usuario
         search: Buscar
