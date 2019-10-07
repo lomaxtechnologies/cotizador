@@ -6,7 +6,7 @@ class Product < ApplicationRecord
   has_one :price
   has_many :quotation_products
   has_many :comments, as: :commentable
-  accepts_nested_attributes_for :price, allow_destroy: true
+  accepts_nested_attributes_for :price, update_only: true
   paginates_per 10
 
   def self.new_products

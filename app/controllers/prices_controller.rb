@@ -12,6 +12,24 @@ class PricesController < ApplicationController
     @products = @products.page(params[:page])
   end
 
+  def new
+    @product = Product.new
+    @product.price = Price.new
+  end
+
+  def create
+    @product = Product.new(products_params)
+    respond_to do |format|
+      if @product.save
+        notice = t('.success')
+        format.html { redirect_to prices_path, notice: notice}
+      else
+        alert = @product.errors.full_messages.join('.')
+        format.html { redirect_to prices_path, alert: alert}
+      end
+    end
+  end
+
   def update
     @product = @price.product
     @price.destroy
@@ -52,15 +70,15 @@ class PricesController < ApplicationController
   private
 
   def search_prices_params
-    params.fetch(:q, {}).permit(:price_prices_gteq,:price_prices_lteq, :material_code_cont, :material_name_cont)
+    params.fetch(:q, {}).permit(:price_product_price_gteq,:price_product_price_lteq, :material_code_cont, :material_name_cont)
   end
 
   def products_params
-    params.require(:product).permit(:material_id, :brand_id, :measure_unit_id, price_attributes: [:prices])
+    params.require(:product).permit(:material_id, :brand_id, :measure_unit_id, price_attributes: %i[product_price])
   end
 
   def prices_params
-    params.require(:price).permit(:prices).merge(product: @product)
+    params.require(:price).permit(:product_price).merge(product: @product)
   end
 
   def set_product

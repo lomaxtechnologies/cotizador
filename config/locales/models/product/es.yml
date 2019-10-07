@@ -1,9 +1,9 @@
 es:
   activerecord:
     models:
-      price: Precio
+      product: Precio
     attributes:
-      price:
+      product:
         material_id: Material
         measure_unit_id: Unidad de Medida
         brand_id: Marca

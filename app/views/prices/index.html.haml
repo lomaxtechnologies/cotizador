@@ -14,8 +14,7 @@
               .col-4.text-right
                 %button.btn.btn-primary{onclick: "show_new_price_modal()"}
                   = t('prices.new_modal.upload')
-                %button.btn.btn-primary
-                  = t('prices.new')
+                = link_to t('prices.new'), new_price_path, class: "btn btn-primary"
           .card-body
             .form-row
               .col-12.mb-2
@@ -27,14 +26,14 @@
                     .input-group-prepend
                       .input-group-text
                         %i.fas.fa-coins
-                      = f.search_field :price_prices_gteq, class: 'form-control'
+                      = f.search_field :price_product_price_gteq, class: 'form-control'
                 .col-1
                   .imput-group.mb-3
                     %b= t('.final_price')
                     .input-group-prepend
                       .input-group-text
                         %i.fas.fa-coins
-                      = f.search_field :price_prices_lteq, class: 'form-control'
+                      = f.search_field :price_product_price_lteq, class: 'form-control'
                 .col-2
                   .imput-group.mb-3
                     %b= t('.material_code')
@@ -61,6 +60,7 @@
         %thead
           %tr.bg-primary.text-light
             %th= t('prices.code')
+            %th= t('prices.brand')
             %th= t('prices.material')
             %th= t('prices.measure_unit')
             %th= t('prices.price')
@@ -68,17 +68,18 @@
         %tbody
           - @products.each do |product|
             %tr
-              %td= Material.find(product.material_id).code
-              %td= Material.find(product.material_id).name
-              %td= MeasureUnit.find(product.measure_unit_id).name
+              %td= product.material.code
+              %td= product.brand.name
+              %td= product.material.name
+              %td= product.measure_unit.name
               %td
                 - price = product.price
                 = form_for price do |f|
-                  %span{id: "title_price_#{price.id}"}= price.prices
+                  %span{id: "title_price_#{price.id}"}= price.product_price
                   .form-row
                     .col-12
                       .input-group.d-none{id: "form_price_#{price.id}"}
-                        = f.text_field(:prices,
+                        = f.text_field(:product_price,
                           required: true,
                           class: "form-control rounded-left")
                         .input-group-append

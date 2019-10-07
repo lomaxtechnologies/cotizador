@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 2019_10_02_172151) do
   end
 
   create_table "prices", force: :cascade do |t|
-    t.decimal "prices"
+    t.decimal "product_price"
     t.bigint "product_id", null: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false

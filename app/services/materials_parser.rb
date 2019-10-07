@@ -92,9 +92,9 @@ class MaterialsParser
 
   # Soft delete of prices and add new price to exist product
   def update_price(price_model,row)
-    price_model.prices = row.cells[5].value.to_s.gsub(/[^\d^\.]/,'').to_f
+    price_model.product_price = row.cells[5].value.to_s.gsub(/[^\d^\.]/,'').to_f
     if Price.exists?(product_id: price_model.product_id)
-      if price_model.prices != Price.find_by(product_id: price_model.product_id).prices
+      if price_model.product_price != Price.find_by(product_id: price_model.product_id).product_price
         Price.destroy_by(product_id: price_model.product_id) 
         price_model.save        
       end

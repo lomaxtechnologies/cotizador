@@ -1,6 +1,7 @@
 es:
   prices:
     title: Precios
+    return: Regresar
     new_modal:
       upload: Subir Excel
       import: Importar
@@ -10,6 +11,7 @@ es:
     manager: Administrar
     code: Código
     material: Material
+    brand: Marca
     price: Precio
     measure_unit: Unidad
     save: Guardar

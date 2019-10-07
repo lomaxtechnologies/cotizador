@@ -1,0 +1,35 @@
+.card
+  .card-header
+    .row
+      .col-6
+        %h4.text-primary
+          %b= t('prices.new')
+      .col-6.text-right
+        = link_to prices_path do
+          %i.fas.fa-undo
+          = t('prices.return')
+  .card-body
+    = form_for @product, url: prices_url do |f|
+      = f.fields_for :price do |nested_form|
+        - p @product.price
+        .form-row.mb-2
+          .col-3
+            = f.label :brand_id,  class: "mb-0 text-primary font-weight-bold "
+            = f.select :brand_id, Brand.all.collect {|b| [b.name, b.id] },{:prompt => :brand_id}, {class:"form-control"}
+          .col-6
+            = f.label :material_id,  class: "mb-0 text-primary font-weight-bold "
+            = f.select :material_id, Material.all.collect {|m| [m.code+' '+m.name, m.id] }, {:prompt => :material_id},{class:"form-control"}
+          .col-3
+            = f.label :measure_unit_id,  class: "mb-0 text-primary font-weight-bold "
+            = f.select :measure_unit_id, MeasureUnit.all.collect {|m| [m.name, m.id] }, {:prompt => :measure_unit_id},{class:"form-control"}
+        .form-row.mb-2
+          .col-12
+            =nested_form.label :product_price, class:"mb-0 text-primary font-weight-bold"
+            .input-group.mb-2
+              .input-group-prepend
+                .input-group-text
+                  %i.fas.fa-coins
+              = nested_form.number_field :product_price, class: "form-control form-control-sm", required: true
+        .form-row.actions.text-right
+          .col-12
+            = f.submit t('prices.save'), class: "btn btn-primary"
