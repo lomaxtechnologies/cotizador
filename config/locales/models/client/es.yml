@@ -4,7 +4,7 @@ es:
       client: Cliente
     attributes:
       client:
-        name: Nombre
+        name: Cliente
         address: Dirección
         nit: NIT
         phone: Teléfono

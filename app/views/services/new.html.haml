@@ -1,11 +1,14 @@
-.row.py-5
-    .col-12.col-md-10.offset-md-1.col-lg-6.offset-lg-3
+.row
+  .col-12.col-md-10.offset-md-1.col-lg-6.offset-lg-3
+    .card
+      .card-header
         .row
-            .col-6
-                %h4.text-primary= t('.new_service')
-            .col-6.text-right
-                = link_to services_path do
-                    %i.fas.fa-undo
-                    = t('services.return')
-            .col-12.col-md-8.offset-md-2.py-5
-                = render 'form'
+          .col-6
+            %h4.text-primary
+              %b= t('.new_service')
+          .col-6.text-right
+            = link_to services_path do
+              %i.fas.fa-undo
+              = t('services.return')
+      .card-body
+        = render 'form'
