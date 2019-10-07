@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2019_10_02_172151) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["deleted_at"], name: "index_brands_on_deleted_at"
+    t.index ["name"], name: "index_brands_on_name"
   end
 
   create_table "clients", force: :cascade do |t|
@@ -82,7 +83,7 @@ ActiveRecord::Schema.define(version: 2019_10_02_172151) do
 
   create_table "materials", force: :cascade do |t|
     t.string "name"
-    t.string "description"
+    t.text "description"
     t.string "code"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
