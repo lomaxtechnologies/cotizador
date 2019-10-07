@@ -1,18 +1,22 @@
 = form_for @service do |f|
-  - if @service.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@service.errors.count, "error")} prohibited this service from being saved:"
-      %ul
-        - @service.errors.full_messages.each do |message|
-          %li= message
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :description
-    = f.text_area :description
-  .field
-    = f.label :creation_price
-    = f.text_field :creation_price
-  .actions
-    = f.submit t('services.save')
+  .form-row.mb-2
+    .col-8
+      = f.label :name, class: "mb-0 text-primary font-weight-bold font-weight-bold"
+      .input-group.mb-2
+        .input-group-prepend
+          .input-group-text
+            %i.fas.fa-font
+        = f.text_field :name, required: true, class: "form-control form-control-sm"
+    .col-4
+      = f.label :creation_price, class: "mb-0 text-primary font-weight-bold"
+      .input-group.mb-2
+        .input-group-prepend
+          .input-group-text
+            %i.fas.fa-money-bill-wave
+        = f.number_field :creation_price, required: true, class: "form-control form-control-sm", min: 0, step: "any"
+  .form-row.mb-2
+    = f.label :description, class:"mb-0 text-primary font-weight-bold font-weight-bold"
+    = f.text_area :description, class: "form-control form-control-sm"
+  .form-row.actions.text-right
+    .col-12
+      = f.submit t('services.save'), class: "btn btn-primary btn-sm px-2"

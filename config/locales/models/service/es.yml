@@ -4,7 +4,7 @@ es:
       service: Servicio
     attributes:
       service:
-        name: Servicio
+        name: Nombre
         description: Descripción
         actual_price: Precio
         creation_price: Precio inicial

@@ -1,7 +1,7 @@
 const CONFIRM_DELETE_PRICE_TITLE = '¿Realmente deseas eliminiar este precio?';
 const CONFIRM_DELETE_PRICE_BODY = `
    Una vez eliminado no podrás recuperarlo y deberás crear uno nuevo. 
-   Toda la información asociada a este producto (precios, cotizaciones, etc.) seguirá existiendo.
+   Toda las cotizaciones asociadas a este precio seguirán existiendo.
 `;
 const CONFIRM_DELETE_PRICE_YES_TEXT = 'Sí, elimínalo';
 const CONFIRM_DELETE_PRICE_NO_TEXT = 'Cancelar';

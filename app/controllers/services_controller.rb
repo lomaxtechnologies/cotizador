@@ -27,7 +27,7 @@ class ServicesController < ApplicationController
   # POST /services.json
   def create
     @service = Service.new(service_params)
-
+    puts @service
     respond_to do |format|
       if @service.save
         notice = t('.success', name: @service.name)
@@ -45,7 +45,7 @@ class ServicesController < ApplicationController
     respond_to do |format|
       if @service.update(service_params)
         notice = t('.update', name: @service.name)
-        format.html { redirect_to services_path, alert: notice }
+        format.html { redirect_to services_path, notice: notice }
       else
         alert = @service.errors.full_messages.join('.')
         format.html { redirect_to services_path, alert: alert }

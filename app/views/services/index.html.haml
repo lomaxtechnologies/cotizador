@@ -1,3 +1,5 @@
+= render partial: "confirmation_modal"
+= javascript_pack_tag "services/index", media: "all", "data-turbolinks-track": "reload"
 .row
   .col-md-12.col-lg-10.offset-lg-1
     .form-row
@@ -22,31 +24,33 @@
                   %button.btn-block.btn.btn-purple{ type: "submit", value: "Search"}
                     %i.fas.fa-search.fa-sm
                     = t('.search')
-%table.table.table-sm.table-striped
-  %thead
-    %tr.bg-primary.text-light
-      %th= t('services.name')
-      %th= t('services.description')
-      %th= t('services.actual_price')
-      %th
-      %th
-
-
-
-
-  %tbody
-    - @services.each do |service|
-      %tr
-        %td= service.name
-        %td= service.description
-        %td= service.creation_price
-        %td
-        %td.text-center
-          %button.btn.btn-success.btm-sm
-            = link_to edit_service_path(service) do
-              %i.fas.fa-edit.fa-xs.text-white
-          %button.btn.btn-danger.btm-sm
-            %i.fas.fa-trash-alt.fa-xs
-
-
-%br
+  .col-12
+    - if @services.length > 0
+      %table.table.table-sm.table-striped
+        %thead
+          %tr.bg-primary.text-light
+            %th= t('services.name')
+            %th= t('services.description')
+            %th.text-right= t('services.actual_price')
+            %th
+        %tbody#services-body
+        - @services.each do |service|
+          %tr
+            %td 
+              %span{id: "title_service_#{service.id}"}= service.name
+            %td 
+              %span{id: "title_service_#{service.id}"}= service.description
+            %td.text-right
+              %span{id: "title_service_#{service.id}"}= service.actual_price
+            %td.text-right
+              %button.btn.btn-success.btm-sm
+                = link_to edit_service_path(service) do
+                  %i.fas.fa-edit.fa-xs.text-white
+              %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
+                action: service_path(service),
+                method: :delete}
+                %i.fas.fa-trash-alt.fa-xs
+      = paginate @services
+    - else
+      .text-center.text-muted.mt-5
+        %h2= t('.no_results_found')
