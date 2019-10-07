@@ -33,7 +33,7 @@ class BrandsController < ApplicationController
     respond_to do |format|
       if @brand.update(brand_params)
         notice = t('.update', name: @brand.name)
-        format.html { redirect_to brands_path, alert: notice }
+        format.html { redirect_to brands_path, notice: notice }
       else
         alert = @brand.errors.full_messages.join('.')
         format.html { redirect_to brands_path, alert: alert }
@@ -47,7 +47,7 @@ class BrandsController < ApplicationController
     @brand.destroy
     respond_to do |format|
       notice = t('.destroy', name: @brand.name)
-      format.html { redirect_to brands_url, alert: notice }
+      format.html { redirect_to brands_url, notice: notice }
     end
   end
 

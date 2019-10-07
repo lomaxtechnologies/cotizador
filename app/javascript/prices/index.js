@@ -17,3 +17,8 @@ window.show_confirmation_modal = (element)=>{
    confirmation_modal.set_attr(yes_id,'data-method','delete');
    $(`#${confirmation_modal.name}`).modal();
 }
+
+const NEW_price_MODAL = 'new-price-modal';
+window.show_new_price_modal = (element)=>{
+   $(`#${NEW_price_MODAL}`).modal();
+}

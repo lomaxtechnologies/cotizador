@@ -1,28 +1,24 @@
 es:
   prices:
     title: Precios
+    new_modal:
+      upload: Subir Excel
+      import: Importar
+      title: Precios
+      instruction1: '1) Seleccione el archivo que desea cargar.'
+      instruction2: '2) De click en importar para cargar el archivo.'
     manager: Administrar
-    upload: Subir Excel
     code: Código
     material: Material
     price: Precio
     measure_unit: Unidad
     save: Guardar
+    search: Buscar
     new: Nuevo Precio
     index:
-      import: Importar
       initial_price: Precio Inicial
       final_price: Precio Final
       material_code: Código del Material
       material_name: Nombre del Material
-      instruction1: '1)Seleccione el archivo que desea cargar.'
-      instruction2: '2)De click en importar para cargar el archivo.'
-      tooltip:
-        edit_brand: Editar esta marca
-        delete_brand: Eliminar esta marca
-    show:
-      dashboard: Dashboard
-      new_material_text: Los siguientes son los materiales que se crearon al subir su excel
-      new_measure_text: Las siguientes son las undiades de medida que se crearon al subir su excel
-      new_product_text: Los siguientes son los precios que se crearon al subir su excel
+      no_results_found: No hay resultados para mostrar.
 
