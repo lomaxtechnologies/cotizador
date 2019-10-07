@@ -1,5 +1,6 @@
 es:
   services:
+    return: Regresar
     save: Guardar
     name: Servicio
     description: Descripción
@@ -7,13 +8,17 @@ es:
     creation_price: Precio inicial
     return: Regresar
     index:
+      no_results_found: No hay resultados para mostrar.
       title: Servicios
-      new: Nuevo
-      search: Buscar Servicio
+      new: Nuevo Servicio
+      search_title: Filtrar por
+      search: Buscar
+      placeholder:
+        search: Nombre del servicio
     new:
       new_service: Nuevo Servicio
     edit:
-      edit_service: Editar Unidad de Medida
+      edit_service: Editar Servicio
     show:
       edit: Editar
       back: Regresar

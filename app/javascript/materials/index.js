@@ -1,7 +1,7 @@
-const CONFIRM_DELETE_MATERIAL_TITLE = '¿Realmente deseas eliminiar este material?';
+const CONFIRM_DELETE_MATERIAL_TITLE = '¿Realmente deseas eliminar este material?';
 const CONFIRM_DELETE_MATERIAL_BODY = `
    Una vez eliminado no podrás recuperarlo y deberás crear uno nuevo. 
-   Todas la información asociada a esto material (productos, cotizaciones, etc.) seguirá existiendo.
+   Todas la información asociada a este material (productos, cotizaciones, etc.) seguirá existiendo.
 `;
 const CONFIRM_DELETE_MATERIAL_YES_TEXT = 'Sí, elimínalo';
 const CONFIRM_DELETE_MATERIAL_NO_TEXT = 'Cancelar';

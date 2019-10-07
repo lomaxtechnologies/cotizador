@@ -4,6 +4,6 @@ es:
       material: Material
     attributes:
       material:
-        name: Nombre
+        name: Material
         description: Descripción
         code: Código
