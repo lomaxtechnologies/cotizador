@@ -6,6 +6,11 @@ es:
     return: Regresar
     name: Nombre
     index:
+      delete_modal: 
+        title: ¿Realmente deseas eliminiar a esta marca?
+        body: Una vez eliminada no podrás recuperarla y deberás crear una nueva. Todas la información asociada a esta marca (productos, cotizaciones, etc.) seguirá existiendo.
+        yes_text: Sí, elimínala
+        no_text: Cancelar
       search_title: Filtrar por
       title: Marcas
       new: Nueva Marca
