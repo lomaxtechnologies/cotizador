@@ -1,3 +1,17 @@
-%h2 Dashboard
-  
-
+ 
+.row
+  .col-2.offset-md-1
+    %h2= t('.dashboard')
+.row
+  .col-8.offset-md-1
+    %h5= t('.new_material_text')
+  .col-12
+    %table.table.table-sm.table-striped
+      %thead
+        %tr.bg-primary.text-light
+          %th= t('material.code')
+          %th= t('material.name')
+          %th
+      %tbody
+        %tr{"data-expanded" => "true"}
+             

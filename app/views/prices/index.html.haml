@@ -2,35 +2,59 @@
 = javascript_pack_tag "prices/index", media: "all", "data-turbolinks-track": "reload"
 = render partial: "confirmation_modal"
 .row
-  .col-2.offset-md-1
-    %h2= t('prices.title')
-  .col-6
-    .input-group
-      %input.form-control
-      %span.input-group-btn
-        %button.btn.border-dark{ :name => "commit", :type => "submit", :value => "Search"}
-          %i.fas.fa-search
-  .col-2
-    %button.btn.btn-primary.btn-lg{"data-target" => "#myModal", "data-toggle" => "modal", type: "button"}
-      = t('prices.upload')
-    #myModal.modal.fade{"aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
-      .modal-dialog{role: "document"}
-        .modal-content
-          .modal-header
-            %h4#myModalLabel.modal-title{style: "text-align: left"}= t('prices.upload')
-            %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
-            %span{"aria-hidden" => "true"} X
-          .modal-body
-            = t('.instruction1')
-            %br
-            = t('.instruction2')
-          .modal-footer
-            = form_tag upload_prices_path, multipart: true do
-              = submit_tag t('.import')
-              = file_field_tag :file
-    -#%button.btn.btn-primary.btn-lg{action: }
-      %i.fas.fa-download.fa-xs.text-white 
-      Excel
+  .col-md-12.col-lg-10.offset-lg-1
+    .form-row
+      .col-12
+        .card
+          .card-header
+            .row
+              .col-6
+                %h4.text-primary 
+                  %b= t('prices.title')
+              .col-4.text-right
+                = link_to t('prices.new'), new_price_path, class: "btn btn-primary"
+              .col-2
+                %button.btn.btn-primary{"data-target" => "#importModal", "data-toggle" => "modal", type: "button"}
+                  = t('prices.upload')
+                #importModal.modal.fade{"aria-labelledby" => "importModalLabel", role: "dialog", tabindex: "-1"}
+                  .modal-dialog{role: "document"}
+                    .modal-content
+                      .modal-header
+                        %h4#importModalLabel.modal-title{style: "text-align: left"}= t('prices.upload')
+                        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
+                        %span{"aria-hidden" => "true"} X
+                      .modal-body
+                        = t('.instruction1')
+                        %br
+                        = t('.instruction2')
+                      .modal-footer
+                        = form_tag upload_prices_path, multipart: true do
+                          = submit_tag t('.import')
+                          = file_field_tag :file
+                -#%button.btn.btn-primary.btn-lg{action: }
+                  %i.fas.fa-download.fa-xs.text-white 
+                  Excel
+          .card-body
+            .form-row
+              .col-12.mb-2
+            = search_form_for @q, url: prices_path do |f|
+              .form-row
+                .col-2
+                  = f.label t('.initial_price')
+                  = f.search_field :price_prices_gteq, class: 'form-control'
+                .col-2
+                  = f.label t('.final_price')
+                  = f.search_field :price_prices_lteq, class: 'form-control'
+                .col-2
+                  = f.label t('.material_code')
+                  = f.search_field :material_code_cont, class: 'form-contrl'
+                .col-3
+                  = f.label t('.material_name')
+                  = f.search_field :material_name_cont, class: 'form-contrl'
+                .col-2.text-right
+                  %button.btn-block.btn.btn-purple{ type: "submit", value: "Search"}
+                    %i.fas.fa-search.fa-sm
+                    = t('clients.search')
 .row
   .col-12
     %table.table.table-sm.table-striped

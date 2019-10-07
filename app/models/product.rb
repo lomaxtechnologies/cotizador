@@ -8,4 +8,8 @@ class Product < ApplicationRecord
   has_many :comments, as: :commentable
   accepts_nested_attributes_for :price, allow_destroy: true
   paginates_per 10
+
+  def self.new_products
+    Product.where(create_at: 30.minutes.ago)
+  end
 end

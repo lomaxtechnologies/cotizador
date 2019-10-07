@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :prices
   
   post '/prices/upload', to: 'prices#upload', as: 'upload_prices'
-
+  get '/prices/dashboard', to: 'price#dashboard', as: 'dashboard_prices'
   resources :materials
   resources :brands, except: [:edit, :show, :new]
 
