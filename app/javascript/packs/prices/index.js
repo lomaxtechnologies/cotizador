@@ -1,3 +1,5 @@
 import 'bootstrap/js/dist/modal'
+import 'bootstrap/js/dist/tooltip'
+import '../../application/tooltip_initializer.js'
 import '../../prices/index.js'
 import '../../application/inline_form_handler.js'
