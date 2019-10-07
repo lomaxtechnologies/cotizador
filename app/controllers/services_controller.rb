@@ -27,7 +27,6 @@ class ServicesController < ApplicationController
   # POST /services.json
   def create
     @service = Service.new(service_params)
-    puts @service
     respond_to do |format|
       if @service.save
         notice = t('.success', name: @service.name)
