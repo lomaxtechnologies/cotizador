@@ -1,60 +1,72 @@
- 
 = javascript_pack_tag "prices/index", media: "all", "data-turbolinks-track": "reload"
 = render partial: "confirmation_modal"
+= render partial: "new_modal"
 .row
-  .col-2.offset-md-1
-    %h2= t('prices.title')
-  .col-6
-    .input-group
-      %input.form-control
-      %span.input-group-btn
-        %button.btn.border-dark{ :name => "commit", :type => "submit", :value => "Search"}
-          %i.fas.fa-search
-  .col-2
-    %button.btn.btn-primary.btn-lg{"data-target" => "#myModal", "data-toggle" => "modal", type: "button"}
-      = t('prices.upload')
-    #myModal.modal.fade{"aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
-      .modal-dialog{role: "document"}
-        .modal-content
-          .modal-header
-            %h4#myModalLabel.modal-title{style: "text-align: left"}= t('prices.upload')
-            %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
-            %span{"aria-hidden" => "true"} X
-          .modal-body
-            = t('.instruction1')
-            %br
-            = t('.instruction2')
-          .modal-footer
-            = form_tag upload_prices_path, multipart: true do
-              = submit_tag t('.import')
-              = file_field_tag :file
-    -#%button.btn.btn-primary.btn-lg{action: }
-      %i.fas.fa-download.fa-xs.text-white 
-      Excel
-.row
+  .col-md-12.col-lg-10.offset-lg-1
+    .form-row
+      .col-12
+        .card
+          .card-header
+            .row
+              .col-8
+                %h4.text-primary 
+                  %b= t('.title')
+              .col-4.text-right
+                %button.btn.btn-primary{onclick: "show_new_price_modal()"}
+                  = t('prices.index.new')
+          .card-body
+            .form-row
+              .col-12.mb-2
+                %b= t('prices.index.search_title')
+            = search_form_for @q, url: prices_path do |f|
+              .form-row
+                .col-10
+                  = f.text_field :material_id_cont, class: 'form-control',placeholder: t('prices.index.placeholder.search'), :disabled => true
+                .col-2.text-right
+                  %button.btn-block.btn.btn-purple{ type: "submit", value: "Search"}
+                    %i.fas.fa-search.fa-sm
+                    = t('prices.search')
   .col-12
-    %table.table.table-sm.table-striped
-      %thead
-        %tr.bg-primary.text-light
-          %th= t('prices.code')
-          %th= t('prices.material')
-          %th= t('prices.measure_unit')
-          %th= t('prices.price')
-          %th
-      %tbody
-        - @products.each do |product|
-          %tr
-            %td= Material.find(product.material_id).code
-            %td= Material.find(product.material_id).name
-            %td= MeasureUnit.find(product.measure_unit_id).name
-            %td
-              - price = product.price
-              = form_for price do |f|
-                = f.text_field :prices, :value => product.price.prices, class: 'form-control-sm'
-                = f.submit t('prices.save'), class: 'btn btn-success '
-            %td 
-              %button.btn.btn-danger.btn-sm{onclick: "show_confirmation_modal(this)",
-                    action: price_path(product),
-                    method: :delete}
-                %i.fas.fa-trash.fa-xs.text-white
-    = paginate @products      
+    - if @products.length > 0
+      %table.table.table-sm.table-striped
+        %thead
+          %tr.bg-primary.text-light
+            %th= t('prices.code')
+            %th= t('prices.material')
+            %th= t('prices.measure_unit')
+            %th= t('prices.price')
+            %th
+        %tbody
+          - @products.each do |product|
+            %tr
+              %td= Material.find(product.material_id).code
+              %td= Material.find(product.material_id).name
+              %td= MeasureUnit.find(product.measure_unit_id).name
+              %td
+                - price = product.price
+                = form_for price do |f|
+                  %span{id: "title_price_#{price.id}"}= price.prices
+                  .form-row
+                    .col-12
+                      .input-group.d-none{id: "form_price_#{price.id}"}
+                        = f.text_field(:prices,
+                          required: true,
+                          class: "form-control rounded-left")
+                        .input-group-append
+                          = f.button(class: "btn btn-primary btn-sm btn-block rounded-right",
+                            name: "commit",
+                            "data-disabled-with"=>t('prices.save'), value: t('prices.save')) do
+                            = t('pricees.save')
+              %td.text-right
+                %button.btn.btn-success{onclick: "show_hide_edit_form(this)", type: "button",
+                  form_target: "form_price_#{price.id}", title_target: "title_price_#{price.id}"}
+                  %i.fas.fa-edit.fa-xs
+                %button.btn.btn-danger{onclick: "show_confirmation_modal(this)", type: "button",
+                  action: price_path(product), method: :delete}
+                  %i.fas.fa-trash.fa-xs
+      = paginate @products
+    - else
+      .text-center.text-muted.mt-5
+        %h2
+          No hay resultados para mostrar.   
+= javascript_pack_tag "prices/index", media: "all", "data-turbolinks-track": "reload"

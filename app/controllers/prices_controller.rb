@@ -5,7 +5,7 @@ class PricesController < ApplicationController
   # GET /prices
   # GET /prices.json
   def index
-    #@q = Product.ransack(search_prices_params)
+    @q = Product.ransack(search_prices_params)
     #@products = @q.result
     #@prooducts = @products.page(params[:page])
     @products = Product.order("material_id").all
@@ -37,7 +37,7 @@ class PricesController < ApplicationController
     if result.success?
       redirect_to prices_path, notice: t('.upload')
     else
-      redirect_to prices_path, notice: result.errors
+      redirect_to prices_path, alert: result.errors
     end
   end
 

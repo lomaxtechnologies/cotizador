@@ -66,43 +66,40 @@ a:hover{
 
 
 .btn-purple {
-    color: #fff;
-    background-color: #6d20d8;
-    border-color: #6d20d8;
-  }
-  
-  .btn-purple:hover {
-    color: #fff;
-    background-color: #5b22cc;
-    border-color: #5b20d8;
-  }
-  
-  .btn-purple:focus, .btn-purple.focus {
-    box-shadow: 0 0 0 0.2rem rgba(133, 32, 216, 0.5);
-  }
-  
-  .btn-purple.disabled, .btn-purple:disabled {
-    color: #fff;
-    background-color: #6d20d8;
-    border-color: #6d20d8;
-  }
-  
-  .btn-purple:not(:disabled):not(.disabled):active, .btn-purple:not(:disabled):not(.disabled).active,
-  .show > .btn-purple.dropdown-toggle {
-    color: #fff;
-    background-color: #5b20d8;
-    border-color: #5920d8;
-  }
-  
-  .btn-purple:not(:disabled):not(.disabled):active:focus, .btn-purple:not(:disabled):not(.disabled).active:focus,
-  .show > .btn-purple.dropdown-toggle:focus {
-    box-shadow: 0 0 0 0.2rem rgba(133, 32, 216, 0.5);
-  }
+  color: #fff;
+  background-color: #6d20d8;
+  border-color: #6d20d8;
+}
 
-  select{
-    height: calc(1.648438rem + 2px);
-    padding: 0.25rem 0.5rem;
-    font-size: 0.765625rem;
-    line-height: 1.5;
-    width: 100%
-  }
+.btn-purple:hover {
+  color: #fff;
+  background-color: #5b22cc;
+  border-color: #5b20d8;
+}
+
+.btn-purple:focus, .btn-purple.focus {
+  box-shadow: 0 0 0 0.2rem rgba(133, 32, 216, 0.5);
+}
+
+.btn-purple.disabled, .btn-purple:disabled {
+  color: #fff;
+  background-color: #6d20d8;
+  border-color: #6d20d8;
+}
+
+.btn-purple:not(:disabled):not(.disabled):active, .btn-purple:not(:disabled):not(.disabled).active,
+.show > .btn-purple.dropdown-toggle {
+  color: #fff;
+  background-color: #5b20d8;
+  border-color: #5920d8;
+}
+
+.btn-purple:not(:disabled):not(.disabled):active:focus, .btn-purple:not(:disabled):not(.disabled).active:focus,
+.show > .btn-purple.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(133, 32, 216, 0.5);
+}
+.nav-image{
+  max-width: 5em;
+  -webkit-filter: grayscale(100%) invert(100%) brightness(150%); /* Safari */
+  filter:  grayscale(100%) invert(100%) brightness(150%);
+}

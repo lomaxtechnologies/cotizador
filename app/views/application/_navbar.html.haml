@@ -1,0 +1,70 @@
+%nav.navbar.navbar-expand-lg.bg-nav-color
+  %a.navbar-brand.color-nav-icon{:href => "/"}
+    = image_tag "lomax-logo.png", alt: "logo", class: "nav-image"
+  %button.navbar-light.navbar-toggler{"aria-controls" => "navbarSupportedContent",
+    "aria-expanded" => "false",
+    "aria-label" => "Toggle navigation",
+    "data-target" => "#navbarSupportedContent",
+    "data-toggle" => "collapse",
+    :type => "button"}
+    %span.navbar-toggler-icon
+  #navbarSupportedContent.collapse.navbar-collapse
+    %ul.navbar-nav.mr-auto
+      %li.nav-item
+        = link_to t('clients.index.title'), clients_path, id: 'color-nav', class: 'nav-link' 
+      %li.nav-item
+        = link_to t('services.index.title'), services_path, id: 'color-nav', class: 'nav-link'
+      %li.nav-item.dropdown
+        %a#color-nav.nav-link.dropdown-toggle{"aria-expanded" => "false",
+          "aria-haspopup" => "true",
+          "data-toggle" => "dropdown",
+          :href => "#",
+          :role => "button"}
+          = t('materials.index.title')
+        .dropdown-menu{"aria-labelledby" => "nav-dropdown-prices"}
+          .dropdown-item
+            = link_to materials_path do
+              %i.nav-link.fas.fa-hammer
+              = t('materials.index.title')
+          .dropdown-item
+            = link_to brands_path do
+              %i.nav-link.fas.fa-copyright
+              = t('brands.index.title')
+          .dropdown-item
+            = link_to measure_units_path do
+              %i.nav-link.fas.fa-ruler-combined
+              = t('measure_units.index.title')
+          .dropdown-item
+            = link_to prices_path do
+              %i.nav-link.fas.fa-dollar-sign
+              = t('prices.title')
+      %li.nav-item.dropdown
+        %a#color-nav.nav-link.dropdown-toggle{"aria-expanded" => "false",
+          "aria-haspopup" => "true",
+          "data-toggle" => "dropdown",
+          :href => "#",
+          :role => "button"}
+          = t('quotations.index.title')
+        .dropdown-menu{"aria-labelledby" => "nav-dropdown-quotations"}
+          .dropdown-item
+            = link_to quotations_path do
+              %i.fas.fa-tasks
+              = t('quotations.manager')
+          %a.dropdown-item{:href => "#"}
+            %i.fas.fa-history
+            = t('quotations.log')
+          %a.dropdown-item{:href => "#"}
+            %i.fas.fa-eraser
+            = t('quotations.deleted_list')
+    %form.form-inline.my-2.my-lg-0
+      = link_to users_registrations_path, id: 'color-nav', class: "mr-3" do
+        %i.fas.fa-users
+        = t('users.registrations.index.title')
+      = link_to user_account_path, id: 'color-nav', class: "mr-3" do
+        %i.fas.fa-user-circle
+        = t('users.registrations.account.account')
+      = link_to t('users.registrations.account.logout'),
+        destroy_user_session_path,
+        method: :delete,
+        class: "btn btn-outline-primary my-2 my-sm-0",
+        id: "color-nav"

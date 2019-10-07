@@ -7,7 +7,7 @@ class MaterialsController < ApplicationController
   # GET /materials.json
   def index
     @q = Material.ransack(search_material_params)
-    @materials = @q.result
+    @materials = @q.result.order('code ASC')
     @materials = @materials.page(params[:page])
   end
 
@@ -22,12 +22,12 @@ class MaterialsController < ApplicationController
     @material = Material.new(material_params)
 
     respond_to do |format|
-      if @client.save
-        notice = t('.success', name: @client.name)
-        format.html { redirect_to clients_path, notice: notice}
+      if @material.save
+        notice = t('.success', name: @material.name)
+        format.html { redirect_to materials_path, notice: notice}
       else
-        alert = @client.errors.full_messages.join('.')
-        format.html { redirect_to clients_path, alert: alert}
+        alert = @material.errors.full_messages.join('.')
+        format.html { redirect_to materials_path, alert: alert}
       end
     end
   end
@@ -36,12 +36,12 @@ class MaterialsController < ApplicationController
   # PATCH/PUT /materials/1.json
   def update
     respond_to do |format|
-      if @client.update(client_params)
-        notice = t('.update', name: @client.name)
-        format.html { redirect_to clients_path, alert: notice }
+      if @material.update(material_params)
+        notice = t('.update', name: @material.name)
+        format.html { redirect_to materials_path, notice: notice }
       else
-        alert = @client.errors.full_messages.join('.')
-        format.html { redirect_to clients_path, alert: alert }
+        alert = @material.errors.full_messages.join('.')
+        format.html { redirect_to materials_path, alert: alert }
       end
     end
   end

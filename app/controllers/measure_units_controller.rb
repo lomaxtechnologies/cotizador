@@ -38,7 +38,7 @@ layout "manager"
     respond_to do |format|
       if @measure_unit.update(measure_unit_params)
         notice = t('.update', name: @measure_unit.name)
-        format.html { redirect_to measure_units_path, alert: notice }
+        format.html { redirect_to measure_units_path, notice: notice }
       else
         alert = @measure_unit.errors.full_messages.join('.')
         format.html { redirect_to measure_units_path, alert: alert }
