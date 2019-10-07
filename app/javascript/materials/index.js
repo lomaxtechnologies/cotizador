@@ -7,5 +7,6 @@ window.show_confirmation_modal = (element)=>{
    var yes_id = confirmation_modal.yes_button_id;
    confirmation_modal.set_attr(yes_id,'href',element.attr('action'));
    confirmation_modal.set_attr(yes_id,'data-method','delete');
+   confirmation_modal.add_class(yes_id,'btn-danger');
    $(`#${confirmation_modal.name}`).modal();
 }
