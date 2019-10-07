@@ -27,11 +27,7 @@
             = f.text_field :name, required: true, class: "form-control form-control-sm"
       .form-row.mb-2
         = f.label :description, class: "mb-0 text-primary font-weight-bold"
-        .input-group.mb-2
-          .input-group-prepend
-            .input-group-text
-              %i.fas.fa-pencil-alt
-          = f.text_field :description, class: "form-control form-control-sm"
+        = f.text_area :description, class: "form-control form-control-sm"
       .form-row.actions.text-right
         .col-12
           = f.submit t('materials.save'), class: "btn btn-primary btn-sm px-2"

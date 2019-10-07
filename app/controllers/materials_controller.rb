@@ -27,7 +27,7 @@ class MaterialsController < ApplicationController
         format.html { redirect_to materials_path, notice: notice}
       else
         alert = @material.errors.full_messages.join('.')
-        format.html { redirect_to materials_path, alert: alert}
+        format.html { redirect_to new_material_path, alert: alert}
       end
     end
   end
@@ -41,7 +41,7 @@ class MaterialsController < ApplicationController
         format.html { redirect_to materials_path, notice: notice }
       else
         alert = @material.errors.full_messages.join('.')
-        format.html { redirect_to materials_path, alert: alert }
+        format.html { redirect_to edit_material_path, alert: alert }
       end
     end
   end

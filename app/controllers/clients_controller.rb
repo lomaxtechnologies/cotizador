@@ -31,7 +31,7 @@ class ClientsController < ApplicationController
         format.html { redirect_to clients_path, notice: notice}
       else
         alert = @client.errors.full_messages.join('.')
-        format.html { redirect_to clients_path, alert: alert}
+        format.html { redirect_to new_client_path, alert: alert}
       end
     end
   end
@@ -45,7 +45,7 @@ class ClientsController < ApplicationController
         format.html { redirect_to clients_path, notice: notice }
       else
         alert = @client.errors.full_messages.join('.')
-        format.html { redirect_to clients_path, alert: alert }
+        format.html { redirect_to edit_client_path, alert: alert }
       end
     end
   end

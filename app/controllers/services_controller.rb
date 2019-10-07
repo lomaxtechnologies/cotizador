@@ -34,7 +34,7 @@ class ServicesController < ApplicationController
         format.html { redirect_to services_path, notice: notice}
       else
         alert = @service.errors.full_messages.join('.')
-        format.html { redirect_to services_path, alert: alert}
+        format.html { redirect_to new_service_path, alert: alert}
       end
     end
   end
