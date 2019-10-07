@@ -18,5 +18,8 @@ module Lpm
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
     config.i18n.default_locale = :es
     config.i18n.available_locales = [:es]
+
+    # for i18n-js
+    config.middleware.use I18n::JS::Middleware
   end
 end
