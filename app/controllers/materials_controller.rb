@@ -60,21 +60,18 @@ class MaterialsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_material
-      @material = Material.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def material_params
-      params.require(:material).permit(:code, :name, :description)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_material
+    @material = Material.find(params[:id])
+  end
 
-    def search_material_params
-      begin
-        return params.require(:q).permit(:name_cont)
-      rescue ActionController::ParameterMissing
-        return {email_cont: ""}
-      end
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def material_params
+    params.require(:material).permit(:code, :name, :description)
+  end
+
+  def search_material_params
+    params.fetch(:q, {}).permit(:name_cont)
+  end
 end

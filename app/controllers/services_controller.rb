@@ -4,7 +4,9 @@ class ServicesController < ApplicationController
   # GET /services
   # GET /services.json
   def index
-    @services = Service.all
+    @q = Service.ransack(search_service_params)
+    @services = @q.result.order('name ASC')
+    @services = @services.page(params[:page])
   end
 
   # GET /services/1
@@ -57,18 +59,22 @@ class ServicesController < ApplicationController
     @service.destroy
     respond_to do |format|
       format.html { redirect_to services_url, alert: t('.destroy') }
-      format.json { head :no_content }
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_service
-      @service = Service.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def service_params
-      params.require(:service).permit(:name, :description, :creation_price, :actual_price, :creator_user, :modifier_user, :status)
-    end
+  def set_service
+    @service = Service.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def service_params
+    params.require(:service).permit(:name, :description, :creation_price, :actual_price, :creator_user, :modifier_user, :status)
+  end
+
+  def search_service_params
+    params.fetch(:q, {}).permit(:name_cont)
+  end
 end

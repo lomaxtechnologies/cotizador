@@ -8,8 +8,11 @@ es:
     return: Regresar
     index:
       title: Servicios
-      new: Nuevo
-      search: Buscar Servicio
+      new: Nuevo Servicio
+      search_title: Filtrar por
+      search: Buscar
+      placeholder:
+        search: Nombre del servicio
     new:
       new_service: Nuevo Servicio
     edit:
