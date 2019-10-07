@@ -10,29 +10,49 @@
             .row
               .col-8
                 %h4.text-primary 
-                  %b= t('.title')
+                  %b= t('prices.title')
               .col-4.text-right
                 %button.btn.btn-primary{onclick: "show_new_price_modal()"}
-                  = t('prices.index.new')
+                  = t('prices.new_modal.upload')
+                %button.btn.btn-primary
+                  = t('prices.new')
           .card-body
             .form-row
               .col-12.mb-2
             = search_form_for @q, url: prices_path do |f|
               .form-row
+                .col-1
+                  .imput-group.mb-3
+                    %b= t('.initial_price')
+                    .input-group-prepend
+                      .input-group-text
+                        %i.fas.fa-coins
+                      = f.search_field :price_prices_gteq, class: 'form-control'
+                .col-1
+                  .imput-group.mb-3
+                    %b= t('.final_price')
+                    .input-group-prepend
+                      .input-group-text
+                        %i.fas.fa-coins
+                      = f.search_field :price_prices_lteq, class: 'form-control'
                 .col-2
-                  = f.label t('.initial_price')
-                  = f.search_field :price_prices_gteq, class: 'form-control'
-                .col-2
-                  = f.label t('.final_price')
-                  = f.search_field :price_prices_lteq, class: 'form-control'
-                .col-2
-                  = f.label t('.material_code')
-                  = f.search_field :material_code_cont, class: 'form-contrl'
-                .col-3
-                  = f.label t('.material_name')
-                  = f.search_field :material_name_cont, class: 'form-contrl'
-                .col-2.text-right
-                  %button.btn-block.btn.btn-purple{ type: "submit", value: "Search"}
+                  .imput-group.mb-3
+                    %b= t('.material_code')
+                    .input-group-prepend
+                      .input-group-text
+                        %i.fas.fa-barcode
+                      = f.search_field :material_code_cont, class: 'form-control'
+                .col-5
+                  .imput-group.mb-3
+                    %b= t('.material_name')
+                    .input-group-prepend
+                      .input-group-text
+                        %i.fas.fa-signature
+                      = f.search_field :material_name_cont, class: 'form-control'
+                .col-2.text-center
+                  %label 
+                  %br
+                  %button.btn.btn-purple{ type: "submit", value: "Search"}
                     %i.fas.fa-search.fa-sm
                     = t('prices.search')
   .col-12
@@ -77,5 +97,5 @@
     - else
       .text-center.text-muted.mt-5
         %h2
-          No hay resultados para mostrar.   
+          = t('.no_results_found')
 = javascript_pack_tag "prices/index", media: "all", "data-turbolinks-track": "reload"
