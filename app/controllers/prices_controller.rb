@@ -6,15 +6,13 @@ class PricesController < ApplicationController
   # GET /prices.json
   def index
     @q = Product.ransack(search_prices_params)
-    #@products = @q.result
-    #@prooducts = @products.page(params[:page])
     @products = Product.order("material_id").all
-    @products = @products.page(params[:page])
+    @page_size = params.fetch(:page_size, 10)
+    @products = @products.page(params[:page]).per(@page_size)
   end
 
   def update
     @product = @price.product
-    p @product
     @price.destroy
     price = Price.new(prices_params)
     price.save
