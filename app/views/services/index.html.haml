@@ -28,7 +28,6 @@
                   %button.btn-block.btn.btn-purple{ type: "submit", value: "Search"}
                     %i.fas.fa-search.fa-sm
                     = t('.search')
-  .col-12
     - if @services.length > 0
       %table.table.table-sm.table-striped
         %thead
@@ -58,3 +57,5 @@
     - else
       .text-center.text-muted.mt-5
         %h2= t('.no_results_found')
+        %br
+        = image_tag "lomax-logo.png", class: 'logo-without-results'

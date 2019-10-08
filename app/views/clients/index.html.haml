@@ -59,4 +59,7 @@
     - else
       .text-center.text-muted.mt-5
         %h2= t('clients.index.no_results_found')
+        %br
+        = image_tag "lomax-logo.png", class: 'logo-without-results'
 = javascript_pack_tag "clients/index", media: "all", "data-turbolinks-track": "reload"
+
