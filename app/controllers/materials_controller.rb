@@ -8,7 +8,7 @@ class MaterialsController < ApplicationController
   def index
     @q = Material.ransack(search_material_params)
     @materials = @q.result.order('code ASC')
-    @materials = @materials.page(params[:page])
+    @materials = @materials.page(params[:page]).per(params[:page_size])
   end
 
   # GET /materials/new
