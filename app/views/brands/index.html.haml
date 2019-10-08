@@ -16,12 +16,16 @@
           .card-body
             .form-row
               .col-12.mb-2
-                %b= t('brands.index.search_title')
+                %b.font-size-search= t('brands.index.search_title')
             = search_form_for @q, url: brands_path do |f|
               .form-row
                 .col-10
-                  = f.text_field :name_cont, class: 'form-control',placeholder: t('brands.index.placeholder.search')
-                .col-2.text-right
+                  %b.color-search-title= t('brands.index.search_name')
+                  .input-group-prepend
+                    .input-group-text
+                      %i.fas.fa-copyright
+                    = f.text_field :name_cont, class: 'form-control'
+                .col-2.text-right.button-margin-top
                   %button.btn-block.btn.btn-purple{ type: "submit", value: "Search"}
                     %i.fas.fa-search.fa-sm
                     = t('brands.search')
