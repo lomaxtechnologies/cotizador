@@ -34,7 +34,7 @@
           %tr.bg-primary.text-light
             %th= t('services.name')
             %th= t('services.description')
-            %th.text-right= t('services.actual_price')
+            %th.text-right= "#{t('services.actual_price')} (#{t('currency')})"
             %th
         %tbody#services-body
         - @services.each do |service|

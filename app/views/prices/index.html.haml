@@ -35,7 +35,7 @@
             %th= t('prices.material')
             %th= t('materials.description')
             %th= t('prices.measure_unit')
-            %th.text-right= t('prices.price')
+            %th.text-right= "#{t('prices.price')} (#{t('currency')})"
             %th
         %tbody
           - @products.each do |product|
