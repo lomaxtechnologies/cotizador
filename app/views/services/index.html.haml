@@ -1,7 +1,7 @@
-= render partial: "confirmation_modal"
 = javascript_pack_tag "services/index", media: "all", "data-turbolinks-track": "reload"
+= render partial: "confirmation_modal"
 .row
-  .col-md-12.col-lg-10.offset-lg-1
+  .col-lg-12.offset-xl-1.col-xl-10
     .form-row
       .col-12
         .card
@@ -13,10 +13,11 @@
               .col-4.text-right
                 = link_to t('.new'), new_service_path, class: "btn btn-primary"
           .card-body
-            .form-row
-              .col-12.mb-2
+            .form-row.mb-2
+              .col-12
                 %b.font-size-search= t('.search_title')
             = search_form_for @q, url: services_path do |f|
+              %input{type: :hidden, name: :page_size, value: @page_size}
               .form-row
                 .col-10
                   %b.color-search-title= t('services.index.search_name')
@@ -35,7 +36,13 @@
             %th= t('services.name')
             %th= t('services.description')
             %th.text-right= "#{t('services.actual_price')} (#{t('currency')})"
-            %th
+            %th.text-right
+              %input{type: :number, min: 0, 
+                url: services_url, 
+                class: "form-control-sm", 
+                placeholder: t('.page_size_placeholder'), 
+                onchange: "set_page_size(this)",
+                value: @page_size}
         %tbody#services-body
         - @services.each do |service|
           %tr
