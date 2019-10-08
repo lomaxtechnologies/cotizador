@@ -48,12 +48,12 @@ class PricesController < ApplicationController
   
   def upload
     @result = OpenStruct.new(success?: true, errors: nil)
-    #active_thread = Thread.new do
-    @result = MaterialsParser.new(path: params[:file]).load_data
-    #end
+    active_thread = Thread.new do
+      @result = MaterialsParser.new(path: params[:file]).load_data
+    end
     #p active_thread.alive?
     if @result.success?
-      redirect_to prices_path, notice: t('.upload')
+      redirect_to dashboard_prices_path, notice: t('.upload')
     else
       redirect_to prices_path, notice: @result.errors
     end
@@ -70,11 +70,11 @@ class PricesController < ApplicationController
   private
 
   def search_prices_params
-    params.fetch(:q, {}).permit(:price_product_price_gteq,:price_product_price_lteq, :material_code_cont, :material_name_cont)
+    params.fetch(:q, {}).permit(:price_product_price_gteq,:price_product_price_lteq, :code_cont, :material_name_cont)
   end
 
   def products_params
-    params.require(:product).permit(:material_id, :brand_id, :measure_unit_id, price_attributes: %i[product_price])
+    params.require(:product).permit(:material_id, :brand_id, :measure_unit_id, :code, price_attributes: %i[product_price])
   end
 
   def prices_params

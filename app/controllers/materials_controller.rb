@@ -7,7 +7,7 @@ class MaterialsController < ApplicationController
   # GET /materials.json
   def index
     @q = Material.ransack(search_material_params)
-    @materials = @q.result.order('code ASC')
+    @materials = @q.result.order('id ASC')
     @materials = @materials.page(params[:page])
   end
 
@@ -68,7 +68,7 @@ class MaterialsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def material_params
-    params.require(:material).permit(:code, :name, :description)
+    params.require(:material).permit(:name, :description)
   end
 
   def search_material_params

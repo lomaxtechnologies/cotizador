@@ -5,7 +5,6 @@ es:
     search: Buscar
     name: Nombre
     description: Descripción
-    code: Código
     index:
       search_title: Filtrar por
       no_results_found: No hay resultados para mostrar.

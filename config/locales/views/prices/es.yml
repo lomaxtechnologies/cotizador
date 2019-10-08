@@ -2,13 +2,6 @@ es:
   prices:
     title: Precios
     return: Regresar
-    new_modal:
-      upload: Subir Excel
-      import: Importar
-      title: Precios
-      instruction1: '1) Seleccione el archivo que desea cargar.'
-      instruction2: '2) De click en importar para cargar el archivo.'
-    manager: Administrar
     code: Código
     material: Material
     brand: Marca
@@ -17,10 +10,15 @@ es:
     save: Guardar
     search: Buscar
     new: Nuevo Precio
+    new_modal:
+      upload: Subir Excel
+      import: Importar
+      title: Precios
+      instruction1: '1) Seleccione el archivo que desea cargar.'
+      instruction2: '2) De click en importar para cargar el archivo.'
+    manager: Administrar
     index:
       initial_price: Precio Min.
       final_price: Precio Max.
-      material_code: Código del Material
-      material_name: Nombre del Material
       no_results_found: No hay resultados para mostrar.
 

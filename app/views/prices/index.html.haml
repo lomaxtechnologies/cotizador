@@ -36,14 +36,14 @@
                       = f.search_field :price_product_price_lteq, class: 'form-control'
                 .col-2
                   .imput-group.mb-3
-                    %b= t('.material_code')
+                    %b= t('prices.code')
                     .input-group-prepend
                       .input-group-text
                         %i.fas.fa-barcode
-                      = f.search_field :material_code_cont, class: 'form-control'
+                      = f.search_field :code_cont, class: 'form-control'
                 .col-5
                   .imput-group.mb-3
-                    %b= t('.material_name')
+                    %b= t('prices.material')
                     .input-group-prepend
                       .input-group-text
                         %i.fas.fa-signature
@@ -68,7 +68,7 @@
         %tbody
           - @products.each do |product|
             %tr
-              %td= product.material.code
+              %td= product.code
               %td= product.brand.name
               %td= product.material.name
               %td= product.measure_unit.name
@@ -86,7 +86,7 @@
                           = f.button(class: "btn btn-primary btn-sm btn-block rounded-right",
                             name: "commit",
                             "data-disabled-with"=>t('prices.save'), value: t('prices.save')) do
-                            = t('pricees.save')
+                            = t('prices.save')
               %td.text-right
                 %button.btn.btn-success{onclick: "show_hide_edit_form(this)", type: "button",
                   form_target: "form_price_#{price.id}", title_target: "title_price_#{price.id}"}
