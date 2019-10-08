@@ -72,6 +72,6 @@ class MaterialsController < ApplicationController
   end
 
   def search_material_params
-    params.fetch(:q, {}).permit(:name_cont)
+    params.fetch(:q, {}).permit(:name_cont, :description_cont)
   end
 end

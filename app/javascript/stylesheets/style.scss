@@ -47,7 +47,7 @@
 }
 
 .bg-nav-color{
-background-color: #0c4280;
+background-color: rgb(61, 133, 198);
 }
 .color-nav-icon{
     color: #ffffff
@@ -115,4 +115,12 @@ a:hover{
 
 .font-size-search{
   font-size: large;
+}
+
+body{
+  background-color: #ffffff;
+}
+
+.logo-without-results{
+  max-height: 200px;
 }
