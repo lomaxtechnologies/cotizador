@@ -37,8 +37,7 @@
             %th= t('services.description')
             %th.text-right= "#{t('services.actual_price')} (#{t('currency')})"
             %th.text-right
-              %input{type: :number, min: 0, 
-                url: services_url, 
+              %input{type: :number, min: 0,
                 class: "form-control-sm", 
                 placeholder: t('.page_size_placeholder'), 
                 onchange: "set_page_size(this)",
