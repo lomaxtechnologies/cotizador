@@ -2,7 +2,7 @@
 = render partial: "confirmation_modal"
 = render partial: "new_modal"
 .row
-  .col-md-12.col-lg-10.offset-lg-1
+  .col-lg-12.offset-xl-1.col-xl-10
     .form-row
       .col-12
         .card
@@ -36,7 +36,8 @@
             %th= t('materials.description')
             %th= t('prices.measure_unit')
             %th.text-right= "#{t('prices.price')} (#{t('currency')})"
-            %th
+            %th.text-right
+              %input{type: :number, min: 0, class: "form-control-sm", placeholder: "Filas por Página"}
         %tbody
           - @products.each do |product|
           - material = product.find_even_if_deleted(:material)

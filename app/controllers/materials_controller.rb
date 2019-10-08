@@ -9,6 +9,7 @@ class MaterialsController < ApplicationController
     @q = Material.ransack(search_material_params)
     @materials = @q.result.order('code ASC')
     @materials = @materials.page(params[:page]).per(params[:page_size])
+    @page_size = params.fetch(:page_size,10)
   end
 
   # GET /materials/new
