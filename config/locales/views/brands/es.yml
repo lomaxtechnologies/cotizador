@@ -4,7 +4,7 @@ es:
     cancel: Cancelar
     search: Buscar
     return: Regresar
-    name: Nombre
+    name: Marca
     index:
       delete_modal: 
         title: ¿Realmente deseas eliminiar a esta marca?
