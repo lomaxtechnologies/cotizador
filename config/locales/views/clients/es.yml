@@ -8,6 +8,11 @@ es:
     nit: NIT 
     phone: Teléfono
     index:
+      delete_modal: 
+        title: ¿Realmente deseas eliminar a este cliente?
+        body: Una vez eliminado no podrás recuperarlo y deberás crear uno nuevo. Todas las cotizaciones asociadas a este cliente seguirán existiendo.
+        yes_text: Sí, elimínalo
+        no_text: Cancelar
       search_title: Filtrar por
       search_name: Nombre del cliente
       title: Clientes

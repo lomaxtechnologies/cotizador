@@ -1,2 +1,3 @@
 import 'bootstrap/js/dist/modal'
-import '../../services/index.js'
+import '../../application/locale_config'
+import '../../services/index'
