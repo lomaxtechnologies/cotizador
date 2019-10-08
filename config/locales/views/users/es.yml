@@ -27,6 +27,7 @@ es:
         new: Nuevo Usuario
         search: Buscar
         search_title: Filtrar por
+        page_size_placeholder: Filas por página
         placeholder:
           search: Correo del Usuario
       new:
