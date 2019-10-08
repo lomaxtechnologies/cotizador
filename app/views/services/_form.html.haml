@@ -5,7 +5,7 @@
       .input-group.mb-2
         .input-group-prepend
           .input-group-text
-            %i.fas.fa-font
+            %i.fas.fa-briefcase
         = f.text_field :name, required: true, class: "form-control form-control-sm"
     .col-4
       - if @service.new_record?
@@ -13,7 +13,7 @@
         .input-group.mb-2
           .input-group-prepend
             .input-group-text
-              %i.fas.fa-money-bill-wave
+              %i.fas.fa-money-bill
           = f.number_field :creation_price, required: true, class: "form-control form-control-sm", min: 0, step: "any"
       - else
         = f.label :actual_price, class: "mb-0 text-primary font-weight-bold"

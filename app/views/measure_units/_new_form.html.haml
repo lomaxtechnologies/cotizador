@@ -16,11 +16,14 @@
           .input-group.mb-2
             .input-group-prepend
               .input-group-text
-                %i.fas.fa-pencil-alt
+                %i.fas.fa-ruler-combined
             = f.text_field :name, :required => true, class: "form-control form-control-sm"
         .col-6
           = f.label :unit_type,  class: "mb-0 text-primary font-weight-bold "
-          = f.select :unit_type, ([["Longitud"], ["Peso"], ["Volumen"]]).to_a, {:prompt => :unit_type}, {class:"form-control form-control-sm"}
+          .input-group-prepend
+            .input-group-text
+              %i.fas.fa-balance-scale-right
+            = f.select :unit_type, ([["Longitud"], ["Peso"], ["Volumen"]]).to_a, {:prompt => :unit_type}, {class:"form-control form-control-sm"}
       .form-row.actions.text-right
         .col-12
           = f.submit t('measure_units.save'), class: "btn btn-primary btn-sm px-2"
