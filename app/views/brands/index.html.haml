@@ -1,7 +1,8 @@
+= javascript_pack_tag "brands/index", media: "all", "data-turbolinks-track": "reload"
 = render partial: "confirmation_modal"
 = render partial: "new_modal"
 .row
-  .col-md-12.col-lg-10.offset-lg-1
+  .col-lg-12.offset-xl-1.col-xl-10
     .form-row
       .col-12
         .card
@@ -14,10 +15,11 @@
                 %button.btn.btn-primary{onclick: "show_new_brand_modal()"}
                   = t('brands.index.new')
           .card-body
-            .form-row
-              .col-12.mb-2
+            .form-row.mb-2
+              .col-12
                 %b.font-size-search= t('brands.index.search_title')
             = search_form_for @q, url: brands_path do |f|
+              %input{type: :hidden, name: :page_size, value: @page_size}
               .form-row
                 .col-10
                   %b.color-search-title= t('brands.index.search_name')
@@ -34,7 +36,13 @@
         %thead
           %tr.bg-primary.text-light
             %th= t('brands.name')
-            %th
+            %th.text-right
+              %input{type: :number, min: 0, 
+                url: brands_url, 
+                class: "form-control-sm", 
+                placeholder: t('.page_size_placeholder'), 
+                onchange: "set_page_size(this)",
+                value: @page_size}
         %tbody#brands-body
           - @brands.each do |brand|
             %tr
@@ -66,4 +74,3 @@
         %h2= t('brands.index.no_results_found')
         %br
         = image_tag "lomax-logo.png", class: 'logo-without-results'
-= javascript_pack_tag "brands/index", media: "all", "data-turbolinks-track": "reload"
