@@ -78,3 +78,4 @@ class ClientsController < ApplicationController
       params.fetch(:q,{}).permit(:name_cont)
     end
 end
+
