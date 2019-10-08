@@ -31,5 +31,9 @@ window.confirmation_modal= {
    
    set_attr: function(id,key,value){
       $(`#${id}`).attr(key,value);
+   },
+
+   add_class: function(id,class_name){
+      $(`#${id}`).addClass(class_name);
    }
 };

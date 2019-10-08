@@ -5,7 +5,7 @@ class BrandsController < ApplicationController
   # GET /brands
   # GET /brands.json
   def index
-    @q = Brand.ransack(query_params)
+    @q = Brand.ransack(search_service_params)
     @brands = @q.result.order('name ASC')
     @brands = @brands.page(params[:page])
     @brand = Brand.new
@@ -64,10 +64,8 @@ class BrandsController < ApplicationController
   end
 
   # Allows some params for the search query
-  def query_params
-    params.require(:q).permit(:name_cont)
-  rescue ActionController::ParameterMissing
-    { name_cont: '' }
+  def search_service_params
+    params.fetch(:q, {}).permit(:name_cont)
   end
 
 end
