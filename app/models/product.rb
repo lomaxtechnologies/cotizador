@@ -14,15 +14,15 @@ class Product < ApplicationRecord
     when :material
       return material if material
 
-      Material.only_deleted.where(id: material_id).first
+      Material.with_deleted.find(material_id)
     when :brand
       return brand if brand
 
-      Brand.only_deleted.where(id: brand_id).first
+      Brand.with_deleted.find(brand_id)
     when :measure_unit
       return measure_unit if measure_unit
 
-      MeasureUnit.only_deleted.where(id: measure_unit_id).first
+      MeasureUnit.with_deleted.find(measure_unit_id)
     end
   end
 end
