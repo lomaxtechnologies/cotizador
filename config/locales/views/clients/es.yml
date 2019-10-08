@@ -14,11 +14,10 @@ es:
         yes_text: Sí, elimínalo
         no_text: Cancelar
       search_title: Filtrar por
+      search_name: Nombre del cliente
       title: Clientes
       no_results_found: No hay resultados para mostrar.
       new: Nuevo Cliente
-      placeholder:
-        search: Nombre del cliente
       tooltip:
         edit_brand: Editar este cliente
         delete_brand: Eliminar este cliente

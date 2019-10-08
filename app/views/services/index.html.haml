@@ -15,12 +15,16 @@
           .card-body
             .form-row
               .col-12.mb-2
-                %b= t('.search_title')
+                %b.font-size-search= t('.search_title')
             = search_form_for @q, url: services_path do |f|
               .form-row
                 .col-10
-                  = f.text_field :name_cont, class: 'form-control',placeholder: t('.placeholder.search')
-                .col-2.text-right
+                  %b.color-search-title= t('services.index.search_name')
+                  .input-group-prepend
+                    .input-group-text
+                      %i.fas.fa-briefcase
+                    = f.text_field :name_cont, class: 'form-control'
+                .col-2.text-right.button-margin-top
                   %button.btn-block.btn.btn-purple{ type: "submit", value: "Search"}
                     %i.fas.fa-search.fa-sm
                     = t('.search')
