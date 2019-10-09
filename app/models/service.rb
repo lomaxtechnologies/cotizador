@@ -6,17 +6,11 @@ class Service < ApplicationRecord
   paginates_per 10
 
   def save
-    if self.name_changed?
-      if Service.exists?(name: name)
+    if self.name_changed? && Service.exists?(name: name)
         errors.add(:name, :duplicated)
         false
-      else
-        if new_record?
-          self.actual_price = creation_price
-        end
-        super
-      end
     else
+      self.actual_price = creation_price
       super
     end
   end

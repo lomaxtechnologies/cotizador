@@ -6,15 +6,12 @@ class Brand < ApplicationRecord
   scope :ci_find, lambda { |attribute, value| where("lower(#{attribute}) = ?", value.downcase).first}
 
   def save
-  if self.name_changed?
-    if Brand.exists?(name: name)
-      errors.add(:name, :duplicated)
-      false
+    if self.name_changed? && Brand.exists?(name: name)
+        errors.add(:name, :duplicated)
+        false
     else
       super
     end
-  else
-    super
   end
 end
-end
+  

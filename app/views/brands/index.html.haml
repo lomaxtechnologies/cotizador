@@ -60,13 +60,13 @@
                             "data-disabled-with"=>t('brands.save'), value: t('brands.save')) do
                             = t('brands.save')
               %td.text-right
-                %button.btn.btn-success.btm-sm{onclick: "show_hide_edit_form(this)", type: "button",
+                %button.btn.btn-success.btm-sm.padding-0{onclick: "show_hide_edit_form(this)", type: "button",
                   form_target: "form_brand_#{brand.id}", title_target: "title_brand_#{brand.id}"}
-                  %i.fas.fa-edit.fa-xs
-                %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
+                  %i.fas.fa-edit.fa-xs.height-width-buttom
+                %button.btn.btn-danger.btm-sm.padding-0{onclick: "show_confirmation_modal(this)",
                   action: brand_path(brand),
                   method: :delete}
-                  %i.fas.fa-trash-alt.fa-xs
+                  %i.fas.fa-trash-alt.fa-xs.height-width-buttom
       = paginate @brands
     - else
       .text-center.text-muted.mt-5
