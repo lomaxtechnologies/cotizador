@@ -11,6 +11,9 @@ es:
       date: Fecha
       name: Cliente
       status: Estado
+    new:
+      header:
+        client_select_title: Seleccione un cliente
     admin:
       client: Clientes
       brand:  Marcas

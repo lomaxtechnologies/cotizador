@@ -4,7 +4,9 @@ class QuotationsController < ApplicationController
   def index
   end
 
-  def admin
+  # GET /quotations/new
+  def new
+    @quotation = Quotation.new
   end
 
 end

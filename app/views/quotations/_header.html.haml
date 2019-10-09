@@ -1,0 +1,62 @@
+.card-body
+  = fields_for @quotation do |quotation_fields|
+    .form-row
+      .col-2
+        %label.mb-0.text-primary.font-weight-bold Número
+        .input-group.mb-3
+          .input-group-prepend
+            .input-group-text.bg-white.text-primary
+              %i.fas.fa-hashtag
+          %input.form-control.text-right{value: @quotation.next_code}
+      .col-7
+        %label.mb-0.text-primary.font-weight-bold Cliente
+        .input-group.mb-3
+          .input-group-prepend
+            .input-group-text.bg-white.text-primary
+              %i.fas.fa-user-alt
+          = quotation_fields.select(:client,
+            options_for_select(Client.all.map{|client| [client.name,client.id]}),
+            {include_blank: t('quotations.new.header.client_select_title')},
+            { class: 'form-control', required: true })
+      .col-3
+        %label.mb-0.text-primary.font-weight-bold Fecha
+        .input-group.mb-3
+          .input-group-prepend
+            .input-group-text.bg-white.text-primary
+              %i.fas.fa-calendar
+          %input.form-control{placeholder: 'DD/MM/AAAA', value: Time.now.strftime(t('formats.date'))}
+      .col-3
+        %label.mb-0.text-primary.font-weight-bold Tipo de Cotización
+        %select.custom-select.form-control
+          %option.selected 
+            Compuesta
+          %option
+            Simple
+      .col-2
+        .custom-control.custom-checkbox.custom-control-inline
+          %input#customControlAutosizing.custom-control-input{:type => 'checkbox', checked:true}
+          %label.custom-control-label.mb-0.text-primary.font-weight-bold{:for => 'customControlAutosizing'} Supranet
+        .input-group.mb-3
+          .input-group-prepend
+            .input-group-text.bg-white.text-primary
+              %i.fas.fa-percentage
+          %input.form-control.text-right{type: :number, placeholder: 'Holgura  ', value: @quotation.default_material_percentage}
+      .col-2
+        .custom-control.custom-checkbox.custom-control-inline
+          %input#customControlAutosizing2.custom-control-input{:type => 'checkbox',checked: true}
+          %label.custom-control-label.mb-0.text-primary.font-weight-bold{:for => 'customControlAutosizing2'} Siemon
+        .input-group.mb-3
+          .input-group-prepend
+            .input-group-text.bg-white.text-primary
+              %i.fas.fa-percentage
+          %input.form-control.text-right{type: :number, placeholder: 'Holgura  ', value: @quotation.default_material_percentage}
+      .col-3.col-lg-2
+        %label.mb-0.text-primary.font-weight-bold Holgura Servicios
+        .input-group.mb-3
+          .input-group-prepend
+            .input-group-text.bg-white.text-primary
+              %i.fas.fa-percentage
+          %input.form-control.text-right{type: :number, placeholder: 'Holgura  ', value: @quotation.default_service_percentage}
+      .col-2.offset-lg-1
+        %label.mb-0.text-primary.font-weight-bold &nbsp;
+        %button.btn.btn-primary.btn-block{disabled: true} Siguiente

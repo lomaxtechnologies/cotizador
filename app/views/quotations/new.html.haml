@@ -1,0 +1,235 @@
+.row
+  .col-lg-12.offset-xl-1.col-xl-10
+    %h2.text-primary
+      %b Nueva Cotización
+    .card
+      .card-header
+        %ul.nav.nav-tabs.card-header-tabs
+          %li.nav-item
+            %a.nav-link.active.text-muted{:href => "#"}
+              Datos Generales &nbsp;
+              %i.fas.fa-check-circle
+          %li.nav-item
+            %a.nav-link{:href => "#"}
+              Materiales &nbsp;
+              %i.fas.fa-check-circle.text-muted
+          %li.nav-item
+            %a.nav-link.disabled{:href => "#"}
+              Servicios &nbsp;
+              %i.fas.fa-check-circle.text-muted
+          %li.nav-item
+            %a.nav-link.disabled{:href => "#"}
+              Condiciones &nbsp;
+              %i.fas.fa-check-circle.text-muted
+          %li.nav-item
+            %a.nav-link.disabled{:href => "#"}
+              Vista Global &nbsp;
+              %i.fas.fa-check-circle.text-muted
+      = render partial: 'header'
+    #collapse2.collapse
+      .card.card-body
+        .row.py-4
+          .col-12
+            .form-row.mb-3
+              .col-2.my-auto
+                %h3.text-primary= t('.material')
+              .col-8
+                .input-group.mb-3
+                  .input-group-prepend
+                    .input-group-text.border-dark
+                      %i.fas.fa-search
+                  %input.form-control.form-control-sm.border.border-dark{placeholder: t('.search_materials') }
+              .col-2
+                = link_to 'Agregar Material', new_material_path, class: "btn btn-primary btn-sm"             
+            %table.table.table-sm.table-striped
+              %thead
+                %tr.bg-primary.text-light
+                  %th.text-center{:colspan => "2",:style => "width:10%"} Cantidad
+                  %th.text-center{:rospan => "2",:style => "width:15%"} Material
+                  %th.text-center{:colspan => "5",:style => "width:37%"} Supranet 
+                  %th.text-center{:colspan => "5",:style => "width:37%"} Siemon
+                  %th{:style => "width:1%"}
+                %tr.bg-primary.text-light
+                  %th
+                  %th
+                  %th
+                  %th Precio Unitario (Q)
+                  %th Holgura (%)
+                  %th Precio Unitario con Holgura (Q)
+                  %th Total (Q)
+                  %th Total con holgura (Q)
+                  %th Precio Unitario (Q)
+                  %th Holgura (%)
+                  %th Precio Unitario con Holgura (Q)
+                  %th Total (Q)
+                  %th Total con holgura (Q)
+                  %th
+              %tbody
+                %tr 
+                  %td
+                    %input.text-right.w-50{:type => "text", :value => "100"} 
+                  %td metros
+                  %td Cable categoría 6  F/FTP
+                  %td 50
+                  %td   
+                    %input.text-right.w-50{:type => "text", :value => "10"}
+                  %td 55
+                  %td 5000
+                  %td 5500
+                  %td 60
+                  %td 
+                    %input.text-right.w-50{:type => "text", :value => "10"}
+                  %td 66
+                  %td 6000
+                  %td 6600
+                  %td
+                    %i.fas.fa-trash-alt.fa-xs
+                %tr 
+                  %td 
+                    %input.text-right.w-50{:type => "text", :value => "2"} 
+                  %td cajas
+                  %td Cable categoría 6  F/FTP
+                  %td 450
+                  %td 
+                    %input.text-right.w-50{:type => "text", :value => "10"}
+                  %td 495
+                  %td 900
+                  %td 990
+                  %td 600
+                  %td 
+                    %input.text-right.w-50{:type => "text", :value => "10"}
+                  %td 660
+                  %td 1200
+                  %td 1320
+                  %td
+                    %i.fas.fa-trash-alt.fa-xs
+                %tr 
+                  %td 
+                    %input.text-right.w-50{:type => "text", :value => "30"} 
+                  %td unidades
+                  %td canaletas
+                  %td 100
+                  %td 
+                    %input.text-right.w-50{:type => "text", :value => "10"}
+                  %td 110
+                  %td 3000
+                  %td 3300
+                  %td 100
+                  %td 
+                    %input.text-right.w-50{:type => "text", :value => "10"}
+                  %td 110
+                  %td 3000
+                  %td 3300
+                  %td
+                    %i.fas.fa-trash-alt.fa-xs
+        .row.py-4
+    #collapse3.collapse
+      .card.card-body
+        .row.py-4
+          .col-12
+            .form-row.mb-3
+              .col-2.my-auto
+                %h3.text-primary= t('.service')
+              .col-8
+                .input-group.mb-3
+                  .input-group-prepend
+                    .input-group-text.border-dark
+                      %i.fas.fa-search
+                  %input.form-control.form-control-sm.border.border-dark{placeholder: t('.search_service') }
+              .col-2
+                = link_to 'Agregar Servicio', new_material_path, class: "btn btn-primary btn-sm"  
+          .col-8.offset-md-2           
+            %table.table.table-sm.table-striped
+              %thead
+                %tr.hideme
+                  %th.noborder{:style => "width:20%"}
+                  %th.noborder{:style => "width:50%"}
+                  %th.noborder{:style => "width:15%"}
+                  %th.noborder{:style => "width:50%"}
+              %tbody
+                %tr 
+                  %td 
+                    %input.text-right.w-25{:type => "text", :value => "3"}
+                  %td.text-left instalaciones de putos de red
+                  %td 
+                    .row
+                      Q&nbsp;
+                      %input.text-right.w-50{:type => "text", :value => "1,500"}
+                  %td.text-right 
+                    Q 4,500
+                  %td
+                    %i.fas.fa-trash-alt.fa-xs
+                %tr 
+                  %td 
+                    %input.text-right.w-25{:type => "text", :value => "50"}
+                  %td.text-left instalaciones de canaletas
+                  %td 
+                    .row
+                      Q&nbsp;
+                      %input.text-right.w-50{:type => "text", :value => "2,000"}
+                  %td.text-right 
+                    Q 100,000
+                  %td
+                    %i.fas.fa-trash-alt.fa-xs
+        .row.py-4   
+    #collapse4.collapse
+      .card.card-body
+        .row.py-4
+          .col-12
+            %h3.text-primary= t('.totals')
+          .col-8.offset-md-2           
+            %table.table.table-sm
+              %tr 
+                %td.text-left Total de materiales para Supranet
+                %td 
+                  .row
+                    .col-1
+                      Q
+                    .col-1
+                      %input.text-right{:type => "text", :value => "9,790"}
+              %tr 
+                %td.text-left Total de materiales para Siemon
+                %td 
+                  .row
+                    .col-1
+                      Q
+                    .col-1
+                      %input.text-right{:type => "text", :value => "11,220"}
+              %tr 
+                %td.text-left Total de servicios
+                %td
+                  .row
+                    .col-1
+                      Q
+                    .col-1
+                      %input.text-right{:type => "text", :value => "104,500"}
+              %tr 
+                %td.text-left Total General con Supranet
+                %td 
+                  .row
+                    .col-1
+                      Q
+                    .col-1
+                      %input.text-right{:type => "text", :value => "114,290"}
+              %tr 
+                %td.text-left Total General con Siemon
+                %td
+                  .row
+                    .col-1
+                      Q
+                    .col-1
+                      %input.text-right{:type => "text", :value => "115,720"}
+              %tr
+                %td
+                %td
+        .row.py-4
+          .col-2.offset-md-5
+          .col-4
+            %button.btn-primary.btn-sm.px-2
+              %b Generar PDF
+            %button.btn-primary.btn-sm.px-2
+              %b Guardar Cotización
+
+                
+
+      

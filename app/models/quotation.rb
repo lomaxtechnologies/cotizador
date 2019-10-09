@@ -7,4 +7,17 @@ class Quotation < ApplicationRecord
   has_many :attachments
   has_many :quotations_notes
   has_many :comments, as: :commentable
+
+  def next_code
+    max = Quotation.maximum('code')
+    max ? max : 101
+  end
+
+  def default_material_percentage
+    15
+  end
+
+  def default_service_percentage
+    0
+  end
 end

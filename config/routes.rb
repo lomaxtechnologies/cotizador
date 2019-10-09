@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :measure_units
   resources :clients
   resources :prices
+  resources :quotations
   
   post '/prices/upload', to: 'prices#upload', as: 'upload_prices'
 
@@ -20,8 +21,6 @@ Rails.application.routes.draw do
 
   # Allows admin users to reset other users's passwords
   post '/users/registrations/reset-password/:id', to: 'users/registrations#reset_password', as: 'reset_password_users_registration'
-
-  get '/quotations', to: 'quotations#admin'
 
   root to: 'quotations#index'
 

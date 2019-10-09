@@ -3,6 +3,8 @@ es:
   currency: GTQ
   noformat: 'No utiliza el formato estandarizado'
   nofile: 'No a seleccionado un archivo'
+  formats:
+    date: "%d/%m/%Y"
   #Added kaminari es
   helpers:
     page_entries_info:
