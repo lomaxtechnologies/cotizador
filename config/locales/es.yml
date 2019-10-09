@@ -1,5 +1,6 @@
 es:
-  title: Cotizador
+  title: Cotizador de Proyectos de Infraestructura
+  currency: GTQ
   noformat: 'No utiliza el formato estandarizado'
   nofile: 'No a seleccionado un archivo'
   #Added kaminari es

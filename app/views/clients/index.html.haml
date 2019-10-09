@@ -1,6 +1,7 @@
+= javascript_pack_tag "clients/index", media: "all", "data-turbolinks-track": "reload"
 = render partial: "confirmation_modal"
 .row
-  .col-md-12.col-lg-10.offset-lg-1
+  .col-lg-12.offset-xl-1.col-xl-10
     .form-row
       .col-12
         .card
@@ -12,10 +13,11 @@
               .col-4.text-right
                 = link_to t('.new'), new_client_path, class: "btn btn-primary"
           .card-body
-            .form-row
-              .col-12.mb-2
+            .form-row.mb-2
+              .col-12
                 %b.font-size-search= t('clients.index.search_title')
             = search_form_for @q, url: clients_path do |f|
+              %input{type: :hidden, name: :page_size, value: @page_size}
               .form-row
                 .col-10
                   %b.color-search-title= t('clients.index.search_name')
@@ -29,13 +31,18 @@
                     = t('clients.search')
     - if @clients.length > 0
       %table.table.table-sm.table-striped
-        %thead{onclick: "hide_all_edit_forms()"}
+        %thead
           %tr.bg-primary.text-light
             %th= t('clients.name')
             %th= t('clients.address')
             %th= t('clients.nit')
             %th= t('clients.phone')
-            %th
+            %th.text-right
+              %input{type: :number, min: 0, 
+                class: "form-control-sm", 
+                placeholder: t('.page_size_placeholder'), 
+                onchange: "set_page_size(this)",
+                value: @page_size}
         %tbody#clients-body
         - @clients.each do |client|
           %tr
@@ -61,5 +68,3 @@
         %h2= t('clients.index.no_results_found')
         %br
         = image_tag "lomax-logo.png", class: 'logo-without-results'
-= javascript_pack_tag "clients/index", media: "all", "data-turbolinks-track": "reload"
-

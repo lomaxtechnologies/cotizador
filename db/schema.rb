@@ -84,7 +84,6 @@ ActiveRecord::Schema.define(version: 2019_10_02_172151) do
   create_table "materials", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.string "code"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -101,7 +100,7 @@ ActiveRecord::Schema.define(version: 2019_10_02_172151) do
   end
 
   create_table "prices", force: :cascade do |t|
-    t.decimal "prices"
+    t.decimal "product_price"
     t.bigint "product_id", null: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
@@ -111,6 +110,7 @@ ActiveRecord::Schema.define(version: 2019_10_02_172151) do
   end
 
   create_table "products", force: :cascade do |t|
+    t.string "code", null: false
     t.bigint "material_id", null: false
     t.bigint "measure_unit_id", null: false
     t.bigint "brand_id", null: false
