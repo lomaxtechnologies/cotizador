@@ -4,7 +4,7 @@ es:
   noformat: 'No utiliza el formato estandarizado'
   nofile: 'No a seleccionado un archivo'
   formats:
-    date: "%d/%m/%Y"
+    standard_date: "%Y-%m-%d"
   #Added kaminari es
   helpers:
     page_entries_info:

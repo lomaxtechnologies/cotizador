@@ -1,63 +1,59 @@
 .card-body#quotation_header
   = fields_for @quotation do |quotation_fields|
-    .form-row
-      .col-2
-        %label.mb-0.text-primary.font-weight-bold Número
-        .input-group.mb-3
-          .input-group-prepend
-            .input-group-text.bg-white.text-primary
-              %i.fas.fa-hashtag
-          %input.form-control.text-right{value: @quotation.next_code}
-      .col-7
-        %label.mb-0.text-primary.font-weight-bold Cliente
-        .input-group.mb-3
-          .input-group-prepend
-            .input-group-text.bg-white.text-primary
-              %i.fas.fa-user-alt
-          = quotation_fields.select(:client,
-            options_for_select(Client.all.map{|client| [client.name,client.id]}),
-            {include_blank: t('quotations.new.header.client_select_title')},
-            { class: 'form-control', required: true })
-      .col-3
-        %label.mb-0.text-primary.font-weight-bold Fecha
-        .input-group.mb-3
-          .input-group-prepend
-            .input-group-text.bg-white.text-primary
-              %i.fas.fa-calendar
-          %input.form-control{placeholder: 'DD/MM/AAAA', value: Time.now.strftime(t('formats.date'))}
-      .col-3
-        %label.mb-0.text-primary.font-weight-bold Tipo de Cotización
-        %select.custom-select.form-control{"v-model"=>"quotation_type"}
-          %option.selected{value: 1}
-            Compuesta
-          %option{value: 0}
-            Simple
-      .col-2
-        .custom-control.custom-checkbox.custom-control-inline
-          %input#use_brand_supranet.custom-control-input{":disabled"=>"quotation_type == 0",:type => 'checkbox', ":checked"=>"quotation_type == 1"}
-          %label.custom-control-label.mb-0.text-primary.font-weight-bold{:for => 'use_brand_supranet'} Supranet
-        .input-group.mb-3
-          .input-group-prepend
-            .input-group-text.bg-white.text-primary
-              %i.fas.fa-percentage
-          %input.form-control.text-right{":disabled"=>"quotation_type == 0", type: :number, placeholder: 'Holgura  ', value: @quotation.default_material_percentage}
-      .col-2
-        .custom-control.custom-checkbox.custom-control-inline
-          %input#user_brand_siemon.custom-control-input{":disabled"=>"quotation_type == 0", :type => 'checkbox', ":checked"=>"quotation_type == 1"}
-          %label.custom-control-label.mb-0.text-primary.font-weight-bold{:for => 'user_brand_siemon'} Siemon
-        .input-group.mb-3
-          .input-group-prepend
-            .input-group-text.bg-white.text-primary
-              %i.fas.fa-percentage
-          %input.form-control.text-right{":disabled"=>"quotation_type == 0", type: :number, placeholder: 'Holgura  ', value: @quotation.default_material_percentage}
-      .col-3.col-lg-2
-        %label.mb-0.text-primary.font-weight-bold Holgura Servicios
-        .input-group.mb-3
-          .input-group-prepend
-            .input-group-text.bg-white.text-primary
-              %i.fas.fa-percentage
-          %input.form-control.text-right{type: :number, placeholder: 'Holgura  ', value: @quotation.default_service_percentage}
-      .col-2.offset-lg-1
-        %label.mb-0.text-primary.font-weight-bold &nbsp;
-        %button.btn.btn-primary.btn-block{disabled: true} Siguiente
+    %form#quotation_header_form{"v-on:submit.prevent"=>"validate_header"}
+      .form-row
+        .col-7
+          %label.mb-0.text-primary.font-weight-bold Cliente
+          .input-group.mb-3
+            .input-group-prepend
+              .input-group-text.bg-white.text-primary
+                %i.fas.fa-user-alt
+            = quotation_fields.select(:client,
+              options_for_select(Client.all.map{|client| [client.name,client.id]}),
+              {include_blank: t('quotations.new.header.client_select_title')},
+              { class: 'form-control', required: true,"v-on:change"=>"invalidate_header"})
+        .col-3.offset-2
+          %label.mb-0.text-primary.font-weight-bold Fecha
+          .input-group.mb-3
+            .input-group-prepend
+              .input-group-text.bg-white.text-primary
+                %i.fas.fa-calendar
+            %input.form-control{type: :date, required: true, value: Time.now.strftime(t('formats.standard_date')),"v-on:change"=>"invalidate_header"}
+        .col-2
+          %label.mb-0.text-primary.font-weight-bold Holgura Servicios
+          .input-group.mb-3
+            .input-group-prepend
+              .input-group-text.bg-white.text-primary
+                %i.fas.fa-percentage
+            %input.form-control.text-right{type: :number, placeholder: 'Holgura  ', value: @quotation.default_service_percentage}
+        .col-3
+          %label.mb-0.text-primary.font-weight-bold Tipo de Cotización
+          %select.custom-select.form-control{"v-model"=>"quotation_type"}
+            %option.selected{value: 1}
+              Compuesta
+            %option{value: 0}
+              Simple
+        .col-2
+          %div{"v-if"=>"quotation_type == 1"}
+            .custom-control.custom-checkbox.custom-control-inline
+              %input#use_brand_supranet.custom-control-input{"v-model"=>"supranet_enabled", :type => 'checkbox'}
+              %label.custom-control-label.mb-0.text-primary.font-weight-bold{:for => 'use_brand_supranet'} Supranet
+            .input-group.mb-3
+              .input-group-prepend
+                .input-group-text.bg-white.text-primary
+                  %i.fas.fa-percentage
+              %input.form-control.text-right{":disabled"=>"! supranet_enabled","v-on:change"=>"invalidate_header" , type: :number, placeholder: 'Holgura  ', value: @quotation.default_material_percentage}
+        .col-2
+          %div{"v-if"=>"quotation_type == 1"}
+            .custom-control.custom-checkbox.custom-control-inline
+              %input#user_brand_siemon.custom-control-input{"v-model"=>"siemon_enabled",:type => 'checkbox'}
+              %label.custom-control-label.mb-0.text-primary.font-weight-bold{:for => 'user_brand_siemon'} Siemon
+            .input-group.mb-3
+              .input-group-prepend
+                .input-group-text.bg-white.text-primary
+                  %i.fas.fa-percentage
+              %input.form-control.text-right{":disabled"=>"! siemon_enabled","v-on:change"=>"invalidate_header" , type: :number, placeholder: 'Holgura  ', value: @quotation.default_material_percentage}
+        .col-2.offset-1
+          %label.mb-0.text-primary.font-weight-bold &nbsp;
+          %button.btn.btn-primary.btn-block Siguiente
 = javascript_pack_tag "quotations/new/header", media: "all", "data-turbolinks-track": "reload"
