@@ -34,7 +34,7 @@
             Simple
       .col-2
         .custom-control.custom-checkbox.custom-control-inline
-          %input#use_brand_supranet.custom-control-input{":disabled"=>"quotation_type == 0",:type => 'checkbox', checked:true}
+          %input#use_brand_supranet.custom-control-input{":disabled"=>"quotation_type == 0",:type => 'checkbox', ":checked"=>"quotation_type == 1"}
           %label.custom-control-label.mb-0.text-primary.font-weight-bold{:for => 'use_brand_supranet'} Supranet
         .input-group.mb-3
           .input-group-prepend
@@ -43,7 +43,7 @@
           %input.form-control.text-right{":disabled"=>"quotation_type == 0", type: :number, placeholder: 'Holgura  ', value: @quotation.default_material_percentage}
       .col-2
         .custom-control.custom-checkbox.custom-control-inline
-          %input#user_brand_siemon.custom-control-input{":disabled"=>"quotation_type == 0", :type => 'checkbox',checked: true}
+          %input#user_brand_siemon.custom-control-input{":disabled"=>"quotation_type == 0", :type => 'checkbox', ":checked"=>"quotation_type == 1"}
           %label.custom-control-label.mb-0.text-primary.font-weight-bold{:for => 'user_brand_siemon'} Siemon
         .input-group.mb-3
           .input-group-prepend
