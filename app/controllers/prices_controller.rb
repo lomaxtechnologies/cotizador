@@ -14,6 +14,7 @@ class PricesController < ApplicationController
 
   def new
     @product = Product.new
+    @product.code = Product.generate_next_code
     @product.price = Price.new
   end
 
@@ -47,16 +48,10 @@ class PricesController < ApplicationController
   end
   
   def upload
-    @result = OpenStruct.new(success?: true, errors: nil)
     active_thread = Thread.new do
       @result = MaterialsParser.new(path: params[:file]).load_data
     end
-    #p active_thread.alive?
-    if @result.success?
-      redirect_to dashboard_prices_path, notice: t('.upload')
-    else
-      redirect_to prices_path, notice: @result.errors
-    end
+    redirect_to prices_path, notice: t('.upload')
   end
 
   def create_excel

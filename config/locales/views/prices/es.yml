@@ -26,4 +26,7 @@ es:
       initial_price: Precio Min.
       final_price: Precio Max.
       no_results_found: No hay resultados para mostrar.
+    dashboard:
+      title: Nuevos
+      new_material_text: Estos son los nuevos materiales
 

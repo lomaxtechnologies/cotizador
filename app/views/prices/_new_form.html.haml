@@ -14,7 +14,7 @@
         .form-row.mb-2
           .col-12
             = f.label :code, class: "mb-0 text-primary font-weight-bold "
-            = f.text_field :code, required: true, pattern: 'LMX-\d{5-8}', class: "form-control"
+            = f.text_field :code, value: @product.code, readonly: true, class: "form-control"
         .form-row.mb-2
           .col-3
             = f.label :brand_id,  class: "mb-0 text-primary font-weight-bold "

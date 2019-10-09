@@ -116,3 +116,6 @@ a:hover{
 .font-size-search{
   font-size: large;
 }
+
+.tableFixHead          { overflow-y: auto; }
+.tableFixHead thead th { position: sticky; top: 0; }

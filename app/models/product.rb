@@ -11,6 +11,24 @@ class Product < ApplicationRecord
   paginates_per 10
 
   def self.new_products
-    Product.where(create_at: 30.minutes.ago)
+    Product.where(['created_at BETWEEN ? AND ?',10.minutes.ago,Time.now])
   end
+
+  def self.generate_next_code
+    code = Product.order(code: :desc).first.code
+    code = (code.gsub(/^LMX-0*/,'').to_i + 1).to_s
+    case code.length
+    when 1
+      code = 'LMX-0000'+code
+    when 2
+      code = 'LMX-000'+code
+    when 3
+      code = 'LMX-00'+code
+    when 4
+      code = 'LMX-0'+code
+    when 5
+      code = 'LMX-'+code
+    end
+  end
+
 end
