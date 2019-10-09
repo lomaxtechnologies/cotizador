@@ -1,5 +1,4 @@
-= javascript_pack_tag "quotations/new/header", media: "all", "data-turbolinks-track": "reload"
-.card-body
+.card-body#quotation_header
   = fields_for @quotation do |quotation_fields|
     .form-row
       .col-2
@@ -28,29 +27,29 @@
           %input.form-control{placeholder: 'DD/MM/AAAA', value: Time.now.strftime(t('formats.date'))}
       .col-3
         %label.mb-0.text-primary.font-weight-bold Tipo de Cotización
-        %select.custom-select.form-control
-          %option.selected 
+        %select.custom-select.form-control{"v-model"=>"quotation_type"}
+          %option.selected{value: 1}
             Compuesta
-          %option
+          %option{value: 0}
             Simple
       .col-2
         .custom-control.custom-checkbox.custom-control-inline
-          %input#customControlAutosizing.custom-control-input{:type => 'checkbox', checked:true}
-          %label.custom-control-label.mb-0.text-primary.font-weight-bold{:for => 'customControlAutosizing'} Supranet
+          %input#use_brand_supranet.custom-control-input{":disabled"=>"quotation_type == 0",:type => 'checkbox', checked:true}
+          %label.custom-control-label.mb-0.text-primary.font-weight-bold{:for => 'use_brand_supranet'} Supranet
         .input-group.mb-3
           .input-group-prepend
             .input-group-text.bg-white.text-primary
               %i.fas.fa-percentage
-          %input.form-control.text-right{type: :number, placeholder: 'Holgura  ', value: @quotation.default_material_percentage}
+          %input.form-control.text-right{":disabled"=>"quotation_type == 0", type: :number, placeholder: 'Holgura  ', value: @quotation.default_material_percentage}
       .col-2
         .custom-control.custom-checkbox.custom-control-inline
-          %input#customControlAutosizing2.custom-control-input{:type => 'checkbox',checked: true}
-          %label.custom-control-label.mb-0.text-primary.font-weight-bold{:for => 'customControlAutosizing2'} Siemon
+          %input#user_brand_siemon.custom-control-input{":disabled"=>"quotation_type == 0", :type => 'checkbox',checked: true}
+          %label.custom-control-label.mb-0.text-primary.font-weight-bold{:for => 'user_brand_siemon'} Siemon
         .input-group.mb-3
           .input-group-prepend
             .input-group-text.bg-white.text-primary
               %i.fas.fa-percentage
-          %input.form-control.text-right{type: :number, placeholder: 'Holgura  ', value: @quotation.default_material_percentage}
+          %input.form-control.text-right{":disabled"=>"quotation_type == 0", type: :number, placeholder: 'Holgura  ', value: @quotation.default_material_percentage}
       .col-3.col-lg-2
         %label.mb-0.text-primary.font-weight-bold Holgura Servicios
         .input-group.mb-3
@@ -61,3 +60,4 @@
       .col-2.offset-lg-1
         %label.mb-0.text-primary.font-weight-bold &nbsp;
         %button.btn.btn-primary.btn-block{disabled: true} Siguiente
+= javascript_pack_tag "quotations/new/header", media: "all", "data-turbolinks-track": "reload"
