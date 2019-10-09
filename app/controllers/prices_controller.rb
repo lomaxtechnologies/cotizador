@@ -8,7 +8,7 @@ class PricesController < ApplicationController
   # GET /prices.json
   def index
     @q = Product.ransack(search_prices_params)
-    @products = @q.result.includes(:material, :price)
+    @products = @q.result.includes(:material, :price).order('code ASC')
     @page_size = params.fetch(:page_size, 10)
     @products = @products.page(params[:page]).per(@page_size)
   end
@@ -66,7 +66,7 @@ class PricesController < ApplicationController
   private
 
   def search_prices_params
-    params.fetch(:q, {}).permit(:price_product_price_gteq,:price_product_price_lteq, :code_cont, :material_name_cont)
+    params.fetch(:q, {}).permit( :code_cont, :material_name_cont)
   end
 
   def products_params

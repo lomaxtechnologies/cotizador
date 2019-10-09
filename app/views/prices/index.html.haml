@@ -22,28 +22,14 @@
             = search_form_for @q, url: prices_path do |f|
               %input{type: :hidden, name: :page_size, value: @page_size}
               .form-row
-                .col-1
-                  .imput-group.mb-3
-                    %b= t('.initial_price')
-                    .input-group-prepend
-                      .input-group-text
-                        %i.fas.fa-coins
-                      = f.search_field :price_product_price_gteq, class: 'form-control'
-                .col-1
-                  .imput-group.mb-3
-                    %b= t('.final_price')
-                    .input-group-prepend
-                      .input-group-text
-                        %i.fas.fa-coins
-                      = f.search_field :price_product_price_lteq, class: 'form-control'
-                .col-2
+                .col-4
                   .imput-group.mb-3
                     %b= t('prices.code')
                     .input-group-prepend
                       .input-group-text
                         %i.fas.fa-barcode
                       = f.search_field :code_cont, class: 'form-control'
-                .col-5
+                .col-6
                   .imput-group.mb-3
                     %b= t('prices.material')
                     .input-group-prepend
