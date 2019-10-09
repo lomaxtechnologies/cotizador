@@ -6,11 +6,12 @@ Rails.application.routes.draw do
   end
   resources :measure_units
   resources :clients
-  resources :prices
   resources :quotations
-  
-  post '/prices/upload', to: 'prices#upload', as: 'upload_prices'
+  resources :prices, except:[:show]
 
+  post 'prices/upload', to: 'prices#upload', as: 'upload'
+  get 'prices/dashboard', to: 'prices#dashboard', as: 'dashboard'
+  
   resources :materials
   resources :brands, except: [:edit, :show, :new]
 

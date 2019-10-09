@@ -11,14 +11,7 @@
   .card-body
     = form_for @material do |f|
       .form-row.mb-2
-        .col-3
-          = f.label :code, class: "mb-0 text-primary font-weight-bold font-weight-bold"
-          .input-group.mb-2
-            .input-group-prepend
-              .input-group-text
-                %i.fas.fa-qrcode
-            = f.text_field :code, required: true, class: "form-control form-control-sm"
-        .col-9
+        .col-12
           = f.label :name, class:"mb-0 text-primary font-weight-bold font-weight-bold"
           .input-group.mb-2
             .input-group-prepend

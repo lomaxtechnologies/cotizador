@@ -5,7 +5,6 @@ es:
     search: Buscar
     name: Nombre
     description: Descripción
-    code: Código
     index:
       delete_modal: 
         title: ¿Realmente deseas eliminar este material?

@@ -39,7 +39,6 @@
       %table.table.table-sm.table-striped
         %thead
           %tr.bg-primary.text-light
-            %th= t('materials.code')
             %th= t('materials.name')
             %th= t('materials.description')
             %th.text-right
@@ -51,8 +50,6 @@
         %tbody#materials-body
         - @materials.each do |material|
           %tr
-            %td 
-              %span{id: "title_material_#{material.id}"}= material.code
             %td 
               %span{id: "title_material_#{material.id}"}= material.name
             %td 
