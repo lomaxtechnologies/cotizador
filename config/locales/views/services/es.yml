@@ -9,6 +9,7 @@ es:
     return: Regresar
     index:
       search_title: Filtrar por
+      page_size_placeholder: Filas por página
       no_results_found: No hay resultados para mostrar.
       title: Servicios
       new: Nuevo Servicio

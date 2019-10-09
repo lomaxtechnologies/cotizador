@@ -6,7 +6,8 @@ class ServicesController < ApplicationController
   def index
     @q = Service.ransack(search_service_params)
     @services = @q.result.order('name ASC')
-    @services = @services.page(params[:page])
+    @page_size = params.fetch(:page_size, 10)
+    @services = @services.page(params[:page]).per(@page_size)
   end
 
   # GET /services/1

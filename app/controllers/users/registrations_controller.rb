@@ -8,6 +8,8 @@ class Users::RegistrationsController < ApplicationController
     @q = User.ransack(query_params)
     @users = @q.result.order('email ASC')
     @users = @users.page(params[:page])
+    @page_size = params.fetch(:page_size, 10)
+    @users = @users.page(params[:page]).per(@page_size)
   end
 
   # GET /registrations/new

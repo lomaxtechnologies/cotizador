@@ -12,6 +12,7 @@ es:
         body: Una vez eliminado no podrás recuperarlo y deberás crear uno nuevo. Toda las cotizaciones asociadas a este precio seguirán existiendo.
         yes_text: Sí, elimínalo
         no_text: Cancelar
+      page_size_placeholder: Filas por página
       search_title: Filtrar por
       search_name: Nombre del material
       search_description: Descripción del material
