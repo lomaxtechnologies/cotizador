@@ -10,6 +10,23 @@ class Product < ApplicationRecord
   validates :code, presence: true, uniqueness: true
   paginates_per 10
 
+  def find_even_if_deleted(tag)
+    case tag
+    when :material
+      return material if material
+
+      Material.with_deleted.find(material_id)
+    when :brand
+      return brand if brand
+
+      Brand.with_deleted.find(brand_id)
+    when :measure_unit
+      return measure_unit if measure_unit
+
+      MeasureUnit.with_deleted.find(measure_unit_id)
+    end
+  end
+
   def self.new_products
     Product.where(['created_at BETWEEN ? AND ?',10.minutes.ago,Time.now])
   end

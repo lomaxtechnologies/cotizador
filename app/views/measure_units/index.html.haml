@@ -1,6 +1,7 @@
+= javascript_pack_tag "measure_units/index", media: "all", "data-turbolinks-track": "reload"
 = render partial: "confirmation_modal"
 .row
-  .col-md-12.col-lg-10.offset-lg-1
+  .col-lg-12.offset-xl-1.col-xl-10
     .form-row
       .col-12
         .card
@@ -12,10 +13,11 @@
               .col-4.text-right
                 = link_to t('.new'), new_measure_unit_path, class: "btn btn-primary"
           .card-body
-            .form-row
-              .col-12.mb-2
+            .form-row.mb-2
+              .col-12
                 %b.font-size-search= t('measure_units.index.search_title')
             = search_form_for @q, url: measure_units_path do |f|
+              %input{type: :hidden, name: :page_size, value: @page_size}
               .form-row
                 .col-10
                   %b.color-search-title= t('measure_units.index.search_name')
@@ -29,11 +31,16 @@
                     = t('measure_units.search')
     - if @measure_units.length > 0
       %table.table.table-sm.table-striped
-        %thead{onclick: "hide_all_edit_forms()"}
+        %thead
           %tr.bg-primary.text-light
             %th= t('measure_units.name')
             %th= t('measure_units.unit_type')
-            %th
+            %th.text-right
+              %input{type: :number, min: 0,
+                class: "form-control-sm", 
+                placeholder: t('.page_size_placeholder'), 
+                onchange: "set_page_size(this)",
+                value: @page_size}
           %tbody#measure_units-body
           - @measure_units.each do |measure_unit|
             %tr
@@ -53,5 +60,6 @@
     - else
       .text-center.text-muted.mt-3
         %h2= t('measure_units.index.no_results_found')
-= javascript_pack_tag "measure_units/index", media: "all", "data-turbolinks-track": "reload"
+        %br
+        = image_tag "lomax-logo.png", class: 'logo-without-results'
 

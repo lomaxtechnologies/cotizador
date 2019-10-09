@@ -9,7 +9,8 @@ class PricesController < ApplicationController
   def index
     @q = Product.ransack(search_prices_params)
     @products = @q.result.includes(:material, :price)
-    @products = @products.page(params[:page])
+    @page_size = params.fetch(:page_size, 10)
+    @products = @products.page(params[:page]).per(@page_size)
   end
 
   def new

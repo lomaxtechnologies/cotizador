@@ -7,7 +7,8 @@ class BrandsController < ApplicationController
   def index
     @q = Brand.ransack(search_service_params)
     @brands = @q.result.order('name ASC')
-    @brands = @brands.page(params[:page])
+    @page_size = params.fetch(:page_size,10)
+    @brands = @brands.page(params[:page]).per(@page_size)
     @brand = Brand.new
   end
 

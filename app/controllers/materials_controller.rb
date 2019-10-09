@@ -8,7 +8,8 @@ class MaterialsController < ApplicationController
   def index
     @q = Material.ransack(search_material_params)
     @materials = @q.result.order('id ASC')
-    @materials = @materials.page(params[:page])
+    @page_size = params.fetch(:page_size, 10)
+    @materials = @materials.page(params[:page]).per(@page_size)
   end
 
   # GET /materials/new
@@ -72,6 +73,6 @@ class MaterialsController < ApplicationController
   end
 
   def search_material_params
-    params.fetch(:q, {}).permit(:name_cont)
+    params.fetch(:q, {}).permit(:name_cont, :description_cont)
   end
 end

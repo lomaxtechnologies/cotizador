@@ -23,6 +23,8 @@ es:
         body: Una vez eliminado no podrás recuperarlo y deberás crear uno nuevo. Todas la información asociada a este material (productos, cotizaciones, etc.) seguirá existiendo.
         yes_text: Sí, elimínalo
         no_text: Cancelar
+      page_size_placeholder: Filas por página
+      search_title: Filtrar por
       initial_price: Precio Min.
       final_price: Precio Max.
       no_results_found: No hay resultados para mostrar.

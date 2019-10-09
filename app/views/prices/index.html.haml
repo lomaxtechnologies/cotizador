@@ -2,7 +2,7 @@
 = render partial: "confirmation_modal"
 = render partial: "new_modal"
 .row
-  .col-md-12.col-lg-10.offset-lg-1
+  .col-lg-12.offset-xl-1.col-xl-10
     .form-row
       .col-12
         .card
@@ -16,9 +16,11 @@
                   = t('prices.new_modal.upload')
                 = link_to t('prices.new'), new_price_path, class: "btn btn-primary"
           .card-body
-            .form-row
-              .col-12.mb-2
+            .form-row.mb-2
+              .col-12
+                %b= t('prices.index.search_title')
             = search_form_for @q, url: prices_path do |f|
+              %input{type: :hidden, name: :page_size, value: @page_size}
               .form-row
                 .col-1
                   .imput-group.mb-3
@@ -54,25 +56,32 @@
                   %button.btn.btn-purple{ type: "submit", value: "Search"}
                     %i.fas.fa-search.fa-sm
                     = t('prices.search')
-  .col-12
     - if @products.length > 0
       %table.table.table-sm.table-striped
         %thead
           %tr.bg-primary.text-light
             %th= t('prices.code')
-            %th= t('prices.brand')
+            %th= t('brands.name')
             %th= t('prices.material')
+            %th= t('materials.description')
             %th= t('prices.measure_unit')
-            %th= t('prices.price')
-            %th
+            %th.text-right= "#{t('prices.price')} (#{t('currency')})"
+            %th.text-right
+              %input{type: :number, min: 0,
+                class: "form-control-sm", 
+                placeholder: t('.page_size_placeholder'), 
+                onchange: "set_page_size(this)",
+                value: @page_size}
         %tbody
           - @products.each do |product|
+          - material = product.find_even_if_deleted(:material)
             %tr
               %td= product.code
-              %td= product.brand.name
-              %td= product.material.name
-              %td= product.measure_unit.name
-              %td
+              %td= product.find_even_if_deleted(:brand).name
+              %td= material.name
+              %td= material.description
+              %td= product.find_even_if_deleted(:measure_unit).name
+              %td.text-right
                 - price = product.price
                 = form_for price do |f|
                   %span{id: "title_price_#{price.id}"}= price.product_price
@@ -99,4 +108,6 @@
       .text-center.text-muted.mt-5
         %h2
           = t('.no_results_found')
+        %br
+        = image_tag "lomax-logo.png", class: 'logo-without-results'
 = javascript_pack_tag "prices/index", media: "all", "data-turbolinks-track": "reload"
