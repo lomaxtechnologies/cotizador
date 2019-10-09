@@ -60,7 +60,7 @@ class PricesController < ApplicationController
   end
   
   def dashboard
-    @products = Product.new_products
+    @prices = Price.ransack(created_at_gteq: 5.minutes.ago).result
   end
 
   private
