@@ -48,13 +48,13 @@
             %td 
               %span{id: "title_client_#{client.id}"}= client.phone
             %td.text-right
-              %button.btn.btn-success.btm-sm
+              %button.btn.btn-success.btm.padding-0
                 = link_to edit_client_path(client) do
-                  %i.fas.fa-edit.fa-xs.text-white
-              %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
+                  %i.fas.fa-edit.fa-xs.text-white.btm-sm.height-width-buttom
+              %button.btn.btn-danger.btm-sm.padding-0{onclick: "show_confirmation_modal(this)",
                 action: client_path(client),
                 method: :delete}
-                %i.fas.fa-trash-alt.fa-xs
+                %i.fas.fa-trash-alt.fa-xs.text-white.height-width-buttom
       = paginate @clients
     - else
       .text-center.text-muted.mt-5

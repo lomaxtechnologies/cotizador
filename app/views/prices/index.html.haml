@@ -26,27 +26,23 @@
                   %button.btn-block.btn.btn-purple{ type: "submit", value: "Search"}
                     %i.fas.fa-search.fa-sm
                     = t('prices.search')
+  .col-12
     - if @products.length > 0
       %table.table.table-sm.table-striped
         %thead
           %tr.bg-primary.text-light
             %th= t('prices.code')
-            %th= t('brands.name')
             %th= t('prices.material')
-            %th= t('materials.description')
             %th= t('prices.measure_unit')
-            %th.text-right= t('prices.price')
+            %th= t('prices.price')
             %th
         %tbody
           - @products.each do |product|
-          - material = product.find_even_if_deleted(:material)
             %tr
-              %td= material.code
-              %td= product.find_even_if_deleted(:brand).name
-              %td= material.name
-              %td= material.description
-              %td= product.find_even_if_deleted(:measure_unit).name
-              %td.text-right
+              %td= Material.find(product.material_id).code
+              %td= Material.find(product.material_id).name
+              %td= MeasureUnit.find(product.measure_unit_id).name
+              %td
                 - price = product.price
                 = form_for price do |f|
                   %span{id: "title_price_#{price.id}"}= price.prices

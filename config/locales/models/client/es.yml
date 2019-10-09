@@ -8,3 +8,12 @@ es:
         address: Dirección
         nit: NIT
         phone: Teléfono
+    errors:
+        models:
+          client:
+            attributes:
+              nit:
+                duplicated: 'ya se encuentra registrado.'
+              name:
+                duplicated: 'ya se encuentra registrado.'
+              

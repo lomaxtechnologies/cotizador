@@ -1,13 +1,18 @@
 es:
   services:
     return: Regresar
+    actual_price: Precio
     save: Guardar
     name: Servicio
     description: Descripción
     actual_price: Precio
-    creation_price: Precio inicial
     return: Regresar
     index:
+      delete_modal: 
+        title: ¿Realmente deseas eliminiar este servicio?
+        body: Una vez eliminado no podrás recuperarlo y deberás crear uno nuevo. Todas la información asociada a este servicio (productos, cotizaciones, etc.) seguirá existiendo.
+        yes_text: Sí, elimínalo
+        no_text: Cancelar
       search_title: Filtrar por
       no_results_found: No hay resultados para mostrar.
       title: Servicios
