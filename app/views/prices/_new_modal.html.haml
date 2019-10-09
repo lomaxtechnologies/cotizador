@@ -1,7 +1,7 @@
 .modal#new-price-modal{"aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}  
   .modal-dialog{:role => "document"}
     .modal-content
-      = form_tag upload_prices_path, multipart: true do
+      = form_tag upload_path, multipart: true do
         .modal-header
           %h5.modal-label= t('prices.new_modal.title')
           %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
