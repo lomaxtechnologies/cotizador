@@ -24,11 +24,12 @@ Rails.application.routes.draw do
   post '/users/registrations/reset-password/:id', to: 'users/registrations#reset_password', as: 'reset_password_users_registration'
 
   resources :services
+  get 'services/api/get-all', to: 'services#api_get_all'
 
   resources :measure_units
 
   resources :clients
-  get 'clients/api/get-names', to: 'clients#api_get_all'
+  get 'clients/api/get-all', to: 'clients#api_get_all'
 
   resources :prices, except:[:show]
   post 'prices/upload', to: 'prices#upload', as: 'upload'

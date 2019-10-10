@@ -62,9 +62,15 @@ class ServicesController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
+  # API For Services Controller
+  # GET /services/api/get-all
+  def api_get_all
+    response_with_success(Service.all_only_indentifier_fields)
+  end
 
+  private
+  
+  # Use callbacks to share common setup or constraints between actions.
   def set_service
     @service = Service.find(params[:id])
   end
