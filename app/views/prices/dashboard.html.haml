@@ -10,7 +10,7 @@
 .row
   .col-md-12.col-lg-10.offset-lg-1
     %h5= t('.new_material_text')
-    - if @products.length > 0
+    - if @prices.length > 0
       %table.table.table-sm.table-striped
         %thead
           %tr.bg-primary.text-light
@@ -19,12 +19,13 @@
             %th= t('prices.description')
             %th= t('prices.price')
         %tbody
-          - @products.each do |product|
+          - @prices.each do |price|
+            - product = price.product
             %tr
               %td= product.code
               %td= product.material.name
               %td= product.material.description
-              %td= product.price.product_price
+              %td= price.product_price
     - else
       .text-center.text-muted.mt-5
         %h2= t('materials.index.no_results_found')

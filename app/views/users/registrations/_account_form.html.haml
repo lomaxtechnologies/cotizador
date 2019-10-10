@@ -18,7 +18,7 @@
             = image_tag "default-profile-picture.png", alt: "profile_picture", class: "rounded mx-auto d-block img-thumbnail"
         .form_row.mb-2
           = f.label :avatar, class: "mb-0 text-primary font-weight-bold"
-          = f.file_field :avatar, class: "form-control-file", accept: 'image/*'
+          = f.file_field :avatar, class: "form-control-file btn btn-primary btn-sm float-lef", accept: 'image/*'
         .form-row.mb-2
           .col-12
             = nested_form.label :name, class:"mb-0 text-primary font-weight-bold"
@@ -76,7 +76,11 @@
         .form-row.mb-2
           .col-6
             = f.label :role,  class: "mb-0 text-primary font-weight-bold"
-            %span.form-control.form-control-sm.text-muted= @user.role.capitalize
+            .input-group.mb-2
+              .input-group-prepend
+                .input-group-text
+                  %i.fas.fa-user-tag
+              %span.form-control.form-control-sm.text-muted= @user.role.capitalize
         .form-row.actions.text-right
           .col-12
             = f.submit t('users.save'), class: "btn btn-primary btn-sm px-2"

@@ -31,4 +31,6 @@ es:
     dashboard:
       title: Nuevos
       new_material_text: Estos son los nuevos materiales
+      title: Precios
+      search_title: Filtrar por
 

@@ -84,12 +84,12 @@
                             "data-disabled-with"=>t('prices.save'), value: t('prices.save')) do
                             = t('prices.save')
               %td.text-right
-                %button.btn.btn-success{onclick: "show_hide_edit_form(this)", type: "button",
+                %button.btn.btn-success.padding-0{onclick: "show_hide_edit_form(this)", type: "button",
                   form_target: "form_price_#{price.id}", title_target: "title_price_#{price.id}"}
-                  %i.fas.fa-edit.fa-xs
-                %button.btn.btn-danger{onclick: "show_confirmation_modal(this)", type: "button",
+                  %i.fas.fa-edit.fa-xs.height-width-buttom
+                %button.btn.btn-danger.padding-0{onclick: "show_confirmation_modal(this)", type: "button",
                   action: price_path(product), method: :delete}
-                  %i.fas.fa-trash.fa-xs
+                  %i.fas.fa-trash.fa-xs.height-width-buttom
       = paginate @products
     - else
       .text-center.text-muted.mt-5
