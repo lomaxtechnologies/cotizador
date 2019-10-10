@@ -1,7 +1,8 @@
 class ClientsController < ApplicationController
-  layout "manager"
+
+  layout 'manager'
   before_action :set_client, only: [:show, :edit, :update, :destroy]
-  
+  before_action :validate_credentials, only: [:list_deleted_clients]
 
   # GET /clients
   # GET /clients.json
@@ -61,15 +62,14 @@ class ClientsController < ApplicationController
   end
 
   def  list_deleted_clients
-   @clients = Client.only_deleted
+    @clients = Client.only_deleted
   end
 
   # API For clients Controller
 
-  def api_get_names
-    respond_to do |format|
-      format.json { render json: add_api_status(Client.list_all) }
-    end
+  # GET /clients/api/get-all
+  def api_get_all
+    response_with_success(Client.all_only_indentifier_fields)
   end
 
   private

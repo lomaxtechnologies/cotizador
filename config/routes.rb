@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   resources :measure_units
 
   resources :clients
-  get 'clients/api/get-names', to: 'clients#api_get_names'
+  get 'clients/api/get-names', to: 'clients#api_get_all'
 
   resources :prices, except:[:show]
   post 'prices/upload', to: 'prices#upload', as: 'upload'
