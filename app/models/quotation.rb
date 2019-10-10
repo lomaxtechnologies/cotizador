@@ -7,4 +7,11 @@ class Quotation < ApplicationRecord
   has_many :attachments
   has_many :quotations_notes
   has_many :comments, as: :commentable
+
+  def self.add_comment (params,user)
+    comment = Comment.new
+    comment.user_id = user.id
+    comment.note = params[:comments].note
+    comment.save
+  end
 end

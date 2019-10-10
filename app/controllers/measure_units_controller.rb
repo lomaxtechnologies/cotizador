@@ -1,5 +1,5 @@
 class MeasureUnitsController < ApplicationController
-layout "manager"
+  layout "manager"
   before_action :set_measure_unit, only: [:show, :edit, :update, :destroy]
   
 
