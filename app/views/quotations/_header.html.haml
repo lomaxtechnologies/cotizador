@@ -18,17 +18,22 @@
             .input-group-prepend
               .input-group-text.bg-white.text-primary
                 %i.fas.fa-calendar
-            %input.form-control{type: :date, required: true, value: Time.now.strftime(t('formats.standard_date')),"v-on:change"=>"invalidate_header"}
+            = quotation_fields.date_field(:quotation_date, required: true, class: "form-control",
+              value: Time.now.strftime(t('formats.standard_date')),"v-on:change"=>"invalidate_header")
         .col-2
           %label.mb-0.text-primary.font-weight-bold Holgura Servicios
           .input-group.mb-3
             .input-group-prepend
               .input-group-text.bg-white.text-primary
                 %i.fas.fa-percentage
-            %input.form-control.text-right{type: :number, placeholder: 'Holgura  ', value: @quotation.default_service_percentage}
+            %input.form-control.text-right#quotation_header_service_percentage{name:"quotation_header[service_percentage]",
+              type: :number, 
+              placeholder: 'Holgura  ',
+              value: @quotation.default_service_percentage}
         .col-3
           %label.mb-0.text-primary.font-weight-bold Tipo de Cotización
-          %select.custom-select.form-control{"v-model"=>"quotation_type"}
+          %select.custom-select.form-control#quotation_header_quotation_type{name:"quotation_header[quotation_type]",
+            "v-model"=>"quotation_type"}
             %option.selected{value: 1}
               Compuesta
             %option{value: 0}
@@ -36,23 +41,48 @@
         .col-2
           %div{"v-if"=>"quotation_type == 1"}
             .custom-control.custom-checkbox.custom-control-inline
-              %input#use_brand_supranet.custom-control-input{"v-model"=>"supranet_enabled", :type => 'checkbox'}
-              %label.custom-control-label.mb-0.text-primary.font-weight-bold{:for => 'use_brand_supranet'} Supranet
+              %input#quotation_header_use_supranet.custom-control-input{name: "quotation_header[use_supranet]",
+                "v-model"=>"supranet_enabled",
+                type: 'checkbox'}
+              %label.custom-control-label.mb-0.text-primary.font-weight-bold{for: "quotation_header_use_supranet"} Supranet
             .input-group.mb-3
               .input-group-prepend
                 .input-group-text.bg-white.text-primary
                   %i.fas.fa-percentage
-              %input.form-control.text-right{":disabled"=>"! supranet_enabled","v-on:change"=>"invalidate_header" , type: :number, placeholder: 'Holgura  ', value: @quotation.default_material_percentage}
+              %input.form-control.text-right#quotation_header_supranet_percentage{":disabled"=>"! supranet_enabled",
+                name: "quotation_header[supranet_percentage]",
+                "v-on:change"=>"invalidate_header" ,
+                type: :number,
+                placeholder: 'Holgura  ',
+                value: @quotation.default_material_percentage}
+          %div{"v-if"=>"quotation_type == 0"}
+            %label.mb-0.text-primary.font-weight-bold Holgura General
+            .input-group.mb-3
+              .input-group-prepend
+                .input-group-text.bg-white.text-primary
+                  %i.fas.fa-percentage
+              %input.form-control.text-right#quotation_header_general_percentage{"v-on:change"=>"invalidate_header" ,
+                type: :number,
+                name: "quotation_header[general_percentage]",
+                placeholder: 'Holgura  ',
+                value: @quotation.default_material_percentage}
         .col-2
           %div{"v-if"=>"quotation_type == 1"}
             .custom-control.custom-checkbox.custom-control-inline
-              %input#user_brand_siemon.custom-control-input{"v-model"=>"siemon_enabled",:type => 'checkbox'}
-              %label.custom-control-label.mb-0.text-primary.font-weight-bold{:for => 'user_brand_siemon'} Siemon
+              %input#quotation_header_use_siemon.custom-control-input{name: "quotation_header[use_siemon]",
+                "v-model"=>"siemon_enabled",
+                type: 'checkbox'}
+              %label.custom-control-label.mb-0.text-primary.font-weight-bold{form: "quotation_header_use_siemon"} Siemon
             .input-group.mb-3
               .input-group-prepend
                 .input-group-text.bg-white.text-primary
                   %i.fas.fa-percentage
-              %input.form-control.text-right{":disabled"=>"! siemon_enabled","v-on:change"=>"invalidate_header" , type: :number, placeholder: 'Holgura  ', value: @quotation.default_material_percentage}
+              %input.form-control.text-right#quotation_header_siemon_percentage{":disabled"=>"! siemon_enabled",
+                "v-on:change"=>"invalidate_header" ,
+                type: :number,
+                placeholder: 'Holgura  ',
+                value: @quotation.default_material_percentage,
+                name: "quotation_header[siemon_percentage]"}
         .col-2.offset-1
           %label.mb-0.text-primary.font-weight-bold &nbsp;
           %button.btn.btn-primary.btn-block Siguiente
