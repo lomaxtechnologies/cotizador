@@ -50,11 +50,15 @@
               = nested_form.text_field :phone, class: "form-control form-control-sm"
         .form-row.mb-2
           .col-6
-            = f.label :role, class: "mb-0 text-primary font-weight-bold"
-            = f.select(:role,
-              options_for_select(User.roles.keys.map {|role| [role.titleize,role]}, @user.role),
-              {include_blank: t('users.registrations.new.role_blank')},
-              { class: "form-control form-control-sm", required: true })
+            = f.label :role,  class: "mb-0 text-primary font-weight-bold"
+            .input-group.mb-2
+              .input-group-prepend
+                .input-group-text
+                  %i.fas.fa-user-tag
+              = f.select(:role,
+                options_for_select(User.roles.keys.map {|role| [role.titleize,role]}, @user.role),
+                {include_blank: t('users.registrations.new.role_blank')},
+                { class: "form-control form-control-sm", required: true })
         .form-row.actions
           .col-6
             %button.btn.btn-danger.btn-sm{type: "button", onclick: "show_reset_password_confirmation_modal()"}

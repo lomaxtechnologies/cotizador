@@ -27,10 +27,6 @@ class Product < ApplicationRecord
     end
   end
 
-  def self.new_products
-    Product.where(['created_at BETWEEN ? AND ?',10.minutes.ago,Time.now])
-  end
-
   def self.generate_next_code
     code = Product.order(code: :desc).first.code
     code = (code.gsub(/^LMX-0*/,'').to_i + 1).to_s

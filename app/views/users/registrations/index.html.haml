@@ -63,12 +63,12 @@
               %td.align-middle
                 = user.role.capitalize
               %td.text-right.align-middle
-                = link_to edit_users_registration_path(user), class: "btn btn-success btm-sm mr-1" do
-                  %i.fas.fa-edit.fa-xs
-                %button.btn.btn-danger.btm-sm.mr-1{onclick: "show_confirmation_modal(this)",
+                = link_to edit_users_registration_path(user), class: "btn btn-success btm-sm mr-1 padding-0" do
+                  %i.fas.fa-edit.fa-xs.height-width-buttom
+                %button.btn.btn-danger.btm-sm.mr-1.padding-0{onclick: "show_confirmation_modal(this)",
                   action: users_registration_path(user),
                   method: :delete}
-                  %i.fas.fa-trash-alt.fa-xs
+                  %i.fas.fa-trash-alt.fa-xs.height-width-buttom
       = paginate @users
     - else
       .text-center.text-muted.mt-5

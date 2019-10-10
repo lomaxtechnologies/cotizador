@@ -52,13 +52,13 @@
             %td.text-right
               %span{id: "title_service_#{service.id}"}= service.actual_price
             %td.text-right
-              %button.btn.btn-success.btm-sm
+              %button.btn.btn-success.btm-sm.padding-0
                 = link_to edit_service_path(service) do
-                  %i.fas.fa-edit.fa-xs.text-white
-              %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
+                  %i.fas.fa-edit.fa-xs.text-white.height-width-buttom
+              %button.btn.btn-danger.btm-sm.padding-0{onclick: "show_confirmation_modal(this)",
                 action: service_path(service),
                 method: :delete}
-                %i.fas.fa-trash-alt.fa-xs
+                %i.fas.fa-trash-alt.fa-xs.height-width-buttom
       = paginate @services
     - else
       .text-center.text-muted.mt-5
