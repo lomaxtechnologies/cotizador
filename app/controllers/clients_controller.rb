@@ -65,7 +65,7 @@ class ClientsController < ApplicationController
     @clients = Client.only_deleted
   end
 
-  # API For clients Controller
+  # API For clients controller
 
   # GET /clients/api/get-all
   def api_get_all

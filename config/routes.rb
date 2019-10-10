@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   get 'prices/dashboard', to: 'prices#dashboard', as: 'dashboard'
 
   resources :materials
+  get 'materials/api/get-all', to: 'materials#api_get_all'
 
   resources :brands, except: [:edit, :show, :new]
 

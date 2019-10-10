@@ -9,9 +9,7 @@ class Service < ApplicationRecord
   scope :all_only_indentifier_fields, -> {select(:id, :name, :description, :actual_price).all}
 
   def save
-    if new_record?
-      self.actual_price = creation_price
-    end
+    self.actual_price = creation_price if new_record?
     if name_changed? && Service.exists?(name: name)
       errors.add(:name, :duplicated)
       return false
