@@ -7,4 +7,10 @@ es:
         name: Servicio
         description: Descripción
         actual_price: Precio
-        creation_price: Precio inicial
+        creation_price: Precio
+    errors:
+        models:
+          service:
+            attributes:
+              name:
+                duplicated: 'ya se encuentra registrado.'

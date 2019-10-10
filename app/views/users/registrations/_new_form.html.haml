@@ -69,11 +69,15 @@
                 onchange: "confirm_password(this)")
         .form-row.mb-2
           .col-6
-            = f.label :role, class: "mb-0 text-primary font-weight-bold"
-            = f.select(:role,
-              options_for_select(User.roles.keys.map {|role| [role.titleize,role]}, :administrador),
-              {include_blank: t('users.registrations.new.role_blank')},
-              { class: "form-control form-control-sm", required: true })
+            = f.label :role,  class: "mb-0 text-primary font-weight-bold"
+            .input-group.mb-2
+              .input-group-prepend
+                .input-group-text
+                  %i.fas.fa-user-tag
+              = f.select(:role,
+                options_for_select(User.roles.keys.map {|role| [role.titleize,role]}, :administrador),
+                {include_blank: t('users.registrations.new.role_blank')},
+                { class: "form-control form-control-sm", required: true })
           .col-2.offset-4.text-right.actions
             %label.mb-0.text-primary.font-weight-bold &nbsp;
             = f.submit t('users.save'), class: "btn btn-primary btn-block btn-sm px-2"

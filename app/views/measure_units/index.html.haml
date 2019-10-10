@@ -49,13 +49,13 @@
               %td 
                 %span{id: "title_measure_unit_#{measure_unit.id}"}= measure_unit.unit_type
               %td.text-right
-                %button.btn.btn-success.btm-sm
+                %button.btn.btn-success.btm-sm.padding-0
                   = link_to edit_measure_unit_path(measure_unit) do
-                    %i.fas.fa-edit.fa-xs.text-white
-                %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
+                    %i.fas.fa-edit.fa-xs.text-white.height-width-buttom
+                %button.btn.btn-danger.btm-sm.padding-0{onclick: "show_confirmation_modal(this)",
                   action: measure_unit_path(measure_unit),
                   method: :delete}
-                  %i.fas.fa-trash-alt.fa-xs
+                  %i.fas.fa-trash-alt.fa-xs.height-width-buttom
       = paginate @measure_units
     - else
       .text-center.text-muted.mt-3
