@@ -64,19 +64,28 @@ class ClientsController < ApplicationController
    @clients = Client.only_deleted
   end
 
+  # API For clients Controller
+
+  def api_get_names
+    respond_to do |format|
+      format.json { render json: add_api_status(Client.list_all) }
+    end
+  end
+
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_client
-      @client = Client.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def client_params
-      params.require(:client).permit(:name, :address, :nit, :phone)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_client
+    @client = Client.find(params[:id])
+  end
 
-    def search_client_params
-      params.fetch(:q,{}).permit(:name_cont)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def client_params
+    params.require(:client).permit(:name, :address, :nit, :phone)
+  end
+
+  def search_client_params
+    params.fetch(:q,{}).permit(:name_cont)
+  end
 end
 
