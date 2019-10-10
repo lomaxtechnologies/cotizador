@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   resources :prices, except:[:show]
   post 'prices/upload', to: 'prices#upload', as: 'upload'
   get 'prices/dashboard', to: 'prices#dashboard', as: 'dashboard'
+  get 'prices/api/get', to: 'prices#api_get_by_material'
 
   resources :materials
   get 'materials/api/get-all', to: 'materials#api_get_all'
