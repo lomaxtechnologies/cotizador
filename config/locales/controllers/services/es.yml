@@ -6,3 +6,7 @@ es:
       update: El servicio fue actualizado  satisfactoriamente.
     destroy:
       destroy: El material ha sido eliminada satisfactoriamente.
+    api_update_batch:
+      errors:
+        main: Ha ocurrido un error al intentar actualizar los precios de los servicios especificados
+        service_does_not_exist: "El servicio con id %{service} no existe"

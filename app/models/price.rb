@@ -11,6 +11,7 @@ class Price < ApplicationRecord
     data = []
     material.products.each do |product|
       data.push(
+        product_id: product.id,
         code: product.code,
         price: product.price.product_price,
         brand: product.brand.name,

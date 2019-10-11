@@ -68,11 +68,35 @@ class ServicesController < ApplicationController
     response_with_success(Service.all_only_indentifier_fields)
   end
 
+  # PATCH /services/api/update-batch
+  # DELETE THIS LINE AFTER TESTING
+  skip_before_action :verify_authenticity_token, only: :api_update_batch
+  def api_update_batch
+    errors = []
+    api_services_params.each do |service_params|
+      service = Service.find_by_id(service_params[:id])
+      if service
+        service.update_column(:actual_price, service_params[:actual_price])
+      else
+        errors.push(t('.errors.service_does_not_exist', service: service_params[:id]))
+      end
+    end
+    errors.empty? ? response_with_success : response_with_error(t('.errors.main'), errors)
+  end
+
   private
-  
+
   # Use callbacks to share common setup or constraints between actions.
   def set_service
     @service = Service.find(params[:id])
+  end
+
+  def api_services_params
+    allowed_params = []
+    params.fetch(:services, []).each do |params|
+      allowed_params.push(params.permit(:id, :actual_price))
+    end
+    allowed_params
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

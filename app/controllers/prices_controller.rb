@@ -64,7 +64,7 @@ class PricesController < ApplicationController
   end
 
   # API For prices controller
-  # GET /materials/api/get
+  # GET /prices/api/get-products
   def api_get_by_material
     return response_with_error(t('.errors.unespecified_material')) unless params[:material_id]
 

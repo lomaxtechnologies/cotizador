@@ -16,4 +16,12 @@ class Service < ApplicationRecord
     end
     super
   end
+
+  def self.update_batch(params_list)
+    params_list.each do |params|
+      unless 
+        errors.add(:service, :not_found)
+      end
+    end
+  end
 end
