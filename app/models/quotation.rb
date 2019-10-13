@@ -7,4 +7,8 @@ class Quotation < ApplicationRecord
   has_many :attachments
   has_many :quotations_notes
   has_many :comments, as: :commentable
+  accepts_nested_attributes_for :quotation_products
+  accepts_nested_attributes_for :quotation_services
+
+  paginates_per 10
 end

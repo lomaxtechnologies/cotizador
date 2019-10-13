@@ -104,9 +104,7 @@ class Users::RegistrationsController < ApplicationController
 
   # Allows some params for the search query
   def query_params
-    params.require(:q).permit(:email_cont)
-  rescue ActionController::ParameterMissing
-    { email_cont: '' }
+    params.fetch(:q, {}).permit(:email_cont)
   end
 
   # Allows some params for user creation
