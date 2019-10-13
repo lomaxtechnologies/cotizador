@@ -24,19 +24,19 @@
         .dropdown-menu{"aria-labelledby" => "nav-dropdown-prices"}
           .dropdown-item
             = link_to materials_path do
-              %i.nav-link.fas.fa-hammer
+              %i.fas.fa-hammer &nbsp;
               = t('materials.title')
           .dropdown-item
             = link_to brands_path do
-              %i.nav-link.fas.fa-copyright
+              %i.fas.fa-copyright
               = t('brands.title')
           .dropdown-item
             = link_to measure_units_path do
-              %i.nav-link.fas.fa-ruler-combined
+              %i.fas.fa-ruler-combined
               = t('measure_units.title')
           .dropdown-item
             = link_to prices_path do
-              %i.nav-link.fas.fa-dollar-sign
+              %i.fas.fa-dollar-sign
               = t('prices.title')
       %li.nav-item.dropdown
         %a#color-nav.nav-link.dropdown-toggle{"aria-expanded" => "false",
