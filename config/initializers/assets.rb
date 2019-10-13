@@ -21,6 +21,9 @@ Rails.application.config.assets.precompile += %w( services/index.js )
 # Javascript for the brands module
 Rails.application.config.assets.precompile += %w( brands/index.js )
 
+# Javascript for the materials module
+Rails.application.config.assets.precompile += %w( materials/index.js )
+
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
