@@ -27,6 +27,11 @@ Rails.application.config.assets.precompile += %w( materials/index.js )
 # Javascript for the measure units module
 Rails.application.config.assets.precompile += %w( measure_units/index.js )
 
+# Javascript for the users module
+Rails.application.config.assets.precompile += %w( users/registrations/index.js )
+Rails.application.config.assets.precompile += %w( users/registrations/edit.js )
+Rails.application.config.assets.precompile += %w( users/registrations/password_handler.js )
+
 # Javascript for the prices module
 Rails.application.config.assets.precompile += %w( prices/index.js )
 
