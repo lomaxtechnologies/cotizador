@@ -12,7 +12,12 @@ Rails.application.config.assets.precompile += %w( utils/confirmation_modal.js )
 Rails.application.config.assets.precompile += %w( utils/inline_form_handler.js )
 Rails.application.config.assets.precompile += %w( utils/paging_handler.js )
 
+# Javascript for the clients module
 Rails.application.config.assets.precompile += %w( clients/index.js )
+
+# Javascript for the services module
+Rails.application.config.assets.precompile += %w( services/index.js )
+
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
