@@ -90,3 +90,6 @@ gem 'rubyzip'
 
 # i18n-js
 gem 'i18n-js'
+
+# jquery for the views that don't use Vue
+gem 'jquery-rails'
