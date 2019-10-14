@@ -69,14 +69,15 @@ class ServicesController < ApplicationController
   end
 
   # PATCH /services/api/update-batch
-  # DELETE THIS LINE AFTER TESTING
-  skip_before_action :verify_authenticity_token, only: :api_update_batch
   def api_update_batch
     errors = []
     api_services_params.each do |service_params|
       service = Service.find_by_id(service_params[:id])
       if service
-        service.update_column(:actual_price, service_params[:actual_price])
+        new_service = service.dup
+        service.destroy
+        new_service[:creation_price] = service_params[:actual_price]
+        new_service.save
       else
         errors.push(t('.errors.service_does_not_exist', service: service_params[:id]))
       end

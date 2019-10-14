@@ -12,12 +12,13 @@ class QuotationsController < ApplicationController
 
   def create
     respond_to do |format|
-      @quotation = Quotation.new(quotation_params.merge(user: current_user))
+      @quotation = Quotation.new(quotation_params.merge(user: User.find(1)))
       @quotation.save
       if @quotation.errors.any?
-        errors = @user.errors.full_messages
+        errors = @quotation.errors.full_messages
+        puts errors
         format.html { redirect_to new_users_registration_url, alert: errors }
-        format.json { response_with_error(t('.error', errors)) }
+        format.json { response_with_error(t('.error'), errors) }
       else
         format.html { redirect_to users_registrations_url, notice: t('.success') }
         format.json { response_with_success }

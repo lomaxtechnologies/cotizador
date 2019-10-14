@@ -10,18 +10,10 @@ class Service < ApplicationRecord
 
   def save
     self.actual_price = creation_price if new_record?
-    if name_changed? && Service.exists?(name: name)
+    if name_changed? && Service.exists?(name: name, deleted_at: nil)
       errors.add(:name, :duplicated)
       return false
     end
     super
-  end
-
-  def self.update_batch(params_list)
-    params_list.each do |params|
-      unless 
-        errors.add(:service, :not_found)
-      end
-    end
   end
 end
