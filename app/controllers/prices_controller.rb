@@ -49,14 +49,7 @@ class PricesController < ApplicationController
   end
   
   def upload
-    p params[:csv_file]
-    file = Tempfile.new(['update','.xlsx'],"#{Rails.root.to_s}/tmp/")
-    p "PATH"
-    p file.path
-    file.binmode
-    open(params[:csv_file]) { |f| file.write(params[:csv_file].read) }
-    file.rewind
-    file.close
+    file = CreateTmp.new(src: params[:csv_file],name: 'upload',ext: '.xlsx').create
     active_thread = Thread.new do 
       @result = MaterialsParser.new(path: file.path).load_data
       file.unlink
