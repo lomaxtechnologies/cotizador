@@ -49,8 +49,17 @@ class PricesController < ApplicationController
   end
   
   def upload
-    active_thread = Thread.new do
-      @result = MaterialsParser.new(path: params[:file]).load_data
+    p params[:csv_file]
+    file = Tempfile.new(['update','.xlsx'],"#{Rails.root.to_s}/tmp/")
+    p "PATH"
+    p file.path
+    file.binmode
+    open(params[:csv_file]) { |f| file.write(params[:csv_file].read) }
+    file.rewind
+    file.close
+    active_thread = Thread.new do 
+      @result = MaterialsParser.new(path: file.path).load_data
+      file.unlink
     end
     redirect_to prices_path, notice: t('.upload')
   end
@@ -80,4 +89,5 @@ class PricesController < ApplicationController
   def set_product
     @price = Price.find(params[:id])
   end
+
 end
