@@ -63,6 +63,17 @@ class PricesController < ApplicationController
     @prices = Price.ransack(created_at_gteq: 5.minutes.ago).result
   end
 
+  # API For prices controller
+  # GET /prices/api/get-products
+  def api_get_by_material
+    return response_with_error(t('.errors.unespecified_material')) unless params[:material_id]
+
+    data = Price.find_by_material(params[:material_id])
+    return response_with_error(t('.errors.material_not_found')) unless data
+
+    response_with_success(data)
+  end
+
   private
 
   def search_prices_params

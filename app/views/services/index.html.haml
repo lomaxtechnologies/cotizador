@@ -35,7 +35,7 @@
           %tr.bg-primary.text-light
             %th= t('services.index.name')
             %th= t('services.index.description')
-            %th.text-right= "#{t('services.index.actual_price')} (#{t('currency')})"
+            %th.text-right= "#{t('services.index.price')} (#{t('currency')})"
             %th.text-right
               %input{type: :number, min: 0,
                 class: "form-control-sm", 
@@ -50,7 +50,7 @@
             %td 
               %span{id: "title_service_#{service.id}"}= service.description
             %td.text-right
-              %span{id: "title_service_#{service.id}"}= service.actual_price
+              %span{id: "title_service_#{service.id}"}= service.price
             %td.text-right
               %button.btn.btn-success.btm-sm.padding-0
                 = link_to edit_service_path(service) do
