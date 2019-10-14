@@ -11,4 +11,9 @@ class Quotation < ApplicationRecord
   accepts_nested_attributes_for :quotation_services
 
   paginates_per 10
+
+  def save
+    super
+    update_column(:code, 100 + id) unless code.present?
+  end
 end
