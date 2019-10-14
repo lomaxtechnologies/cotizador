@@ -60,6 +60,13 @@ class MaterialsController < ApplicationController
    @materials = Material.only_deleted
   end
 
+  # API For materials controller
+
+  # GET /materials/api/get-all
+  def api_get_all
+    response_with_success(Material.all_only_indentifier_fields)
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

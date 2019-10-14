@@ -27,7 +27,7 @@ class ServicesController < ApplicationController
   # POST /services
   # POST /services.json
   def create
-    @service = Service.new(new_service_params)
+    @service = Service.new(service_params)
     respond_to do |format|
       if @service.save
         notice = t('.success', name: @service.name)
@@ -43,7 +43,7 @@ class ServicesController < ApplicationController
   # PATCH/PUT /services/1.json
   def update
     respond_to do |format|
-      if @service.update(update_service_params)
+      if @service.update(service_params)
         notice = t('.update', name: @service.name)
         format.html { redirect_to services_path, notice: notice }
       else
@@ -62,20 +62,44 @@ class ServicesController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
+  # API For Services Controller
+  # GET /services/api/get-all
+  def api_get_all
+    response_with_success(Service.all_only_indentifier_fields)
+  end
 
+  # PATCH /services/api/update-batch
+  def api_update_batch
+    errors = []
+    api_services_params.each do |service_params|
+      service = Service.find_by_id(service_params[:id])
+      if service
+        service.update_column(:price, service_params[:price])
+      else
+        errors.push(t('.errors.service_does_not_exist', service: service_params[:id]))
+      end
+    end
+    errors.empty? ? response_with_success : response_with_error(t('.errors.main'), errors)
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
   def set_service
     @service = Service.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def new_service_params
-    params.require(:service).permit(:name, :description, :creation_price)
+  def api_services_params
+    allowed_params = []
+    params.fetch(:services, []).each do |params|
+      allowed_params.push(params.permit(:id, :price))
+    end
+    allowed_params
   end
 
-  def update_service_params
-    params.require(:service).permit(:name, :description, :actual_price)
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def service_params
+    params.require(:service).permit(:name, :description, :price)
   end
 
   def search_service_params

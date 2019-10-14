@@ -4,3 +4,4 @@ es:
       quotation: Cotización
     attributes:
       quotation:
+        client: Cliente

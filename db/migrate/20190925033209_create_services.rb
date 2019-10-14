@@ -3,8 +3,7 @@ class CreateServices < ActiveRecord::Migration[6.0]
     create_table :services do |t|
       t.string :name
       t.text :description
-      t.decimal :creation_price
-      t.decimal :actual_price
+      t.decimal :price
       t.string :creator_user
       t.string :modifier_user
       t.datetime :deleted_at, index: true
