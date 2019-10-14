@@ -123,5 +123,6 @@ body{
 
 .logo-without-results{
   max-height: 200px;
-  filter: invert(100%) sepia(50%) saturate(900%) hue-rotate(180deg) brightness(100%) contrast(20%);
+  opacity: 0.2;
+  filter: alpha(opacity=20);
 }
