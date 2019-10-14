@@ -1,11 +1,10 @@
 es:
   services:
     return: Regresar
-    actual_price: Precio
+    price: Precio
     save: Guardar
     name: Servicio
     description: Descripción
-    actual_price: Precio
     return: Regresar
     index:
       delete_modal: 

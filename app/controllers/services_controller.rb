@@ -27,7 +27,7 @@ class ServicesController < ApplicationController
   # POST /services
   # POST /services.json
   def create
-    @service = Service.new(new_service_params)
+    @service = Service.new(service_params)
     respond_to do |format|
       if @service.save
         notice = t('.success', name: @service.name)
@@ -43,7 +43,7 @@ class ServicesController < ApplicationController
   # PATCH/PUT /services/1.json
   def update
     respond_to do |format|
-      if @service.update(update_service_params)
+      if @service.update(service_params)
         notice = t('.update', name: @service.name)
         format.html { redirect_to services_path, notice: notice }
       else
@@ -74,10 +74,7 @@ class ServicesController < ApplicationController
     api_services_params.each do |service_params|
       service = Service.find_by_id(service_params[:id])
       if service
-        new_service = service.dup
-        service.destroy
-        new_service[:creation_price] = service_params[:actual_price]
-        new_service.save
+        service.update_column(:price, service_params[:price])
       else
         errors.push(t('.errors.service_does_not_exist', service: service_params[:id]))
       end
@@ -95,18 +92,14 @@ class ServicesController < ApplicationController
   def api_services_params
     allowed_params = []
     params.fetch(:services, []).each do |params|
-      allowed_params.push(params.permit(:id, :actual_price))
+      allowed_params.push(params.permit(:id, :price))
     end
     allowed_params
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
-  def new_service_params
-    params.require(:service).permit(:name, :description, :creation_price)
-  end
-
-  def update_service_params
-    params.require(:service).permit(:name, :description, :actual_price)
+  def service_params
+    params.require(:service).permit(:name, :description, :price)
   end
 
   def search_service_params
