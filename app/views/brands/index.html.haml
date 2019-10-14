@@ -10,7 +10,7 @@
             .row
               .col-8
                 %h4.text-primary 
-                  %b= t('brands.index.title')
+                  %b= t('brands.title')
               .col-4.text-right
                 %button.btn.btn-primary{onclick: "show_new_brand_modal()"}
                   = t('brands.index.new')
@@ -35,7 +35,7 @@
       %table.table.table-sm.table-striped
         %thead
           %tr.bg-primary.text-light
-            %th= t('brands.name')
+            %th= t('brands.index.name')
             %th.text-right
               %input{type: :number, min: 0, 
                 class: "form-control-sm", 

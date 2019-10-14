@@ -14,7 +14,7 @@
               .col-4.text-right
                 %button.btn.btn-primary{onclick: "show_new_price_modal()"}
                   = t('prices.new_modal.upload')
-                = link_to t('prices.new'), new_price_path, class: "btn btn-primary"
+                = link_to t('.new'), new_price_path, class: "btn btn-primary"
                 = link_to t('prices.dashboard.title'), dashboard_path, class: "btn btn-primary"
           .card-body
             .form-row.mb-2
@@ -48,10 +48,10 @@
         %thead
           %tr.bg-primary.text-light
             %th= t('prices.code')
-            %th= t('brands.name')
-            %th= t('prices.material')
-            %th= t('materials.description')
-            %th= t('prices.measure_unit')
+            %th= t('brands.index.name')
+            %th= t('prices.index.material')
+            %th= t('materials.index.description')
+            %th= t('.measure_unit')
             %th.text-right= "#{t('prices.price')} (#{t('currency')})"
             %th.text-right
               %input{type: :number, min: 0,

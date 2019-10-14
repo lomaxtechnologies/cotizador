@@ -9,7 +9,7 @@
             .row
               .col-8
                 %h4.text-primary 
-                  %b= t('.title')
+                  %b= t('materials.title')
               .col-4.text-right
                 = link_to t('.new'), new_material_path, class: "btn btn-primary"
           .card-body
@@ -39,8 +39,8 @@
       %table.table.table-sm.table-striped
         %thead
           %tr.bg-primary.text-light
-            %th= t('materials.name')
-            %th= t('materials.description')
+            %th= t('materials.index.name')
+            %th= t('materials.index.description')
             %th.text-right
               %input{type: :number, min: 0,
                 class: "form-control-sm", 
