@@ -49,8 +49,10 @@ class PricesController < ApplicationController
   end
   
   def upload
-    active_thread = Thread.new do
-      @result = MaterialsParser.new(path: params[:file]).load_data
+    file = CreateTmp.new(src: params[:csv_file],name: 'upload',ext: '.xlsx').create
+    active_thread = Thread.new do 
+      @result = MaterialsParser.new(path: file.path).load_data
+      file.unlink
     end
     redirect_to prices_path, notice: t('.upload')
   end
@@ -61,6 +63,17 @@ class PricesController < ApplicationController
   
   def dashboard
     @prices = Price.ransack(created_at_gteq: 5.minutes.ago).result
+  end
+
+  # API For prices controller
+  # GET /prices/api/get-products
+  def api_get_by_material
+    return response_with_error(t('.errors.unespecified_material')) unless params[:material_id]
+
+    data = Price.find_by_material(params[:material_id])
+    return response_with_error(t('.errors.material_not_found')) unless data
+
+    response_with_success(data)
   end
 
   private
@@ -80,4 +93,5 @@ class PricesController < ApplicationController
   def set_product
     @price = Price.find(params[:id])
   end
+
 end

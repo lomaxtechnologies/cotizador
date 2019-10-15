@@ -169,8 +169,7 @@ ActiveRecord::Schema.define(version: 2019_10_02_172151) do
   create_table "services", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.decimal "creation_price"
-    t.decimal "actual_price"
+    t.decimal "price"
     t.string "creator_user"
     t.string "modifier_user"
     t.datetime "deleted_at"

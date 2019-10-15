@@ -7,4 +7,8 @@ es:
     update:
       update: El precio se actualizó satisfactoriamente.
     destroy:
-      destroy: "El precio ha sido eliminado satisfactoriamente."
+      destroy: El precio ha sido eliminado satisfactoriamente.
+    api_get_by_material:
+      errors:
+        unespecified_material: No se especifico un material a buscar
+        material_not_found: No se encontro ningun material con el código especificado

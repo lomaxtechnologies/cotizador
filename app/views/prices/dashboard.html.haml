@@ -1,4 +1,3 @@
- 
 .row
   .col-2.offset-md-1
     %h2= t('.title')
@@ -16,8 +15,8 @@
           %tr.bg-primary.text-light
             %th= t('prices.code')
             %th= t('prices.material')
-            %th= t('prices.description')
-            %th= t('prices.price')
+            %th= t('materials.index.description')
+            %th= "#{t('prices.price')} (#{t('currency')})"
         %tbody
           - @prices.each do |price|
             - product = price.product

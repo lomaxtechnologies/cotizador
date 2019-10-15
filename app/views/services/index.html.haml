@@ -1,4 +1,5 @@
-= javascript_pack_tag "services/index", media: "all", "data-turbolinks-track": "reload"
+= javascript_include_tag "services/index", media: "all", "data-turbolinks-track": "reload"
+= javascript_include_tag "utils/paging_handler", media: "all", "data-turbolinks-track": "reload"
 = render partial: "confirmation_modal"
 .row
   .col-lg-12.offset-xl-1.col-xl-10
@@ -9,7 +10,7 @@
             .row
               .col-8
                 %h4.text-primary 
-                  %b= t('.title')
+                  %b= t('services.title')
               .col-4.text-right
                 = link_to t('.new'), new_service_path, class: "btn btn-primary"
           .card-body
@@ -28,14 +29,14 @@
                 .col-2.text-right.button-margin-top
                   %button.btn-block.btn.btn-purple{ type: "submit", value: "Search"}
                     %i.fas.fa-search.fa-sm
-                    = t('.search')
+                    = t('services.search')
     - if @services.length > 0
       %table.table.table-sm.table-striped
         %thead
           %tr.bg-primary.text-light
-            %th= t('services.name')
-            %th= t('services.description')
-            %th.text-right= "#{t('services.actual_price')} (#{t('currency')})"
+            %th= t('services.index.name')
+            %th= t('services.index.description')
+            %th.text-right= "#{t('services.index.price')} (#{t('currency')})"
             %th.text-right
               %input{type: :number, min: 0,
                 class: "form-control-sm", 
@@ -50,15 +51,14 @@
             %td 
               %span{id: "title_service_#{service.id}"}= service.description
             %td.text-right
-              %span{id: "title_service_#{service.id}"}= service.actual_price
+              %span{id: "title_service_#{service.id}"}= service.price
             %td.text-right
-              %button.btn.btn-success.btm-sm.padding-0
-                = link_to edit_service_path(service) do
-                  %i.fas.fa-edit.fa-xs.text-white.height-width-buttom
-              %button.btn.btn-danger.btm-sm.padding-0{onclick: "show_confirmation_modal(this)",
+              = link_to edit_service_path(service), class: "btn btn-success text-white mr-1" do
+                %i.fas.fa-edit.fa-xs
+              %button.btn.btn-danger.btm-sm{onclick: "show_confirmation_modal(this)",
                 action: service_path(service),
                 method: :delete}
-                %i.fas.fa-trash-alt.fa-xs.height-width-buttom
+                %i.fas.fa-trash-alt.fa-xs
       = paginate @services
     - else
       .text-center.text-muted.mt-5

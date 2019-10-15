@@ -7,7 +7,8 @@ class Product < ApplicationRecord
   has_many :quotation_products
   has_many :comments, as: :commentable
   accepts_nested_attributes_for :price, update_only: true
-  validates :code, presence: true, uniqueness: true
+  has_one_attached :csv_file
+  validates :code, presence: true
   paginates_per 10
 
   def find_even_if_deleted(tag)
@@ -28,19 +29,24 @@ class Product < ApplicationRecord
   end
 
   def self.generate_next_code
-    code = Product.order(code: :desc).first.code
-    code = (code.gsub(/^LMX-0*/,'').to_i + 1).to_s
-    case code.length
-    when 1
-      code = 'LMX-0000'+code
-    when 2
-      code = 'LMX-000'+code
-    when 3
-      code = 'LMX-00'+code
-    when 4
-      code = 'LMX-0'+code
-    when 5
-      code = 'LMX-'+code
+    code = Product.order(code: :desc)
+    if code.blank?
+      code = 'LMX-00001'
+    else
+      code = code.first.code
+      code = (code.gsub(/^LMX-0*/,'').to_i + 1).to_s
+      case code.length
+      when 1
+        code = 'LMX-0000'+code
+      when 2
+        code = 'LMX-000'+code
+      when 3
+        code = 'LMX-00'+code
+      when 4
+        code = 'LMX-0'+code
+      when 5
+        code = 'LMX-'+code
+      end
     end
   end
 
