@@ -3023,6 +3023,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/index.js?!./viewsrc/modules/quotations/components/header.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib??vue-loader-options!./viewsrc/modules/quotations/components/header.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n});\n\n\n//# sourceURL=webpack:///./viewsrc/modules/quotations/components/header.vue?./node_modules/vue-loader/lib??vue-loader-options");
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/index.js?!./viewsrc/modules/quotations/list.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib??vue-loader-options!./viewsrc/modules/quotations/list.vue?vue&type=script&lang=js& ***!
@@ -3043,7 +3055,19 @@ eval("__webpack_require__.r(__webpack_exports__);\n\n/* harmony default export *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n   data() {\n      return {\n         greeting: 'Hello'\n      }\n   }\n});\n\n\n//# sourceURL=webpack:///./viewsrc/modules/quotations/new.vue?./node_modules/vue-loader/lib??vue-loader-options");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _components_header_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/header.vue */ \"./viewsrc/modules/quotations/components/header.vue\");\n\n\n\n /* harmony default export */ __webpack_exports__[\"default\"] = ({\n   components:{\n     'quotation-header' : _components_header_vue__WEBPACK_IMPORTED_MODULE_0__[\"default\"]\n   },\n  data() {\n      return {\n        translations: {\n          title: I18n.t('quotations.new.title'),\n          header:{\n            title: I18n.t('quotations.new.header.title')\n          },\n          materials:{\n            title: I18n.t('quotations.new.materials.title')\n          },\n          services:{\n            title: I18n.t('quotations.new.services.title')\n          },\n          conditions:{\n            title: I18n.t('quotations.new.conditions.title')\n          },\n          global_view:{\n            title: I18n.t('quotations.new.global_view.title')\n          }\n        }\n      }\n  }\n });\n\n\n//# sourceURL=webpack:///./viewsrc/modules/quotations/new.vue?./node_modules/vue-loader/lib??vue-loader-options");
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./viewsrc/modules/quotations/components/header.vue?vue&type=template&id=621a1404&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./viewsrc/modules/quotations/components/header.vue?vue&type=template&id=621a1404& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"staticRenderFns\", function() { return staticRenderFns; });\nvar render = function() {\n  var _vm = this\n  var _h = _vm.$createElement\n  var _c = _vm._self._c || _h\n  return _c(\"p\", [_vm._v(\"\\n  This is the headers\\n\")])\n}\nvar staticRenderFns = []\nrender._withStripped = true\n\n\n\n//# sourceURL=webpack:///./viewsrc/modules/quotations/components/header.vue?./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options");
 
 /***/ }),
 
@@ -3067,7 +3091,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"staticRenderFns\", function() { return staticRenderFns; });\nvar render = function() {\n  var _vm = this\n  var _h = _vm.$createElement\n  var _c = _vm._self._c || _h\n  return _c(\"p\", [_vm._v(\" \" + _vm._s(_vm.greeting) + \" World! \")])\n}\nvar staticRenderFns = []\nrender._withStripped = true\n\n\n\n//# sourceURL=webpack:///./viewsrc/modules/quotations/new.vue?./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"staticRenderFns\", function() { return staticRenderFns; });\nvar render = function() {\n  var _vm = this\n  var _h = _vm.$createElement\n  var _c = _vm._self._c || _h\n  return _c(\"div\", { staticClass: \"row\" }, [\n    _c(\n      \"div\",\n      { staticClass: \"col-lg-12 offset-xl-1 col-xl-10\" },\n      [\n        _c(\"h2\", { staticClass: \"text-primary\" }, [\n          _c(\"b\", [_vm._v(_vm._s(_vm.translations.title))])\n        ]),\n        _vm._v(\" \"),\n        _c(\n          \"b-card\",\n          { attrs: { \"no-body\": \"\" } },\n          [\n            _c(\n              \"b-tabs\",\n              { attrs: { card: \"\" } },\n              [\n                _c(\n                  \"b-tab\",\n                  {\n                    attrs: { active: \"\" },\n                    scopedSlots: _vm._u([\n                      {\n                        key: \"title\",\n                        fn: function() {\n                          return [\n                            _vm._v(\n                              \"\\n            \" +\n                                _vm._s(_vm.translations.header.title) +\n                                \"  \\n            \"\n                            ),\n                            _c(\"i\", { staticClass: \"fas fa-check-circle\" })\n                          ]\n                        },\n                        proxy: true\n                      }\n                    ])\n                  },\n                  [_vm._v(\" \"), _c(\"quotation-header\")],\n                  1\n                ),\n                _vm._v(\" \"),\n                _c(\n                  \"b-tab\",\n                  {\n                    scopedSlots: _vm._u([\n                      {\n                        key: \"title\",\n                        fn: function() {\n                          return [\n                            _vm._v(\n                              \"\\n            \" +\n                                _vm._s(_vm.translations.materials.title) +\n                                \"  \\n            \"\n                            ),\n                            _c(\"i\", { staticClass: \"fas fa-check-circle\" })\n                          ]\n                        },\n                        proxy: true\n                      }\n                    ])\n                  },\n                  [\n                    _vm._v(\n                      \"\\n          \" +\n                        _vm._s(_vm.translations.materials.title) +\n                        \"\\n        \"\n                    )\n                  ]\n                ),\n                _vm._v(\" \"),\n                _c(\n                  \"b-tab\",\n                  {\n                    scopedSlots: _vm._u([\n                      {\n                        key: \"title\",\n                        fn: function() {\n                          return [\n                            _vm._v(\n                              \"\\n            \" +\n                                _vm._s(_vm.translations.services.title) +\n                                \"  \\n            \"\n                            ),\n                            _c(\"i\", { staticClass: \"fas fa-check-circle\" })\n                          ]\n                        },\n                        proxy: true\n                      }\n                    ])\n                  },\n                  [\n                    _vm._v(\n                      \"\\n          \" +\n                        _vm._s(_vm.translations.services.title) +\n                        \"\\n        \"\n                    )\n                  ]\n                ),\n                _vm._v(\" \"),\n                _c(\n                  \"b-tab\",\n                  {\n                    scopedSlots: _vm._u([\n                      {\n                        key: \"title\",\n                        fn: function() {\n                          return [\n                            _vm._v(\n                              \"\\n            \" +\n                                _vm._s(_vm.translations.conditions.title) +\n                                \"  \\n            \"\n                            ),\n                            _c(\"i\", { staticClass: \"fas fa-check-circle\" })\n                          ]\n                        },\n                        proxy: true\n                      }\n                    ])\n                  },\n                  [\n                    _vm._v(\n                      \"\\n          \" +\n                        _vm._s(_vm.translations.conditions.title) +\n                        \"\\n        \"\n                    )\n                  ]\n                ),\n                _vm._v(\" \"),\n                _c(\n                  \"b-tab\",\n                  {\n                    scopedSlots: _vm._u([\n                      {\n                        key: \"title\",\n                        fn: function() {\n                          return [\n                            _vm._v(\n                              \"\\n            \" +\n                                _vm._s(_vm.translations.global_view.title) +\n                                \"  \\n            \"\n                            ),\n                            _c(\"i\", { staticClass: \"fas fa-check-circle\" })\n                          ]\n                        },\n                        proxy: true\n                      }\n                    ])\n                  },\n                  [\n                    _vm._v(\n                      \"\\n          \" +\n                        _vm._s(_vm.translations.global_view.title) +\n                        \"\\n        \"\n                    )\n                  ]\n                )\n              ],\n              1\n            )\n          ],\n          1\n        )\n      ],\n      1\n    )\n  ])\n}\nvar staticRenderFns = []\nrender._withStripped = true\n\n\n\n//# sourceURL=webpack:///./viewsrc/modules/quotations/new.vue?./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options");
 
 /***/ }),
 
@@ -3114,6 +3138,42 @@ eval("/* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!\n * Vue.js
 /***/ (function(module, exports) {
 
 eval("var g;\n\n// This works in non-strict mode\ng = (function() {\n\treturn this;\n})();\n\ntry {\n\t// This works if eval is allowed (see CSP)\n\tg = g || new Function(\"return this\")();\n} catch (e) {\n\t// This works if the window reference is available\n\tif (typeof window === \"object\") g = window;\n}\n\n// g can still be undefined, but nothing to do about it...\n// We return undefined, instead of nothing here, so it's\n// easier to handle this case. if(!global) { ...}\n\nmodule.exports = g;\n\n\n//# sourceURL=webpack:///(webpack)/buildin/global.js?");
+
+/***/ }),
+
+/***/ "./viewsrc/modules/quotations/components/header.vue":
+/*!**********************************************************!*\
+  !*** ./viewsrc/modules/quotations/components/header.vue ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _header_vue_vue_type_template_id_621a1404___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./header.vue?vue&type=template&id=621a1404& */ \"./viewsrc/modules/quotations/components/header.vue?vue&type=template&id=621a1404&\");\n/* harmony import */ var _header_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./header.vue?vue&type=script&lang=js& */ \"./viewsrc/modules/quotations/components/header.vue?vue&type=script&lang=js&\");\n/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ \"./node_modules/vue-loader/lib/runtime/componentNormalizer.js\");\n\n\n\n\n\n/* normalize component */\n\nvar component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(\n  _header_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  _header_vue_vue_type_template_id_621a1404___WEBPACK_IMPORTED_MODULE_0__[\"render\"],\n  _header_vue_vue_type_template_id_621a1404___WEBPACK_IMPORTED_MODULE_0__[\"staticRenderFns\"],\n  false,\n  null,\n  null,\n  null\n  \n)\n\n/* hot reload */\nif (false) { var api; }\ncomponent.options.__file = \"viewsrc/modules/quotations/components/header.vue\"\n/* harmony default export */ __webpack_exports__[\"default\"] = (component.exports);\n\n//# sourceURL=webpack:///./viewsrc/modules/quotations/components/header.vue?");
+
+/***/ }),
+
+/***/ "./viewsrc/modules/quotations/components/header.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./viewsrc/modules/quotations/components/header.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_loader_lib_index_js_vue_loader_options_header_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib??vue-loader-options!./header.vue?vue&type=script&lang=js& */ \"./node_modules/vue-loader/lib/index.js?!./viewsrc/modules/quotations/components/header.vue?vue&type=script&lang=js&\");\n/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__[\"default\"] = (_node_modules_vue_loader_lib_index_js_vue_loader_options_header_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[\"default\"]); \n\n//# sourceURL=webpack:///./viewsrc/modules/quotations/components/header.vue?");
+
+/***/ }),
+
+/***/ "./viewsrc/modules/quotations/components/header.vue?vue&type=template&id=621a1404&":
+/*!*****************************************************************************************!*\
+  !*** ./viewsrc/modules/quotations/components/header.vue?vue&type=template&id=621a1404& ***!
+  \*****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_header_vue_vue_type_template_id_621a1404___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./header.vue?vue&type=template&id=621a1404& */ \"./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./viewsrc/modules/quotations/components/header.vue?vue&type=template&id=621a1404&\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_header_vue_vue_type_template_id_621a1404___WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"staticRenderFns\", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_header_vue_vue_type_template_id_621a1404___WEBPACK_IMPORTED_MODULE_0__[\"staticRenderFns\"]; });\n\n\n\n//# sourceURL=webpack:///./viewsrc/modules/quotations/components/header.vue?");
 
 /***/ }),
 
