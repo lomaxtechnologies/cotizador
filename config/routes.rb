@@ -42,7 +42,6 @@ Rails.application.routes.draw do
 
   resources :brands, except: [:edit, :show, :new]
 
-  resource :quotations
-
+  get 'quotations', to: 'quotations#index'
   root to: 'quotations#index'
 end
