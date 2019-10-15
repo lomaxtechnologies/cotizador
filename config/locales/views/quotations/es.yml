@@ -6,14 +6,22 @@ es:
     index:
       brand: Marca
       title: Cotizaciones
-      new_quotation: Nueva Cotización
       search: Buscar Cotización
       date: Fecha
       name: Cliente
       status: Estado
     new:
+      title: Nueva Cotización
       header:
-        client_select_title: Seleccione un cliente
+        title: Datos Generales
+      materials:
+        title: Materiales
+      services:
+        title: Servicios
+      conditions:
+        title: Condiciones
+      global_view:
+        title: Vista Global
     admin:
       client: Clientes
       brand:  Marcas
