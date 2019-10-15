@@ -42,8 +42,6 @@ Rails.application.routes.draw do
 
   resources :brands, except: [:edit, :show, :new]
 
-  resource :quotations
-  get 'quotations', to: 'quotations#admin'
   get 'quotations/api/api-get-list', to: 'quotations#api_get_list'
   get 'quotations/api/api-get-comment', to: 'quotations#api_get_comment'
   post 'quotations/api/api-add-comment', to: 'quotations#api_add_comment'
