@@ -51,5 +51,6 @@ Rails.application.routes.draw do
   delete 'quotations/api/api-delete-comment', to: 'quotations#api_delete_comment'
   post 'quotations/:id/attachments/create', to: 'quotations#create_attachment'
   delete 'quotations/:id/attachments/delete', to: 'quotations#delete_attachment'
+  get 'quotations', to: 'quotations#index'
   root to: 'quotations#index'
 end
