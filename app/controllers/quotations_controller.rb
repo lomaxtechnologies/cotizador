@@ -1,6 +1,6 @@
 class QuotationsController < ApplicationController
   layout "manager"
-  skip_before_action :verify_authenticity_token, only: [:api_add_comment, :api_update_comment, :api_delete_comment]
+  skip_before_action :verify_authenticity_token, only: [:delete_attachment]
   
   def index
   end
@@ -24,6 +24,39 @@ class QuotationsController < ApplicationController
         format.html { redirect_to users_registrations_url, notice: t('.success') }
         format.json { response_with_success }
       end
+    end
+  end
+
+  def create_attachment
+    respond_to do |format|
+      @quotation = Attachment.new(attachment_params)
+      @quotation.save
+      if @quotation.errors.any?
+        errors = @quotation.errors.full_messages
+        puts errors
+        format.html { redirect_to quotations_url, alert: errors }
+        format.json { response_with_error(t('quotations.error'), errors) }
+      else
+        format.html { redirect_to quotations_url, notice: t('.success') }
+        format.json { response_with_success }
+      end
+    end
+  end
+
+  def delete_attachment
+    respond_to do |format|
+      if Attachment.exists?(id: attachment_params[:id])
+        user_id = Attachment.find(api_update_params[:id]).user_id
+        if user_id == api_delete_params[:user][:id]
+          Attachment.find(api_update_params[:id]).destroy
+          format.html { redirect_to quotations_url, notice: t('.success') }
+          format.json { response_with_success }
+        else
+          format.html { redirect_to quotations_url, alert:t('quotations.no_user')}
+          format.json { response_with_error(t('quotations.error'), t('quotations.no_user'))}
+        end
+      end
+      format.json { response_with_error(t('quotations.error'), t('quotations.no_exist'))}
     end
   end
 
@@ -87,18 +120,27 @@ class QuotationsController < ApplicationController
   end
 
   def comments_params
-    params.require(:comment).permit(:note).merge(user: User.find(1))
+    params.require(:comment).permit(:note).merge(user: current_user)
   end
 
   def set_quotation
-    @price = Quotation.find(params[:id])
+    @quotation = Quotation.find(params[:id])
+  end
+
+  def attachment_params
+    params.require(:attachment).permit(:location).merge(user: User.find(1),quotation_id: params[:id])
+  end
+
+  def attachment_delete_params
+    params.require(:attachment).permit(:id).merge(user: User.find(1),quotation_id: params[:id])
   end
 
   def api_update_params
-    params.require(:comment).permit(:id,:note).merge(user: User.find(1))
+    params.require(:comment).permit(:id,:note).merge(user: current_user)
   end
 
   def api_delete_params
-    params.require(:comment).permit(:id).merge(user: User.find(1))
+    params.require(:comment).permit(:id).merge(user: current_user)
   end
+
 end

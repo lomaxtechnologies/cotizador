@@ -49,5 +49,7 @@ Rails.application.routes.draw do
   post 'quotations/api/api-add-comment', to: 'quotations#api_add_comment'
   patch 'quotations/api/api-update-comment', to: 'quotations#api_update_comment'
   delete 'quotations/api/api-delete-comment', to: 'quotations#api_delete_comment'
+  post 'quotations/:id/attachments/create', to: 'quotations#create_attachment'
+  delete 'quotations/:id/attachments/delete', to: 'quotations#delete_attachment'
   root to: 'quotations#index'
 end
