@@ -11,32 +11,32 @@
   #navbarSupportedContent.collapse.navbar-collapse
     %ul.navbar-nav.mr-auto
       %li.nav-item
-        = link_to t('clients.index.title'), clients_path, id: 'color-nav', class: 'nav-link' 
+        = link_to t('clients.title'), clients_path, id: 'color-nav', class: 'nav-link' 
       %li.nav-item
-        = link_to t('services.index.title'), services_path, id: 'color-nav', class: 'nav-link'
+        = link_to t('services.title'), services_path, id: 'color-nav', class: 'nav-link'
       %li.nav-item.dropdown
         %a#color-nav.nav-link.dropdown-toggle{"aria-expanded" => "false",
           "aria-haspopup" => "true",
           "data-toggle" => "dropdown",
           :href => "#",
           :role => "button"}
-          = t('materials.index.title')
+          = t('materials.title')
         .dropdown-menu{"aria-labelledby" => "nav-dropdown-prices"}
           .dropdown-item
             = link_to materials_path do
-              %i.nav-link.fas.fa-hammer
-              = t('materials.index.title')
+              %i.fas.fa-hammer &nbsp;
+              = t('materials.title')
           .dropdown-item
             = link_to brands_path do
-              %i.nav-link.fas.fa-copyright
-              = t('brands.index.title')
+              %i.fas.fa-copyright
+              = t('brands.title')
           .dropdown-item
             = link_to measure_units_path do
-              %i.nav-link.fas.fa-ruler-combined
-              = t('measure_units.index.title')
+              %i.fas.fa-ruler-combined
+              = t('measure_units.title')
           .dropdown-item
             = link_to prices_path do
-              %i.nav-link.fas.fa-dollar-sign
+              %i.fas.fa-dollar-sign
               = t('prices.title')
       %li.nav-item.dropdown
         %a#color-nav.nav-link.dropdown-toggle{"aria-expanded" => "false",

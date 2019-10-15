@@ -1,4 +1,6 @@
-= javascript_pack_tag "prices/index", media: "all", "data-turbolinks-track": "reload"
+= javascript_include_tag "prices/index", media: "all", "data-turbolinks-track": "reload"
+= javascript_include_tag "utils/paging_handler", media: "all", "data-turbolinks-track": "reload"
+= javascript_include_tag "utils/inline_form_handler", media: "all", "data-turbolinks-track": "reload"
 = render partial: "confirmation_modal"
 = render partial: "new_modal"
 .row
@@ -14,7 +16,7 @@
               .col-4.text-right
                 %button.btn.btn-primary{onclick: "show_new_price_modal()"}
                   = t('prices.new_modal.upload')
-                = link_to t('prices.new'), new_price_path, class: "btn btn-primary"
+                = link_to t('.new'), new_price_path, class: "btn btn-primary"
                 = link_to t('prices.dashboard.title'), dashboard_path, class: "btn btn-primary"
           .card-body
             .form-row.mb-2
@@ -48,10 +50,10 @@
         %thead
           %tr.bg-primary.text-light
             %th= t('prices.code')
-            %th= t('brands.name')
-            %th= t('prices.material')
-            %th= t('materials.description')
-            %th= t('prices.measure_unit')
+            %th= t('brands.index.name')
+            %th= t('prices.index.material')
+            %th= t('materials.index.description')
+            %th= t('.measure_unit')
             %th.text-right= "#{t('prices.price')} (#{t('currency')})"
             %th.text-right
               %input{type: :number, min: 0,
@@ -84,12 +86,12 @@
                             "data-disabled-with"=>t('prices.save'), value: t('prices.save')) do
                             = t('prices.save')
               %td.text-right
-                %button.btn.btn-success.padding-0{onclick: "show_hide_edit_form(this)", type: "button",
+                %button.btn.btn-success{onclick: "show_hide_edit_form(this)", type: "button",
                   form_target: "form_price_#{price.id}", title_target: "title_price_#{price.id}"}
-                  %i.fas.fa-edit.fa-xs.height-width-buttom
-                %button.btn.btn-danger.padding-0{onclick: "show_confirmation_modal(this)", type: "button",
+                  %i.fas.fa-edit.fa-xs
+                %button.btn.btn-danger{onclick: "show_confirmation_modal(this)", type: "button",
                   action: price_path(product), method: :delete}
-                  %i.fas.fa-trash.fa-xs.height-width-buttom
+                  %i.fas.fa-trash.fa-xs
       = paginate @products
     - else
       .text-center.text-muted.mt-5
@@ -97,4 +99,3 @@
           = t('.no_results_found')
         %br
         = image_tag "lomax-logo.png", class: 'logo-without-results'
-= javascript_pack_tag "prices/index", media: "all", "data-turbolinks-track": "reload"

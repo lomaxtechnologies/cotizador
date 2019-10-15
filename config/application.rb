@@ -21,5 +21,8 @@ module Lpm
 
     # for i18n-js
     config.middleware.use I18n::JS::Middleware
+
+    #using lib
+    config.autoload_paths += %W(#{config.root}/lib) # add this line
   end
 end

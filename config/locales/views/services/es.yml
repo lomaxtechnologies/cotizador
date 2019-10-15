@@ -1,25 +1,23 @@
 es:
   services:
+    title: Servicios
     return: Regresar
-    actual_price: Precio
     save: Guardar
-    name: Servicio
-    description: Descripción
-    actual_price: Precio
-    return: Regresar
+    search: Buscar
     index:
+      name: Servicio
+      description: Descripción
+      price: Precio
+      search_title: Filtrar por
+      page_size_placeholder: Filas por página
+      no_results_found: No hay resultados para mostrar.
+      new: Nuevo Servicio
+      search_name: Nombre del servicio
       delete_modal: 
         title: ¿Realmente deseas eliminiar este servicio?
         body: Una vez eliminado no podrás recuperarlo y deberás crear uno nuevo. Todas la información asociada a este servicio (productos, cotizaciones, etc.) seguirá existiendo.
         yes_text: Sí, elimínalo
         no_text: Cancelar
-      search_title: Filtrar por
-      page_size_placeholder: Filas por página
-      no_results_found: No hay resultados para mostrar.
-      title: Servicios
-      new: Nuevo Servicio
-      search_name: Nombre del servicio
-      search: Buscar
     new:
       new_service: Nuevo Servicio
     edit:

@@ -1,0 +1,149 @@
+{
+  "application.js": "/packs/js/application-1fc728a1f19243880b10.js",
+  "application.js.map": "/packs/js/application-1fc728a1f19243880b10.js.map",
+  "bootstrap_custom.js": "/packs/js/bootstrap_custom-df00500e8097fb00648f.js",
+  "bootstrap_custom.js.map": "/packs/js/bootstrap_custom-df00500e8097fb00648f.js.map",
+  "brands/index.js": "/packs/js/brands/index-1a7dacb435526e6d2dfa.js",
+  "brands/index.js.map": "/packs/js/brands/index-1a7dacb435526e6d2dfa.js.map",
+  "clients/index.js": "/packs/js/clients/index-6cbf162ea9727b608598.js",
+  "clients/index.js.map": "/packs/js/clients/index-6cbf162ea9727b608598.js.map",
+  "confirmation_modal.js": "/packs/js/confirmation_modal-b9337517ec8888f01b86.js",
+  "confirmation_modal.js.map": "/packs/js/confirmation_modal-b9337517ec8888f01b86.js.map",
+  "entrypoints": {
+    "application": {
+      "js": [
+        "/packs/js/application-1fc728a1f19243880b10.js"
+      ],
+      "js.map": [
+        "/packs/js/application-1fc728a1f19243880b10.js.map"
+      ]
+    },
+    "bootstrap_custom": {
+      "js": [
+        "/packs/js/bootstrap_custom-df00500e8097fb00648f.js"
+      ],
+      "js.map": [
+        "/packs/js/bootstrap_custom-df00500e8097fb00648f.js.map"
+      ]
+    },
+    "brands\\index": {
+      "js": [
+        "/packs/js/brands/index-1a7dacb435526e6d2dfa.js"
+      ],
+      "js.map": [
+        "/packs/js/brands/index-1a7dacb435526e6d2dfa.js.map"
+      ]
+    },
+    "clients\\index": {
+      "js": [
+        "/packs/js/clients/index-6cbf162ea9727b608598.js"
+      ],
+      "js.map": [
+        "/packs/js/clients/index-6cbf162ea9727b608598.js.map"
+      ]
+    },
+    "confirmation_modal": {
+      "js": [
+        "/packs/js/confirmation_modal-b9337517ec8888f01b86.js"
+      ],
+      "js.map": [
+        "/packs/js/confirmation_modal-b9337517ec8888f01b86.js.map"
+      ]
+    },
+    "materials\\index": {
+      "js": [
+        "/packs/js/materials/index-996f944f2e197f28b618.js"
+      ],
+      "js.map": [
+        "/packs/js/materials/index-996f944f2e197f28b618.js.map"
+      ]
+    },
+    "measure_units\\index": {
+      "js": [
+        "/packs/js/measure_units/index-6ae57294122dea74ece3.js"
+      ],
+      "js.map": [
+        "/packs/js/measure_units/index-6ae57294122dea74ece3.js.map"
+      ]
+    },
+    "prices\\index": {
+      "js": [
+        "/packs/js/prices/index-658891cc481a079a2a18.js"
+      ],
+      "js.map": [
+        "/packs/js/prices/index-658891cc481a079a2a18.js.map"
+      ]
+    },
+    "services\\index": {
+      "js": [
+        "/packs/js/services/index-aa3b638196dbd6a762ab.js"
+      ],
+      "js.map": [
+        "/packs/js/services/index-aa3b638196dbd6a762ab.js.map"
+      ]
+    },
+    "users\\registrations\\account": {
+      "js": [
+        "/packs/js/users/registrations/account-59e890bf054020a51091.js"
+      ],
+      "js.map": [
+        "/packs/js/users/registrations/account-59e890bf054020a51091.js.map"
+      ]
+    },
+    "users\\registrations\\edit": {
+      "js": [
+        "/packs/js/users/registrations/edit-44e4d61b8559d270bdd7.js"
+      ],
+      "js.map": [
+        "/packs/js/users/registrations/edit-44e4d61b8559d270bdd7.js.map"
+      ]
+    },
+    "users\\registrations\\index": {
+      "js": [
+        "/packs/js/users/registrations/index-44910e16ec6823e7ffe9.js"
+      ],
+      "js.map": [
+        "/packs/js/users/registrations/index-44910e16ec6823e7ffe9.js.map"
+      ]
+    },
+    "users\\registrations\\new": {
+      "js": [
+        "/packs/js/users/registrations/new-584fc5ba95430fb2d5ff.js"
+      ],
+      "js.map": [
+        "/packs/js/users/registrations/new-584fc5ba95430fb2d5ff.js.map"
+      ]
+    }
+  },
+  "materials/index.js": "/packs/js/materials/index-996f944f2e197f28b618.js",
+  "materials/index.js.map": "/packs/js/materials/index-996f944f2e197f28b618.js.map",
+  "measure_units/index.js": "/packs/js/measure_units/index-6ae57294122dea74ece3.js",
+  "measure_units/index.js.map": "/packs/js/measure_units/index-6ae57294122dea74ece3.js.map",
+  "media/webfonts/fa-brands-400.eot": "/packs/media/webfonts/fa-brands-400-14c590d1.eot",
+  "media/webfonts/fa-brands-400.svg": "/packs/media/webfonts/fa-brands-400-bfa9c38b.svg",
+  "media/webfonts/fa-brands-400.ttf": "/packs/media/webfonts/fa-brands-400-5e8aa9ea.ttf",
+  "media/webfonts/fa-brands-400.woff": "/packs/media/webfonts/fa-brands-400-df02c782.woff",
+  "media/webfonts/fa-brands-400.woff2": "/packs/media/webfonts/fa-brands-400-3e1b2a65.woff2",
+  "media/webfonts/fa-regular-400.eot": "/packs/media/webfonts/fa-regular-400-aa66d0e0.eot",
+  "media/webfonts/fa-regular-400.svg": "/packs/media/webfonts/fa-regular-400-95f13e0b.svg",
+  "media/webfonts/fa-regular-400.ttf": "/packs/media/webfonts/fa-regular-400-285a9d2a.ttf",
+  "media/webfonts/fa-regular-400.woff": "/packs/media/webfonts/fa-regular-400-5623624d.woff",
+  "media/webfonts/fa-regular-400.woff2": "/packs/media/webfonts/fa-regular-400-ac21cac3.woff2",
+  "media/webfonts/fa-solid-900.eot": "/packs/media/webfonts/fa-solid-900-42e1fbd2.eot",
+  "media/webfonts/fa-solid-900.svg": "/packs/media/webfonts/fa-solid-900-6ed5e3bc.svg",
+  "media/webfonts/fa-solid-900.ttf": "/packs/media/webfonts/fa-solid-900-896e20e2.ttf",
+  "media/webfonts/fa-solid-900.woff": "/packs/media/webfonts/fa-solid-900-3ded831d.woff",
+  "media/webfonts/fa-solid-900.woff2": "/packs/media/webfonts/fa-solid-900-d6d8d5da.woff2",
+  "prices/index.js": "/packs/js/prices/index-658891cc481a079a2a18.js",
+  "prices/index.js.map": "/packs/js/prices/index-658891cc481a079a2a18.js.map",
+  "services/index.js": "/packs/js/services/index-aa3b638196dbd6a762ab.js",
+  "services/index.js.map": "/packs/js/services/index-aa3b638196dbd6a762ab.js.map",
+  "users/registrations/account.js": "/packs/js/users/registrations/account-59e890bf054020a51091.js",
+  "users/registrations/account.js.map": "/packs/js/users/registrations/account-59e890bf054020a51091.js.map",
+  "users/registrations/edit.js": "/packs/js/users/registrations/edit-44e4d61b8559d270bdd7.js",
+  "users/registrations/edit.js.map": "/packs/js/users/registrations/edit-44e4d61b8559d270bdd7.js.map",
+  "users/registrations/index.js": "/packs/js/users/registrations/index-44910e16ec6823e7ffe9.js",
+  "users/registrations/index.js.map": "/packs/js/users/registrations/index-44910e16ec6823e7ffe9.js.map",
+  "users/registrations/new.js": "/packs/js/users/registrations/new-584fc5ba95430fb2d5ff.js",
+  "users/registrations/new.js.map": "/packs/js/users/registrations/new-584fc5ba95430fb2d5ff.js.map"
+}

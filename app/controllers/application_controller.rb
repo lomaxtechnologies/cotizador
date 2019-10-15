@@ -1,19 +1,19 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
 
-  def responseWithSuccess(data=nil)
-    render status: 200, json:{
-      succesful: true,
+  def response_with_success(data = nil)
+    render status: 200, json: {
+      successful: true,
       data: data
     }.to_json
   end
 
-  def responseWithError(message="",details=nil)
-    render status: 200, json:{
-      succesful: false,
-      error:{
+  def response_with_error(message = '', details = nil)
+    render status: 200, json: {
+      successful: false,
+      error: {
         message: message,
-        destails: details
+        details: details
       }
     }.to_json
   end

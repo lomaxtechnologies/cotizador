@@ -1,8 +1,10 @@
 es:
-  users:
+  quotations:
     create:
-      success: El servicio fue creado.
+      success: La cotización fue creada satisfactoriamente.
+      error: Ha ocurrido un error al crear la cotizacion.
     update:
-      update: El servicio se actualizó.
+      update: La cotización ha sido actualizada satisfactoriamente.
     destroy:
-      destroy: El servicio fue dado de baja, para acceder de nuevo dirigirse a la ventana de ...
+      destroy: La cotización ha sido eliminada satisfactoriamente.
+      

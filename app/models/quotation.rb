@@ -7,6 +7,15 @@ class Quotation < ApplicationRecord
   has_many :attachments
   has_many :quotations_notes
   has_many :comments, as: :commentable
+  accepts_nested_attributes_for :quotation_products
+  accepts_nested_attributes_for :quotation_services
+
+  paginates_per 10
+
+  def save
+    super
+    update_column(:code, 100 + id) unless code.present?
+  end
 
   def self.add_comment (params,user)
     comment = Comment.new
