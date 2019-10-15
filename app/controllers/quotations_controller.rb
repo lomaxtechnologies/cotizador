@@ -8,6 +8,7 @@ class QuotationsController < ApplicationController
   end
 
   def new
+    @quotation = Quotation.new
   end
 
   def create
