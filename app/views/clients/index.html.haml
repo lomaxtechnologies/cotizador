@@ -1,4 +1,5 @@
-= javascript_pack_tag "clients/index", media: "all", "data-turbolinks-track": "reload"
+= javascript_include_tag "clients/index", media: "all", "data-turbolinks-track": "reload"
+= javascript_include_tag "utils/paging_handler", media: "all", "data-turbolinks-track": "reload"
 = render partial: "confirmation_modal"
 .row
   .col-lg-12.offset-xl-1.col-xl-10
@@ -55,13 +56,12 @@
             %td 
               %span{id: "title_client_#{client.id}"}= client.phone
             %td.text-right
-              %button.btn.btn-success.btm.padding-0
-                = link_to edit_client_path(client) do
-                  %i.fas.fa-edit.fa-xs.text-white.btm-sm.height-width-buttom
-              %button.btn.btn-danger.btm-sm.padding-0{onclick: "show_confirmation_modal(this)",
+              = link_to edit_client_path(client), class: "btn btn-success text-white mr-1" do
+                %i.fas.fa-edit.fa-xs.text-white
+              %button.btn.btn-danger{onclick: "show_confirmation_modal(this)",
                 action: client_path(client),
                 method: :delete}
-                %i.fas.fa-trash-alt.fa-xs.text-white.height-width-buttom
+                %i.fas.fa-trash-alt.fa-xs
       = paginate @clients
     - else
       .text-center.text-muted.mt-5

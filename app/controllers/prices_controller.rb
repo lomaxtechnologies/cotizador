@@ -49,8 +49,10 @@ class PricesController < ApplicationController
   end
   
   def upload
-    active_thread = Thread.new do
-      @result = MaterialsParser.new(path: params[:file]).load_data
+    file = CreateTmp.new(src: params[:csv_file],name: 'upload',ext: '.xlsx').create
+    active_thread = Thread.new do 
+      @result = MaterialsParser.new(path: file.path).load_data
+      file.unlink
     end
     redirect_to prices_path, notice: t('.upload')
   end
@@ -91,4 +93,5 @@ class PricesController < ApplicationController
   def set_product
     @price = Price.find(params[:id])
   end
+
 end

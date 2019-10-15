@@ -7,7 +7,8 @@ class Product < ApplicationRecord
   has_many :quotation_products
   has_many :comments, as: :commentable
   accepts_nested_attributes_for :price, update_only: true
-  validates :code, presence: true, uniqueness: true
+  has_one_attached :csv_file
+  validates :code, presence: true
   paginates_per 10
 
   def find_even_if_deleted(tag)
