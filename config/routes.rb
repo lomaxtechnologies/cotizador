@@ -42,6 +42,15 @@ Rails.application.routes.draw do
 
   resources :brands, except: [:edit, :show, :new]
 
+  resource :quotations
+  get 'quotations', to: 'quotations#admin'
+  get 'quotations/api/api-get-list', to: 'quotations#api_get_list'
+  get 'quotations/api/api-get-comment', to: 'quotations#api_get_comment'
+  post 'quotations/api/api-add-comment', to: 'quotations#api_add_comment'
+  patch 'quotations/api/api-update-comment', to: 'quotations#api_update_comment'
+  delete 'quotations/api/api-delete-comment', to: 'quotations#api_delete_comment'
+  post 'quotations/:id/attachments/create', to: 'quotations#create_attachment'
+  delete 'quotations/:id/attachments/delete', to: 'quotations#delete_attachment'
   get 'quotations', to: 'quotations#index'
   root to: 'quotations#index'
 end

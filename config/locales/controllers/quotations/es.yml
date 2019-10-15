@@ -7,4 +7,6 @@ es:
       update: La cotización ha sido actualizada satisfactoriamente.
     destroy:
       destroy: La cotización ha sido eliminada satisfactoriamente.
-      
+    error: error
+    no_exist: No existe
+    no_user: No usuario
