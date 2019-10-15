@@ -35,6 +35,9 @@ Rails.application.config.assets.precompile += %w( users/registrations/password_h
 # Javascript for the prices module
 Rails.application.config.assets.precompile += %w( prices/index.js )
 
+# Javascript for quotations module
+Rails.application.config.assets.precompile += %w( quotations/quotations.js )
+
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
