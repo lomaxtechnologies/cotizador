@@ -16,11 +16,4 @@ class Quotation < ApplicationRecord
     super
     update_column(:code, 100 + id) unless code.present?
   end
-
-  def self.add_comment (params,user)
-    comment = Comment.new
-    comment.user_id = user.id
-    comment.note = params[:comments].note
-    comment.save
-  end
 end
