@@ -1,5 +1,6 @@
 es:
   title: Cotizador de Proyectos de Infraestructura
+  date: Fecha
   currency: GTQ
   noformat: 'No utiliza el formato estandarizado'
   nofile: 'No a seleccionado un archivo'

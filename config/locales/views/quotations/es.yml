@@ -13,7 +13,20 @@ es:
     new:
       title: Nueva Cotización
       header:
+        next: Siguiente
         title: Datos Generales
+        quotation_type: Tipo Cotización
+        service_percentage: Holgura Servicios
+        select_client: Seleccione un cliente
+        quotation_types:
+          simple: Simple
+          composed: Compuesta
+        brands:
+          use_supranet: Usar Supranet
+          use_siemon: Usar Siemon
+        errors:
+          date: Debe ingresar una fecha válida
+          client: Debe seleccionar un cliente
       materials:
         title: Materiales
       services:
