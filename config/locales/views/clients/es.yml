@@ -1,13 +1,14 @@
 es:
   clients:
     title: Clientes
+    title_singular: Cliente
     save: Guardar
     return: Regresar
     search: Buscar
     index: 
       name: Nombre
       address: Dirección
-      nit: NIT 
+      nit: Nit
       phone: Teléfono
       search_title: Filtrar por
       search_name: Nombre del cliente
