@@ -20,6 +20,10 @@ es:
           composed: Compuesta
       materials:
         title: Materiales
+        select-material: Seleccione un material
+      brands:
+        supranet: Supranet
+        siemons: Siemon
       services:
         title: Servicios
       conditions:

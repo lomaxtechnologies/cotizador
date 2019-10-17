@@ -1,9 +1,11 @@
 <script type="text/javascript">
   import quotationHeader from './components/header.vue'
+  import quotationMaterial from './components/material.vue'
 
    export default {
      components:{
-       'quotation-header' : quotationHeader
+       'quotation-header' : quotationHeader,
+       'qotation-material': quotationMaterial
      },
     data() {
         return {
@@ -38,7 +40,7 @@
       </h2>
       <b-card no-body>
         <b-tabs card>
-          <b-tab active>
+          <b-tab>
             <template v-slot:title>
               {{translations.header.title}} &nbsp;
               <i class='fas fa-check-circle'></i>
@@ -46,12 +48,13 @@
             <quotation-header>
             </quotation-header>
           </b-tab>
-          <b-tab>
+          <b-tab active>
             <template v-slot:title>
               {{translations.materials.title}} &nbsp;
               <i class='fas fa-check-circle'></i>
             </template>
-            {{translations.materials.title}}
+            <qotation-material>
+            </qotation-material>
           </b-tab>
           <b-tab>
             <template v-slot:title>

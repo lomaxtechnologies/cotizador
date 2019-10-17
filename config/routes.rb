@@ -35,10 +35,10 @@ Rails.application.routes.draw do
   resources :prices, except:[:show]
   post 'prices/upload', to: 'prices#upload', as: 'upload'
   get 'prices/dashboard', to: 'prices#dashboard', as: 'dashboard'
-  get 'prices/api/get-products', to: 'prices#api_get_by_material'
+  get 'prices/api/products', to: 'prices#api_get_by_material'
 
   resources :materials
-  get 'materials/api/get-all', to: 'materials#api_get_all'
+  get 'materials/api/all', to: 'materials#api_get_all'
 
   resources :brands, except: [:edit, :show, :new]
 
@@ -47,8 +47,8 @@ Rails.application.routes.draw do
   post 'quotations/api/api-add-comment', to: 'quotations#api_add_comment'
   patch 'quotations/api/api-update-comment', to: 'quotations#api_update_comment'
   delete 'quotations/api/api-delete-comment', to: 'quotations#api_delete_comment'
-  post 'quotations/:id/attachments/create', to: 'quotations#create_attachment'
-  delete 'quotations/:id/attachments/delete', to: 'quotations#delete_attachment'
+  post 'quotations/:id/attachments/create', to: 'attachments#create'
+  delete 'quotations/:id/attachments/delete', to: 'attachments#delete'
   get 'quotations', to: 'quotations#index'
   root to: 'quotations#index'
 end
