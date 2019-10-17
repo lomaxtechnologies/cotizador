@@ -1,7 +1,5 @@
 class AttachmentsController < ApplicationController
   layout "manager"
-  skip_before_action :verify_authenticity_token, only: :create
-  
   def index
   end
   def new
@@ -11,16 +9,19 @@ class AttachmentsController < ApplicationController
     respond_to do |format|
       attachment = Attachment.new(attachments_params)
       attachment.quotation_id = params[:id]
-      attachment.user = User.find(1)
+      attachment.user = current_user
       format.json{ response_with_success(attachment.save)}
     end
   end
 
   def destroy
-    if @attachment.user == User.find(1) && @attachment.destroy
-      format.json { response_with_succes}
-    else
-      format.json {response_with_error('error')}
+    attachment = Attachment.find(attachment_destroy_params[:id])
+    respond_to do |format|
+      if attachment.user == current_user
+        format.json { response_with_success(attachment.destroy)}
+      else
+        format.json {response_with_error(t('attachments.error'),t('attachments.no_user'))}
+      end
     end
   end
 
@@ -29,7 +30,8 @@ class AttachmentsController < ApplicationController
     params.require(:attachment).permit(:location)
   end
 
-  def set_attachment
-    @attachment = Attachment.find(params[:id])
+  def attachment_destroy_params
+    params.require(:attachment).permit(:id)
   end
+
 end

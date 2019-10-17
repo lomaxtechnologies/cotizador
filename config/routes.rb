@@ -48,7 +48,7 @@ Rails.application.routes.draw do
   patch 'quotations/api/api-update-comment', to: 'quotations#api_update_comment'
   delete 'quotations/api/api-delete-comment', to: 'quotations#api_delete_comment'
   post 'quotations/:id/attachments/create', to: 'attachments#create'
-  delete 'quotations/:id/attachments/delete', to: 'attachments#delete'
+  delete 'quotations/:id/attachments/destroy', to: 'attachments#destroy'
   get 'quotations', to: 'quotations#index'
   root to: 'quotations#index'
 end
