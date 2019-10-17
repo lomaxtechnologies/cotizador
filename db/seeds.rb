@@ -19,4 +19,4 @@ MeasureUnit.create(name:'Bobina',unit_type: 'Longitud')
 MeasureUnit.create(name:'Unidad',unit_type: 'Unidad')
 
 Client.create(name:'Cliente de prueba')
-Quotation.create(code:001, quotation_date:'15/10/2019',client_id:1,user_id:1)
+Quotation.create(code:101, quotation_date:'15/10/2019',client:Client.first,user: User.first, quotation_type: Quotation.quotation_types[:t_comparative])

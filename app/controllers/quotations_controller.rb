@@ -16,11 +16,10 @@ class QuotationsController < ApplicationController
 
   def create
     respond_to do |format|
-      @quotation = Quotation.new(quotation_params.merge(user: User.find(1)))
+      @quotation = Quotation.new(quotation_params.merge(user: current_user))
       @quotation.save
       if @quotation.errors.any?
         errors = @quotation.errors.full_messages
-        puts errors
         format.html { redirect_to new_users_registration_url, alert: errors }
         format.json { response_with_error(t('quotations.error'), errors) }
       else
@@ -36,7 +35,6 @@ class QuotationsController < ApplicationController
       @quotation.save
       if @quotation.errors.any?
         errors = @quotation.errors.full_messages
-        puts errors
         format.html { redirect_to quotations_url, alert: errors }
         format.json { response_with_error(t('quotations.error'), errors) }
       else
@@ -60,6 +58,23 @@ class QuotationsController < ApplicationController
         end
       end
       format.json { response_with_error(t('quotations.error'), t('quotations.no_exist'))}
+    end
+  end
+
+  def api_types
+    response_with_success(Quotation.quotation_types)
+  end
+
+  def api_create_header
+    @quotation = Quotation.new(quotation_params.merge(user: current_user))
+    puts @quotation
+    @quotation.save
+    if @quotation.errors.any?
+      errors = @quotation.errors.full_messages
+      response_with_error(t('quotations.error'), errors)
+    else
+      data = {code: @quotation.code}
+      response_with_success(data)
     end
   end
 
@@ -113,13 +128,17 @@ class QuotationsController < ApplicationController
   def quotation_params
     params.require(:quotation).permit(
       :quotation_date,
+      :quotation_type,
       :credits,
       :payment_conditions,
       :warranty,
       :client_id,
       quotation_products_attributes: %i[amount percent product_id],
       quotation_services_attributes: %i[amount percent service_id]
-    )
+    ).merge({
+      user: current_user,
+      state: Quotation.states[:created]
+    })
   end
 
   def comments_params
@@ -131,11 +150,11 @@ class QuotationsController < ApplicationController
   end
 
   def attachment_params
-    params.require(:attachment).permit(:location).merge(user: User.find(1),quotation_id: params[:id])
+    params.require(:attachment).permit(:location).merge(user: current_user,quotation_id: params[:id])
   end
 
   def attachment_delete_params
-    params.require(:attachment).permit(:id).merge(user: User.find(1),quotation_id: params[:id])
+    params.require(:attachment).permit(:id).merge(user: current_user,quotation_id: params[:id])
   end
 
   def api_update_params

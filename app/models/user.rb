@@ -16,7 +16,6 @@ class User < ApplicationRecord
 
   # All the possible roles are stored in this class variable
   enum role: [:administrador, :consultor]
-
   validates :role, presence: true, inclusion: { in: :role }
 
   def self.valid_role?(role)

@@ -67,9 +67,9 @@ class ClientsController < ApplicationController
 
   # API For clients controller
 
-  # GET /clients/api/get-all
-  def api_get_all
-    response_with_success(Client.all_only_indentifier_fields)
+  # GET /api/clients
+  def api_index
+    response_with_success(Client.all_only_indentifier_fields.order(:name))
   end
 
   private
