@@ -34,10 +34,8 @@ Rails.application.routes.draw do
   resources :prices, except:[:show]
   post 'prices/upload', to: 'prices#upload', as: 'upload'
   get 'prices/dashboard', to: 'prices#dashboard', as: 'dashboard'
-  get 'prices/api/products', to: 'prices#api_get_by_material'
 
   resources :materials
-  get 'materials/api/all', to: 'materials#api_get_all'
 
   resources :brands, except: [:edit, :show, :new]
   
@@ -46,11 +44,14 @@ Rails.application.routes.draw do
   resources :quotations
   scope :api do
     get '/clients', to: 'clients#api_index'
+    get '/materials', to: 'materials#api_index'
+    get '/products_by_material', to: 'prices#products_by_material'
     scope :quotations do
       get '/types', to: 'quotations#api_types'
       post '/header', to: 'quotations#api_create_header'
       post '/:id/attachments/create', to: 'attachments#create'
       delete '/:id/attachments/destroy', to: 'attachments#destroy'
+      get '/type_by_quotation', to: 'quotations#api_type_by_quotation'
     end
     scope :comments do
       get '/', to: 'comments#api_index'

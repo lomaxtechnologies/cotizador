@@ -1,57 +1,73 @@
 <script type="text/javascript">
 
-  import axios from 'axios'
-
   export default{
     props:{
-      brand: Array
+      quotation_code:{
+        type: String,
+        default: ''
+      }
     },
     data(){
       return{
-        translations:{
-          select_material: I18n.t('quotations.new.materials.select-material')
-        },
         quotations_products:{
-          amount: 0.0,
-          percent: 15.00,
+          amount_supranet: [0.0,0.0],
+          percent: [15.0,15.0],
           product_id: null,
         },
+        quotation_type: 0,
         material_id: null,
-        list_materials: [],
-        selected_materials:[],
-        brand_type: [{value: 0,text: I18n.t('quotations.new.brands.supranet') },{value: 1,text: I18n.t('quotations.new.brands.siemons') }],
-        visible: 'invisible'
+        material_name_description: null,
+        quantity: [null,null],
+        price: [null,null],
+        brand: [null,null],
+        materials: [],
+        products:[],
+        selected_materials:[] 
       }
     },
     methods:{
-      listMaterial: function(){
+      getMaterials: function(){
         this.http
-        .get('/materials/api/all')
+        .get('/api/materials')
         .then((response)=>{
-          var data = response.data;
-          data.forEach((element)=>{
-            this.list_materials.push({value: element.id, text: `${element.name} - ${element.description}`});
-          });
+          this.materials = response.data;
+        }).catch((err)=>{
+          console.log(JSON.stringify(err));
         });
       },
-      onChange: function (event){
-        this.visible= 'visible';
+      getProducts: function(){
         this.http
-        .get('/prices/api/products',{params:{material_id:event}})
+        .get('/api/products_by_material', {params: {material_id: this.material_id}})
         .then((response)=>{
-          var data = response.data;
-          data.forEach((element)=>{
-            var brand = this.brand_type.filter((brand)=>{return brand.text == element.brand;})
-            //.products_data[brand[0].value]={product_id: element.product_id,code:element.code,price:element.price,brand: element.brand, measure:element.measure_unit};
-          })
-        });
+          this.products = response.data;
+          this.price = this.products.map(function(product){return product.price});
+          this.brand = this.products.map(function(product){return product.brand});
+          console.log(this.price);
+        }).catch((err)=>{
+          console.log(JSON.stringify(err));
+        })
       },
-      onIteration: function(b){
-        console.log(b);
+      getQuotationType: function(){
+        this.http
+        .get('/api/quotations/type_by_quotation',{params: {code: this.quotation_code}})
+        .then((response) =>{
+          this.quotation_type = response.data;
+          console.log(this.quotation_type);
+        })
       }
     },
     mounted(){
-      this.listMaterial();
+      this.getMaterials();
+    },
+    watch: {
+      material_id: function(){
+        this.getQuotationType();
+        this.getProducts();
+        var selected_material = this.materials.filter((material)=>{
+          return material.id == this.material_id;
+        })
+        this.material_name_description = selected_material[0].name +" - "+selected_material[0].name;
+      }
     }
   }
 </script>
@@ -63,8 +79,8 @@
         <div class="col-5">
           <label class="mb-0 text-primary font-weight-bold"> Material </label>
         </div>
-        <div class="col-3" v-for="brand of brand_type" v-bind:key="brand.id">
-          <label class="text-primary font-weight-bold">{{brand.text}}</label>    
+        <div class="col-6">
+          <label class="text-primary font-weight-bold">Supranet</label>    
         </div>
       </b-form-row>
       <b-form-row>
@@ -76,19 +92,82 @@
                 <i class="fas fa-user-alt"></i>
               </div>
             </div>
-            <b-form-select v-model="material_id" :options=list_materials></b-form-select>
+            <b-form-select v-model="material_id" :options=materials value-field="id" text-field="name"></b-form-select>
           </div>
         </div>
         <!----------Materials------------->
         <!----------Double---------------->
-        <div class="col-3" v-for="brand of brand_type" v-bind:key="brand.id">
+        <div class="col-2" >
+          <label class="mb-0 text-primary font-weight-bold">Cantidad</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-white text-primary">
+                <i class="fas fa-sort-amount-up"></i>
+              </div>
+              <b-form-input v-model="quantity[0]"></b-form-input>
+            </div>
+          </div>
+        </div>
+        <div class="col-2" >
           <label class="mb-0 text-primary font-weight-bold">Precio</label>
-          <div class="input-group mb-1">
+          <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-money-bill-wave"></i>
               </div>
-              <b-form-input disabled></b-form-input>
+              <b-form-input disabled v-model="price[0]"></b-form-input>
+            </div>
+          </div>
+        </div>
+        <div class="col-2" >
+          <label class="mb-0 text-primary font-weight-bold">Holgura</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-white text-primary">
+                <i class="fas fa-percentage"></i>
+              </div>
+              <b-form-input v-model="quotations_products.percent[0]"></b-form-input>
+            </div>
+          </div>
+        </div>
+      </b-form-row>
+      
+      <b-form-row>
+        <div class="col-6 offset-md-5">
+          <label class="text-primary font-weight-bold">Siemon</label>    
+        </div>
+      </b-form-row>
+      <b-form-row>
+        <div class="col-2 offset-md-5" >
+          <label class="mb-0 text-primary font-weight-bold">Cantidad</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-white text-primary">
+                <i class="fas fa-sort-amount-up"></i>
+              </div>
+              <b-form-input v-model="quantity[1]"></b-form-input>
+            </div>
+          </div>
+        </div>
+        <div class="col-2" >
+          <label class="mb-0 text-primary font-weight-bold">Precio</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-white text-primary">
+                <i class="fas fa-money-bill-wave"></i>
+              </div>
+              <b-form-input disabled v-model="price[0]"></b-form-input>
+            </div>
+          </div>
+        </div>
+        <div class="col-2" >
+          <label class="mb-0 text-primary font-weight-bold">Holgura</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-white text-primary">
+                <i class="fas fa-percentage"></i>
+              </div>
+              <b-form-input v-model="quotations_products.percent[1]"></b-form-input>
             </div>
           </div>
         </div>

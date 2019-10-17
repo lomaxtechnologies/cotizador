@@ -1,2 +1,3 @@
 class QuotationsProductsController < ApplicationController
+    
 end

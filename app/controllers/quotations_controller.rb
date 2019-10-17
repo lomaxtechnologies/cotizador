@@ -31,6 +31,10 @@ class QuotationsController < ApplicationController
     response_with_success(Quotation.quotation_types)
   end
 
+  def api_type_by_quotation
+    response_with_success(Quotation.type)
+  end
+
   def api_create_header
     @quotation = Quotation.new(quotation_params.merge(user: current_user))
     puts @quotation

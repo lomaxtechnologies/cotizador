@@ -40,7 +40,7 @@ es:
         select-material: Seleccione un material
       brands:
         supranet: Supranet
-        siemons: Siemon
+        siemon: Siemon
       services:
         title: Servicios
       conditions:
