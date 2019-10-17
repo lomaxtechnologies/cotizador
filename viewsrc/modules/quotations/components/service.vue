@@ -82,7 +82,9 @@
         let service_data = this.select_list_service[index]
         this.select_list_service.splice(index, 1);
         this.quotation.service  = service_data.id;
-        console.log(JSON.stringify(service_data));
+        this.quotation.price  = service_data.price;
+        this.quotation.amount  = service_data.amount;
+        this.quotation.persent  = service_data.persent;
       }
       },
       mounted(){
