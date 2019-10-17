@@ -3,13 +3,38 @@ es:
     deleted_list: Eliminadas
     manager: Administración
     log: Historial
+    states:
+      created: Creada
+      active: Activa
+      accepted: Aprobada por el Cliente
+      expired: Expirada
+    quotation_types:
+      t_comparative: Comparativa
+      t_siemon_only: Solo Siemon
+      t_supranet_only: Solo Supranet
+      t_simple: Simple
     index:
+      headers:
+        id: Código
+        quotation_type: Tipo
+        state: Estado
+        quotation_date: Fecha
+        name: Cliente
+        actions: ''
+      search_title: Filtrar por
       brand: Marca
       title: Cotizaciones
       search: Buscar Cotización
       date: Fecha
       name: Cliente
       status: Estado
+      buttons:
+        new: Nueva Cotización
+        search: Buscar
+      search_fields:
+        titles:
+          code: Código de la Cotización
+          date: Fecha
     new:
       title: Nueva Cotización
       header:
@@ -19,11 +44,6 @@ es:
           nit: Nit
           date: Fecha
           quotation_type: Tipo Cotización
-        quotation_types:
-          t_comparative: Comparativa
-          t_siemon_only: Solo Siemon
-          t_supranet_only: Solo Supranet
-          t_simple: Simple
         next: Siguiente
         review_and_save: Revisar y Guardar
         title: Datos Generales

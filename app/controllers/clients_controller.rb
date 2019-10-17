@@ -69,7 +69,7 @@ class ClientsController < ApplicationController
 
   # GET /api/clients
   def api_index
-    response_with_success(Client.all_only_indentifier_fields.order(:name))
+    response_with_success(Client.all_only_identifier_fields.order(:name))
   end
 
   private

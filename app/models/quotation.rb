@@ -21,18 +21,22 @@ class Quotation < ApplicationRecord
 
   paginates_per 10
 
-  def next_code
-    max = Quotation.maximum('code')
-    max ? max : 101
-  end
-
   def save
     super
-    update_column(:code, 100 + id) unless code.present?
   end
 
   def default_material_percentage
     15
+  end
+
+  def self.all_only_identifier_fields
+    Quotation.joins(:client).select(
+      'quotations.id',
+      'quotations.quotation_date',
+      'quotations.quotation_type',
+      'quotations.state',
+      'clients.name'
+    )
   end
 
   def default_service_percentage

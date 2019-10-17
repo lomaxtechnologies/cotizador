@@ -1,6 +1,5 @@
 class QuotationsController < ApplicationController
   layout "manager"
-  skip_before_action :verify_authenticity_token, only: [:delete_attachment]
   
   def index
   end
@@ -76,6 +75,10 @@ class QuotationsController < ApplicationController
       data = {code: @quotation.code}
       response_with_success(data)
     end
+  end
+
+  def api_index
+    response_with_success(Quotation.all_only_identifier_fields.order(:code))
   end
 
   def api_get_list

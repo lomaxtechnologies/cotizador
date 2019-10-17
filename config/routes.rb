@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   resources :quotations
   scope :api do
     get '/clients', to: 'clients#api_index'
+    get '/quotations', to: 'quotations#api_index'
     scope :quotations do
       get '/types', to: 'quotations#api_types'
       post '/header', to: 'quotations#api_create_header'

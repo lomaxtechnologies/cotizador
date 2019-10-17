@@ -13,11 +13,14 @@
     },
     data(){
       return {
-        translations: I18n.t('quotations.new.header'),
+        translations: {
+          header: I18n.t('quotations.new.header'),
+          quotation_types: I18n.t('quotations.quotation_types')
+        },
         quotation:{
           client_id: null,
           client_nit: '',
-          quotation_date: this.today(),
+          quotation_date: this.date.today(),
           quotation_type: null
         },
         clients: [],
@@ -113,7 +116,7 @@
       <b-form-row>
         <!------------------------------- quotation.code -------------------------------------->
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.code}} </label>
+          <label class="mb-0 text-primary font-weight-bold"> {{translations.header.titles.code}} </label>
           <div class="input-group mb-3" v-b-tooltip.hover title="Tooltip directive content">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -131,7 +134,7 @@
 
         <!----------------------------- quotation.client -------------------------------------->
         <div class="col-4">
-          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.client}} </label>
+          <label class="mb-0 text-primary font-weight-bold"> {{translations.header.titles.client}} </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -151,7 +154,7 @@
 
         <!----------------------------- quotation.client_nit ---------------------------------->
         <div class="col-3">
-          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.nit}} </label>
+          <label class="mb-0 text-primary font-weight-bold"> {{translations.header.titles.nit}} </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -166,7 +169,7 @@
 
         <!------------------------------- quotation.date -------------------------------------->
         <div class="col-3">
-          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.date}} </label>
+          <label class="mb-0 text-primary font-weight-bold"> {{translations.header.titles.date}} </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -181,7 +184,7 @@
         <!----------------------------- quotation.quotation_type ------------------------------>
         <div class="col-3">
           <label class="mb-0 text-primary font-weight-bold">
-            {{translations.titles.quotation_type}}
+            {{translations.header.titles.quotation_type}}
           </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -204,7 +207,7 @@
             class="btn btn-primary btn-block"
             type="submit"
           >
-            {{translations.next}}
+            {{translations.header.next}}
           </button>
         </div>
         <!--------------------------------- quotation.submit ---------------------------------->
