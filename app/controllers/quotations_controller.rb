@@ -32,7 +32,7 @@ class QuotationsController < ApplicationController
   end
 
   def api_type_by_quotation
-    response_with_success(Quotation.type)
+    response_with_success(Quotation.type(params))
   end
 
   def api_create_header
