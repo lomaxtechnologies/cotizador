@@ -1,0 +1,11 @@
+es:
+  comments:
+    create:
+      error: error
+      no_save: No se puede agregar el comentario
+    update:
+      error: error
+      no_user: No se permite actualizar un comentario que no haz creado
+    destroy:
+      error: error
+      no_delete: No se pudo eliminar el comentario

@@ -53,7 +53,7 @@ Rails.application.routes.draw do
       delete '/:id/attachments/destroy', to: 'attachments#destroy'
     end
     scope :comments do
-      get '', to: 'comments#api_index'
+      get '/', to: 'comments#api_index'
       post '/(:commentable_type)/:commentable_id', to: 'comments#create', defaults: {commentable_type: 'Quotation'}
       patch '/update/:id', to: 'comments#update'
       delete '/delete/:id', to: 'comments#destroy'

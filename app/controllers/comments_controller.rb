@@ -1,14 +1,17 @@
 class CommentsController < ApplicationController
   layout "manager"
   before_action :set_comment, only:[:update,:destroy]
-  
   def create
     respond_to do |format|
       comment = Comment.new(comment_params)
       comment.commentable_id = params[:commentable_id]
       comment.commentable_type = (params[:commentable_type]).humanize
       comment.user = current_user
-      format.json { response_with_success(comment.save)}
+      if user.save
+        format.json {response_with_success}   
+      else
+        format.json {response_with_error(t('.error'),t('.no_save'))}
+      end
     end
   end
 
@@ -17,7 +20,7 @@ class CommentsController < ApplicationController
       if @comment.user == current_user
         format.json {response_with_success(@comment.update(update_comment_params))}  
       else
-        format.json {response_with_error(@comment.error.full_messages)}
+        format.json {response_with_error(t('.error'),t('.no_user'))}
       end
     end
   end
@@ -26,7 +29,7 @@ class CommentsController < ApplicationController
     if @comment.destroy
       response_with_success  
     else
-      response_with_error(@comment.error.full_messages)
+      response_with_error(response_with_error(t('.error'),t('.no_delete')))
     end
   end
 
