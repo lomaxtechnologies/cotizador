@@ -21,10 +21,6 @@ class Quotation < ApplicationRecord
 
   paginates_per 10
 
-  def save
-    super
-  end
-
   def default_material_percentage
     15
   end

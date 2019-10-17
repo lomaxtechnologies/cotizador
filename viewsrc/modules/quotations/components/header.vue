@@ -9,6 +9,10 @@
       quotation_code:{
         type: String,
         default: ''
+      },
+      quotation_id:{
+        type:Number,
+        default: NaN
       }
     },
     data(){
@@ -81,6 +85,15 @@
       },
 
       submitForm: function(){
+        if(this.quotation_code){
+          this.validateAndUpdate();
+        }else{
+          this.validateAndCreate();
+        }
+      },
+
+      validateAndCreate: function(){
+        this.$emit('update:section_valid', false);
         if(this.validateForm()){
           var data = {quotation: this.quotation};
           this.http
@@ -88,9 +101,27 @@
           .then((response)=>{
             if(response.successful){
               this.$emit('update:quotation_code', String(response.data.code));
+              this.$emit('update:quotation_id', response.data.id);
               this.$emit('update:section_valid', true);
             }else{
+              console.log(JSON.stringify(response.error));
+            }
+          }).catch((err)=>{
+            console.log(JSON.stringify(err));
+          });
+        }
+      },
+
+      validateAndUpdate: function(){
+        this.$emit('update:section_valid', false);
+        if(this.validateForm()){
+          var data = {quotation: this.quotation};
+          this.http
+          .put(`api/quotations/header/${this.quotation_id}`, data)
+          .then((response)=>{
+            if(response.successful){
               this.$emit('update:section_valid', true);
+            }else{
               console.log(JSON.stringify(response.error));
             }
           }).catch((err)=>{
@@ -193,6 +224,7 @@
               </div>
             </div>
             <b-form-select
+              :disabled=section_valid
               v-model=quotation.quotation_type 
               :options=quotation_types
             ></b-form-select>
