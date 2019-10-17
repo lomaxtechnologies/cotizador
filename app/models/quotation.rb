@@ -28,7 +28,10 @@ class Quotation < ApplicationRecord
 
   def save
     super
-    update_column(:code, 100 + id) unless code.present?
+    unless code.present?
+      update_column(:code, 100 + id) 
+    end
+    true
   end
 
   def default_material_percentage

@@ -5,44 +5,40 @@
         type: Boolean,
         default: false
       },
-      next_section_visibility: {
-        type: Boolean,
-        default: false
+      quotation_code:{
+        type: String,
+        default: ''
       },
-      current_section_visibility: {
-        type: Boolean,
-        default: true
-      },
-      parent_data:{
-        type: Object,
-        default: ()=>{}
+      quotation_id:{
+        type:Number,
+        default: NaN
       }
     },
     data(){
       return {
-        translations:{
-          review_and_save: I18n.t('quotations.new.header.review_and_save')
-        },
+        translations: I18n.t('quotations.new.conditions'),
         quotation:{
-          payment_conditions:'',
+          payment_condition:'',
           credits:'',
           warranty:''
         }
       }
     },
-    computed:{
-      //checks if this is the only section visible. Since this is the last real section,
-      //if the next section is visible, the global view is on
-      checkForGlobalViewOn: function(){
-        return this.next_section_visibility;
-      },
-    },
     methods:{
-      blockAndEmitChanges(){
-        this.$emit('update:section_valid', true);
-        this.$emit('update:current_section_visibility', false);
-        this.$emit('update:next_section_visibility', true);
-        this.$emit('update:parent_data',this.quotation);
+      validateAndUpdate(){
+        this.$emit('update:section_valid', false);
+        var data = {quotation: this.quotation};
+        this.http
+        .put(`api/quotations/header/${this.quotation_id}`, data)
+        .then((response)=>{
+          if(response.successful){
+            this.$emit('update:section_valid', true);
+          }else{
+            console.log(JSON.stringify(response.error));
+          }
+        }).catch((err)=>{
+          console.log(JSON.stringify(err));
+        });
       }
     }
   }
@@ -50,12 +46,12 @@
 
 <template>
   <div>
-    <b-form>
+    <b-form @submit=validateAndUpdate>
       <b-form-row>
         <!----------------------------- quotation.conditions -------------------------------------->
         <div class="col-12 mb-3">
           <label class="mb-0 text-primary font-weight-bold"> Términos y Condiciones </label>
-          <b-textarea v-model=quotation.payment_conditions></b-textarea>
+          <b-textarea v-model=quotation.payment_condition></b-textarea>
         </div>
         <!----------------------------- quotation.conditions -------------------------------------->
 
@@ -75,8 +71,8 @@
 
         <!--------------------------------- quotation.submit ---------------------------------->
         <div class="col-2 offset-10 mb-3">
-          <button class="btn btn-primary btn-block" :hidden=checkForGlobalViewOn type="submit" v-on:click="blockAndEmitChanges">
-            {{translations.review_and_save}}
+          <button class="btn btn-primary btn-block" type="submit">
+            {{translations.next}}
           </button>
         </div>
         <!--------------------------------- quotation.submit ---------------------------------->

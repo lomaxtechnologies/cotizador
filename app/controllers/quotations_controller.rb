@@ -1,6 +1,6 @@
 class QuotationsController < ApplicationController
   layout "manager"
-  skip_before_action :verify_authenticity_token, only: [:delete_attachment]
+  before_action :set_quotation, only: [:api_update_header]
   
   def index
   end
@@ -67,14 +67,22 @@ class QuotationsController < ApplicationController
 
   def api_create_header
     @quotation = Quotation.new(quotation_params.merge(user: current_user))
-    puts @quotation
     @quotation.save
     if @quotation.errors.any?
       errors = @quotation.errors.full_messages
       response_with_error(t('quotations.error'), errors)
     else
-      data = {code: @quotation.code}
+      data = {id: @quotation.id, code: @quotation.code}
       response_with_success(data)
+    end
+  end
+
+  def api_update_header
+    if @quotation.update(quotation_params.merge(user: current_user))
+      response_with_success
+    else
+      errors = @quotation.errors.full_messages
+      response_with_error(t('quotations.error'), errors)
     end
   end
 
@@ -130,7 +138,7 @@ class QuotationsController < ApplicationController
       :quotation_date,
       :quotation_type,
       :credits,
-      :payment_conditions,
+      :payment_condition,
       :warranty,
       :client_id,
       quotation_products_attributes: %i[amount percent product_id],

@@ -25,7 +25,6 @@ es:
           t_supranet_only: Solo Supranet
           t_simple: Simple
         next: Siguiente
-        review_and_save: Revisar y Guardar
         title: Datos Generales
         service_percentage: Holgura Servicios
         select_client: Seleccione un cliente
@@ -40,6 +39,7 @@ es:
       services:
         title: Servicios
       conditions:
+        next: Siguiente
         title: Condiciones
       global_view:
         title: Vista Global
