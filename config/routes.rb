@@ -40,15 +40,7 @@ Rails.application.routes.draw do
   get 'materials/api/all', to: 'materials#api_get_all'
 
   resources :brands, except: [:edit, :show, :new]
-
-  get 'quotations/api/api-get-list', to: 'quotations#api_get_list'
-  get 'quotations/api/api-get-comment', to: 'quotations#api_get_comment'
-  post 'quotations/api/api-add-comment', to: 'quotations#api_add_comment'
-  patch 'quotations/api/api-update-comment', to: 'quotations#api_update_comment'
-  delete 'quotations/api/api-delete-comment', to: 'quotations#api_delete_comment'
-  post 'quotations/:id/attachments/create', to: 'attachments#create'
-  delete 'quotations/:id/attachments/destroy', to: 'attachments#destroy'
-  get 'quotations', to: 'quotations#index'
+  
   root to: 'quotations#index'
 
   resources :quotations
@@ -57,6 +49,14 @@ Rails.application.routes.draw do
     scope :quotations do
       get '/types', to: 'quotations#api_types'
       post '/header', to: 'quotations#api_create_header'
+      post '/:id/attachments/create', to: 'attachments#create'
+      delete '/:id/attachments/destroy', to: 'attachments#destroy'
+    end
+    scope :comments do
+      get '', to: 'comments#api_index'
+      post '/(:commentable_type)/:commentable_id', to: 'comments#create', defaults: {commentable_type: 'Quotation'}
+      patch '/update/:id', to: 'comments#update'
+      delete '/delete/:id', to: 'comments#destroy'
     end
   end
 end
