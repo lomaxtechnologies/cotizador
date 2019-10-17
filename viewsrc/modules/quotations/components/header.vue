@@ -1,150 +1,214 @@
 <script type="text/javascript">
 
-  import axios from 'axios'
-
   export default {
+    props:{
+      section_valid: {
+        type: Boolean,
+        default: false
+      },
+      quotation_code:{
+        type: String,
+        default: ''
+      }
+    },
     data(){
       return {
-        translations:{
-          select_client: I18n.t('quotations.new.header.select-client')
-        },
+        translations: I18n.t('quotations.new.header'),
         quotation:{
-          client: null,
+          client_id: null,
+          client_nit: '',
           quotation_date: this.today(),
-          services_percentage: 0.00,
-          type: 1,
-          supranet_percentage: 15.00,
-          siemon_percentage: 15.00
+          quotation_type: null
         },
         clients: [],
-        quotation_types: [
-          {value: 0, text: I18n.t('quotations.new.header.quotation_types.simple')},
-          {value: 1, text: I18n.t('quotations.new.header.quotation_types.composed')}
-        ]
+        quotation_types: {},
+        errors:{
+          client:false
+        }
       }
     },
     mounted(){
-      this.http
-      .get('/clients/api/get-all')
-      .then((response)=>{
-        var data = response.data;
-        this.clients.push({value: null, text: this.translations.select_client});
-        data.forEach((element)=>{
-          this.clients.push({value: element.id, text: `${element.name}, Nit: ${element.nit}`});
+      this.getClients();
+      this.getQuotationTypes();
+    },
+    computed:{
+      validateClient: function(){
+        this.errors.client = isNaN(parseFloat(this.quotation.client_id));
+        return this.errors.client;
+      }
+    },
+    methods:{
+
+      getClients: function(){
+        this.http
+        .get('api/clients')
+        .then((response)=>{
+          this.clients = response.data;
+          if(this.clients.length > 0){
+            this.quotation.client_id = this.clients[0].id;
+            this.quotation.client_nit = this.clients[0].nit;
+          }
+        }).catch((err)=>{
+          console.log(JSON.stringify(err));
         });
-      });
+      },
+
+      getQuotationTypes: function(){
+        this.http
+        .get('api/quotations/types')
+        .then((response)=>{
+          this.quotation_types = response.data;
+          for(var key in this.quotation_types){
+            this.quotation_types[key] = this.translations.quotation_types[key];
+          }
+          if(this.quotation_types){
+            this.quotation.quotation_type = Object.keys(this.quotation_types)[0];
+          }
+        }).catch((err)=>{
+          console.log(JSON.stringify(err));
+        });
+      },
+
+      validateForm: function(){
+        var section_valid = true;
+        for(var key in this.errors){
+          section_valid = section_valid && ! this.errors[key];
+        }
+        return section_valid;
+      },
+
+      submitForm: function(){
+        if(this.validateForm()){
+          var data = {quotation: this.quotation};
+          this.http
+          .post('api/quotations/header', data)
+          .then((response)=>{
+            if(response.successful){
+              this.$emit('update:quotation_code', String(response.data.code));
+              this.$emit('update:section_valid', true);
+            }else{
+              this.$emit('update:section_valid', true);
+              console.log(JSON.stringify(response.error));
+            }
+          }).catch((err)=>{
+            console.log(JSON.stringify(err));
+          });
+        }
+      }
+    },
+    watch:{
+      'quotation.client_id': function(){
+        var selected_client = this.clients.filter((client)=>{
+          return client.id == this.quotation.client_id;
+        });
+        this.quotation.client_nit = selected_client[0].nit;
+      }
     }
   }
 </script>
 
 <template>
   <div>
-    <b-form>
+    <b-form v-on:submit=submitForm>
       <b-form-row>
+        <!------------------------------- quotation.code -------------------------------------->
+        <div class="col-2">
+          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.code}} </label>
+          <div class="input-group mb-3" v-b-tooltip.hover title="Tooltip directive content">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-white text-primary">
+                <i class="fas fa-barcode"></i>
+              </div>
+            </div>
+            <b-input 
+              type="text"
+              :disabled=true
+              v-model=quotation_code
+            ></b-input>
+          </div>
+        </div>
+        <!------------------------------- quotation.code -------------------------------------->
+
         <!----------------------------- quotation.client -------------------------------------->
-        <div class="col-7">
-          <label class="mb-0 text-primary font-weight-bold"> Cliente </label>
+        <div class="col-4">
+          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.client}} </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-user-alt"></i>
               </div>
             </div>
-            <b-form-select v-model="quotation.client" :options=clients></b-form-select>
+            <b-form-select 
+              v-model=quotation.client_id
+              :options=clients
+              value-field="id"
+              text-field="name"
+            >
+            </b-form-select>
           </div>
         </div>
         <!----------------------------- quotation.client -------------------------------------->
 
+        <!----------------------------- quotation.client_nit ---------------------------------->
+        <div class="col-3">
+          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.nit}} </label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-white text-primary">
+                <i class="fas fa-hashtag"></i>
+              </div>
+            </div>
+            <b-input type="text" :disabled=true v-model=quotation.client_nit></b-input>
+
+          </div>
+        </div>
+        <!----------------------------- quotation.client_nit ---------------------------------->
+
         <!------------------------------- quotation.date -------------------------------------->
-        <div class="col-3 offset-2">
-          <label class="mb-0 text-primary font-weight-bold"> Fecha </label>
+        <div class="col-3">
+          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.date}} </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-calendar"></i>
               </div>
             </div>
-            <b-form-input type="date" v-model=quotation.quotation_date></b-form-input>
+            <b-input type="date" :disabled=true v-model=quotation.quotation_date></b-input>
           </div>
         </div>
         <!------------------------------- quotation.date -------------------------------------->
 
-        <!-------------------------- quotation.service_percentage ------------------------------>
-        <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold"> Holgura Servicios </label>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <div class="input-group-text bg-white text-primary">
-                <i class="fas fa-percentage"></i>
-              </div>
-            </div>
-            <b-form-input class=" text-right" type="number" v-model=quotation.services_percentage step="0.01"></b-form-input>
-          </div>
-        </div>
-        <!-------------------------- quotation.service_percentage ------------------------------>
-
-        <!----------------------------- quotation.quotation_type -------------------------------->
+        <!----------------------------- quotation.quotation_type ------------------------------>
         <div class="col-3">
-          <label class="mb-0 text-primary font-weight-bold"> Tipo Cotización </label>
+          <label class="mb-0 text-primary font-weight-bold">
+            {{translations.titles.quotation_type}}
+          </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-percentage"></i>
               </div>
             </div>
-            <b-form-select v-model="quotation.type" :options=quotation_types></b-form-select>
+            <b-form-select
+              v-model=quotation.quotation_type 
+              :options=quotation_types
+            ></b-form-select>
           </div>
         </div>
-        <!----------------------------- quotation.quotation_type -------------------------------->
-
-        <!------------------------------- quotation.use_supranet --------------------------------->
-        <div class="col-2">
-          <div>
-            <div class="custom-control custom-checkbox custom-control-inline">
-              <input class="custom-control-input" type="checkbox">
-              <label class="custom-control-label mb-0 text-primary font-weight-bold">Supranet</label>
-            </div>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <div class="input-group-text bg-white text-primary">
-                  <i class="fas fa-percentage"></i>
-                </div>
-              </div>
-              <b-form-input class=" text-right" placeholder="Holgura  " type="number" step="0.01" v-model=quotation.supranet_percentage>
-              </b-form-input>
-            </div>
-          </div>
-        </div>
-        <!------------------------------- quotation.use_supranet --------------------------------->
-
-        <!--------------------------------- quotation.use_siemon ---------------------------------->
-        <div class="col-2">
-          <div>
-            <div class="custom-control custom-checkbox custom-control-inline">
-              <input class="custom-control-input" type="checkbox">
-              <label class="custom-control-label mb-0 text-primary font-weight-bold">Siemon</label>
-            </div>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <div class="input-group-text bg-white text-primary">
-                  <i class="fas fa-percentage"></i>
-                </div>
-              </div>
-              <b-form-input class=" text-right" placeholder="Holgura  " type="number" v-model=quotation.siemon_percentage>
-              </b-form-input>
-            </div>
-          </div>
-        </div>
-        <!--------------------------------- quotation.use_siemon ---------------------------------->
+        <!----------------------------- quotation.quotation_type ------------------------------>
 
         <!--------------------------------- quotation.submit ---------------------------------->
-        <div class="col-2 offset-1">
+        <div class="col-2 offset-7">
           <label class="mb-0 text-primary font-weight-bold">&nbsp;</label>
-          <button class="btn btn-primary btn-block">
-            Siguiente
+          <button 
+            class="btn btn-primary btn-block"
+            type="submit"
+          >
+            {{translations.next}}
           </button>
         </div>
         <!--------------------------------- quotation.submit ---------------------------------->
+
       </b-form-row>
     </b-form>
   </div>

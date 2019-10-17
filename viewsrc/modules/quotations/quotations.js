@@ -28,10 +28,6 @@ var appRouter = new VueRouter({
    ]
  });
 
- 
-
 // Vue app
 let app = new Vue({router: appRouter});
 app.$mount('#quotations_app');
-
-console.log('app mounted');

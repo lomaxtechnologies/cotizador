@@ -30,7 +30,6 @@ Rails.application.routes.draw do
   resources :measure_units
 
   resources :clients
-  get 'clients/api/get-all', to: 'clients#api_get_all'
 
   resources :prices, except:[:show]
   post 'prices/upload', to: 'prices#upload', as: 'upload'
@@ -51,4 +50,13 @@ Rails.application.routes.draw do
   delete 'quotations/:id/attachments/destroy', to: 'attachments#destroy'
   get 'quotations', to: 'quotations#index'
   root to: 'quotations#index'
+
+  resources :quotations
+  scope :api do
+    get '/clients', to: 'clients#api_index'
+    scope :quotations do
+      get '/types', to: 'quotations#api_types'
+      post '/header', to: 'quotations#api_create_header'
+    end
+  end
 end

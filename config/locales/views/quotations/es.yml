@@ -13,11 +13,28 @@ es:
     new:
       title: Nueva Cotización
       header:
-        title: Datos Generales
-        select-client: Seleccione un cliente
+        titles:
+          code: Código
+          client: Cliente
+          nit: Nit
+          date: Fecha
+          quotation_type: Tipo Cotización
         quotation_types:
-          simple: Simple
-          composed: Compuesta
+          t_comparative: Comparativa
+          t_siemon_only: Solo Siemon
+          t_supranet_only: Solo Supranet
+          t_simple: Simple
+        next: Siguiente
+        review_and_save: Revisar y Guardar
+        title: Datos Generales
+        service_percentage: Holgura Servicios
+        select_client: Seleccione un cliente
+        brands:
+          use_supranet: Usar Supranet
+          use_siemon: Usar Siemon
+        errors:
+          date: Debe ingresar una fecha válida
+          client: Debe seleccionar un cliente
       materials:
         title: Materiales
         select-material: Seleccione un material
