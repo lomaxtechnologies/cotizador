@@ -43,7 +43,11 @@
       },
 
       generateEditLink: function(id){
-        return `/quotations/${id}/edit`
+        return `#/${id}/edit`
+      },
+
+      generateShowLink: function(id){
+        return `#/${id}/show`
       },
 
       showDeleteModal: function(id){
@@ -186,6 +190,9 @@
         </template>
         <template v-slot:cell(actions)=data>
           <div class="text-right">
+            <a class="btn btn-warning text-white" v-bind:href=generateShowLink(data.item.id)>
+              <i class="fas fa-eye fa-xs"></i>
+            </a>
             <a class="btn btn-success text-white" v-bind:href=generateEditLink(data.item.id)>
               <i class="fas fa-edit fa-xs"></i>
             </a>

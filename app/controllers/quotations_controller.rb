@@ -1,15 +1,11 @@
 class QuotationsController < ApplicationController
   layout "manager"
-  before_action :set_quotation, only: [:api_update_header, :destroy]
+  before_action :set_quotation, only: [:api_update_header, :destroy, :api_show]
   
   def index
   end
 
   # GET /quotations/new
-  def new
-    @quotation = Quotation.new
-  end
-
   def new
     @quotation = Quotation.new
   end
@@ -90,13 +86,17 @@ class QuotationsController < ApplicationController
     response_with_success(Quotation.all_only_identifier_fields.order(:id))
   end
 
-  def api_update_header
+  def api_update
     if @quotation.update(quotation_params.merge(user: current_user))
       response_with_success
     else
       errors = @quotation.errors.full_messages
       response_with_error(t('quotations.error'), errors)
     end
+  end
+
+  def api_show
+    response_with_success(@quotation)
   end
 
   def api_get_list

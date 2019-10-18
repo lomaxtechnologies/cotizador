@@ -8,6 +8,7 @@ import date from '../../components/date.js';
 // Loading app vue components
 import quotationsNew from './new.vue';
 import quotationsIndex from './index.vue';
+import quotationsShow from './show.vue';
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
@@ -24,6 +25,9 @@ var appRouter = new VueRouter({
       },
       {
          path: '/new', name: 'new', component: quotationsNew
+      },
+      {
+         path: '/:id/show', name: 'show', component: quotationsShow
       }
    ]
  });
