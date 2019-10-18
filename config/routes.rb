@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   post '/users/registrations/reset-password/:id', to: 'users/registrations#reset_password', as: 'reset_password_users_registration'
 
   resources :services
-  get 'services/api/get-all', to: 'services#api_get_all'
+  get 'api/services/', to: 'services#api_index'
   patch 'services/api/update-batch', to: 'services#api_update_batch'
 
   resources :measure_units
@@ -54,6 +54,8 @@ Rails.application.routes.draw do
       put '/:id', to: 'quotations#api_update'
       post '/:id/attachments/create', to: 'attachments#create'
       delete '/:id/attachments/destroy', to: 'attachments#destroy'
+      get '/type_by_quotation', to: 'quotations#api_type_by_quotation'
+      put '/:id', to: 'quotations#api_update'
       get '/:id', to: 'quotations#api_show'
     end
     scope :comments do

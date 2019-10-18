@@ -52,6 +52,20 @@ class QuotationsController < ApplicationController
       response_with_success(data)
     end
   end
+  
+  def api_create_service
+    @quotation = Quotation.new(quotation_params.merge(user: current_user))
+    puts @quotation
+    @quotation.save
+    if @quotation.errors.any?
+      errors = @quotation.errors.full_messages
+      response_with_error(t('quotations.error'), errors)
+    else
+      data = {name: @quotation.service, price: @quotation.price, amount: @quotation.amount, percent: @quotation.percent}
+      response_with_success(data)
+    end
+  end
+
 
   def api_index
     response_with_success(Quotation.all_only_identifier_fields.order(:id))
@@ -80,11 +94,8 @@ class QuotationsController < ApplicationController
       :warranty,
       :client_id,
       quotation_products_attributes: %i[amount percent product_id],
-      quotation_services_attributes: %i[amount percent service_id]
-    ).merge({
-      user: current_user,
-      state: Quotation.states[:created]
-    })
+      quotation_services_attributes: %i[id amount percent service_id]
+    )
   end
 
   def set_quotation
