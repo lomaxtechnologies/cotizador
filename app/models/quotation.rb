@@ -20,6 +20,8 @@ class Quotation < ApplicationRecord
   validates :state, presence: true, inclusion: {in: :state}
 
   paginates_per 10
+  
+  scope :type, -> (params) {select(:quotation_type).where(code: params[:code])}
 
   def default_material_percentage
     15

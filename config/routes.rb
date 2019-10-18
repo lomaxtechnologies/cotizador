@@ -34,32 +34,33 @@ Rails.application.routes.draw do
   resources :prices, except:[:show]
   post 'prices/upload', to: 'prices#upload', as: 'upload'
   get 'prices/dashboard', to: 'prices#dashboard', as: 'dashboard'
-  get 'prices/api/get-products', to: 'prices#api_get_by_material'
 
   resources :materials
-  get 'materials/api/get-all', to: 'materials#api_get_all'
 
   resources :brands, except: [:edit, :show, :new]
-
-  get 'quotations/api/api-get-list', to: 'quotations#api_get_list'
-  get 'quotations/api/api-get-comment', to: 'quotations#api_get_comment'
-  post 'quotations/api/api-add-comment', to: 'quotations#api_add_comment'
-  patch 'quotations/api/api-update-comment', to: 'quotations#api_update_comment'
-  delete 'quotations/api/api-delete-comment', to: 'quotations#api_delete_comment'
-  post 'quotations/:id/attachments/create', to: 'quotations#create_attachment'
-  delete 'quotations/:id/attachments/delete', to: 'quotations#delete_attachment'
-  get 'quotations', to: 'quotations#index'
+  
   root to: 'quotations#index'
 
   resources :quotations
   scope :api do
     get '/clients', to: 'clients#api_index'
+    get '/materials', to: 'materials#api_index'
+    get '/products_by_material', to: 'prices#products_by_material'
     get '/quotations', to: 'quotations#api_index'
     scope :quotations do
       get '/types', to: 'quotations#api_types'
       get '/:id', to: 'quotations#api_show'
       post '/header', to: 'quotations#api_create_header'
+      post '/:id/attachments/create', to: 'attachments#create'
+      delete '/:id/attachments/destroy', to: 'attachments#destroy'
+      get '/type_by_quotation', to: 'quotations#api_type_by_quotation'
       put '/header/:id', to: 'quotations#api_update_header'
+    end
+    scope :comments do
+      get '/', to: 'comments#api_index'
+      post '/(:commentable_type)/:commentable_id', to: 'comments#create', defaults: {commentable_type: 'Quotation'}
+      patch '/update/:id', to: 'comments#update'
+      delete '/delete/:id', to: 'comments#destroy'
     end
   end
 end
