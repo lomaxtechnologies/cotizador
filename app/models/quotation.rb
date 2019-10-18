@@ -21,7 +21,7 @@ class Quotation < ApplicationRecord
 
   paginates_per 10
   
-  scope :type, -> (params) {select(:quotation_type).where(code: params[:code])}
+  scope :type, -> (params) {select(:id, :quotation_type).where(code: params[:code])}
 
   def next_code
     max = Quotation.maximum('code')

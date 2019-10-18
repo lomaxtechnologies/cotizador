@@ -14,6 +14,7 @@
           product_id: null,
         },
         currency: "Q",
+        quotation_id: null,
         quotation_type:'t_simple',
         material_id: null,
         quantity: 1,
@@ -35,6 +36,7 @@
       }
     },
     methods:{
+
       getMaterials: function(){
         this.http
         .get('/api/materials')
@@ -54,6 +56,7 @@
         .get('/api/products_by_material', {params: {material_id: this.material_id}})
         .then((response)=>{
           this.products = response.data;
+          console.log(this.products);
           this.price = this.products.map(function(product){return product.price});
         }).catch((err)=>{
           console.log(JSON.stringify(err));
@@ -63,6 +66,8 @@
         this.http
         .get('/api/quotations/type_by_quotation',{params: {code: this.quotation_code}})
         .then((response) =>{
+          this.quotation_id = response.data[0].id;
+          console.log(this.quotation_id);
           this.quotation_type = response.data[0].quotation_type;
           switch(this.quotation_type){          
             case 't_comparative': 
@@ -259,7 +264,7 @@
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-money-bill-wave"></i>
               </div>
-              <b-form-input disabled v-model="price[0]"></b-form-input>
+              <b-form-input disabled v-model="price[1]"></b-form-input>
             </div>
           </div>
         </div>

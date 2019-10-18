@@ -40,7 +40,7 @@
             <b-tabs card>
 
               <!--------------------------------- Header Tab ----------------------------------> 
-              <b-tab >
+              <b-tab active>
                 <template v-slot:title>
                   <span v-bind:class="{'text-success':validity.header}">
                     {{translations.header.title}} &nbsp;
@@ -58,7 +58,7 @@
               <!--------------------------------- Header Tab ---------------------------------->
 
               <!-------------------------------- Materials Tab ---------------------------------> 
-              <b-tab active="">
+              <b-tab>
                 <template v-slot:title>
                   <span v-bind:class="{'text-success':quotation.id!=null}">
                     {{translations.materials.title}} &nbsp;
