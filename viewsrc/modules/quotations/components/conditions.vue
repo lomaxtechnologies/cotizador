@@ -29,7 +29,7 @@
         this.$emit('update:section_valid', false);
         var data = {quotation: this.quotation};
         this.http
-        .put(`api/quotations/header/${this.quotation_id}`, data)
+        .put(`api/quotations/${this.quotation_id}`, data)
         .then((response)=>{
           if(response.successful){
             this.$emit('update:section_valid', true);

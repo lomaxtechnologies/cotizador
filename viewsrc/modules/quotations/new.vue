@@ -36,6 +36,11 @@
         if(this.validity.conditions){
           this.tab_index++;
         }
+      },
+      'validity.materials': function(){
+        if(this.validity.materials){
+          this.tab_index++;
+        }
       }
     }
   }
@@ -54,7 +59,7 @@
             <b-tabs card v-model=tab_index>
 
               <!--------------------------------- Header Tab ----------------------------------> 
-              <b-tab >
+              <b-tab active>
                 <template v-slot:title>
                   <span v-bind:class="{'text-success':validity.header}">
                     {{translations.header.title}} &nbsp;
@@ -72,7 +77,7 @@
               <!--------------------------------- Header Tab ---------------------------------->
 
               <!-------------------------------- Materials Tab ---------------------------------> 
-              <b-tab active="">
+              <b-tab>
                 <template v-slot:title>
                   <span v-bind:class="{'text-success':validity.materials}">
                     {{translations.materials.title}} &nbsp;
@@ -82,7 +87,8 @@
                 <b-card-text>
                   <!--HEADER COMPONENT GOES HERE-->
                   <quotation-materials
-                    :quotation_code.sync=quotation.code
+                    :section_valid.sync=validity.materials
+                    :quotation_id=quotation.id
                   >
                   </quotation-materials>
                 </b-card-text>
