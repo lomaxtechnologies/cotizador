@@ -64,7 +64,7 @@ class ServicesController < ApplicationController
 
   # API For Services Controller
   # GET /services/api/get-all
-  def api_get_all
+  def api_index
     response_with_success(Service.all_only_indentifier_fields)
   end
 
