@@ -54,7 +54,7 @@ Rails.application.routes.draw do
       post '/:id/attachments/create', to: 'attachments#create'
       delete '/:id/attachments/destroy', to: 'attachments#destroy'
       get '/type_by_quotation', to: 'quotations#api_type_by_quotation'
-      put '/header/:id', to: 'quotations#api_update_header'
+      put '/:id', to: 'quotations#api_update'
     end
     scope :comments do
       get '/', to: 'comments#api_index'
