@@ -3,13 +3,44 @@ es:
     deleted_list: Eliminadas
     manager: Administración
     log: Historial
+    states:
+      created: Creada
+      active: Activa
+      accepted: Aprobada por el Cliente
+      expired: Expirada
+    quotation_types:
+      t_comparative: Comparativa
+      t_siemon_only: Solo Siemon
+      t_supranet_only: Solo Supranet
+      t_simple: Simple
     index:
+      delete_modal: 
+        title: ¿Realmente deseas eliminar esta cotización?
+        body: Una vez eliminado no podrás recuperarla y deberás crear una nueva. Solo las cotizaciónes en estados 'Creada' y 'Expirada' se pueden eliminar
+        yes_text: Sí, elimínala
+        no_text: Cancelar
+      headers:
+        id: Código
+        quotation_type: Tipo
+        state: Estado
+        quotation_date: Fecha
+        name: Cliente
+        actions: ''
+      search_title: Filtrar por
+      page_size_placeholder: Filas por página
       brand: Marca
       title: Cotizaciones
       search: Buscar Cotización
       date: Fecha
       name: Cliente
       status: Estado
+      buttons:
+        new: Nueva Cotización
+        search: Buscar
+      search_fields:
+        titles:
+          code: Código de la Cotización
+          date: Fecha
     new:
       title: Nueva Cotización
       header:
@@ -19,13 +50,7 @@ es:
           nit: Nit
           date: Fecha
           quotation_type: Tipo Cotización
-        quotation_types:
-          t_comparative: Comparativa
-          t_siemon_only: Solo Siemon
-          t_supranet_only: Solo Supranet
-          t_simple: Simple
         next: Siguiente
-        review_and_save: Revisar y Guardar
         title: Datos Generales
         service_percentage: Holgura Servicios
         select_client: Seleccione un cliente
@@ -37,9 +62,14 @@ es:
           client: Debe seleccionar un cliente
       materials:
         title: Materiales
+        select-material: Seleccione un material
+      brands:
+        supranet: Supranet
+        siemon: Siemon
       services:
         title: Servicios
       conditions:
+        next: Siguiente
         title: Condiciones
       global_view:
         title: Vista Global

@@ -67,7 +67,7 @@ class PricesController < ApplicationController
 
   # API For prices controller
   # GET /prices/api/get-products
-  def api_get_by_material
+  def products_by_material
     return response_with_error(t('.errors.unespecified_material')) unless params[:material_id]
 
     data = Price.find_by_material(params[:material_id])

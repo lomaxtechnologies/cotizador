@@ -5,5 +5,5 @@ class Client < ApplicationRecord
   paginates_per 10
 
   # Returns all the clients, but only the id, name and nit fields
-  scope :all_only_indentifier_fields, -> {select(:id, :name, :nit).all}
+  scope :all_only_identifier_fields, -> {select(:id, :name, :nit).all}
 end
