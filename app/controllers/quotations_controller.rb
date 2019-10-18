@@ -1,13 +1,11 @@
 class QuotationsController < ApplicationController
   layout "manager"
+  before_action :set_quotation, only: [:api_update, :destroy, :api_show]
+  
   def index
   end
 
   # GET /quotations/new
-  def new
-    @quotation = Quotation.new
-  end
-
   def new
     @quotation = Quotation.new
   end
@@ -27,6 +25,14 @@ class QuotationsController < ApplicationController
     end
   end
 
+  def destroy
+    if @quotation.destroy
+      response_with_success
+    else
+      errors = @quotation.errors.full_messages
+      response_with_error(t('quotations.error'), errors)
+    end
+  end
   def api_types
     response_with_success(Quotation.quotation_types)
   end
@@ -37,17 +43,32 @@ class QuotationsController < ApplicationController
 
   def api_create_header
     @quotation = Quotation.new(quotation_params.merge(user: current_user))
-    puts @quotation
     @quotation.save
     if @quotation.errors.any?
       errors = @quotation.errors.full_messages
       response_with_error(t('quotations.error'), errors)
     else
-      data = {code: @quotation.code}
+      data = {id: @quotation.id}
       response_with_success(data)
     end
   end
 
+  def api_index
+    response_with_success(Quotation.all_only_identifier_fields.order(:id))
+  end
+
+  def api_update
+    if @quotation.update(quotation_params.merge(user: current_user))
+      response_with_success
+    else
+      errors = @quotation.errors.full_messages
+      response_with_error(t('quotations.error'), errors)
+    end
+  end
+
+  def api_show
+    response_with_success(@quotation)
+  end
   private
 
   def quotation_params
@@ -55,7 +76,7 @@ class QuotationsController < ApplicationController
       :quotation_date,
       :quotation_type,
       :credits,
-      :payment_conditions,
+      :payment_condition,
       :warranty,
       :client_id,
       quotation_products_attributes: %i[amount percent product_id],

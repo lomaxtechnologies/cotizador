@@ -12,9 +12,10 @@
     data(){
       return {
         translations: I18n.t('quotations.new'),
+        tab_index: 0,
+        show_alert:false,
         quotation:{
-          id: null,
-          code: ''
+          id: NaN,
         },
         validity:{
           header:false,
@@ -24,12 +25,25 @@
           global_view:false
         }
       }
+    },
+    watch:{
+      'validity.header': function(){
+        if(this.validity.header){
+          this.tab_index++;
+        }
+      },
+      'validity.conditions': function(){
+        if(this.validity.conditions){
+          this.tab_index++;
+        }
+      }
     }
   }
 </script>
 
 <template>
   <div class="row">
+    <b-alert :show=show_alert dismissible class="fixed-top mx-3">Default Alert</b-alert>
     <div class="col-lg-12 offset-xl-1 col-xl-10">
       <b-form>
         <h2 class="text-primary">
@@ -37,7 +51,7 @@
         </h2>
         <div>
           <b-card no-body>
-            <b-tabs card>
+            <b-tabs card v-model=tab_index>
 
               <!--------------------------------- Header Tab ----------------------------------> 
               <b-tab active>
@@ -50,7 +64,7 @@
                 <b-card-text>
                   <quotation-header
                     :section_valid.sync=validity.header
-                    :quotation_code.sync=quotation.code
+                    :quotation_id.sync=quotation.id
                   >
                   </quotation-header>
                 </b-card-text>
@@ -60,7 +74,7 @@
               <!-------------------------------- Materials Tab ---------------------------------> 
               <b-tab>
                 <template v-slot:title>
-                  <span v-bind:class="{'text-success':quotation.id!=null}">
+                  <span v-bind:class="{'text-success':validity.materials}">
                     {{translations.materials.title}} &nbsp;
                     <i class="fas fa-check-circle"></i>
                   </span>
@@ -78,7 +92,7 @@
               <!--------------------------------- Services Tab ----------------------------------> 
               <b-tab>
                 <template v-slot:title>
-                  <span v-bind:class="{'text-success':quotation.id!=null}">
+                  <span v-bind:class="{'text-success':validity.services}">
                     {{translations.services.title}} &nbsp;
                     <i class="fas fa-check-circle"></i>
                   </span>
@@ -92,13 +106,17 @@
               <!--------------------------------- Conditions Tab ---------------------------------> 
               <b-tab>
                 <template v-slot:title>
-                  <span v-bind:class="{'text-success':quotation.id!=null}">
+                  <span v-bind:class="{'text-success':validity.conditions}">
                     {{translations.conditions.title}} &nbsp;
                     <i class="fas fa-check-circle"></i>
                   </span>
                 </template>
                 <b-card-text>
-                  <!--HEADER COMPONENT GOES HERE-->
+                  <quotation-conditions
+                    :section_valid.sync=validity.conditions
+                    :quotation_id=quotation.id
+                  >
+                  </quotation-conditions>
                 </b-card-text>
               </b-tab>
               <!--------------------------------- Conditions Tab ---------------------------------> 
@@ -106,7 +124,7 @@
               <!----------------------------------- Global Tab ------------------------------------> 
               <b-tab>
                 <template v-slot:title>
-                  <span v-bind:class="{'text-success':quotation.id!=null}">
+                  <span v-bind:class="{'text-success':validity.global}">
                     {{translations.global_view.title}} &nbsp;
                     <i class="fas fa-check-circle"></i>
                   </span>

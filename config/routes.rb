@@ -46,12 +46,15 @@ Rails.application.routes.draw do
     get '/clients', to: 'clients#api_index'
     get '/materials', to: 'materials#api_index'
     get '/products_by_material', to: 'prices#products_by_material'
+    get '/quotations', to: 'quotations#api_index'
     scope :quotations do
       get '/types', to: 'quotations#api_types'
+      get '/:id', to: 'quotations#api_show'
       post '/header', to: 'quotations#api_create_header'
       post '/:id/attachments/create', to: 'attachments#create'
       delete '/:id/attachments/destroy', to: 'attachments#destroy'
       get '/type_by_quotation', to: 'quotations#api_type_by_quotation'
+      put '/header/:id', to: 'quotations#api_update_header'
     end
     scope :comments do
       get '/', to: 'comments#api_index'
