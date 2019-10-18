@@ -38,4 +38,13 @@ class Quotation < ApplicationRecord
   def default_service_percentage
     0
   end
+
+  def destroy
+    if self.created? || self.expired?
+      super
+    else
+      errors.add(:state, :destroy_impossible)
+      false
+    end
+  end
 end

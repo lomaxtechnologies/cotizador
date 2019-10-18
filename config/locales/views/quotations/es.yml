@@ -14,6 +14,11 @@ es:
       t_supranet_only: Solo Supranet
       t_simple: Simple
     index:
+      delete_modal: 
+        title: ¿Realmente deseas eliminar esta cotización?
+        body: Una vez eliminado no podrás recuperarla y deberás crear una nueva. Solo las cotizaciónes en estados 'Creada' y 'Expirada' se pueden eliminar
+        yes_text: Sí, elimínala
+        no_text: Cancelar
       headers:
         id: Código
         quotation_type: Tipo
@@ -22,6 +27,7 @@ es:
         name: Cliente
         actions: ''
       search_title: Filtrar por
+      page_size_placeholder: Filas por página
       brand: Marca
       title: Cotizaciones
       search: Buscar Cotización

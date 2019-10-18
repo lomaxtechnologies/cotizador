@@ -2,7 +2,10 @@
   export default {
     data() {
       return {
+        quotation_staged_for_elimination: NaN,
         page_size: 10,
+        current_page: 1,
+        show_delete_modal:false,
         translations: {
           index: I18n.t('quotations.index'),
           quotation_types: I18n.t('quotations.quotation_types'),
@@ -16,13 +19,36 @@
       this.getQuotations();
       this.setTableHeaders();
     },
+    computed:{
+      quotationRows: function(){
+        return this.quotations.length;
+      }
+    },
     methods:{
+      deleteSelectedQuotation: function(){
+        this.http
+        .delete(`/quotations/${this.quotation_staged_for_elimination}`)
+        .then((response)=>{
+          if(response.successful){
+            this.quotations = this.quotations.filter((quotation)=>{
+              return quotation.id != this.quotation_staged_for_elimination;
+            });
+            this.$bvModal.hide('delete_confirmation_modal');
+          }else{
+            console.log(JSON.stringify(response));
+          }
+        }).catch((err)=>{
+          console.log(JSON.stringify(err));
+        });
+      },
+
       generateEditLink: function(id){
         return `/quotations/${id}/edit`
       },
 
       showDeleteModal: function(id){
-        console.log(id);
+        this.quotation_staged_for_elimination = id;
+        this.$bvModal.show('delete_confirmation_modal');
       },
 
       setTableHeaders: function(){
@@ -43,9 +69,6 @@
         }).catch((err)=>{
           console.log(JSON.stringify(err));
         });
-      },
-      formatDate: function(date){
-        return '01/01/2001';
       }
     }
   }
@@ -53,6 +76,23 @@
 
 <template>
   <div class="row">
+    <b-modal v-model=show_delete_modal id="delete_confirmation_modal" :title=translations.index.delete_modal.title>
+      <p class="text-justify">{{translations.index.delete_modal.body}}</p>
+      <template v-slot:modal-footer>
+        <div>
+          <b-button
+            class="btn btn-danger"
+            v-on:click=deleteSelectedQuotation
+          > {{translations.index.delete_modal.yes_text}}
+          </b-button>
+          <b-button
+            class="btn btn-secondary"
+            v-on:click="show_delete_modal=false"
+          > {{translations.index.delete_modal.no_text}}
+          </b-button>
+        </div>
+      </template>
+    </b-modal>
     <div class="col-lg-12 offset-xl-1 col-xl-10">
       <div class="form-row">
         <div class="col-12">
@@ -114,19 +154,20 @@
           </div>
         </div>
       </div>
-      <b-table thead-tr-class="bg-primary text-white" class="table table-sm table-striped"
+      <b-table id="quotations_table" thead-tr-class="bg-primary text-white" class="table table-sm table-striped"
         :items=quotations
         :fields=table_headers
-        :per_page=page_size
+        :per-page=page_size
+        :current-page=current_page
       >
         <template v-slot:head(actions)="data">
           <div class="text-right">
             <input
               class="form-control-sm"
               min="0"
-              placeholder="<%= t('.page_size_placeholder') %>"
-              type="<%= :number %>" 
-              value="<%= @page_size %>"
+              v-bind:placeholder=translations.index.page_size_placeholder
+              v-model=page_size
+              type="number" 
             >
           </div>
         </template>
@@ -145,7 +186,7 @@
         </template>
         <template v-slot:cell(actions)=data>
           <div class="text-right">
-            <a class="btn btn-success text-white mr-1" v-bind:href=generateEditLink(data.item.id)>
+            <a class="btn btn-success text-white" v-bind:href=generateEditLink(data.item.id)>
               <i class="fas fa-edit fa-xs"></i>
             </a>
             <b-button class="btn btn-danger text-white" v-on:click=showDeleteModal(data.item.id)>
@@ -154,6 +195,13 @@
           </div>
         </template>
       </b-table>
+      <b-pagination
+        v-model=current_page
+        :total-rows=quotationRows
+        :per-page=page_size
+        aria-controls="quotations_table"
+        class="justify-content-center"
+      ></b-pagination>
     </div>
   </div>
 </template>

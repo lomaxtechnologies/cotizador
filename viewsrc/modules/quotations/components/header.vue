@@ -6,10 +6,6 @@
         type: Boolean,
         default: false
       },
-      quotation_code:{
-        type: String,
-        default: ''
-      },
       quotation_id:{
         type:Number,
         default: NaN
@@ -42,6 +38,12 @@
       validateClient: function(){
         this.errors.client = isNaN(parseFloat(this.quotation.client_id));
         return this.errors.client;
+      },
+      quotationCode: function(){
+        if(isNaN(this.quotation_id)){
+          return null;
+        }
+        return this.quotation_id+100;
       }
     },
     methods:{
@@ -85,7 +87,7 @@
       },
 
       submitForm: function(){
-        if(this.quotation_code){
+        if(this.quotation_id){
           this.validateAndUpdate();
         }else{
           this.validateAndCreate();
@@ -100,7 +102,6 @@
           .post('api/quotations/header', data)
           .then((response)=>{
             if(response.successful){
-              this.$emit('update:quotation_code', String(response.data.code));
               this.$emit('update:quotation_id', response.data.id);
               this.$emit('update:section_valid', true);
             }else{
@@ -148,7 +149,7 @@
         <!------------------------------- quotation.code -------------------------------------->
         <div class="col-2">
           <label class="mb-0 text-primary font-weight-bold"> {{translations.header.titles.code}} </label>
-          <div class="input-group mb-3" v-b-tooltip.hover title="Tooltip directive content">
+          <div class="input-group mb-3">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-barcode"></i>
@@ -157,7 +158,7 @@
             <b-input 
               type="text"
               :disabled=true
-              v-model=quotation_code
+              v-model=quotationCode
             ></b-input>
           </div>
         </div>

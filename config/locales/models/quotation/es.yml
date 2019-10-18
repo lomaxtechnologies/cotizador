@@ -5,3 +5,10 @@ es:
     attributes:
       quotation:
         client: Cliente
+        state: Estado
+    errors:
+      models:
+        quotation:
+          attributes:
+            state:
+              destroy_impossible: no permite la eliminación de la cotización

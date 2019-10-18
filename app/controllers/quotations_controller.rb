@@ -1,6 +1,6 @@
 class QuotationsController < ApplicationController
   layout "manager"
-  before_action :set_quotation, only: [:api_update_header]
+  before_action :set_quotation, only: [:api_update_header, :destroy]
   
   def index
   end
@@ -26,6 +26,15 @@ class QuotationsController < ApplicationController
         format.html { redirect_to users_registrations_url, notice: t('.success') }
         format.json { response_with_success }
       end
+    end
+  end
+
+  def destroy
+    if @quotation.destroy
+      response_with_success
+    else
+      errors = @quotation.errors.full_messages
+      response_with_error(t('quotations.error'), errors)
     end
   end
 
@@ -72,13 +81,13 @@ class QuotationsController < ApplicationController
       errors = @quotation.errors.full_messages
       response_with_error(t('quotations.error'), errors)
     else
-      data = {id: @quotation.id, code: @quotation.code}
+      data = {id: @quotation.id}
       response_with_success(data)
     end
   end
 
   def api_index
-    response_with_success(Quotation.all_only_identifier_fields.order(:code))
+    response_with_success(Quotation.all_only_identifier_fields.order(:id))
   end
 
   def api_update_header

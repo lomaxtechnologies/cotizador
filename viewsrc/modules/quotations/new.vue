@@ -14,7 +14,6 @@
         show_alert:false,
         quotation:{
           id: NaN,
-          code: ''
         },
         validity:{
           header:false,
@@ -63,7 +62,6 @@
                 <b-card-text>
                   <quotation-header
                     :section_valid.sync=validity.header
-                    :quotation_code.sync=quotation.code
                     :quotation_id.sync=quotation.id
                   >
                   </quotation-header>
@@ -110,7 +108,6 @@
                 <b-card-text>
                   <quotation-conditions
                     :section_valid.sync=validity.conditions
-                    :quotation_code=quotation.code
                     :quotation_id=quotation.id
                   >
                   </quotation-conditions>
