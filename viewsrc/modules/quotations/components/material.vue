@@ -16,7 +16,7 @@
         currency: "Q",
         quotation_type:'t_simple',
         material_id: null,
-        quantity: [1,1],
+        quantity: 1,
         price: [null,null],
         brand: [null],
         materials: [],
@@ -26,10 +26,11 @@
           {key: 'quantity', label:'Cantidad'},
           {key: 'code', label:'Código'},
           {key: 'material', label:'Material'},
-          {key: 'price', label:'Precio'},
-          {key: 'percent', label:'Holgura %'},
-          {key: 'total_price', label:'Total sin Holgura'},
-          {key: 'total_price_with_percent', label:'Total con Holgura'}
+          {key: 'price_1', label:'Precio'},
+          {key: 'percent_1', label:'Holgura %'},
+          {key: 'total_price_1', label:'Total sin Holgura'},
+          {key: 'total_price_with_percent_1', label:'Total con Holgura'},
+          {actions: ''}
         ]
       }
     },
@@ -66,6 +67,14 @@
           switch(this.quotation_type){          
             case 't_comparative': 
               this.brand=['Supranet','Siemon']; 
+              this.header_table.pop();
+              this.header_table.push(
+                {key: 'price_2', label:'Precio'},
+                {key: 'percent_2', label:'Holgura %'},
+                {key: 'total_price_2', label:'Total sin Holgura'},
+                {key: 'total_price_with_percent_2', label:'Total con Holgura'},
+                {actions: ''}
+              );
               break;
             case 't_siemon_only': 
               this.brand=['Siemon']; 
@@ -75,28 +84,63 @@
               break;
             case 't_simple':
               this.brand=[null];
+              this.header_table.splice(3,0,{key: 'brand', label:'Marca'});
               break;
           }
         }).catch((err)=>{
           console.log(JSON.stringify(err));
         })
       },
+      deleteService: function(index) {
+        this.selected_materials.splice(index, 1);
+      },
+      editService: function(index) {
+        let product_data = this.selected_materials[index]
+        this.selected_materials.splice(index, 1);
+        if(this.quotation_type !== 't_comparative'){
+          this.quotations_products.percent[0]  = product_data.percent_1;
+          this.quantity  = product_data.quantity;
+          this.price[0]  = product_data.price_1;
+          this.material_id  = product_data.id;
+        }
+      },
       addProducts: function(){
         var add_product = this.selected_materials.filter(selected => selected.code === this.products[0].code);
         if (add_product.length === 0){
           var material_name = this.materials.filter( material => material.id===this.material_id);
-          var total_price = this.price[0] * this.quantity[0];
-          var total_price_with_percent = total_price * ((this.quotations_products.percent[0]/100)+1);
+          var total_price = this.price[0] * this.quantity;
+          var total_price_with_percent = total_price * ((parseFloat(this.quotations_products.percent[0])/100)+1);
           if(this.quotation_type !== 't_comparative'){
             this.selected_materials.push({
-              quantity: `${this.quantity[0]}`,
+              id: this.material_id,
+              quantity: `${this.quantity}`,
               code: `${this.products[0].code}`,
               material: `${material_name[0].name}`,
-              price: `${this.price[0]}`,
-              percent: `${this.quotations_products.percent[0]}`,
-              total_price: `${total_price}`,
-              total_price_with_percent: `${total_price_with_percent}`
+              price_1: `${this.price[0]}`,
+              percent_1: `${this.quotations_products.percent[0]}`,
+              total_price_1: `${total_price}`,
+              total_price_with_percent_1: `${total_price_with_percent}`
             });
+            this.quotations_products.percent=[15.0];
+          }else{
+            let total_price_2 = this.price[1] * this.quantity;
+            console.log(this.quotations_products.percent[1]);
+            let total_price_with_percent_2 = total_price * ((this.quotations_products.percent[1]/100)+1);          
+            this.selected_materials.push({
+              id: this.material_id,
+              quantity: `${this.quantity}`,
+              code: `${this.products[0].code}`,
+              material: `${material_name[0].name}`,
+              price_1: `${this.price[0]}`,
+              percent_1: `${this.quotations_products.percent[0]}`,
+              total_price_1: `${total_price}`,
+              total_price_with_percent_1: `${total_price_with_percent}`,
+              price_2: `${this.price[1]}`,
+              percent_2: `${this.quotations_products.percent[1]}`,
+              total_price_2: `${total_price}`,
+              total_price_with_percent_2: `${total_price_with_percent_2}`
+            });
+            this.quotations_products.percent=[15.0,15.0];
           }
         }
       }
@@ -152,7 +196,7 @@
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-sort-amount-up"></i>
               </div>
-              <b-form-input v-model="quantity[0]"></b-form-input>
+              <b-form-input v-model="quantity"></b-form-input>
             </div>
           </div>
         </div>
@@ -191,7 +235,7 @@
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-sort-amount-up"></i>
               </div>
-              <b-form-input v-model="quantity[1]"></b-form-input>
+              <b-form-input v-model="quantity"></b-form-input>
             </div>
           </div>
         </div>
@@ -224,7 +268,28 @@
       <b-table
         :items="selected_materials"
         :fields="header_table"
+        striped 
+        hover
+        bordered
       >
+        <template v-if="this.quotation_type==='t_comparative'" v-slot:thead-top="data">
+          <b-tr>
+            <b-th colspan="3"></b-th>
+            <b-th colspan="4" class="text-center">{{brand[0]}}</b-th>
+            <b-th colspan="4" class="text-center">{{brand[1]}}</b-th>
+          </b-tr>
+        </template>
+        <template v-slot:cell(name)="data">
+          {{ data.item.name }}
+        </template>
+        <template v-slot:cell(actions)="data">
+          <b-button class="btn btn-success text-white mr-1" v-on:click="editService(data.index)">
+            <i class="fas fa-edit fa-xs text-white"></i>
+          </b-button>
+          <b-button class="btn btn-danger" type="submit" v-on:click="deleteService(data.index)">
+            <i class="fas fa-trash-alt fa-xs"></i>
+          </b-button>
+        </template>
       </b-table>
     </b-card>
   </div>
