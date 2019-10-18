@@ -38,7 +38,12 @@
         if(this.validity.conditions){
           this.tab_index++;
         }
-      }
+      },
+      'validity.services': function(){
+        if(this.validity.services){
+          this.tab_index++;
+        }
+      },
     }
   }
 </script>
@@ -74,7 +79,7 @@
               <!--------------------------------- Header Tab ---------------------------------->
 
               <!-------------------------------- Materials Tab ---------------------------------> 
-              <b-tab active="">
+              <b-tab>
                 <template v-slot:title>
                   <span v-bind:class="{'text-success':validity.materials}">
                     {{translations.materials.title}} &nbsp;
@@ -92,7 +97,7 @@
               <!-------------------------------- Materials Tab ---------------------------------> 
 
               <!--------------------------------- Services Tab ----------------------------------> 
-              <b-tab active>
+              <b-tab >
                 <template v-slot:title>
                   <span v-bind:class="{'text-success':validity.services}">
                     {{translations.services.title}} &nbsp;
@@ -100,7 +105,9 @@
                   </span>
                 </template>
                 <b-card-text>
-                  <quotation-service>
+                  <quotation-service 
+                    :section_valid.sync=validity.services
+                    :quotation_id.sync=quotation.id>
                   </quotation-service>
                 </b-card-text>
               </b-tab>

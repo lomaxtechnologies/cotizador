@@ -94,11 +94,8 @@ class QuotationsController < ApplicationController
       :warranty,
       :client_id,
       quotation_products_attributes: %i[amount percent product_id],
-      quotation_services_attributes: %i[amount percent service_id]
-    ).merge({
-      user: current_user,
-      state: Quotation.states[:created]
-    })
+      quotation_services_attributes: %i[id amount percent service_id]
+    )
   end
 
   def set_quotation

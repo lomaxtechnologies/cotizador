@@ -3,6 +3,16 @@
   import axios from 'axios'
 
   export default {
+    props:{
+      section_valid: {
+        type: Boolean,
+        default: false
+      },
+      quotation_id:{
+        type:Number,
+        default: NaN
+      }
+    },
     data () {
       return {
         translations: I18n.t('quotations.new.services'),
@@ -51,6 +61,7 @@
           if(this.services.length > 0){
                 this.quotation.service = this.services[0].id
                 this.quotation.price = this.services[0].price
+
           }
           }).catch((err)=>{
           console.log(JSON.stringify(err));
@@ -88,22 +99,23 @@
         this.quotation.amount  = service_data.amount;
         this.quotation.percent  = service_data.percent;
       },
-
-      submitForm: function() {
-        var data = {quotation: this.quotation};
+      validateAndUpdate(){
+        this.$emit('update:section_valid', false);
+        this.quotation.service_id = this.quotation.service;
+        var data = {quotation:{ quotation_services_attributes:[this.quotation]}};
         this.http
-        .post('api/quotations/id/service', data)
+        .put(`api/quotations/${this.quotation_id}`, data)
         .then((response)=>{
           if(response.successful){
             this.$emit('update:section_valid', true);
           }else{
-            this.$emit('update:section_valid', true);
             console.log(JSON.stringify(response.error));
           }
         }).catch((err)=>{
           console.log(JSON.stringify(err));
         });
       }
+     
       },
       mounted(){
         this.getService()
@@ -148,7 +160,7 @@
                     <i class="fas fa-money-bill"></i>
                   </div>
                 </div>
-              <b-input type="number" v-model="quotation.price"></b-input>
+              <b-form-input type="number" v-model="quotation.price"></b-form-input>
             </div>
         </div>
 
@@ -184,7 +196,7 @@
         </div>
         </b-form-row>
       </b-form>
-      <b-form v-on:submit=submitForm>
+      <b-form v-on:submit=validateAndUpdate>
         <b-form-row>
           <b-table thead-tr-class="bg-primary text-white" class="table table-sm table-striped" 
             striped hover 
@@ -202,13 +214,15 @@
                 </b-button>
               </template>
           </b-table>
-          <div class="col-2 offset-10">
+          <div class="col-2 offset-7">
             <label class="mb-0 text-primary font-weight-bold">&nbsp;</label>
-              <button 
-                class="btn btn-primary"  type="submit">
-                Guardar
-              </button>
-          </div>
+            <button 
+              class="btn btn-primary btn-block"
+              type="submit"
+            >
+          Siguiente
+     </button>
+        </div>
         </b-form-row>
       </b-form>
     </div>
