@@ -9,7 +9,7 @@ class Price < ApplicationRecord
 
     material = Material.find(material_id)
     data = []
-    material.products.each do |product|
+    material.products.order(brand_id: :desc ).each do |product|
       data.push(
         product_id: product.id,
         code: product.code,

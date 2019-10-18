@@ -2,8 +2,9 @@
 
   export default{
     props:{
-      quotation_code:{
-        type: String
+      quotation_id:{
+        type: Number,
+        default: NaN
       }
     },
     data(){
@@ -14,12 +15,11 @@
           product_id: null,
         },
         currency: "Q",
-        quotation_id: null,
-        quotation_type:'t_simple',
+        quotation_type:'t_comparative',
         material_id: null,
         quantity: 1,
-        price: [null,null],
-        brand: [null],
+        price: [0.0,0.0],
+        brand: [],
         materials: [],
         products:[],
         selected_materials:[],
@@ -56,19 +56,25 @@
         .get('/api/products_by_material', {params: {material_id: this.material_id}})
         .then((response)=>{
           this.products = response.data;
+          this.setPrices();
           console.log(this.products);
-          this.price = this.products.map(function(product){return product.price});
         }).catch((err)=>{
           console.log(JSON.stringify(err));
         })
       },
+      setPrices: function(){
+        this.price = this.products.map(function(product){return product.price});
+        if(this.quotation_type==='t_comparative' && this.price.length===1){
+          this.price[1]=this.price[0];
+        }
+      },
       getQuotationType: function(){
+        console.log(this.quotation_id);
         this.http
-        .get('/api/quotations/type_by_quotation',{params: {code: this.quotation_code}})
+        .get('/api/quotations/type_by_quotation',{params: {id: this.quotation_id}})
         .then((response) =>{
-          this.quotation_id = response.data[0].id;
-          console.log(this.quotation_id);
           this.quotation_type = response.data[0].quotation_type;
+          console.log(this.quotation_type);
           switch(this.quotation_type){          
             case 't_comparative': 
               this.brand=['Supranet','Siemon']; 
@@ -96,19 +102,6 @@
           console.log(JSON.stringify(err));
         })
       },
-      deleteService: function(index) {
-        this.selected_materials.splice(index, 1);
-      },
-      editService: function(index) {
-        let product_data = this.selected_materials[index]
-        this.selected_materials.splice(index, 1);
-        if(this.quotation_type !== 't_comparative'){
-          this.quotations_products.percent[0]  = product_data.percent_1;
-          this.quantity  = product_data.quantity;
-          this.price[0]  = product_data.price_1;
-          this.material_id  = product_data.id;
-        }
-      },
       addProducts: function(){
         var add_product = this.selected_materials.filter(selected => selected.code === this.products[0].code);
         if (add_product.length === 0){
@@ -119,6 +112,7 @@
             if(this.quotation_type === 't_simple'){
               this.selected_materials.push({
               id: this.material_id,
+              product_id: `${this.products[0].product_id}`, 
               quantity: `${this.quantity}`,
               code: `${this.products[0].code}`,
               material: `${material_name[0].name}`,
@@ -131,6 +125,7 @@
             }else{
               this.selected_materials.push({
               id: this.material_id,
+              product_id: `${this.products[0].product_id}`, 
               quantity: `${this.quantity}`,
               code: `${this.products[0].code}`,
               material: `${material_name[0].name}`,
@@ -143,9 +138,16 @@
             this.quotations_products.percent=[15.0];
           }else{
             let total_price_2 = (this.price[1] * this.quantity).toFixed(2);
-            let total_price_with_percent_2 = (total_price * ((this.quotations_products.percent[1]/100)+1)).toFixed(2);          
+            let total_price_with_percent_2 = (total_price_2 * ((this.quotations_products.percent[1]/100)+1)).toFixed(2);          
+            let product_id = this.products[0].product_id; 
+            let product_id_2 = null;
+            if (this.products.length>1){
+              product_id_2 = this.products[1].product_id;
+            }
             this.selected_materials.push({
-              id: this.material_id,
+              id: this.material_id, 
+              product_id: product_id,
+              product_id_2: product_id_2,
               quantity: `${this.quantity}`,
               code: `${this.products[0].code}`,
               material: `${material_name[0].name}`,
@@ -155,12 +157,28 @@
               total_price_with_percent_1: `${total_price_with_percent}`,
               price_2: `${this.price[1]}`,
               percent_2: `${this.quotations_products.percent[1]}`,
-              total_price_2: `${total_price}`,
+              total_price_2: `${total_price_2}`,
               total_price_with_percent_2: `${total_price_with_percent_2}`
             });
             this.quotations_products.percent=[15.0,15.0];
           }
         }
+      },
+      editService: function(index) {
+        let product_data = this.selected_materials[index]
+        this.selected_materials.splice(index, 1);
+        if(this.quotation_type !== 't_comparative'){
+          this.quotations_products.percent[0]  = product_data.percent_1;
+          this.quantity  = product_data.quantity;
+          this.price[0]  = product_data.price_1;
+          this.material_id  = product_data.id;
+        }
+      },
+      deleteService: function(index) {
+        this.selected_materials.splice(index, 1);
+      },
+      submitForm: function(){
+        
       }
     },
     mounted(){
@@ -170,7 +188,7 @@
       material_id: function(){
         this.getProducts();
       },
-      quotation_code: function(){
+      quotation_id: function(){
         this.getQuotationType();
       } 
     }

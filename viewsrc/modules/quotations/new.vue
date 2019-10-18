@@ -82,7 +82,7 @@
                 <b-card-text>
                   <!--HEADER COMPONENT GOES HERE-->
                   <quotation-materials
-                    :quotation_code.sync=quotation.code
+                    :quotation_id.sync=quotation.id
                   >
                   </quotation-materials>
                 </b-card-text>
