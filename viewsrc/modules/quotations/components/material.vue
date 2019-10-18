@@ -15,14 +15,12 @@
       return{
         quotations_products:{
           amount: 1,
-          percent: [15.0,15.0],
-          product_id: null,
+          percents: [15.0,15.0]
         },
-        currency: "Q",
         quotation_type:'t_comparative',
         material_id: null,
-        price: [],
-        brand: [],
+        prices: [],
+        brands: [],
         materials: [],
         products:[],
         selected_materials:[],
@@ -39,7 +37,6 @@
       }
     },
     methods:{
-
       getMaterials: function(){
         this.http
         .get('/api/materials')
@@ -65,9 +62,9 @@
         })
       },
       setPrices: function(){
-        this.price = this.products.map(function(product){return product.price});
-        if(this.quotation_type==='t_comparative' && this.price.length===1){
-          this.price[1]=this.price[0];
+        this.prices = this.products.map(function(product){return product.price});
+        if(this.quotation_type==='t_comparative' && this.prices.length===1){
+          this.prices[1]=this.prices[0];
         }
       },
       getQuotationType: function(){
@@ -77,24 +74,24 @@
           this.quotation_type = response.data[0].quotation_type;
           switch(this.quotation_type){          
             case 't_comparative': 
-              this.brand=['Supranet','Siemon']; 
+              this.brands=['Supranet','Siemon']; 
               this.header_table.pop();
               this.header_table.push(
-                {key: 'price_2', label:'Precio'},
-                {key: 'percent_2', label:'Holgura %'},
-                {key: 'total_price_2', label:'Total sin Holgura'},
-                {key: 'total_price_with_percent_2', label:'Total con Holgura'},
+                {key: 'price_product_2', label:'Precio'},
+                {key: 'percent_product_2', label:'Holgura %'},
+                {key: 'total_price_product_2', label:'Total sin Holgura'},
+                {key: 'total_price_with_percent_product_2', label:'Total con Holgura'},
                 {actions: ''}
               );
               break;
             case 't_siemon_only': 
-              this.brand=['Siemon']; 
+              this.brands=['Siemon']; 
               break;
             case 't_supranet_only': 
-              this.brand=['Supranet']; 
+              this.brands=['Supranet']; 
               break;
             case 't_simple':
-              this.brand=[null];
+              this.brands=[null];
               this.header_table.splice(3,0,{key: 'brand', label:'Marca'});
               break;
           }
@@ -106,8 +103,8 @@
         var add_product = this.selected_materials.filter(selected => selected.code === this.products[0].code);
         if (add_product.length === 0){
           var material_name = this.materials.filter( material => material.id===this.material_id);
-          var total_price = (this.price[0] * this.quotations_products.amount).toFixed(2);
-          var total_price_with_percent = (total_price * ((parseFloat(this.quotations_products.percent[0])/100)+1)).toFixed(2);
+          var total_price = (this.prices[0] * this.quotations_products.amount).toFixed(2);
+          var total_price_with_percent = (total_price * ((parseFloat(this.quotations_products.percents[0])/100)+1)).toFixed(2);
           if(this.quotation_type !== 't_comparative'){
             if(this.quotation_type === 't_simple'){
               this.selected_materials.push({
@@ -117,8 +114,8 @@
                 code: `${this.products[0].code}`,
                 material: `${material_name[0].name}`,
                 brand: `${this.products[0].brand}`,
-                price_1: `${this.price[0]}`,
-                percent: `${this.quotations_products.percent[0]}`,
+                price_1: `${this.prices[0]}`,
+                percent: `${this.quotations_products.percents[0]}`,
                 total_price_1: `${total_price}`,
                 total_price_with_percent_1: `${total_price_with_percent}`
               });
@@ -129,16 +126,16 @@
                 amount: `${this.quotations_products.amount}`,
                 code: `${this.products[0].code}`,
                 material: `${material_name[0].name}`,
-                price_1: `${this.price[0]}`,
-                percent: `${this.quotations_products.percent[0]}`,
+                price_1: `${this.prices[0]}`,
+                percent: `${this.quotations_products.percents[0]}`,
                 total_price_1: `${total_price}`,
                 total_price_with_percent_1: `${total_price_with_percent}`
               });
             }
-            this.quotations_products.percent=[15.0];
+            this.quotations_products.percents=[15.0];
           }else{
-            let total_price_2 = (this.price[1] * this.quotations_products.amount).toFixed(2);
-            let total_price_with_percent_2 = (total_price_2 * ((this.quotations_products.percent[1]/100)+1)).toFixed(2);          
+            let total_price_product_2 = (this.prices[1] * this.quotations_products.amount).toFixed(2);
+            let total_price_with_percent_product_2 = (total_price_product_2 * ((this.quotations_products.percents[1]/100)+1)).toFixed(2);          
             let product_id = this.products[0].product_id; 
             let product_id_2 = null;
             if (this.products.length>1){
@@ -151,16 +148,16 @@
               amount: `${this.quotations_products.amount}`,
               code: `${this.products[0].code}`,
               material: `${material_name[0].name}`,
-              price_1: `${this.price[0]}`,
-              percent: `${this.quotations_products.percent[0]}`,
+              price_1: `${this.prices[0]}`,
+              percent: `${this.quotations_products.percents[0]}`,
               total_price_1: `${total_price}`,
               total_price_with_percent_1: `${total_price_with_percent}`,
-              price_2: `${this.price[1]}`,
-              percent_2: `${this.quotations_products.percent[1]}`,
-              total_price_2: `${total_price_2}`,
-              total_price_with_percent_2: `${total_price_with_percent_2}`
+              price_product_2: `${this.prices[1]}`,
+              percent_product_2: `${this.quotations_products.percents[1]}`,
+              total_price_product_2: `${total_price_product_2}`,
+              total_price_with_percent_product_2: `${total_price_with_percent_product_2}`
             });
-            this.quotations_products.percent=[15.0,15.0];
+            this.quotations_products.percents=[15.0,15.0];
           }
         }
       },
@@ -168,16 +165,16 @@
         let product_data = this.selected_materials[index]
         this.selected_materials.splice(index, 1);
         if(this.quotation_type !== 't_comparative'){
-          this.quotations_products.percent[0]  = product_data.percent;
+          this.quotations_products.percents[0]  = product_data.percent;
           this.quotations_products.amount  = product_data.amount;
-          this.price[0]  = product_data.price_1;
+          this.prices[0]  = product_data.price_1;
           this.material_id  = product_data.id;
         }
       },
       deleteService: function(index) {
         this.selected_materials.splice(index, 1);
       },
-      submit: function(){
+      formatData: function(){
         var data = {
           quotation:{
             quotation_products_attributes: this.selected_materials
@@ -205,11 +202,15 @@
             }
           };
         }
+        return data
+      },
+      submit: function(){
+        this.$emit('update:section_valid', false);
         this.http
-        .put(`api/quotations/${this.quotation_id}`, data)
+        .put(`api/quotations/${this.quotation_id}`, this.formatData())
         .then((response)=>{
           if(response.successful){
-            console.log("FUNCIONA");
+            this.$emit('update:section_valid', true);
           }else{
             console.log(JSON.stringify(response.error));
           }
@@ -256,16 +257,10 @@
           <br />
           <b-button variant="primary" v-on:click="addProducts">Agregar</b-button>
         </div>
-        <div class="col-1">
-          <br />
-          <b-form-input v-model="currency"></b-form-input>
-        </div>
-        <!----------Materials------------->
-        <!----------Double---------------->
       </b-form-row>
       <b-form-row>
         <div class="col-1" v-if="quotation_type!='t_simple'">
-          <label class="text-primary font-weight-bold">{{brand[0]}}</label>
+          <label class="text-primary font-weight-bold">{{brands[0]}}</label>
         </div>
         <div class="col-2">
           <label class="mb-0 text-primary font-weight-bold">Cantidad</label>
@@ -285,7 +280,7 @@
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-money-bill-wave"></i>
               </div>
-              <b-form-input disabled v-model="price[0]"></b-form-input>
+              <b-form-input disabled v-model="prices[0]"></b-form-input>
             </div>
           </div>
         </div>
@@ -296,7 +291,7 @@
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-percentage"></i>
               </div>
-              <b-form-input v-model="quotations_products.percent[0]"></b-form-input>
+              <b-form-input v-model="quotations_products.percents[0]"></b-form-input>
             </div>
           </div>
         </div>
@@ -304,7 +299,7 @@
 
       <b-form-row v-if="quotation_type=='t_comparative'">
         <div class="col-1">
-          <label class="text-primary font-weight-bold">{{brand[1]}}</label>
+          <label class="text-primary font-weight-bold">{{brands[1]}}</label>
         </div>
         <div class="col-2">
           <label class="mb-0 text-primary font-weight-bold">Cantidad</label>
@@ -324,7 +319,7 @@
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-money-bill-wave"></i>
               </div>
-              <b-form-input disabled v-model="price[1]"></b-form-input>
+              <b-form-input disabled v-model="prices[1]"></b-form-input>
             </div>
           </div>
         </div>
@@ -335,7 +330,7 @@
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-percentage"></i>
               </div>
-              <b-form-input v-model="quotations_products.percent[1]"></b-form-input>
+              <b-form-input v-model="quotations_products.percents[1]"></b-form-input>
             </div>
           </div>
         </div>
@@ -348,10 +343,16 @@
       :items="selected_materials" 
       :fields="header_table">
       <template v-if="this.quotation_type==='t_comparative'" v-slot:thead-top="data">
-        <b-tr>
-          <b-th colspan="3"></b-th>
-          <b-th colspan="4" class="text-center">{{brand[0]}}</b-th>
-          <b-th colspan="4" class="text-center">{{brand[1]}}</b-th>
+        <b-tr class="text-center">
+          <b-th rowspan="2" colspan="3" class="bg-dark text-white"></b-th>
+          <b-th colspan="4" class="bg-dark">Expresión (GTQ)</b-th>
+          <b-th colspan="4" class="bg-dark">Expresión (GTQ)</b-th>
+          <b-th colspan="1" class="bg-dark text-white"></b-th>
+        </b-tr>
+        <b-tr class="text-center text-danger">
+          <b-th colspan="4" class="text-center">{{brands[0]}}</b-th>
+          <b-th colspan="4" class="text-center">{{brands[1]}}</b-th>
+          <b-th colspan="1" class="text-white"></b-th>
         </b-tr>
       </template>
       <template v-slot:cell(name)="data">{{ data.item.name }}</template>
@@ -364,8 +365,13 @@
         </b-button>
       </template>
     </b-table>
-    <div class="col-2 offset-7">
-      <button class="btn btn-primary btn-block" v-on:click="submit">Siguiente</button>
+    <div class="col-2 offset-10">
+      <button 
+        class="btn btn-primary btn-block" 
+        type="submit"
+        v-on:click="submit">
+        Siguiente
+      </button>
     </div>
   </div>
 </template>

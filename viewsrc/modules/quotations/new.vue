@@ -36,6 +36,11 @@
         if(this.validity.conditions){
           this.tab_index++;
         }
+      },
+      'validity.materials': function(){
+        if(this.validity.materials){
+          this.tab_index++;
+        }
       }
     }
   }
@@ -82,7 +87,8 @@
                 <b-card-text>
                   <!--HEADER COMPONENT GOES HERE-->
                   <quotation-materials
-                    :quotation_id.sync=quotation.id
+                    :section_valid.sync=validity.materials
+                    :quotation_id=quotation.id
                   >
                   </quotation-materials>
                 </b-card-text>
