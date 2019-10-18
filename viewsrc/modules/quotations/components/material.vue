@@ -108,10 +108,23 @@
         var add_product = this.selected_materials.filter(selected => selected.code === this.products[0].code);
         if (add_product.length === 0){
           var material_name = this.materials.filter( material => material.id===this.material_id);
-          var total_price = this.price[0] * this.quantity;
-          var total_price_with_percent = total_price * ((parseFloat(this.quotations_products.percent[0])/100)+1);
+          var total_price = (this.price[0] * this.quantity).toFixed(2);
+          var total_price_with_percent = (total_price * ((parseFloat(this.quotations_products.percent[0])/100)+1)).toFixed(2);
           if(this.quotation_type !== 't_comparative'){
-            this.selected_materials.push({
+            if(this.quotation_type === 't_simple'){
+              this.selected_materials.push({
+              id: this.material_id,
+              quantity: `${this.quantity}`,
+              code: `${this.products[0].code}`,
+              material: `${material_name[0].name}`,
+              brand: `${this.products[0].brand}`,
+              price_1: `${this.price[0]}`,
+              percent_1: `${this.quotations_products.percent[0]}`,
+              total_price_1: `${total_price}`,
+              total_price_with_percent_1: `${total_price_with_percent}`
+            });
+            }else{
+              this.selected_materials.push({
               id: this.material_id,
               quantity: `${this.quantity}`,
               code: `${this.products[0].code}`,
@@ -121,11 +134,11 @@
               total_price_1: `${total_price}`,
               total_price_with_percent_1: `${total_price_with_percent}`
             });
+            }
             this.quotations_products.percent=[15.0];
           }else{
-            let total_price_2 = this.price[1] * this.quantity;
-            console.log(this.quotations_products.percent[1]);
-            let total_price_with_percent_2 = total_price * ((this.quotations_products.percent[1]/100)+1);          
+            let total_price_2 = (this.price[1] * this.quantity).toFixed(2);
+            let total_price_with_percent_2 = (total_price * ((this.quotations_products.percent[1]/100)+1)).toFixed(2);          
             this.selected_materials.push({
               id: this.material_id,
               quantity: `${this.quantity}`,
@@ -264,33 +277,39 @@
         <!----------Double---------------->
       </b-form-row>
     </b-form>
-    <b-card>
-      <b-table
-        :items="selected_materials"
-        :fields="header_table"
-        striped 
-        hover
-        bordered
+    <b-table
+      :items="selected_materials"
+      :fields="header_table"
+      striped 
+      hover
+      bordered
+    >
+      <template v-if="this.quotation_type==='t_comparative'" v-slot:thead-top="data">
+        <b-tr>
+          <b-th colspan="3"></b-th>
+          <b-th colspan="4" class="text-center">{{brand[0]}}</b-th>
+          <b-th colspan="4" class="text-center">{{brand[1]}}</b-th>
+        </b-tr>
+      </template>
+      <template v-slot:cell(name)="data">
+        {{ data.item.name }}
+      </template>
+      <template v-slot:cell(actions)="data">
+        <b-button class="btn btn-success text-white mr-1" v-on:click="editService(data.index)">
+          <i class="fas fa-edit fa-xs text-white"></i>
+        </b-button>
+        <b-button class="btn btn-danger" type="submit" v-on:click="deleteService(data.index)">
+          <i class="fas fa-trash-alt fa-xs"></i>
+        </b-button>
+      </template>
+    </b-table>
+    <div class="col-2 offset-7">
+      <button 
+        class="btn btn-primary btn-block"
+        type="submit"
       >
-        <template v-if="this.quotation_type==='t_comparative'" v-slot:thead-top="data">
-          <b-tr>
-            <b-th colspan="3"></b-th>
-            <b-th colspan="4" class="text-center">{{brand[0]}}</b-th>
-            <b-th colspan="4" class="text-center">{{brand[1]}}</b-th>
-          </b-tr>
-        </template>
-        <template v-slot:cell(name)="data">
-          {{ data.item.name }}
-        </template>
-        <template v-slot:cell(actions)="data">
-          <b-button class="btn btn-success text-white mr-1" v-on:click="editService(data.index)">
-            <i class="fas fa-edit fa-xs text-white"></i>
-          </b-button>
-          <b-button class="btn btn-danger" type="submit" v-on:click="deleteService(data.index)">
-            <i class="fas fa-trash-alt fa-xs"></i>
-          </b-button>
-        </template>
-      </b-table>
-    </b-card>
+        Siguiente
+      </button>
+    </div>
   </div>
 </template>
