@@ -1,10 +1,12 @@
 <script type="text/javascript">
   import quotationHeader from './components/header.vue'
+  import quotationMaterials from './components/material.vue'
   import quotationConditions from './components/conditions.vue'
 
   export default {
     components:{
       'quotation-header' : quotationHeader,
+      'quotation-materials' : quotationMaterials,
       'quotation-conditions': quotationConditions
     },
     data(){
@@ -38,7 +40,7 @@
             <b-tabs card>
 
               <!--------------------------------- Header Tab ----------------------------------> 
-              <b-tab active>
+              <b-tab >
                 <template v-slot:title>
                   <span v-bind:class="{'text-success':validity.header}">
                     {{translations.header.title}} &nbsp;
@@ -56,7 +58,7 @@
               <!--------------------------------- Header Tab ---------------------------------->
 
               <!-------------------------------- Materials Tab ---------------------------------> 
-              <b-tab>
+              <b-tab active="">
                 <template v-slot:title>
                   <span v-bind:class="{'text-success':quotation.id!=null}">
                     {{translations.materials.title}} &nbsp;
@@ -65,6 +67,10 @@
                 </template>
                 <b-card-text>
                   <!--HEADER COMPONENT GOES HERE-->
+                  <quotation-materials
+                    :quotation_code.sync=quotation.code
+                  >
+                  </quotation-materials>
                 </b-card-text>
               </b-tab>
               <!-------------------------------- Materials Tab ---------------------------------> 

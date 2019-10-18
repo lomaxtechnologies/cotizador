@@ -37,6 +37,10 @@ es:
           client: Debe seleccionar un cliente
       materials:
         title: Materiales
+        select-material: Seleccione un material
+      brands:
+        supranet: Supranet
+        siemon: Siemon
       services:
         title: Servicios
       conditions:
