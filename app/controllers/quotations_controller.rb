@@ -77,6 +77,20 @@ class QuotationsController < ApplicationController
       response_with_success(data)
     end
   end
+  
+  def api_create_service
+    @quotation = Quotation.new(quotation_params.merge(user: current_user))
+    puts @quotation
+    @quotation.save
+    if @quotation.errors.any?
+      errors = @quotation.errors.full_messages
+      response_with_error(t('quotations.error'), errors)
+    else
+      data = {name: @quotation.service, price: @quotation.price, amount: @quotation.amount, percent: @quotation.percent}
+      response_with_success(data)
+    end
+  end
+
 
   def api_get_list
     response_with_success(Comment.list)
