@@ -2,11 +2,13 @@
   import quotationHeader from './components/header.vue'
   import quotationMaterials from './components/material.vue'
   import quotationConditions from './components/conditions.vue'
+  import quotationService from './components/service.vue'
 
   export default {
     components:{
       'quotation-header' : quotationHeader,
       'quotation-materials' : quotationMaterials,
+      'quotation-service' : quotationService,
       'quotation-conditions': quotationConditions
     },
     data(){
@@ -34,6 +36,11 @@
       },
       'validity.conditions': function(){
         if(this.validity.conditions){
+          this.tab_index++;
+        }
+      },
+      'validity.services': function(){
+        if(this.validity.services){
           this.tab_index++;
         }
       },
@@ -96,7 +103,7 @@
               <!-------------------------------- Materials Tab ---------------------------------> 
 
               <!--------------------------------- Services Tab ----------------------------------> 
-              <b-tab>
+              <b-tab >
                 <template v-slot:title>
                   <span v-bind:class="{'text-success':validity.services}">
                     {{translations.services.title}} &nbsp;
@@ -104,7 +111,10 @@
                   </span>
                 </template>
                 <b-card-text>
-                  <!--HEADER COMPONENT GOES HERE-->
+                  <quotation-service 
+                    :section_valid.sync=validity.services
+                    :quotation_id.sync=quotation.id>
+                  </quotation-service>
                 </b-card-text>
               </b-tab>
               <!--------------------------------- Services Tab ----------------------------------> 
