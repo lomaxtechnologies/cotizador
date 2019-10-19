@@ -207,7 +207,7 @@
       submit: function(){
         this.$emit('update:section_valid', false);
         this.http
-        .put(`api/quotations/${this.quotation_id}`, this.formatData())
+        .put(`quotations/${this.quotation_id}`, this.formatData())
         .then((response)=>{
           if(response.successful){
             this.$emit('update:section_valid', true);

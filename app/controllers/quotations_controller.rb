@@ -1,7 +1,7 @@
 class QuotationsController < ApplicationController
   layout "manager"
-  before_action :set_quotation, only: [:api_update, :destroy, :api_show]
-  
+  before_action :set_quotation, only: [:update, :destroy, :show]
+
   def index
   end
 
@@ -11,17 +11,30 @@ class QuotationsController < ApplicationController
   end
 
   def create
-    respond_to do |format|
-      @quotation = Quotation.new(quotation_params.merge(user: current_user))
-      @quotation.save
-      if @quotation.errors.any?
-        errors = @quotation.errors.full_messages
-        format.html { redirect_to new_users_registration_url, alert: errors }
-        format.json { response_with_error(t('quotations.error'), errors) }
-      else
-        format.html { redirect_to users_registrations_url, notice: t('.success') }
-        format.json { response_with_success }
-      end
+    @quotation = Quotation.new(quotation_params.merge(
+      user: current_user, 
+      state: Quotation.states[:created]
+    ))
+    @quotation.save
+    if @quotation.errors.any?
+      errors = @quotation.errors.full_messages
+      response_with_error(t('quotations.error'), errors)
+    else
+      data = { id: @quotation.id }
+      response_with_success(data)
+    end
+  end
+
+  def show
+    response_with_success(@quotation)
+  end
+
+  def update
+    if @quotation.update(quotation_params.merge(user: current_user))
+      response_with_success
+    else
+      errors = @quotation.errors.full_messages
+      response_with_error(t('quotations.error'), errors)
     end
   end
 
@@ -33,56 +46,23 @@ class QuotationsController < ApplicationController
       response_with_error(t('quotations.error'), errors)
     end
   end
+
+  def api_index
+    response_with_success(Quotation.all_only_identifier_fields.order(:id))
+  end
+
   def api_types
-    response_with_success(Quotation.quotation_types)
+    quotation_types = []
+    Quotation.quotation_types.each do |key, _value|
+      quotation_types.push(value: key, text: t(".#{key}"))
+    end
+    response_with_success(quotation_types)
   end
 
   def api_type_by_quotation
     response_with_success(Quotation.type(params))
   end
 
-  def api_create_header
-    @quotation = Quotation.new(quotation_params.merge(user: current_user))
-    @quotation.save
-    if @quotation.errors.any?
-      errors = @quotation.errors.full_messages
-      response_with_error(t('quotations.error'), errors)
-    else
-      data = {id: @quotation.id}
-      response_with_success(data)
-    end
-  end
-  
-  def api_create_service
-    @quotation = Quotation.new(quotation_params.merge(user: current_user))
-    puts @quotation
-    @quotation.save
-    if @quotation.errors.any?
-      errors = @quotation.errors.full_messages
-      response_with_error(t('quotations.error'), errors)
-    else
-      data = {name: @quotation.service, price: @quotation.price, amount: @quotation.amount, percent: @quotation.percent}
-      response_with_success(data)
-    end
-  end
-
-
-  def api_index
-    response_with_success(Quotation.all_only_identifier_fields.order(:id))
-  end
-
-  def api_update
-    if @quotation.update(quotation_params.merge(user: current_user))
-      response_with_success
-    else
-      errors = @quotation.errors.full_messages
-      response_with_error(t('quotations.error'), errors)
-    end
-  end
-
-  def api_show
-    response_with_success(@quotation)
-  end
   private
 
   def quotation_params
@@ -101,5 +81,4 @@ class QuotationsController < ApplicationController
   def set_quotation
     @quotation = Quotation.find(params[:id])
   end
-
 end

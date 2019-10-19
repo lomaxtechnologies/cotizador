@@ -8,11 +8,6 @@ es:
       active: Activa
       accepted: Aprobada por el Cliente
       expired: Expirada
-    quotation_types:
-      t_comparative: Comparativa
-      t_siemon_only: Solo Siemon
-      t_supranet_only: Solo Supranet
-      t_simple: Simple
     index:
       delete_modal: 
         title: ¿Realmente deseas eliminar esta cotización?
@@ -26,6 +21,7 @@ es:
         quotation_date: Fecha
         name: Cliente
         actions: ''
+        default_select_option: Seleccione una opción de la lista
       search_title: Filtrar por
       page_size_placeholder: Filas por página
       brand: Marca

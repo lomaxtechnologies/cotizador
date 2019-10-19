@@ -104,7 +104,7 @@
         this.quotation.service_id = this.quotation.service;
         var data = {quotation:{ quotation_services_attributes:[this.quotation]}};
         this.http
-        .put(`api/quotations/${this.quotation_id}`, data)
+        .put(`quotations/${this.quotation_id}`, data)
         .then((response)=>{
           if(response.successful){
             this.$emit('update:section_valid', true);

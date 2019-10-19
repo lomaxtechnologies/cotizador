@@ -31,33 +31,33 @@ Rails.application.routes.draw do
 
   resources :clients
 
-  resources :prices, except:[:show]
+  resources :prices, except: [:show]
   post 'prices/upload', to: 'prices#upload', as: 'upload'
   get 'prices/dashboard', to: 'prices#dashboard', as: 'dashboard'
 
   resources :materials
 
   resources :brands, except: [:edit, :show, :new]
+
+  resources :quotations
+
   
   root to: 'quotations#index'
 
-  resources :quotations
   scope :api do
     get '/clients', to: 'clients#api_index'
     get '/materials', to: 'materials#api_index'
-    get '/products_by_material', to: 'prices#products_by_material'
     get '/quotations', to: 'quotations#api_index'
+    get '/products_by_material', to: 'prices#products_by_material'
+
     scope :quotations do
       get '/types', to: 'quotations#api_types'
-      post '/header', to: 'quotations#api_create_header'
       get '/type_by_quotation', to: 'quotations#api_type_by_quotation'
-      put '/:id', to: 'quotations#api_update'
+      
       post '/:id/attachments/create', to: 'attachments#create'
       delete '/:id/attachments/destroy', to: 'attachments#destroy'
-      get '/type_by_quotation', to: 'quotations#api_type_by_quotation'
-      put '/:id', to: 'quotations#api_update'
-      get '/:id', to: 'quotations#api_show'
     end
+
     scope :comments do
       get '/', to: 'comments#api_index'
       post '/(:commentable_type)/:commentable_id', to: 'comments#create', defaults: {commentable_type: 'Quotation'}

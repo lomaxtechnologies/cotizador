@@ -49,7 +49,7 @@
       getQuotation: function(){
         var id = this.$route.params.id;
         this.http
-        .get(`/api/quotations/${id}`)
+        .get(`/quotations/${id}`)
         .then((response)=>{
 
 

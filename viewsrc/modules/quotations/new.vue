@@ -5,29 +5,31 @@
   import quotationService from './components/service.vue'
 
   export default {
+
     components:{
       'quotation-header' : quotationHeader,
       'quotation-materials' : quotationMaterials,
       'quotation-service' : quotationService,
       'quotation-conditions': quotationConditions
     },
+
     data(){
       return {
         translations: I18n.t('quotations.new'),
         tab_index: 0,
-        show_alert:false,
-        quotation:{
-          id: NaN,
-        },
         validity:{
           header:false,
           materials:false,
           services:false,
           conditions:false,
           global_view:false
+        },
+        quotation:{
+          id: NaN,
         }
       }
     },
+
     watch:{
       'validity.header': function(){
         if(this.validity.header){
@@ -50,12 +52,12 @@
         }
       }
     }
+
   }
 </script>
 
 <template>
   <div class="row">
-    <b-alert :show=show_alert dismissible class="fixed-top mx-3">Default Alert</b-alert>
     <div class="col-lg-12 offset-xl-1 col-xl-10">
       <b-form>
         <h2 class="text-primary">
@@ -92,7 +94,6 @@
                   </span>
                 </template>
                 <b-card-text>
-                  <!--HEADER COMPONENT GOES HERE-->
                   <quotation-materials
                     :section_valid.sync=validity.materials
                     :quotation_id=quotation.id
@@ -113,7 +114,7 @@
                 <b-card-text>
                   <quotation-service 
                     :section_valid.sync=validity.services
-                    :quotation_id.sync=quotation.id>
+                    :quotation_id=quotation.id>
                   </quotation-service>
                 </b-card-text>
               </b-tab>

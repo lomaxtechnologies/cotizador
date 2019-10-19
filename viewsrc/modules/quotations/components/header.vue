@@ -1,6 +1,6 @@
 <script type="text/javascript">
-
   export default {
+
     props:{
       section_valid: {
         type: Boolean,
@@ -11,6 +11,7 @@
         default: NaN
       }
     },
+
     data(){
       return {
         translations: {
@@ -24,21 +25,16 @@
           quotation_type: null
         },
         clients: [],
-        quotation_types: {},
-        errors:{
-          client:false
-        }
+        quotation_types: {}
       }
     },
+
     mounted(){
       this.getClients();
       this.getQuotationTypes();
     },
+
     computed:{
-      validateClient: function(){
-        this.errors.client = isNaN(parseFloat(this.quotation.client_id));
-        return this.errors.client;
-      },
       quotationCode: function(){
         if(isNaN(this.quotation_id)){
           return null;
@@ -46,6 +42,7 @@
         return this.quotation_id+100;
       }
     },
+
     methods:{
 
       getClients: function(){
@@ -62,76 +59,66 @@
         });
       },
 
+      //Fix This Method
       getQuotationTypes: function(){
         this.http
         .get('api/quotations/types')
         .then((response)=>{
-          this.quotation_types = response.data;
-          for(var key in this.quotation_types){
-            this.quotation_types[key] = this.translations.quotation_types[key];
-          }
-          if(this.quotation_types){
-            this.quotation.quotation_type = Object.keys(this.quotation_types)[0];
+          if(response.successful){
+            this.quotation_types = response.data;
+            if(this.quotation_types.length > 0){
+              this.quotation.quotation_type = this.quotation_types[0].value;
+            }
+          }else{
+            console.log(JSON.stringify(response));
           }
         }).catch((err)=>{
           console.log(JSON.stringify(err));
         });
       },
 
-      validateForm: function(){
-        var section_valid = true;
-        for(var key in this.errors){
-          section_valid = section_valid && ! this.errors[key];
-        }
-        return section_valid;
-      },
-
       submitForm: function(){
         if(this.quotation_id){
-          this.validateAndUpdate();
+          this.updateHeader();
         }else{
-          this.validateAndCreate();
+          this.createHeader();
         }
       },
 
-      validateAndCreate: function(){
+      createHeader: function(){
         this.$emit('update:section_valid', false);
-        if(this.validateForm()){
-          var data = {quotation: this.quotation};
-          this.http
-          .post('api/quotations/header', data)
-          .then((response)=>{
-            if(response.successful){
-              this.$emit('update:quotation_id', response.data.id);
-              this.$emit('update:section_valid', true);
-            }else{
-              console.log(JSON.stringify(response.error));
-            }
-          }).catch((err)=>{
-            console.log(JSON.stringify(err));
-          });
-        }
+        this.http
+        .post('/quotations', {quotation: this.quotation})
+        .then((response)=>{
+          if(response.successful){
+            this.$emit('update:quotation_id', response.data.id);
+            this.$emit('update:section_valid', true);
+          }else{
+            console.log(JSON.stringify(response));
+          }
+        }).catch((err)=>{
+          console.log(JSON.stringify(err));
+        });
       },
 
-      validateAndUpdate: function(){
+      updateHeader: function(){
         this.$emit('update:section_valid', false);
-        if(this.validateForm()){
-          var data = {quotation: this.quotation};
-          this.http
-          .put(`api/quotations/${this.quotation_id}`, data)
-          .then((response)=>{
-            if(response.successful){
-              this.$emit('update:section_valid', true);
-            }else{
-              console.log(JSON.stringify(response.error));
-            }
-          }).catch((err)=>{
-            console.log(JSON.stringify(err));
-          });
-        }
+        this.http
+        .put(`api/quotations/${this.quotation_id}`, {quotation: this.quotation})
+        .then((response)=>{
+          if(response.successful){
+            this.$emit('update:section_valid', true);
+          }else{
+            console.log(JSON.stringify(response.error));
+          }
+        }).catch((err)=>{
+          console.log(JSON.stringify(err));
+        });
       }
     },
+
     watch:{
+      //updates the client's nit when the user changes 
       'quotation.client_id': function(){
         var selected_client = this.clients.filter((client)=>{
           return client.id == this.quotation.client_id;
@@ -148,7 +135,9 @@
       <b-form-row>
         <!------------------------------- quotation.code -------------------------------------->
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold"> {{translations.header.titles.code}} </label>
+          <label class="mb-0 text-primary font-weight-bold">
+            {{translations.header.titles.code}}
+          </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -156,9 +145,9 @@
               </div>
             </div>
             <b-input 
+              v-model=quotationCode
               type="text"
               :disabled=true
-              v-model=quotationCode
             ></b-input>
           </div>
         </div>
@@ -166,7 +155,9 @@
 
         <!----------------------------- quotation.client -------------------------------------->
         <div class="col-4">
-          <label class="mb-0 text-primary font-weight-bold"> {{translations.header.titles.client}} </label>
+          <label class="mb-0 text-primary font-weight-bold">
+            {{translations.header.titles.client}}
+          </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -175,9 +166,10 @@
             </div>
             <b-form-select 
               v-model=quotation.client_id
-              :options=clients
               value-field="id"
               text-field="name"
+              :required=true
+              :options=clients
             >
             </b-form-select>
           </div>
@@ -186,14 +178,16 @@
 
         <!----------------------------- quotation.client_nit ---------------------------------->
         <div class="col-3">
-          <label class="mb-0 text-primary font-weight-bold"> {{translations.header.titles.nit}} </label>
+          <label class="mb-0 text-primary font-weight-bold">
+            {{translations.header.titles.nit}}
+          </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-hashtag"></i>
               </div>
             </div>
-            <b-input type="text" :disabled=true v-model=quotation.client_nit></b-input>
+            <b-input type="text" v-model=quotation.client_nit :disabled=true></b-input>
 
           </div>
         </div>
@@ -201,14 +195,16 @@
 
         <!------------------------------- quotation.date -------------------------------------->
         <div class="col-3">
-          <label class="mb-0 text-primary font-weight-bold"> {{translations.header.titles.date}} </label>
+          <label class="mb-0 text-primary font-weight-bold">
+            {{translations.header.titles.date}}
+          </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-calendar"></i>
               </div>
             </div>
-            <b-input type="date" :disabled=true v-model=quotation.quotation_date></b-input>
+            <b-input type="date" v-model=quotation.quotation_date :disabled=true ></b-input>
           </div>
         </div>
         <!------------------------------- quotation.date -------------------------------------->
@@ -225,8 +221,9 @@
               </div>
             </div>
             <b-form-select
-              :disabled=section_valid
               v-model=quotation.quotation_type 
+              :disabled=section_valid
+              :required=true
               :options=quotation_types
             ></b-form-select>
           </div>

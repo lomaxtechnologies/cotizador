@@ -7,3 +7,8 @@ es:
       update: La cotización ha sido actualizada satisfactoriamente.
     destroy:
       destroy: La cotización ha sido eliminada satisfactoriamente.
+    api_types:
+      t_comparative: Comparativa
+      t_siemon_only: Solo Siemon
+      t_supranet_only: Solo Supranet
+      t_simple: Simple
