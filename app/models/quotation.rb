@@ -23,10 +23,6 @@ class Quotation < ApplicationRecord
   
   scope :type, -> (params) {select(:quotation_type).where(id: params[:id])}
 
-  def default_material_percentage
-    15
-  end
-
   def self.header_fields
     Quotation.joins(:client).select(
       'quotations.id',
@@ -37,12 +33,8 @@ class Quotation < ApplicationRecord
     )
   end
 
-  def default_service_percentage
-    0
-  end
-
   def destroy
-    if self.created? || self.expired?
+    if created? || expired?
       super
     else
       errors.add(:state, :destroy_impossible)

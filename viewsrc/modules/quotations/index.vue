@@ -95,7 +95,6 @@
 
 <template>
   <div class="row">
-    <!------------------------------------------ Delete Modal ------------------------------------------>
     <b-modal 
       v-model=config.show_modal 
       id="delete_confirmation_modal"
@@ -117,8 +116,6 @@
         </div>
       </template>
     </b-modal>
-    <!------------------------------------------ Delete Modal ------------------------------------------>
-
     <div class="col-lg-12 offset-xl-1 col-xl-10">
       <div class="form-row">
         <div class="col-12">
@@ -140,8 +137,6 @@
                 </div>
               </div>
             </div>
-
-            <!--------------------------------------- Search Form--------------------------------------->
             <div class="card-body">
               <div class="form-row mb-2">
                 <div class="col-12">
@@ -181,12 +176,9 @@
                 </div>
               </div>
             </div>
-            <!--------------------------------------- Search Form--------------------------------------->
-
           </div>
         </div>
       </div>
-      <!---------------------------------------------- Table --------------------------------------------->
       <b-table 
         id="quotations_table" 
         thead-tr-class="bg-primary text-white" 
@@ -196,7 +188,6 @@
         :per-page=config.page_size
         :current-page=config.current_page
       >
-        <!------------------------------------------ Page Size ------------------------------------------>
         <template v-slot:head(actions)="data">
           <div class="text-right">
             <input
@@ -208,9 +199,6 @@
             >
           </div>
         </template>
-        <!------------------------------------------ Page Size ------------------------------------------>
-
-        <!------------------------------------------ Table Rows ------------------------------------------>
         <template v-slot:cell(id)=data>
           {{data.item.id+100}}
         </template>
@@ -236,10 +224,7 @@
             </b-button>
           </div>
         </template>
-        <!------------------------------------------ Table Rows ------------------------------------------>
-
       </b-table>
-      <!---------------------------------------------- Table --------------------------------------------->
       <b-pagination
         v-model=config.current_page
         :total-rows=quotationRows

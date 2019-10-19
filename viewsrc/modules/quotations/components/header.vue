@@ -132,7 +132,6 @@
   <div>
     <b-form v-on:submit=submitForm>
       <b-form-row>
-        <!------------------------------- quotation.code -------------------------------------->
         <div class="col-2">
           <label class="mb-0 text-primary font-weight-bold">
             {{translations.header.titles.code}}
@@ -150,9 +149,6 @@
             ></b-input>
           </div>
         </div>
-        <!------------------------------- quotation.code -------------------------------------->
-
-        <!----------------------------- quotation.client -------------------------------------->
         <div class="col-4">
           <label class="mb-0 text-primary font-weight-bold">
             {{translations.header.titles.client}}
@@ -173,9 +169,6 @@
             </b-form-select>
           </div>
         </div>
-        <!----------------------------- quotation.client -------------------------------------->
-
-        <!----------------------------- quotation.client_nit ---------------------------------->
         <div class="col-3">
           <label class="mb-0 text-primary font-weight-bold">
             {{translations.header.titles.nit}}
@@ -190,9 +183,6 @@
 
           </div>
         </div>
-        <!----------------------------- quotation.client_nit ---------------------------------->
-
-        <!------------------------------- quotation.date -------------------------------------->
         <div class="col-3">
           <label class="mb-0 text-primary font-weight-bold">
             {{translations.header.titles.date}}
@@ -206,9 +196,6 @@
             <b-input type="date" v-model=quotation.quotation_date :disabled=true ></b-input>
           </div>
         </div>
-        <!------------------------------- quotation.date -------------------------------------->
-
-        <!----------------------------- quotation.quotation_type ------------------------------>
         <div class="col-3">
           <label class="mb-0 text-primary font-weight-bold">
             {{translations.header.titles.quotation_type}}
@@ -227,9 +214,6 @@
             ></b-form-select>
           </div>
         </div>
-        <!----------------------------- quotation.quotation_type ------------------------------>
-
-        <!--------------------------------- quotation.submit ---------------------------------->
         <div class="col-2 offset-7">
           <label class="mb-0 text-primary font-weight-bold">&nbsp;</label>
           <button 
@@ -239,8 +223,6 @@
             {{translations.header.next}}
           </button>
         </div>
-        <!--------------------------------- quotation.submit ---------------------------------->
-
       </b-form-row>
     </b-form>
   </div>

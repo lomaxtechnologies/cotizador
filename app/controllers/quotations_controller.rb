@@ -5,11 +5,6 @@ class QuotationsController < ApplicationController
   def index
   end
 
-  # GET /quotations/new
-  def new
-    @quotation = Quotation.new
-  end
-
   # POST /quotations
   def create
     @quotation = Quotation.new(quotation_params.merge(

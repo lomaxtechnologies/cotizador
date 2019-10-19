@@ -46,34 +46,23 @@
   <div>
     <b-form @submit=updateConditions>
       <b-form-row>
-        <!----------------------------- quotation.conditions -------------------------------------->
         <div class="col-12 mb-3">
           <label class="mb-0 text-primary font-weight-bold"> Términos y Condiciones </label>
           <b-textarea v-model=quotation.payment_condition></b-textarea>
         </div>
-        <!----------------------------- quotation.conditions -------------------------------------->
-
-        <!-------------------------------- quotation.credits -------------------------------------->
         <div class="col-12 mb-3">
           <label class="mb-0 text-primary font-weight-bold"> Créditos </label>
           <b-textarea v-model=quotation.credits></b-textarea>
         </div>
-        <!-------------------------------- quotation.credits -------------------------------------->
-
-        <!------------------------------- quotation.warranty -------------------------------------->
         <div class="col-12 mb-3">
           <label class="mb-0 text-primary font-weight-bold"> Garantía </label>
           <b-textarea v-model=quotation.warranty></b-textarea>
         </div>
-        <!-------------------------------- quotation.warranty -------------------------------------->
-
-        <!--------------------------------- quotation.submit ---------------------------------->
         <div class="col-2 offset-10 mb-3">
           <b-button variant="primary" block type="submit">
             {{translations.next}}
           </b-button>
         </div>
-        <!--------------------------------- quotation.submit ---------------------------------->
       </b-form-row>
     </b-form>
   </div>
