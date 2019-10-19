@@ -27,7 +27,7 @@ class Quotation < ApplicationRecord
     15
   end
 
-  def self.all_only_identifier_fields
+  def self.header_fields
     Quotation.joins(:client).select(
       'quotations.id',
       'quotations.quotation_date',

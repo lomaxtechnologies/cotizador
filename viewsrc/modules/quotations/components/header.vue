@@ -15,8 +15,7 @@
     data(){
       return {
         translations: {
-          header: I18n.t('quotations.new.header'),
-          quotation_types: I18n.t('quotations.quotation_types')
+          header: I18n.t('quotations.new.header')
         },
         quotation:{
           client_id: null,

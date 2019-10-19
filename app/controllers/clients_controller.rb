@@ -61,15 +61,9 @@ class ClientsController < ApplicationController
     end
   end
 
-  def  list_deleted_clients
-    @clients = Client.only_deleted
-  end
-
-  # API For clients controller
-
   # GET /api/clients
   def api_index
-    response_with_success(Client.all_only_identifier_fields.order(:name))
+    response_with_success(Client.fields_for_quotation.order(:name))
   end
 
   private

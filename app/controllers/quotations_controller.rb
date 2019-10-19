@@ -10,6 +10,7 @@ class QuotationsController < ApplicationController
     @quotation = Quotation.new
   end
 
+  # POST /quotations
   def create
     @quotation = Quotation.new(quotation_params.merge(
       user: current_user, 
@@ -18,48 +19,54 @@ class QuotationsController < ApplicationController
     @quotation.save
     if @quotation.errors.any?
       errors = @quotation.errors.full_messages
-      response_with_error(t('quotations.error'), errors)
+      response_with_error( t('.error'), errors )
     else
       data = { id: @quotation.id }
       response_with_success(data)
     end
   end
 
+  # GET /quotations/:id
   def show
     response_with_success(@quotation)
   end
 
+  # PUT /quotations/:id
   def update
     if @quotation.update(quotation_params.merge(user: current_user))
       response_with_success
     else
       errors = @quotation.errors.full_messages
-      response_with_error(t('quotations.error'), errors)
+      response_with_error( t('.error'), errors )
     end
   end
 
+  # DELETE /quotations/:id
   def destroy
     if @quotation.destroy
       response_with_success
     else
       errors = @quotation.errors.full_messages
-      response_with_error(t('quotations.error'), errors)
+      response_with_error( t('.error'), errors )
     end
   end
 
+  # GET api/quotations 
   def api_index
-    response_with_success(Quotation.all_only_identifier_fields.order(:id))
+    response_with_success(Quotation.header_fields.order(:id))
   end
 
+  # GET /api/quotations/types
   def api_types
     quotation_types = []
     Quotation.quotation_types.each do |key, _value|
-      quotation_types.push(value: key, text: t(".#{key}"))
+      quotation_types.push(value: key, text: t( ".#{key}" ))
     end
     response_with_success(quotation_types)
   end
 
-  def api_type_by_quotation
+  # GET /api/quotations/:id/type
+  def api_type
     response_with_success(Quotation.type(params))
   end
 

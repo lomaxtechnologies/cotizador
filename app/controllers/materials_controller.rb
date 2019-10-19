@@ -56,10 +56,6 @@ class MaterialsController < ApplicationController
     end
   end
 
-  def  list_deleted_materials
-   @materials = Material.only_deleted
-  end
-
   # API For materials controller
 
   # GET /materials/api/get-all
