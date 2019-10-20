@@ -1,6 +1,6 @@
 class QuotationsController < ApplicationController
   layout "manager"
-  before_action :set_quotation, only: [:update, :destroy, :show]
+  before_action :set_quotation, only: [:update, :destroy, :show, :api_type]
 
   def index
   end

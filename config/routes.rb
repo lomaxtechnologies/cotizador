@@ -52,8 +52,7 @@ Rails.application.routes.draw do
 
     scope :quotations do
       get '/types', to: 'quotations#api_types'
-      get '/type_by_quotation', to: 'quotations#api_type_by_quotation'
-      
+      get '/:id/type', to: 'quotations#api_type'
       post '/:id/attachments/create', to: 'attachments#create'
       delete '/:id/attachments/destroy', to: 'attachments#destroy'
     end

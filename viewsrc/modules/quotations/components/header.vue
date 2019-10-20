@@ -24,7 +24,7 @@
           quotation_type: null
         },
         clients: [],
-        quotation_types: {}
+        quotation_types: []
       }
     },
 
@@ -103,7 +103,7 @@
       updateHeader: function(){
         this.$emit('update:section_valid', false);
         this.http
-        .put(`api/quotations/${this.quotation_id}`, {quotation: this.quotation})
+        .put(`quotations/${this.quotation_id}`, {quotation: this.quotation})
         .then((response)=>{
           if(response.successful){
             this.$emit('update:section_valid', true);

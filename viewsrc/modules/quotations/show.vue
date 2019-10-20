@@ -67,7 +67,7 @@
       calculateCellTotal: function(unit_price,amount=1,percentage=0, convert_to_money = true){
         var total = (1+percentage/100)*amount*unit_price;
         if(convert_to_money){
-          total = this.currency.formatter.format(total);
+          total = this.currency.format(total);
         }
         return total;
       }

@@ -1,6 +1,6 @@
 <script type="text/javascript">
 
-  export default{
+  export default {
     props:{
       section_valid: {
         type: Boolean,
@@ -69,7 +69,7 @@
       },
       getQuotationType: function(){
         this.http
-        .get('/api/quotations/type_by_quotation',{params: {id: this.quotation_id}})
+        .get(`/api/quotations/${this.quotation_id}/type`)
         .then((response) =>{
           this.quotation_type = response.data[0].quotation_type;
           switch(this.quotation_type){          

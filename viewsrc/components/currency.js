@@ -4,8 +4,6 @@ export default {
          minimumFractionDigits: 2,
          maximumFractionDigits: 2
       });
-      Vue.prototype.currency = {
-         formatter
-      };
+      Vue.prototype.currency = formatter;
    }
 }
