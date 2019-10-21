@@ -85,14 +85,55 @@ es:
         title: Condiciones
       global_view:
         title: Vista Global
-    admin:
-      client: Clientes
-      brand:  Marcas
-      service: Servicios
-      date: Fecha
-      search_client: Buscar cliente
-      search_brand: Buscar marca
-      search_service: Buscar servicio
-      search_material: Buscar material
-      totals: Totales
-      material: Materiales
+    show:
+      brands:
+        t_supranet_only: Supranet
+        t_siemon_only: Siemon
+      custom_headers:
+        prices: Precios
+        expression: Expresión en Quetzales (GTQ)
+        with_percent: Con Holgura
+        without_percent: Sin Holgura
+        total: Total (GTQ)
+      custom_footers:
+        materials: Materiales
+        not_used: --
+      titles:
+        quotation_number: Cotización No.
+        materials: Detalle de Materiales
+        services: Propuesta Económica/Resumen
+        credits: Crédito
+        warranty: Garantía
+        payment_condition: Condiciones de Pago
+        client:
+          info: Datos del Cliente
+          client: Cliente
+          address: Dirección
+          nit: Nit
+          phone: Teléfono
+        quotation:
+          info: Datos de la Cotización
+          number: Número
+          date: Fecha
+          type: Tipo
+      headers:
+        amount: Cantidad
+        brand: Marca
+        service: Descripción
+        material: Descripción
+        price: Unitario
+        total: Total
+        price_with_percent: Unitario
+        total_with_percent: Total
+        t_simple_price: Unitario
+        t_simple_total: Total
+        t_simple_price_with_percent: Unitario
+        t_simple_total_with_percent: Total
+        t_supranet_only_price: Unitario
+        t_supranet_only_total: Total
+        t_supranet_only_price_with_percent: Unitario
+        t_supranet_only_total_with_percent: Total
+        t_siemon_only_price: Unitario
+        t_siemon_only_total: Total
+        t_siemon_only_price_with_percent: Unitario
+        t_siemon_only_total_with_percent: Total

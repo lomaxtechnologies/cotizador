@@ -2,9 +2,6 @@ class QuotationsController < ApplicationController
   layout "manager"
   before_action :set_quotation, only: [:update, :destroy, :show, :api_type]
 
-  def index
-  end
-
   # POST /quotations
   def create
     @quotation = Quotation.new(quotation_params.merge(
@@ -23,7 +20,7 @@ class QuotationsController < ApplicationController
 
   # GET /quotations/:id
   def show
-    response_with_success(@quotation)
+    response_with_success(@quotation.detailed_info)
   end
 
   # PUT /quotations/:id

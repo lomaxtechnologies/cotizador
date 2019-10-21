@@ -72,7 +72,7 @@
             key:element,
             label:this.translations.index.headers[element],
             sortable:true
-          })
+          });
         });
       },
 
