@@ -17,7 +17,7 @@
             .form-row.mb-2
               .col-12
                 %b.font-size-search= t('materials.index.search_title')
-            = search_form_for @q, url: materials_path do |f|
+            = search_form_for @search, url: materials_path do |f|
               %input{type: :hidden, name: :page_size, value: @page_size}
               .form-row
                 .col-5

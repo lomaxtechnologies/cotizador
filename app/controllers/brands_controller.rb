@@ -5,8 +5,8 @@ class BrandsController < ApplicationController
   # GET /brands
   # GET /brands.json
   def index
-    @q = Brand.ransack(search_service_params)
-    @brands = @q.result.order('name ASC')
+    @search = Brand.ransack(search_service_params)
+    @brands = @search.result.order('name ASC')
     @page_size = params.fetch(:page_size,10)
     @brands = @brands.page(params[:page]).per(@page_size)
     @brand = Brand.new
