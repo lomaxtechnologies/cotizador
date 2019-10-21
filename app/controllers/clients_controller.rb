@@ -7,8 +7,8 @@ class ClientsController < ApplicationController
   # GET /clients
   # GET /clients.json
   def index
-    @q = Client.ransack(search_client_params)
-    @clients = @q.result
+    @search = Client.ransack(search_client_params)
+    @clients = @search.result
     @page_size = params.fetch(:page_size, 10)
     @clients = @clients.page(params[:page]).per(@page_size)
   end

@@ -6,8 +6,8 @@ class MaterialsController < ApplicationController
   # GET /materials
   # GET /materials.json
   def index
-    @q = Material.ransack(search_material_params)
-    @materials = @q.result.order('id ASC')
+    @search = Material.ransack(search_material_params)
+    @materials = @search.result.order('id ASC')
     @page_size = params.fetch(:page_size, 10)
     @materials = @materials.page(params[:page]).per(@page_size)
   end

@@ -6,8 +6,8 @@ class MeasureUnitsController < ApplicationController
   # GET /measure_units
   # GET /measure_units.json
   def index
-    @q = MeasureUnit.ransack(search_measure_unit_params)
-    @measure_units = @q.result
+    @search = MeasureUnit.ransack(search_measure_unit_params)
+    @measure_units = @search.result
     @page_size = params.fetch(:page_size,10)
     @measure_units = @measure_units.page(params[:page]).per(@page_size)
   end

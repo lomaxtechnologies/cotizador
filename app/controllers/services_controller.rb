@@ -4,8 +4,8 @@ class ServicesController < ApplicationController
 
   # GET /services
   def index
-    @q = Service.ransack(search_service_params)
-    @services = @q.result.order('name ASC')
+    @search = Service.ransack(search_service_params)
+    @services = @search.result.order('name ASC')
     @page_size = params.fetch(:page_size, 10)
     @services = @services.page(params[:page]).per(@page_size)
   end
