@@ -37,7 +37,6 @@
         .then((response)=>{
           if(response.successful){
             this.quotation = response.data;
-            console.log(JSON.stringify(this.quotation));
             this.setQuotationProductsHeaders();
           }else{
             console.log(JSON.stringify(response));
