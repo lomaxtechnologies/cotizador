@@ -58,7 +58,6 @@
         });
       },
 
-      //Fix This Method
       getQuotationTypes: function(){
         this.http
         .get('api/quotations/types')
