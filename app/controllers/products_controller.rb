@@ -1,12 +1,12 @@
 class ProductsController < ApplicationController
   layout 'manager'
-  before_action :set_product, only: %i[update]
+  before_action :set_product, only: %i[update destroy]
 
   def index
     @search = Product.ransack(search_params)
     @products = @search.result.includes(:material, :price).order('code ASC')
     @page_size = params.fetch(:page_size, 10)
-    @products = @products.page(params[:page]).per(@page_size)      
+    @products = @products.page(params[:page]).per(@page_size)
   end
 
   def new
@@ -16,7 +16,7 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.new(products_params)
+    @product = Product.new(product_params)
     respond_to do |format|
       if @product.save
         notice = t('.success')
@@ -28,8 +28,23 @@ class ProductsController < ApplicationController
     end
   end
 
+  def update
+    respond_to do |format|
+      # This destroy is a soft delete, so we can keep track of the currend and old prices
+      @product.price.destroy
+      @product.build_price(price_params)
+      if @product.save
+        notice = t('.update')
+        format.html { redirect_to products_url, notice: notice }
+      else
+        alert = @product.errors.full_messages.join('.')
+        format.html { redirect_to products_url, alert: alert }
+      end
+    end
+  end
+
   def destroy
-    Product.delete(params[:id])
+    @product.destroy
     respond_to do |format|
       notice = t('.destroy')
       format.html { redirect_to products_url, notice: notice }
@@ -56,16 +71,20 @@ class ProductsController < ApplicationController
   private
 
   def search_params
-    params.fetch(:q, {}).permit( :code_cont, :material_name_cont)
+    params.fetch(:q, {}).permit(:code_cont, :material_name_cont)
   end
 
-  def products_params
+  def product_params
     params.require(:product).permit(
       :material_id, 
       :brand_id, 
       :measure_unit_id, 
       :code, 
       price_attributes: %i[product_price])
+  end
+
+  def price_params
+    params.require(:price).permit(:product_price)
   end
 
   def set_product
