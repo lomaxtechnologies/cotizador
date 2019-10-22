@@ -72,19 +72,20 @@
               %td= product.find_even_if_deleted(:measure_unit).name
               %td.text-right
                 - price = product.price
-                = fields_for price do |f|
-                  %span{id: "title_price_#{price.id}"}= price.product_price
-                  .form-row
-                    .col-12
-                      .input-group.d-none{id: "form_price_#{price.id}"}
-                        = f.text_field(:product_price,
-                          required: true,
-                          class: "form-control rounded-left")
-                        .input-group-append
-                          = f.button(class: "btn btn-primary btn-sm btn-block rounded-right",
-                            name: "commit",
-                            "data-disabled-with"=>t('products.save'), value: t('products.save')) do
-                            = t('products.save')
+                = form_for product do |f|
+                  = fields_for price do |price_form|
+                    %span{id: "title_price_#{price.id}"}= price.product_price
+                    .form-row
+                      .col-12
+                        .input-group.d-none{id: "form_price_#{price.id}"}
+                          = price_form.text_field(:product_price,
+                            required: true,
+                            class: "form-control rounded-left")
+                          .input-group-append
+                            = f.button(class: "btn btn-primary btn-sm btn-block rounded-right",
+                              name: "commit",
+                              "data-disabled-with"=>t('products.save'), value: t('products.save')) do
+                              = t('products.save')
               %td.text-right
                 %button.btn.btn-success{onclick: "show_hide_edit_form(this)", type: "button",
                   form_target: "form_price_#{price.id}", title_target: "title_price_#{price.id}"}
