@@ -1,17 +1,16 @@
 class ServicesController < ApplicationController
-  before_action :set_service, only: [:show, :edit, :update, :destroy]
   layout "manager"
+  before_action :set_service, only: [:show, :edit, :update, :destroy]
+
   # GET /services
-  # GET /services.json
   def index
-    @q = Service.ransack(search_service_params)
-    @services = @q.result.order('name ASC')
+    @search = Service.ransack(search_service_params)
+    @services = @search.result.order('name ASC')
     @page_size = params.fetch(:page_size, 10)
     @services = @services.page(params[:page]).per(@page_size)
   end
 
   # GET /services/1
-  # GET /services/1.json
   def show
   end
 
@@ -25,7 +24,6 @@ class ServicesController < ApplicationController
   end
 
   # POST /services
-  # POST /services.json
   def create
     @service = Service.new(service_params)
     respond_to do |format|
@@ -40,7 +38,6 @@ class ServicesController < ApplicationController
   end
 
   # PATCH/PUT /services/1
-  # PATCH/PUT /services/1.json
   def update
     respond_to do |format|
       if @service.update(service_params)
@@ -54,7 +51,6 @@ class ServicesController < ApplicationController
   end
 
   # DELETE /services/1
-  # DELETE /services/1.json
   def destroy
     @service.destroy
     respond_to do |format|
@@ -62,13 +58,12 @@ class ServicesController < ApplicationController
     end
   end
 
-  # API For Services Controller
-  # GET /services/api/get-all
-  def api_get_all
-    response_with_success(Service.all_only_indentifier_fields)
+  # GET /api/services
+  def api_index
+    response_with_success(Service.fields_for_quotation)
   end
 
-  # PATCH /services/api/update-batch
+  # PUT api/services/batch
   def api_update_batch
     errors = []
     api_services_params.each do |service_params|

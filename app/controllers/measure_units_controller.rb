@@ -1,13 +1,13 @@
 class MeasureUnitsController < ApplicationController
-layout "manager"
+  layout "manager"
   before_action :set_measure_unit, only: [:show, :edit, :update, :destroy]
   
 
   # GET /measure_units
   # GET /measure_units.json
   def index
-    @q = MeasureUnit.ransack(search_measure_unit_params)
-    @measure_units = @q.result
+    @search = MeasureUnit.ransack(search_measure_unit_params)
+    @measure_units = @search.result
     @page_size = params.fetch(:page_size,10)
     @measure_units = @measure_units.page(params[:page]).per(@page_size)
   end
@@ -56,22 +56,19 @@ layout "manager"
     end
   end
 
-  def  list_deleted_measure_units
-   @measure_units = MeasureUnit.only_deleted
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_measure_unit
+    @measure_unit = MeasureUnit.find(params[:id])
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_measure_unit
-      @measure_unit = MeasureUnit.find(params[:id])
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def measure_unit_params
+    params.require(:measure_unit).permit(:name, :unit_type)
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def measure_unit_params
-      params.require(:measure_unit).permit(:name, :unit_type)
-    end
-
-    def search_measure_unit_params
-      params.fetch(:q,{}).permit(:name_cont)
-    end
+  def search_measure_unit_params
+    params.fetch(:q,{}).permit(:name_cont)
+  end
 end

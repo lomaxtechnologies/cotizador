@@ -7,8 +7,8 @@ class ClientsController < ApplicationController
   # GET /clients
   # GET /clients.json
   def index
-    @q = Client.ransack(search_client_params)
-    @clients = @q.result
+    @search = Client.ransack(search_client_params)
+    @clients = @search.result
     @page_size = params.fetch(:page_size, 10)
     @clients = @clients.page(params[:page]).per(@page_size)
   end
@@ -61,15 +61,9 @@ class ClientsController < ApplicationController
     end
   end
 
-  def  list_deleted_clients
-    @clients = Client.only_deleted
-  end
-
-  # API For clients controller
-
-  # GET /clients/api/get-all
-  def api_get_all
-    response_with_success(Client.all_only_indentifier_fields)
+  # GET /api/clients
+  def api_index
+    response_with_success(Client.fields_for_quotation.order(:name))
   end
 
   private

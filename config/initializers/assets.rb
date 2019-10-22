@@ -33,7 +33,10 @@ Rails.application.config.assets.precompile += %w( users/registrations/edit.js )
 Rails.application.config.assets.precompile += %w( users/registrations/password_handler.js )
 
 # Javascript for the prices module
-Rails.application.config.assets.precompile += %w( prices/index.js )
+Rails.application.config.assets.precompile += %w( products/index.js )
+
+# Javascript for quotations module
+Rails.application.config.assets.precompile += %w( quotations/quotations.js )
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets

@@ -17,3 +17,6 @@ MeasureUnit.create(name:'Metro',unit_type: 'Longitud')
 MeasureUnit.create(name:'Pie',unit_type: 'Longitud')
 MeasureUnit.create(name:'Bobina',unit_type: 'Longitud')
 MeasureUnit.create(name:'Unidad',unit_type: 'Unidad')
+
+Client.create(name:'Cliente de prueba')
+Quotation.create(quotation_date:'15/10/2019',client:Client.first,user: User.first, quotation_type: Quotation.quotation_types[:t_comparative])

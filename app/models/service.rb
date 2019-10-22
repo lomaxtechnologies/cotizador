@@ -5,7 +5,7 @@ class Service < ApplicationRecord
   paginates_per 10
 
   # Returns all the services, but only the id, name description and price
-  scope :all_only_indentifier_fields, -> {select(:id, :name, :description, :price).all}
+  scope :fields_for_quotation, -> {select(:id, :name, :description, :price).all}
 
   def save
     if name_changed? && Service.exists?(name: name, deleted_at: nil)

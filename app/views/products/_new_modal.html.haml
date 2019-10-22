@@ -3,14 +3,14 @@
     .modal-content
       = form_tag upload_path, multipart: true do
         .modal-header
-          %h5.modal-label= t('prices.new_modal.title')
+          %h5.modal-label= t('products.new_modal.title')
           %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
             %span{"aria-hidden" => "true"} &times;
           %div
         .modal-body
-          = t('prices.new_modal.instruction1')
+          = t('products.new_modal.instruction1')
           %br
-          = t('prices.new_modal.instruction2')
+          = t('products.new_modal.instruction2')
           %br.my-1
           = file_field_tag :csv_file
           .modal-footer

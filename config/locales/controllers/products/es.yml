@@ -1,9 +1,9 @@
 es:
-  prices:
+  products:
     upload:
       upload: Se ha importado el archivo y actualizado los precios.
     create:
-      success: El precio fue creado.
+      success: El precio fue creado satisfactoriamente.
     update:
       update: El precio se actualizó satisfactoriamente.
     destroy:

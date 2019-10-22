@@ -5,5 +5,5 @@ class Material < ApplicationRecord
   paginates_per 10
 
   # Returns all the services, but only the id, name description and actual_price
-  scope :all_only_indentifier_fields, -> {select(:id, :name, :description).all}
+  scope :fields_for_quotation, -> {select(:id, :name, :description).all}
 end

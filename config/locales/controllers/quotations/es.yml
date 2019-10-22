@@ -5,6 +5,12 @@ es:
       error: Ha ocurrido un error al crear la cotizacion.
     update:
       update: La cotización ha sido actualizada satisfactoriamente.
+      error: Ha ocurrido un error al actualizar la cotización.
     destroy:
       destroy: La cotización ha sido eliminada satisfactoriamente.
-      
+      error: Ha ocurrido un error al eliminar la cotización.
+    api_types:
+      t_comparative: Comparativa
+      t_siemon_only: Solo Siemon
+      t_supranet_only: Solo Supranet
+      t_simple: Simple

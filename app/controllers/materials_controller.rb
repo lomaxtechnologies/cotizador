@@ -6,8 +6,8 @@ class MaterialsController < ApplicationController
   # GET /materials
   # GET /materials.json
   def index
-    @q = Material.ransack(search_material_params)
-    @materials = @q.result.order('id ASC')
+    @search = Material.ransack(search_material_params)
+    @materials = @search.result.order('id ASC')
     @page_size = params.fetch(:page_size, 10)
     @materials = @materials.page(params[:page]).per(@page_size)
   end
@@ -56,15 +56,11 @@ class MaterialsController < ApplicationController
     end
   end
 
-  def  list_deleted_materials
-   @materials = Material.only_deleted
-  end
-
   # API For materials controller
 
   # GET /materials/api/get-all
-  def api_get_all
-    response_with_success(Material.all_only_indentifier_fields)
+  def api_index
+    response_with_success(Material.fields_for_quotation)
   end
 
   private

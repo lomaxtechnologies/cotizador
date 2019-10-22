@@ -24,26 +24,45 @@ Rails.application.routes.draw do
   post '/users/registrations/reset-password/:id', to: 'users/registrations#reset_password', as: 'reset_password_users_registration'
 
   resources :services
-  get 'services/api/get-all', to: 'services#api_get_all'
+  get 'api/services/', to: 'services#api_index'
   patch 'services/api/update-batch', to: 'services#api_update_batch'
 
   resources :measure_units
 
   resources :clients
-  get 'clients/api/get-all', to: 'clients#api_get_all'
 
-  resources :prices, except:[:show]
-  post 'prices/upload', to: 'prices#upload', as: 'upload'
-  get 'prices/dashboard', to: 'prices#dashboard', as: 'dashboard'
-  get 'prices/api/get-products', to: 'prices#api_get_by_material'
+  resources :products, except:[:show]
+  post 'products/upload', to: 'products#upload', as: 'upload'
+  get 'products/dashboard', to: 'prices#dashboard', as: 'dashboard'
 
   resources :materials
-  get 'materials/api/get-all', to: 'materials#api_get_all'
 
   resources :brands, except: [:edit, :show, :new]
 
-  resource :quotations
-  get '/quotations', to: 'quotations#admin'
+  resources :quotations
 
+  
   root to: 'quotations#index'
+
+  scope :api do
+    get '/clients', to: 'clients#api_index'
+    get '/materials', to: 'materials#api_index'
+    get '/products_by_material', to: 'products#products_by_material'
+    get '/quotations', to: 'quotations#api_index'
+    get '/products_by_brand', to: 'products#products_by_brand'
+    scope :quotations do
+      get '/types', to: 'quotations#api_types'
+      get '/:id/type', to: 'quotations#api_type'
+      post '/:id/attachments/create', to: 'attachments#create'
+      put '/:id/update', to: 'quotations#update'
+      delete '/:id/attachments/destroy', to: 'attachments#destroy'
+    end
+
+    scope :comments do
+      get '/', to: 'comments#api_index'
+      post '/(:commentable_type)/:commentable_id', to: 'comments#create', defaults: {commentable_type: 'Quotation'}
+      patch '/update/:id', to: 'comments#update'
+      delete '/delete/:id', to: 'comments#destroy'
+    end
+  end
 end
