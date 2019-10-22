@@ -69,7 +69,7 @@ export default {
 <template>
   <div class="row">
     <div class="col-12">
-      <button class="btn btn-primary pull-right" v-b-modal.attachment-upload>
+      <button type="button" class="btn btn-primary pull-right" v-b-modal.attachment-upload>
         <i class="fa fa-plus"></i>
         Attach file
       </button>
