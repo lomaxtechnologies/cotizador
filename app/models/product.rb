@@ -70,4 +70,30 @@ class Product < ApplicationRecord
     data
   end
 
+  def self.find_by_brand(brand_name)
+    data = []
+    if brand_name.blank?
+      Product.all.each do |product|
+        data.push(
+          material_id: product.material_id,
+          name: product.material.name,
+          description: product.material.description,
+          brand: product.brand.name
+        )
+      end
+    else
+      return false unless Brand.exists?(name: brand_name)
+      brand = Brand.find_by(name: brand_name)
+      brand.products.each do |product|
+        data.push(
+          material_id: product.material_id,
+          name: product.material.name,
+          description: product.material.description,
+          brand: product.brand.name
+        )
+      end
+    end
+    data
+  end
+
 end

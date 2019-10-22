@@ -12,10 +12,22 @@ es:
       headers:
         amount: Cantidad
         material: Material
+        brand: Marca
+        percent: Holgura
+        price: Unitario
+        total: Total
+        price_percent: Unitario
+        total_percent: Total
+        percent_supranet: Holgura
         price_supranet: Unitario
         total_supranet: Total
+        price_percent_supranet: Unitario
+        total_percent_supranet: Total
+        percent_siemon: Holgura
         price_siemon: Unitario
         total_siemon: Total
+        price_percent_siemon: Unitario
+        total_percent_siemon: Total
     index:
       delete_modal: 
         title: ¿Realmente deseas eliminar esta cotización?

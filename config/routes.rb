@@ -49,12 +49,12 @@ Rails.application.routes.draw do
     get '/materials', to: 'materials#api_index'
     get '/products_by_material', to: 'products#products_by_material'
     get '/quotations', to: 'quotations#api_index'
-    get '/products_by_material', to: 'products#products_by_material'
-
+    get '/products_by_brand', to: 'products#products_by_brand'
     scope :quotations do
       get '/types', to: 'quotations#api_types'
       get '/:id/type', to: 'quotations#api_type'
       post '/:id/attachments/create', to: 'attachments#create'
+      put '/:id/update', to: 'quotations#update'
       delete '/:id/attachments/destroy', to: 'attachments#destroy'
     end
 

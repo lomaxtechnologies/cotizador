@@ -68,6 +68,12 @@ class ProductsController < ApplicationController
     response_with_success(data)
   end
 
+  def products_by_brand
+    data = Product.find_by_brand(params[:brand_name])
+    return response_with_error(t('.errors.material_not_found')) unless data
+    response_with_success(data)
+  end
+
   private
 
   def search_params

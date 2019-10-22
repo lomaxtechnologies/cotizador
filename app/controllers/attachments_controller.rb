@@ -1,10 +1,9 @@
 class AttachmentsController < ApplicationController
   layout "manager"
   
-  def index
-  end
-  def new
-  end
+  def index;end
+  
+  def new;end
 
   def create
     attachment = Attachment.new(attachments_params)

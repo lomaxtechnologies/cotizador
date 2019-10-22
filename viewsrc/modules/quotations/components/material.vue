@@ -13,12 +13,11 @@ export default {
   data() {
     return {
       translations: {
-        
+        material: I18n.t('quotations.material')
       },
       quotation_products: {
         amount: 1,
-        percent_supranet: 15.0,
-        percent_siemon: 15.0
+        percents: [15.0,15.0]
       },
       quotation_type: null,
       material_id: null,
@@ -27,30 +26,53 @@ export default {
       prices: [],
       brands: [],
       selected_materials: [],
-      header_table: [
-        { key: "amount", label: "Cantidad" },
-        { key: "code", label: "Código" },
-        { key: "material", label: "Material" },
-        { key: "price_1", label: "Precio" },
-        { key: "percent", label: "Holgura %" },
-        { key: "total_price_1", label: "Total sin Holgura" },
-        { key: "total_price_with_percent_1", label: "Total con Holgura" },
-        { actions: "" }
-      ]
+      table_headers: []
     };
   },
   methods: {
     setTableHeaders: function(){
       switch(this.quotation_type){
         case 't_comparative': 
-          ['amount','material','price_supranet','percent_supranet','total_supranet','total_with_percent_supranet']  
+        ['amount',
+          'material',
+          'percent_supranet',
+          'price_supranet',
+          'total_supranet',
+          'price_percent_supranet',
+          'total_percent_supranet',
+          'percent_siemon',
+          'price_siemon',
+          'total_siemon',
+          'price_percent_siemon',
+          'total_percent_siemon'].forEach((element)=>{
+            this.table_headers.push({
+              key: element,
+              label: this.translations.material.headers[element]
+            });
+          });
         break;
-        case 't_simple': break;
-        default:  break;
+        case 't_simple':
+          ['amount','material','brand','percent','price','total','price_percent','total_percent'].forEach((element)=>{
+            this.table_headers.push({
+              key:element,
+              label:this.translations.material.headers[element]
+            });
+          });   
+        break;
+        default: 
+          ['amount','material','percent','price','total','price_percent','total_percent'].forEach((element)=>{
+            this.table_headers.push({
+              key:element,
+              label:this.translations.material.headers[element]
+            });
+          });    
+        break;
       }
+      this.table_headers.push({actions: ''});
     },
     getMaterials: function() {
-      this.http
+      if (this.quotation_type === 't_comparative'){
+        this.http
         .get("/api/materials")
         .then(response => {
           this.materials = response.data;
@@ -68,16 +90,58 @@ export default {
         .catch(err => {
           console.log(JSON.stringify(err));
         });
+      }else{
+        this.http
+        .get("/api/products_by_brand",{
+          params:{
+            brand_name: this.brands[0]
+          }
+        })
+        .then(response =>{
+          this.materials = response.data;
+          if(this.quotation_type==='t_simple'){
+            this.materials = this.materials.map(function(material){
+              return{
+                id: material.product_id,
+                name: `${material.brand} - ${material.name} ${material.description}`,
+                material_id: material.material_id,
+                brand: material.brand
+              }
+            });
+          }else{
+            this.materials = this.materials.map(function(material){
+              return{
+                id: material.material_id,
+                name: `${material.name} ${material.description}`,
+                brand: material.brand
+              }
+            });
+          }
+          if (this.materials.length > 0) {
+            this.material_id = this.materials[0].id;
+            this.getProducts();
+          }
+        })
+        .catch(err => {
+          console.log(JSON.stringify(err));
+        });
+      }
     },
-    getProducts: function() {
+    getProducts: function(product_id) {
       this.http
         .get("/api/products_by_material", {
           params: {
-            material_id: this.material_id
+            material_id: product_id
           }
         })
         .then(response => {
           this.products = response.data;
+          console.log(this.products);
+          if(this.quotation_type!=='t_comparative'){
+            this.products = this.products.filter(
+              material => material.brand === this.materials[this.material_id].brand
+            )
+          }
           this.setPrices();
         })
         .catch(err => {
@@ -94,25 +158,12 @@ export default {
     },
     getQuotationType: function() {
       this.http
-        .get("/api/quotations/type_by_quotation", {
-          params: { id: this.quotation_id }
-        })
+        .get(`/api/quotations/${this.quotation_id}/type`)
         .then(response => {
           this.quotation_type = response.data[0].quotation_type;
           switch (this.quotation_type) {
             case "t_comparative":
               this.brands = ["Supranet", "Siemon"];
-              this.header_table.pop();
-              this.header_table.push(
-                { key: "price_product_2", label: "Precio" },
-                { key: "percent_product_2", label: "Holgura %" },
-                { key: "total_price_product_2", label: "Total sin Holgura" },
-                {
-                  key: "total_price_with_percent_product_2",
-                  label: "Total con Holgura"
-                },
-                { actions: "" }
-              );
               break;
             case "t_siemon_only":
               this.brands = ["Siemon"];
@@ -122,87 +173,85 @@ export default {
               break;
             case "t_simple":
               this.brands = [null];
-              this.header_table.splice(3, 0, { key: "brand", label: "Marca" });
               break;
           }
+          this.getMaterials();
         })
         .catch(err => {
           console.log(JSON.stringify(err));
         });
     },
     addProducts: function() {
-      var add_product = this.selected_materials.filter(
-        selected => selected.code === this.products[0].code
-      );
-      if (add_product.length === 0) {
-        var material_name = this.materials.filter(
-          material => material.id === this.material_id
-        );
-        var total_price = (
-          this.prices[0] * this.quotations_products.amount
-        ).toFixed(2);
-        var total_price_with_percent = (
-          total_price *
-          (parseFloat(this.quotations_products.percents[0]) / 100 + 1)
-        ).toFixed(2);
-        if (this.quotation_type !== "t_comparative") {
-          if (this.quotation_type === "t_simple") {
+      var add_product = this.selected_materials.filter(selected => selected.material_id === this.material_id)
+      if (add_product>0){
+      }else{
+        switch(this.quotation_type){
+          case 't_comparative':
+            var price_supranet = this.prices[0];
+            var price_siemon = this.prices[1];
+            var total_supranet = this.quotation_products.amount * price_supranet;
+            var total_siemon = this.quotation_products.amount * price_siemon;
+            var total_percent_supranet = (total_supranet * this.currency.format_percent(this.quotation_products.percents[0]));
+            var total_percent_siemon = (total_siemon * this.currency.format_percent(this.quotation_products.percents[1]));
+
+            var siemon_id = null;
+            if (this.products.length>1){
+              siemon_id = this.products[1].product_id;
+            }
+            
             this.selected_materials.push({
-              id: this.material_id,
-              product_id: `${this.products[0].product_id}`,
-              amount: `${this.quotations_products.amount}`,
-              code: `${this.products[0].code}`,
-              material: `${material_name[0].name}`,
-              brand: `${this.products[0].brand}`,
-              price_1: `${this.prices[0]}`,
-              percent: `${this.quotations_products.percents[0]}`,
-              total_price_1: `${total_price}`,
-              total_price_with_percent_1: `${total_price_with_percent}`
+              material_id: `${this.material_id}`,
+              amount: `${this.quotation_products.amount}`,
+              material: `${this.materials[this.material_id].name}`,
+              supranet_id: `${this.products[0].product_id}`,
+              percent_supranet: `${this.quotation_products.percents[0]}`,
+              price_supranet: price_supranet,
+              total_supranet: `${total_supranet.toFixed(2)}`,
+              price_percent_supranet: price_supranet,
+              total_percent_supranet: total_percent_supranet.toFixed(2),
+              siemon_id: siemon_id,
+              percent_siemon: `${this.quotation_products.percents[1]}`,
+              price_siemon: price_siemon,
+              total_siemon: `${total_siemon.toFixed(2)}`,
+              price_percent_siemon: price_siemon,
+              total_percent_siemon: total_percent_siemon.toFixed(2)
             });
-          } else {
+            break;
+          case 't_simple':
+            var price = this.prices[0];
+            var total = price * this.quotation_products.amount;
+            var total_percent = total * this.currency.format_percent(this.quotation_products.percents[0]);
+            console.log(this.products[0].brand);
+            console.log(this.products);
             this.selected_materials.push({
-              id: this.material_id,
+              material_id: `${this.material_id}`,
+              amount: `${this.quotation_products.amount}`,
+              material: `${this.materials[this.material_id].name}`,
+              brand: `${this.materials[this.material_id].brand}`,
               product_id: `${this.products[0].product_id}`,
-              amount: `${this.quotations_products.amount}`,
-              code: `${this.products[0].code}`,
-              material: `${material_name[0].name}`,
-              price_1: `${this.prices[0]}`,
-              percent: `${this.quotations_products.percents[0]}`,
-              total_price_1: `${total_price}`,
-              total_price_with_percent_1: `${total_price_with_percent}`
+              percent: `${this.quotation_products.percents[0]}`,
+              price: price,
+              total: `${total.toFixed(2)}`,
+              price_percentt: price,
+              total_percent: total_percent.toFixed(2),
             });
-          }
-          this.quotations_products.percents = [15.0];
-        } else {
-          let total_price_product_2 = (
-            this.prices[1] * this.quotations_products.amount
-          ).toFixed(2);
-          let total_price_with_percent_product_2 = (
-            total_price_product_2 *
-            (this.quotations_products.percents[1] / 100 + 1)
-          ).toFixed(2);
-          let product_id = this.products[0].product_id;
-          let product_id_2 = null;
-          if (this.products.length > 1) {
-            product_id_2 = this.products[1].product_id;
-          }
-          this.selected_materials.push({
-            id: this.material_id,
-            product_id: product_id,
-            product_id_2: product_id_2,
-            amount: `${this.quotations_products.amount}`,
-            code: `${this.products[0].code}`,
-            material: `${material_name[0].name}`,
-            price_1: `${this.prices[0]}`,
-            percent: `${this.quotations_products.percents[0]}`,
-            total_price_1: `${total_price}`,
-            total_price_with_percent_1: `${total_price_with_percent}`,
-            price_product_2: `${this.prices[1]}`,
-            percent_product_2: `${this.quotations_products.percents[1]}`,
-            total_price_product_2: `${total_price_product_2}`,
-            total_price_with_percent_product_2: `${total_price_with_percent_product_2}`
-          });
-          this.quotations_products.percents = [15.0, 15.0];
+            break;
+          default: 
+            var price = this.prices[0];
+            var total = price * this.quotation_products.amount;
+            var total_percent = total * this.currency.format_percent(this.quotation_products.percents[0]);
+            this.selected_materials.push({
+              material_id: `${this.material_id}`,
+              amount: `${this.quotation_products.amount}`,
+              material: `${this.materials[this.material_id].name}`,
+              product_id: `${this.products[0].product_id}`,
+              percent: `${this.quotation_products.percents[0]}`,
+              price: price,
+              total: `${total.toFixed(2)}`,
+              price_percentt: price,
+              total_percent: total_percent.toFixed(2),
+            });
+            break;
         }
       }
     },
@@ -210,9 +259,16 @@ export default {
       let product_data = this.selected_materials[index];
       this.selected_materials.splice(index, 1);
       if (this.quotation_type !== "t_comparative") {
-        this.quotations_products.percents[0] = product_data.percent;
-        this.quotations_products.amount = product_data.amount;
-        this.prices[0] = product_data.price_1;
+        this.quotation_products.percents[0] = product_data.percent;
+        this.quotation_products.amount = product_data.amount;
+        this.prices[0] = product_data.price;
+        this.material_id = product_data.id;
+      }else{
+        this.quotation_products.percents[0] = product_data.percent_supranet;
+        this.quotation_products.percents[1] = product_data.percent_siemon;
+        this.quotation_products.amount = product_data.amount;
+        this.prices[0] = product_data.price_supranet;
+        this.prices[1] = product_data.price_siemon;
         this.material_id = product_data.id;
       }
     },
@@ -220,24 +276,20 @@ export default {
       this.selected_materials.splice(index, 1);
     },
     formatData: function() {
-      var data = {
-        quotation: {
-          quotation_products_attributes: this.selected_materials
-        }
-      };
+      var data;
       if (this.quotation_type === "t_comparative") {
         var product_attributes = [];
         this.selected_materials.forEach(material => {
           product_attributes.push({
             amount: material.amount,
-            percent: material.percent,
-            product_id: material.product_id
+            percent: material.percent_supranet,
+            product_id: material.supranet_id
           });
-          if (material.product_id_2 !== null) {
+          if (material.product_siemon_id !== null) {
             product_attributes.push({
               amount: material.amount,
-              percent: material.percent,
-              product_id: material.product_id_2
+              percent: material.percent_siemon,
+              product_id: material.siemon_id
             });
           }
         });
@@ -246,13 +298,19 @@ export default {
             quotation_products_attributes: product_attributes
           }
         };
+      }else{
+        data = {
+          quotation: {
+            quotation_products_attributes: this.selected_materials
+          }
+        };
       }
       return data;
     },
     submit: function() {
       this.$emit("update:section_valid", false);
       this.http
-        .put(`api/quotations/${this.quotation_id}`, this.formatData())
+        .put(`api/quotations/${this.quotation_id}/update`, this.formatData())
         .then(response => {
           if (response.successful) {
             this.$emit("update:section_valid", true);
@@ -267,10 +325,17 @@ export default {
   },
   watch: {
     material_id: function() {
-      this.getProducts();
+      var product_id = this.material_id;
+      if (this.quotation_type === 't_simple'){
+        product_id = this.materials[this.material_id].material_id;
+      }
+      this.getProducts(product_id);
     },
     quotation_id: function() {
       this.getQuotationType();
+    },
+    quotation_type: function(){
+      this.setTableHeaders();
     }
   }
 };
@@ -312,7 +377,7 @@ export default {
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-sort-amount-up"></i>
               </div>
-              <b-form-input v-model="quotations_products.amount"></b-form-input>
+              <b-form-input v-model="quotation_products.amount"></b-form-input>
             </div>
           </div>
         </div>
@@ -334,7 +399,7 @@ export default {
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-percentage"></i>
               </div>
-              <b-form-input v-model="quotations_products.percents[0]"></b-form-input>
+              <b-form-input v-model="quotation_products.percents[0]"></b-form-input>
             </div>
           </div>
         </div>
@@ -350,7 +415,7 @@ export default {
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-sort-amount-up"></i>
               </div>
-              <b-form-input v-model="quotations_products.amount"></b-form-input>
+              <b-form-input v-model="quotation_products.amount"></b-form-input>
             </div>
           </div>
         </div>
@@ -372,7 +437,7 @@ export default {
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-percentage"></i>
               </div>
-              <b-form-input v-model="quotations_products.percents[1]"></b-form-input>
+              <b-form-input v-model="quotation_products.percents[1]"></b-form-input>
             </div>
           </div>
         </div>
@@ -382,19 +447,52 @@ export default {
       thead-tr-class="bg-primary text-white"
       class="table table-sm table-striped"
       :items="selected_materials"
-      :fields="header_table"
+      :fields="table_headers"
     >
       <template v-if="this.quotation_type==='t_comparative'" v-slot:thead-top="data">
         <b-tr class="text-center">
-          <b-th rowspan="2" colspan="3" class="bg-dark text-white"></b-th>
-          <b-th colspan="4" class="bg-dark">Expresión (GTQ)</b-th>
-          <b-th colspan="4" class="bg-dark">Expresión (GTQ)</b-th>
+          <b-th rowspan="3" colspan="2" class="bg-dark text-white"></b-th>
+          <b-th colspan="5" class="bg-dark">Expresión (GTQ)</b-th>
+          <b-th colspan="5" class="bg-dark">Expresión (GTQ)</b-th>
           <b-th colspan="1" class="bg-dark text-white"></b-th>
         </b-tr>
         <b-tr class="text-center text-danger">
-          <b-th colspan="4" class="text-center">{{brands[0]}}</b-th>
-          <b-th colspan="4" class="text-center">{{brands[1]}}</b-th>
+          <b-th colspan="5" class="text-center">{{brands[0]}}</b-th>
+          <b-th colspan="5" class="text-center">{{brands[1]}}</b-th>
           <b-th colspan="1" class="text-white"></b-th>
+        </b-tr>
+        <b-tr class="text-center text-danger">
+          <b-th colspan="1" class="text-white"></b-th>
+          <b-th colspan="2" class="text-center">Sin holgura</b-th>
+          <b-th colspan="2" class="text-center">Con holgura</b-th>
+          <b-th colspan="1" class="text-white"></b-th>
+          <b-th colspan="2" class="text-center">Sin holgura</b-th>
+          <b-th colspan="2" class="text-center">Con holgura</b-th>
+           <b-th colspan="1" class="text-white"></b-th>
+        </b-tr>
+      </template>
+      <template v-else-if="this.quotation_type==='t_simple'" v-slot:thead-top="data">
+        <b-tr class="text-center">
+          <b-th rowspan="2" colspan="4" class="bg-dark text-white"></b-th>
+          <b-th colspan="4" class="bg-dark">Expresión (GTQ)</b-th>
+          <b-th></b-th>
+        </b-tr>
+        <b-tr class="text-center text-danger">
+          <b-th colspan="2" class="text-center">Sin holgura</b-th>
+          <b-th colspan="2" class="text-center">Con holgura</b-th>
+          <b-th></b-th>
+        </b-tr>
+      </template>
+       <template v-else v-slot:thead-top="data">
+        <b-tr class="text-center">
+          <b-th rowspan="2" colspan="3" class="bg-dark text-white"></b-th>
+          <b-th colspan="4" class="bg-dark">Expresión (GTQ)</b-th>
+          <b-th></b-th>
+        </b-tr>
+        <b-tr class="text-center text-danger">
+          <b-th colspan="2" class="text-center">Sin holgura</b-th>
+          <b-th colspan="2" class="text-center">Con holgura</b-th>
+          <b-th></b-th>
         </b-tr>
       </template>
       <template v-slot:cell(name)="data">{{ data.item.name }}</template>
