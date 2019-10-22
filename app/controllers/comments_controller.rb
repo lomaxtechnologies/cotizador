@@ -27,6 +27,7 @@ class CommentsController < ApplicationController
   end
 
   def update
+    #Only the user who created the comment can modify it.
     if @comment.user == current_user
       response_with_success(@comment.update(update_comment_params))
     else
@@ -35,11 +36,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    if @comment.destroy
-      response_with_success  
-    else
-      response_with_error(response_with_error(t('.error'),t('.no_delete')))
-    end
+    response_with_success(@comment.destroy)  
   end
 
   def api_index

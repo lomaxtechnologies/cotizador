@@ -6,9 +6,11 @@ class Product < ApplicationRecord
   has_one :price
   has_many :quotation_products
   has_many :comments, as: :commentable
-  accepts_nested_attributes_for :price, update_only: true
   has_one_attached :csv_file
   validates :code, presence: true
+
+  accepts_nested_attributes_for :price, update_only: true
+
   paginates_per 10
 
   def find_even_if_deleted(tag)
@@ -48,6 +50,24 @@ class Product < ApplicationRecord
         code = 'LMX-'+code
       end
     end
+  end
+
+  # finds a material and returns all its product info: code, price, brand and measure unit
+  def self.find_by_material(material_id)
+    return false unless Material.exists?(material_id)
+
+    material = Material.find(material_id)
+    data = []
+    material.products.order(brand_id: :desc ).each do |product|
+      data.push(
+        product_id: product.id,
+        code: product.code,
+        price: product.price.product_price,
+        brand: product.brand.name,
+        measure_unit: product.measure_unit.name
+      )
+    end
+    data
   end
 
 end

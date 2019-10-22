@@ -56,15 +56,11 @@ class MaterialsController < ApplicationController
     end
   end
 
-  def  list_deleted_materials
-   @materials = Material.only_deleted
-  end
-
   # API For materials controller
 
   # GET /materials/api/get-all
   def api_index
-    response_with_success(Material.all_only_indentifier_fields)
+    response_with_success(Material.fields_for_quotation)
   end
 
   private
