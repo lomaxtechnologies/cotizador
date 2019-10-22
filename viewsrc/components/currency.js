@@ -4,13 +4,7 @@ export default {
          minimumFractionDigits: 2,
          maximumFractionDigits: 2
       });
-      let format_percent = function(percent){
-         percent = (percent/100)+1;
-         return percent
-      };
-      Vue.prototype.currency = {
-         formatter, 
-         format_percent
-      };
+
+      Vue.prototype.currency = formatter;
    }
 }
