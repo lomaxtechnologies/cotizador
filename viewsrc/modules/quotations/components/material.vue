@@ -1,5 +1,4 @@
 <script type="text/javascript">
-import func from '../../../../vue-temp/vue-editor-bridge';
 export default {
   props: {
     section_valid: {
