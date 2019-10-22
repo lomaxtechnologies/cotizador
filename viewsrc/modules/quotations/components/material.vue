@@ -12,16 +12,20 @@ export default {
   },
   data() {
     return {
-      quotations_products: {
-        amount: 1,
-        percents: [15.0, 15.0]
+      translations: {
+        
       },
-      quotation_type: "t_comparative",
+      quotation_products: {
+        amount: 1,
+        percent_supranet: 15.0,
+        percent_siemon: 15.0
+      },
+      quotation_type: null,
       material_id: null,
-      prices: [],
-      brands: [],
       materials: [],
       products: [],
+      prices: [],
+      brands: [],
       selected_materials: [],
       header_table: [
         { key: "amount", label: "Cantidad" },
@@ -36,6 +40,15 @@ export default {
     };
   },
   methods: {
+    setTableHeaders: function(){
+      switch(this.quotation_type){
+        case 't_comparative': 
+          ['amount','material','price_supranet','percent_supranet','total_supranet','total_with_percent_supranet']  
+        break;
+        case 't_simple': break;
+        default:  break;
+      }
+    },
     getMaterials: function() {
       this.http
         .get("/api/materials")
@@ -251,9 +264,6 @@ export default {
           console.log(JSON.stringify(err));
         });
     }
-  },
-  mounted() {
-    this.getMaterials();
   },
   watch: {
     material_id: function() {

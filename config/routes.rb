@@ -49,7 +49,7 @@ Rails.application.routes.draw do
     get '/materials', to: 'materials#api_index'
     get '/products_by_material', to: 'products#products_by_material'
     get '/quotations', to: 'quotations#api_index'
-    get '/products_by_material', to: 'prices#products_by_material'
+    get '/products_by_material', to: 'products#products_by_material'
 
     scope :quotations do
       get '/types', to: 'quotations#api_types'
