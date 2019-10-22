@@ -1,12 +1,12 @@
 class MaterialsParser
   
   def initialize(params)
-    @path = params[:path]
+    @file = params[:file]
   end
   
   def load_data
-    return OpenStruct.new(success?: false, errors: I18n.t('.nofile')) if @path.nil?
-    workbook = RubyXL::Parser.parse(@path)
+    return OpenStruct.new(success?: false, errors: I18n.t('.nofile')) if @file.path.nil?
+    workbook = RubyXL::Parser.parse(@file.path)
     worksheet = workbook.worksheets[0]
     error = Hash.new
     if isvalidfile?(worksheet)
@@ -20,6 +20,7 @@ class MaterialsParser
         price_model.product_id = evalute_product(product_model,row)
         update_price(price_model,row)
       end
+      @file.unlink
       return OpenStruct.new(success?: true, errors: error)
     else
       return OpenStruct.new(success?: false, errors: I18n.t('.noformat'))

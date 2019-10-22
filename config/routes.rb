@@ -31,9 +31,9 @@ Rails.application.routes.draw do
 
   resources :clients
 
-  resources :prices, except: [:show]
-  post 'prices/upload', to: 'prices#upload', as: 'upload'
-  get 'prices/dashboard', to: 'prices#dashboard', as: 'dashboard'
+  resources :products, except:[:show]
+  post 'products/upload', to: 'products#upload', as: 'upload'
+  get 'products/dashboard', to: 'prices#dashboard', as: 'dashboard'
 
   resources :materials
 
@@ -47,13 +47,14 @@ Rails.application.routes.draw do
   scope :api do
     get '/clients', to: 'clients#api_index'
     get '/materials', to: 'materials#api_index'
+    get '/products_by_material', to: 'products#products_by_material'
     get '/quotations', to: 'quotations#api_index'
-    get '/products_by_material', to: 'prices#products_by_material'
-
+    get '/products_by_brand', to: 'products#products_by_brand'
     scope :quotations do
       get '/types', to: 'quotations#api_types'
       get '/:id/type', to: 'quotations#api_type'
       post '/:id/attachments/create', to: 'attachments#create'
+      put '/:id/update', to: 'quotations#update'
       delete '/:id/attachments/destroy', to: 'attachments#destroy'
     end
 

@@ -1,4 +1,4 @@
-= javascript_include_tag "prices/index", media: "all", "data-turbolinks-track": "reload"
+= javascript_include_tag "products/index", media: "all", "data-turbolinks-track": "reload"
 = javascript_include_tag "utils/paging_handler", media: "all", "data-turbolinks-track": "reload"
 = javascript_include_tag "utils/inline_form_handler", media: "all", "data-turbolinks-track": "reload"
 = render partial: "confirmation_modal"
@@ -10,31 +10,31 @@
         .card
           .card-header
             .row
-              .col-5
+              .col-8
                 %h4.text-primary 
-                  %b= t('prices.title')
-              .col-7.text-right
-                %button.btn.btn-success{onclick: "show_new_price_modal()"}
-                  = t('prices.new_modal.upload')
-                = link_to t('prices.dashboard.title'), dashboard_path, class: "btn btn-secondary"
-                = link_to t('.new'), new_price_path, class: "btn btn-primary"
+                  %b= t('products.title')
+              .col-4.text-right
+                %button.btn.btn-primary{onclick: "show_new_price_modal()"}
+                  = t('products.new_modal.upload')
+                = link_to t('.new'), new_product_path, class: "btn btn-primary"
+                = link_to t('products.dashboard.title'), dashboard_path, class: "btn btn-primary"
           .card-body
             .form-row.mb-2
               .col-12
-                %b.font-size-search= t('prices.index.search_title')
-            = search_form_for @search, url: prices_path do |f|
+                %b= t('products.index.search_title')
+            = search_form_for @search, url: products_path do |f|
               %input{type: :hidden, name: :page_size, value: @page_size}
               .form-row
                 .col-4
                   .imput-group.mb-3
-                    %b= t('prices.code')
+                    %b= t('products.code')
                     .input-group-prepend
                       .input-group-text
                         %i.fas.fa-barcode
                       = f.search_field :code_cont, class: 'form-control'
                 .col-6
                   .imput-group.mb-3
-                    %b= t('prices.material')
+                    %b= t('products.material')
                     .input-group-prepend
                       .input-group-text
                         %i.fas.fa-signature
@@ -42,19 +42,19 @@
                 .col-2.text-center
                   %label 
                   %br
-                  %button.btn.btn-purple.btn-block{ type: "submit", value: "Search"}
+                  %button.btn.btn-purple{ type: "submit", value: "Search"}
                     %i.fas.fa-search.fa-sm
-                    = t('prices.search')
+                    = t('products.search')
     - if @products.length > 0
       %table.table.table-sm.table-striped
         %thead
           %tr.bg-primary.text-light
-            %th= t('prices.code')
+            %th= t('products.code')
             %th= t('brands.index.name')
-            %th= t('prices.index.material')
+            %th= t('products.index.material')
             %th= t('materials.index.description')
             %th= t('.measure_unit')
-            %th.text-right= "#{t('prices.price')} (#{t('currency')})"
+            %th.text-right= "#{t('products.price')} (#{t('currency')})"
             %th.text-right
               %input{type: :number, min: 0,
                 class: "form-control-sm", 
@@ -72,25 +72,26 @@
               %td= product.find_even_if_deleted(:measure_unit).name
               %td.text-right
                 - price = product.price
-                = form_for price do |f|
-                  %span{id: "title_price_#{price.id}"}= price.product_price
-                  .form-row
-                    .col-12
-                      .input-group.d-none{id: "form_price_#{price.id}"}
-                        = f.text_field(:product_price,
-                          required: true,
-                          class: "form-control rounded-left")
-                        .input-group-append
-                          = f.button(class: "btn btn-primary btn-sm btn-block rounded-right",
-                            name: "commit",
-                            "data-disabled-with"=>t('prices.save'), value: t('prices.save')) do
-                            = t('prices.save')
+                = form_for product do |f|
+                  = fields_for price do |price_form|
+                    %span{id: "title_price_#{price.id}"}= price.product_price
+                    .form-row
+                      .col-12
+                        .input-group.d-none{id: "form_price_#{price.id}"}
+                          = price_form.text_field(:product_price,
+                            required: true,
+                            class: "form-control rounded-left")
+                          .input-group-append
+                            = f.button(class: "btn btn-primary btn-sm btn-block rounded-right",
+                              name: "commit",
+                              "data-disabled-with"=>t('products.save'), value: t('products.save')) do
+                              = t('products.save')
               %td.text-right
                 %button.btn.btn-success{onclick: "show_hide_edit_form(this)", type: "button",
                   form_target: "form_price_#{price.id}", title_target: "title_price_#{price.id}"}
                   %i.fas.fa-edit.fa-xs
                 %button.btn.btn-danger{onclick: "show_confirmation_modal(this)", type: "button",
-                  action: price_path(product), method: :delete}
+                  action: product_path(product), method: :delete}
                   %i.fas.fa-trash.fa-xs
       = paginate @products
     - else

@@ -1,0 +1,32 @@
+es:
+  products:
+    title: Precios
+    return: Regresar
+    code: Código
+    material: Material
+    brand: Marca
+    price: Precio
+    save: Guardar
+    search: Buscar
+    manager: Administrar
+    index:
+      new: Nuevo Precio
+      page_size_placeholder: Filas por página
+      search_title: Filtrar por
+      measure_unit: Unidad
+      no_results_found: No hay resultados para mostrar.
+      delete_modal: 
+        title: ¿Realmente deseas eliminiar este precio?
+        body: Una vez eliminado no podrás recuperarlo y deberás crear uno nuevo. Todas la información asociada a este material (productos, cotizaciones, etc.) seguirá existiendo.
+        yes_text: Sí, elimínalo
+        no_text: Cancelar
+    new_modal:
+      upload: Subir Excel
+      import: Importar
+      title: Precios
+      instruction1: '1) Seleccione el archivo que desea cargar.'
+      instruction2: '2) De click en importar para cargar el archivo.'
+    dashboard:
+      title: Nuevos
+      new_material_text: Estos son los nuevos materiales
+
