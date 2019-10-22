@@ -1,5 +1,4 @@
 <script type="text/javascript">
-import func from '../../../../vue-temp/vue-editor-bridge';
 export default {
   props: {
     section_valid: {
@@ -8,14 +7,12 @@ export default {
     },
     quotation_id: {
       type: Number,
-      default: NaN
+      default: null
     }
   },
   data() {
     return {
-      translations: {
-        material: I18n.t('quotations.material')
-      },
+      translations: I18n.t('quotations.new.materials'),
       quotation_products: {
         amount: 1,
         percents: [15.0,15.0]
@@ -23,6 +20,7 @@ export default {
       quotation_type: null,
       material_id: null,
       materials: [],
+      product_id: null,
       products: [],
       prices: [],
       brands: [],
@@ -48,7 +46,7 @@ export default {
           'total_percent_siemon'].forEach((element)=>{
             this.table_headers.push({
               key: element,
-              label: this.translations.material.headers[element]
+              label: this.translations.headers[element]
             });
           });
         break;
@@ -56,7 +54,7 @@ export default {
           ['amount','material','brand','percent','price','total','price_percent','total_percent'].forEach((element)=>{
             this.table_headers.push({
               key:element,
-              label:this.translations.material.headers[element]
+              label:this.translations.headers[element]
             });
           });   
         break;
@@ -64,7 +62,7 @@ export default {
           ['amount','material','percent','price','total','price_percent','total_percent'].forEach((element)=>{
             this.table_headers.push({
               key:element,
-              label:this.translations.material.headers[element]
+              label:this.translations.headers[element]
             });
           });    
         break;
@@ -83,7 +81,7 @@ export default {
           };
         });
         if (this.materials.length > 0) {
-          this.material_id = this.materials[0].id;
+          this.product_id = this.material_id = this.materials[0].id;
           this.getProducts();
         }
       })
@@ -119,7 +117,11 @@ export default {
           });
         }
         if (this.materials.length > 0) {
-          this.material_id = this.materials[0].id;
+          this.product_id = this.material_id = this.materials[0].id;
+          if (this.quotation_type === 't_simple'){
+            this.product_id = this.materials[this.material_id].material_id;
+          }
+
           this.getProducts();
         }
       })
@@ -134,16 +136,15 @@ export default {
         this.simpleMaterials();
       }
     },
-    getProducts: function(product_id) {
+    getProducts: function() {
       this.http
         .get("/api/products_by_material", {
           params: {
-            material_id: product_id
+            material_id: this.product_id
           }
         })
         .then(response => {
           this.products = response.data;
-          console.log(this.products);
           if(this.quotation_type!=='t_comparative'){
             this.products = this.products.filter(
               material => material.brand === this.materials[this.material_id].brand
@@ -197,8 +198,8 @@ export default {
             var price_siemon = this.prices[1];
             var total_supranet = this.quotation_products.amount * price_supranet;
             var total_siemon = this.quotation_products.amount * price_siemon;
-            var total_percent_supranet = (total_supranet * this.currency.format_percent(this.quotation_products.percents[0]));
-            var total_percent_siemon = (total_siemon * this.currency.format_percent(this.quotation_products.percents[1]));
+            var total_percent_supranet = (total_supranet * this.percentage.format(this.quotation_products.percents[0]));
+            var total_percent_siemon = (total_siemon * this.percentage.format(this.quotation_products.percents[1]));
 
             var siemon_id = null;
             if (this.products.length>1){
@@ -226,7 +227,7 @@ export default {
           case 't_simple':
             var price = this.prices[0];
             var total = price * this.quotation_products.amount;
-            var total_percent = total * this.currency.format_percent(this.quotation_products.percents[0]);
+            var total_percent = total * this.percentage.format(this.quotation_products.percents[0]);
             this.selected_materials.push({
               material_id: `${this.material_id}`,
               amount: `${this.quotation_products.amount}`,
@@ -243,7 +244,7 @@ export default {
           default: 
             var price = this.prices[0];
             var total = price * this.quotation_products.amount;
-            var total_percent = total * this.currency.format_percent(this.quotation_products.percents[0]);
+            var total_percent = total * this.percentage.format(this.quotation_products.percents[0]);
             this.selected_materials.push({
               material_id: `${this.material_id}`,
               amount: `${this.quotation_products.amount}`,
@@ -289,7 +290,7 @@ export default {
             percent: material.percent_supranet,
             product_id: material.supranet_id
           });
-          if (material.product_siemon_id !== null) {
+          if (material.siemon_id !== null) {
             product_attributes.push({
               amount: material.amount,
               percent: material.percent_siemon,
@@ -329,11 +330,11 @@ export default {
   },
   watch: {
     material_id: function() {
-      var product_id = this.material_id;
+      this.product_id = this.material_id;
       if (this.quotation_type === 't_simple'){
-        product_id = this.materials[this.material_id].material_id;
+        this.product_id = this.materials[this.material_id].material_id;
       }
-      this.getProducts(product_id);
+      this.getProducts();
     },
     quotation_id: function() {
       this.getQuotationType();
@@ -350,7 +351,7 @@ export default {
     <b-form>
       <b-form-row>
         <div class="col-6">
-          <label class="mb-0 text-primary font-weight-bold">Material</label>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.material}}</label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -367,7 +368,7 @@ export default {
         </div>
         <div class="col-1" right="true">
           <br />
-          <b-button variant="primary" v-on:click="addProducts">Agregar</b-button>
+          <b-button variant="primary" v-on:click="addProducts">{{translations.buttons.add_material}}</b-button>
         </div>
       </b-form-row>
       <b-form-row>
@@ -375,7 +376,7 @@ export default {
           <label class="text-primary font-weight-bold">{{brands[0]}}</label>
         </div>
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold">Cantidad</label>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.amount}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -386,7 +387,7 @@ export default {
           </div>
         </div>
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold">Precio</label>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.price}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -397,7 +398,7 @@ export default {
           </div>
         </div>
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold">Holgura</label>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.percent}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -413,7 +414,7 @@ export default {
           <label class="text-primary font-weight-bold">{{brands[1]}}</label>
         </div>
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold">Cantidad</label>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.amount}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -424,7 +425,7 @@ export default {
           </div>
         </div>
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold">Precio</label>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.price}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -435,7 +436,7 @@ export default {
           </div>
         </div>
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold">Holgura</label>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.percent}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -456,8 +457,8 @@ export default {
       <template v-if="this.quotation_type==='t_comparative'" v-slot:thead-top="data">
         <b-tr class="text-center">
           <b-th rowspan="3" colspan="2" class="bg-dark text-white"></b-th>
-          <b-th colspan="5" class="bg-dark">Expresión (GTQ)</b-th>
-          <b-th colspan="5" class="bg-dark">Expresión (GTQ)</b-th>
+          <b-th colspan="5" class="bg-dark">{{translations.custom_headers.expression}}</b-th>
+          <b-th colspan="5" class="bg-dark">{{translations.custom_headers.expression}}</b-th>
           <b-th colspan="1" class="bg-dark text-white"></b-th>
         </b-tr>
         <b-tr class="text-center text-danger">
@@ -467,35 +468,35 @@ export default {
         </b-tr>
         <b-tr class="text-center text-danger">
           <b-th colspan="1" class="text-white"></b-th>
-          <b-th colspan="2" class="text-center">Sin holgura</b-th>
-          <b-th colspan="2" class="text-center">Con holgura</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.without_percentage}}</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.with_percentage}}</b-th>
           <b-th colspan="1" class="text-white"></b-th>
-          <b-th colspan="2" class="text-center">Sin holgura</b-th>
-          <b-th colspan="2" class="text-center">Con holgura</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.without_percentage}}</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.with_percentage}}</b-th>
            <b-th colspan="1" class="text-white"></b-th>
         </b-tr>
       </template>
       <template v-else-if="this.quotation_type==='t_simple'" v-slot:thead-top="data">
         <b-tr class="text-center">
           <b-th rowspan="2" colspan="4" class="bg-dark text-white"></b-th>
-          <b-th colspan="4" class="bg-dark">Expresión (GTQ)</b-th>
+          <b-th colspan="4" class="bg-dark">{{translations.custom_headers.expression}}</b-th>
           <b-th></b-th>
         </b-tr>
         <b-tr class="text-center text-danger">
-          <b-th colspan="2" class="text-center">Sin holgura</b-th>
-          <b-th colspan="2" class="text-center">Con holgura</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.without_percentage}}</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.with_percentage}}</b-th>
           <b-th></b-th>
         </b-tr>
       </template>
        <template v-else v-slot:thead-top="data">
         <b-tr class="text-center">
           <b-th rowspan="2" colspan="3" class="bg-dark text-white"></b-th>
-          <b-th colspan="4" class="bg-dark">Expresión (GTQ)</b-th>
+          <b-th colspan="4" class="bg-dark">{{translations.custom_headers.expression}}</b-th>
           <b-th></b-th>
         </b-tr>
         <b-tr class="text-center text-danger">
-          <b-th colspan="2" class="text-center">Sin holgura</b-th>
-          <b-th colspan="2" class="text-center">Con holgura</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.without_percentage}}</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.with_percentage}}</b-th>
           <b-th></b-th>
         </b-tr>
       </template>
@@ -510,7 +511,7 @@ export default {
       </template>
     </b-table>
     <div class="col-2 offset-10">
-      <button class="btn btn-primary btn-block" type="submit" v-on:click="submit">Siguiente</button>
+      <button class="btn btn-primary btn-block" type="submit" v-on:click="submit">{{translations.buttons.next}}</button>
     </div>
   </div>
 </template>
