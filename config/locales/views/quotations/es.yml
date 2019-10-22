@@ -29,7 +29,7 @@ es:
         price_percent_siemon: Unitario
         total_percent_siemon: Total
     index:
-      delete_modal: 
+      delete_modal:
         title: ¿Realmente deseas eliminar esta cotización?
         body: Una vez eliminado no podrás recuperarla y deberás crear una nueva. Solo las cotizaciónes en estados 'Creada' y 'Expirada' se pueden eliminar
         yes_text: Sí, elimínala
@@ -40,7 +40,7 @@ es:
         state: Estado
         quotation_date: Fecha
         name: Cliente
-        actions: ''
+        actions: ""
         default_select_option: Seleccione una opción de la lista
       search_title: Filtrar por
       page_size_placeholder: Filas por página
@@ -90,7 +90,7 @@ es:
           percent: Holgura
           tot_with_perc: Total con Holgura
           tot_without_perc: Total sin Holgura
-          actions: ''
+          actions: ""
         buttons:
           next: Siguiente
           add_service: Agregar
@@ -109,6 +109,8 @@ es:
           warranty: Garantía
       global_view:
         title: Vista Global
+      attachments_view:
+        title: "Attachments"
     show:
       brands:
         t_supranet_only: Supranet
@@ -161,3 +163,5 @@ es:
         t_siemon_only_total: Total
         t_siemon_only_price_with_percent: Unitario
         t_siemon_only_total_with_percent: Total
+    attachments:
+      upload: "Por favor seleccione un archivo"
