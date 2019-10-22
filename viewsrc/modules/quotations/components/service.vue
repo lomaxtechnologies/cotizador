@@ -1,8 +1,6 @@
 <script type="text/javascript">
-
-  import axios from 'axios'
-
   export default {
+
     props:{
       section_valid: {
         type: Boolean,
@@ -13,98 +11,74 @@
         default: NaN
       }
     },
-    data () {
+    
+    data() {
       return {
         translations: I18n.t('quotations.new.services'),
-          quotation: {
-            service: 0,
-            price: 0,
-            amount: 0,
-            percent: 0,
+        form_fields: {
+          service_id: 0,
+          price: 0,
+          amount: 1,
+          percent: 0
         },
-        result_without_percent: 0,
-        result_percent: 0,
         services: [],
-        select_list_service: [],
-        items: [],
-        fields: [
-            {
-              key: 'service', label: 'Servicio'
-            },
-             {
-              key: 'price', label: 'Precio'
-            },
-             {
-              key: 'amount', label: 'cantidad'
-            },
-             {
-              key: 'percent', label: 'Holgura'
-            },
-            {
-              key: 'result_without_percent', label: 'Resultado sin holgura'
-            },
-            {
-              key: 'result_percent', label: 'Resultado con holgura'
-            },
-            {
-              actions: '',
-            }
-        ]
+        quotation_services: [],
+        table_headers: []
       }
     },
-    methods: {
-      getService () {
-        this.http
-        .get('api/services/')
-        .then(response => {
-          this.services= response.data
-          if(this.services.length > 0){
-                this.quotation.service = this.services[0].id
-                this.quotation.price = this.services[0].price
 
-          }
-          }).catch((err)=>{
-          console.log(JSON.stringify(err));
-          });
-        },
-      insertService () {
-        this.result_without_percent = (this.quotation.amount * this.quotation.price)
-        this.result_percent =  this.result_without_percent +((this.result_without_percent)*this.quotation.percent /100)
-        var selected_service = this.services.filter((service)=>{
-          return service.id == this.quotation.service;
-        });
-        this.quotation.service  = selected_service[0].id
-        var insert_Service = this.select_list_service.filter(selected => selected.id === this.quotation.service);  
-        if (insert_Service.length=== 0){
-          this.select_list_service.push({
-          service: selected_service[0].name,
-          price: this.quotation.price,
-          amount: this.quotation.amount,
-          percent:this.quotation.percent,
-          result_without_percent: this.result_without_percent,
-          result_percent: this.result_percent, 
-          actions: '',
-          id: this.quotation.service
-        })
-           }
-      },
-      deleteService: function(index) {
-        this.select_list_service.splice(index, 1);
-      },
-      editService: function(index) {
-        let service_data = this.select_list_service[index]
-        this.select_list_service.splice(index, 1);
-        this.quotation.service  = service_data.id;
-        this.quotation.price  = service_data.price;
-        this.quotation.amount  = service_data.amount;
-        this.quotation.percent  = service_data.percent;
-      },
-      validateAndUpdate(){
-        this.$emit('update:section_valid', false);
-        this.quotation.service_id = this.quotation.service;
-        var data = {quotation:{ quotation_services_attributes:[this.quotation]}};
+    mounted() {
+      this.getService();
+      this.setTableHeaders();
+    },
+    
+    methods: {
+
+      getService() {
         this.http
-        .put(`api/quotations/${this.quotation_id}`, data)
+        .get('/api/services')
+        .then((response)=>{
+          this.services = response.data;
+          if(this.services.length > 0){
+            this.form_fields.service_id = this.services[0].id;
+            this.form_fields.price = this.services[0].price;
+          }
+        }).catch((err)=>{
+          console.log(JSON.stringify(err));
+        });
+      },
+
+      setTableHeaders() {
+        ['name','price','amount','percent','tot_without_perc','tot_with_perc','actions'].forEach((element)=>{
+          this.table_headers.push({
+            key:element,
+            label:this.translations.headers[element],
+            sortable:true
+          })
+        });
+      },
+
+      addService() {
+        var form_data = this.form_fields;
+        var selected_service = this.services.filter((service)=>{
+          return service.id ==form_data.service_id;
+        });
+        var tot_without_perc = form_data.amount * form_data.price;
+        
+        //Using ES6 to merge form_data and some extra fields into table_data
+        var table_data = { ...form_data, ...{
+          tot_without_perc: tot_without_perc,
+          tot_with_perc: tot_without_perc * (1+form_data.percent/100),
+          name: selected_service[0].name
+        }};
+        this.quotation_services.push(table_data);
+      },
+
+      updateServices() {
+        this.$emit('update:section_valid', false);
+        var data = {quotation:{ quotation_services_attributes:this.quotation_services}};
+        this.http
+        .put(`quotations/${this.quotation_id}`, data)
         .then((response)=>{
           if(response.successful){
             this.$emit('update:section_valid', true);
@@ -114,116 +88,145 @@
         }).catch((err)=>{
           console.log(JSON.stringify(err));
         });
-      }
-     
       },
-      mounted(){
-        this.getService()
+      
+      deleteService: function(table_row_data) {
+        this.quotation_services.splice(table_row_data.index, 1);
       },
-      watch: {
-        'quotation.service': function(){
-          var selected_service = this.services.filter((service)=>{
-         return service.id == this.quotation.service;
-          });
-            this.quotation.price  = selected_service[0].price
-        }
+
+      editService: function(table_row_data) {
+        this.form_fields = table_row_data.item;
+        this.deleteService(table_row_data);
+      },
+    },
+    
+    watch: {
+      'form_fields.service_id': function(){
+        var selected_service = this.services.filter((service)=>{
+          return service.id == this.form_fields.service_id;
+        });
+        this.form_fields.price  = selected_service[0].price;
       }
+    }
   }
 </script>
 
 <template>
   <div>
-    <b-form>
+    <b-form @submit=addService>
       <b-form-row>
         <div class="col-4">
-          <label class="mb-0 text-primary font-weight-bold"> Servicio </label>
-            <div class="input-group mb-3">
+          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.service}} </label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-white text-primary">
+                <i class="fas fa-user-alt"></i>
+              </div>
+            </div>
+            <b-form-select 
+              v-model=form_fields.service_id
+              :options=services
+              value-field="id"
+              text-field="name" 
+            >
+            </b-form-select>
+          </div>
+        </div>
+        <div class="col-2">
+          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.price}} </label>
+          <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <div class="input-group-text bg-white text-primary">
-                  <i class="fas fa-user-alt"></i>
+                  <i class="fas fa-money-bill"></i>
                 </div>
               </div>
-              <b-form-select 
-                v-model="quotation.service" 
-                :options=services
-                value-field = "id"
-                text-field = "name" 
-                disabled-field="notEnabled">
-              </b-form-select>
-            </div>
+            <b-form-input type="number" step="0.01" v-model=form_fields.price></b-form-input>
+          </div>
         </div>
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold"> Precio </label>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <div class="input-group-text bg-white text-primary">
-                    <i class="fas fa-money-bill"></i>
-                  </div>
-                </div>
-              <b-form-input type="number" v-model="quotation.price"></b-form-input>
-            </div>
-        </div>
-
-        <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold"> Cantidad </label>
+          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.amount}} </label>
           <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <div class="input-group-text bg-white text-primary">
                   <i class="fas fa-sort-amount-up-alt"></i>
                 </div>
               </div>
-            <b-form-input type="number" v-model="quotation.amount"></b-form-input>
+            <b-form-input type="number" v-model=form_fields.amount></b-form-input>
           </div>
         </div>
-
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold"> Holgura </label>
+          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.percent}} </label>
           <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <div class="input-group-text bg-white text-primary">
                   <i class="fas fa-percentage"></i>
                 </div>
               </div>
-            <b-form-input type="number" v-model="quotation.percent"></b-form-input>
+            <b-form-input type="number" step="0.01" v-model=form_fields.percent></b-form-input>
           </div>
         </div>
-      
         <div class="col-2">
           <label class="mb-0 text-primary font-weight-bold">&nbsp;</label>
-            <button class="btn btn-primary btn-block" v-on:click="insertService">
-              Agregar
+            <button class="btn btn-primary btn-block" type="submit">
+              {{translations.buttons.add_service}}
             </button>
         </div>
-        </b-form-row>
-      </b-form>
-      <b-form v-on:submit=validateAndUpdate>
-        <b-form-row>
-          <b-table thead-tr-class="bg-primary text-white" class="table table-sm table-striped" 
-            striped hover 
-            :items="select_list_service" 
-            :fields ="fields">    
-              <template v-slot:cell(name)="data">
-                {{ data.item.name }}
-              </template>
-              <template v-slot:cell(actions)="data">
-                <b-button class="btn btn-success text-white mr-1" v-on:click="editService(data.index)">
-                  <i class="fas fa-edit fa-xs text-white"></i>
-                </b-button>
-                <b-button class="btn btn-danger" type="submit" v-on:click="deleteService(data.index)">
-                  <i class="fas fa-trash-alt fa-xs"></i>
-                </b-button>
-              </template>
-          </b-table>
-          <div class="col-2 offset-7">
-            <label class="mb-0 text-primary font-weight-bold">&nbsp;</label>
-            <button 
-              class="btn btn-primary btn-block"
-              type="submit"
-            >
-          Siguiente
-     </button>
+      </b-form-row>
+    </b-form>
+    <b-form v-on:submit=updateServices>
+      <b-form-row>
+        <b-table thead-tr-class="bg-primary text-white" class="table table-sm table-striped" 
+          striped
+          bordered
+          :items=quotation_services 
+          :fields=table_headers
+        >
+          <template v-slot:cell(price)="data">
+            <div class="text-right">
+              {{currency.format(data.value)}}
+            </div>
+          </template>
+          <template v-slot:cell(amount)="data">
+            <div class="text-right">
+              {{data.value}}
+            </div>
+          </template>
+          <template v-slot:cell(percent)="data">
+            <div class="text-right">
+              {{currency.format(data.value)}}
+            </div>
+          </template>
+          <template v-slot:cell(tot_without_perc)="data">
+            <div class="text-right">
+              {{currency.format(data.value)}}
+            </div>
+          </template>
+          <template v-slot:cell(tot_with_perc)="data">
+            <div class="text-right">
+              {{currency.format(data.value)}}
+            </div>
+          </template>
+          <template v-slot:cell(actions)="data">
+            <div class="text-right">
+              <b-button class="btn btn-success text-whit" v-on:click=editService(data)>
+                <i class="fas fa-edit fa-xs text-white"></i>
+              </b-button>
+              <b-button class="btn btn-danger" v-on:click=deleteService(data)>
+                <i class="fas fa-trash-alt fa-xs"></i>
+              </b-button>
+            </div>
+          </template>
+        </b-table>
+        <div class="col-2 offset-10">
+          <label class="mb-0 text-primary font-weight-bold">&nbsp;</label>
+          <button 
+            class="btn btn-primary btn-block"
+            type="submit"
+          >
+            {{translations.buttons.next}}
+          </button>
         </div>
-        </b-form-row>
-      </b-form>
-    </div>
+      </b-form-row>
+    </b-form>
+  </div>
 </template>

@@ -8,11 +8,6 @@ es:
       active: Activa
       accepted: Aprobada por el Cliente
       expired: Expirada
-    quotation_types:
-      t_comparative: Comparativa
-      t_siemon_only: Solo Siemon
-      t_supranet_only: Solo Supranet
-      t_simple: Simple
     index:
       delete_modal: 
         title: ¿Realmente deseas eliminar esta cotización?
@@ -26,6 +21,7 @@ es:
         quotation_date: Fecha
         name: Cliente
         actions: ''
+        default_select_option: Seleccione una opción de la lista
       search_title: Filtrar por
       page_size_placeholder: Filas por página
       brand: Marca
@@ -67,20 +63,81 @@ es:
         supranet: Supranet
         siemon: Siemon
       services:
+        headers:
+          name: Servicio
+          price: Precio
+          amount: Cantidad
+          percent: Holgura
+          tot_with_perc: Total con Holgura
+          tot_without_perc: Total sin Holgura
+          actions: ''
+        buttons:
+          next: Siguiente
+          add_service: Agregar
         title: Servicios
+        titles:
+          service: Servicio
+          price: Precio
+          amount: Cantidad
+          percent: Holgura
       conditions:
         next: Siguiente
         title: Condiciones
+        titles:
+          credits: Créditos
+          payment_condition: Términos y Condiciones de Pago
+          warranty: Garantía
       global_view:
         title: Vista Global
-    admin:
-      client: Clientes
-      brand:  Marcas
-      service: Servicios
-      date: Fecha
-      search_client: Buscar cliente
-      search_brand: Buscar marca
-      search_service: Buscar servicio
-      search_material: Buscar material
-      totals: Totales
-      material: Materiales
+    show:
+      brands:
+        t_supranet_only: Supranet
+        t_siemon_only: Siemon
+      custom_headers:
+        prices: Precios
+        expression: Expresión en Quetzales (GTQ)
+        with_percent: Con Holgura
+        without_percent: Sin Holgura
+        total: Total (GTQ)
+      custom_footers:
+        materials: Materiales
+        not_used: --
+      titles:
+        quotation_number: Cotización No.
+        materials: Detalle de Materiales
+        services: Propuesta Económica/Resumen
+        credits: Crédito
+        warranty: Garantía
+        payment_condition: Condiciones de Pago
+        client:
+          info: Datos del Cliente
+          client: Cliente
+          address: Dirección
+          nit: Nit
+          phone: Teléfono
+        quotation:
+          info: Datos de la Cotización
+          number: Número
+          date: Fecha
+          type: Tipo
+      headers:
+        amount: Cantidad
+        brand: Marca
+        service: Descripción
+        material: Descripción
+        price: Unitario
+        total: Total
+        price_with_percent: Unitario
+        total_with_percent: Total
+        t_simple_price: Unitario
+        t_simple_total: Total
+        t_simple_price_with_percent: Unitario
+        t_simple_total_with_percent: Total
+        t_supranet_only_price: Unitario
+        t_supranet_only_total: Total
+        t_supranet_only_price_with_percent: Unitario
+        t_supranet_only_total_with_percent: Total
+        t_siemon_only_price: Unitario
+        t_siemon_only_total: Total
+        t_siemon_only_price_with_percent: Unitario
+        t_siemon_only_total_with_percent: Total

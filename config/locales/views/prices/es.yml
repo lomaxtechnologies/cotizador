@@ -10,6 +10,6 @@ es:
     search: Buscar
     manager: Administrar
     dashboard:
-      title: Nuevos
+      title: Actualizados Recientemente
       new_material_text: Estos son los nuevos materiales
 

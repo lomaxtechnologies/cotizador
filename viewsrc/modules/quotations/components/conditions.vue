@@ -1,19 +1,17 @@
 <script type="text/javascript">
   export default {
+
     props:{
       section_valid: {
         type: Boolean,
         default: false
-      },
-      quotation_code:{
-        type: String,
-        default: ''
       },
       quotation_id:{
         type:Number,
         default: NaN
       }
     },
+
     data(){
       return {
         translations: I18n.t('quotations.new.conditions'),
@@ -24,12 +22,12 @@
         }
       }
     },
+
     methods:{
-      validateAndUpdate(){
+      updateConditions(){
         this.$emit('update:section_valid', false);
-        var data = {quotation: this.quotation};
         this.http
-        .put(`api/quotations/${this.quotation_id}`, data)
+        .put(`quotations/${this.quotation_id}`, {quotation: this.quotation})
         .then((response)=>{
           if(response.successful){
             this.$emit('update:section_valid', true);
@@ -46,36 +44,27 @@
 
 <template>
   <div>
-    <b-form @submit=validateAndUpdate>
+    <b-form @submit=updateConditions>
       <b-form-row>
-        <!----------------------------- quotation.conditions -------------------------------------->
         <div class="col-12 mb-3">
-          <label class="mb-0 text-primary font-weight-bold"> Términos y Condiciones </label>
+          <label class="mb-0 text-primary font-weight-bold">
+            {{translations.titles.payment_condition}}
+          </label>
           <b-textarea v-model=quotation.payment_condition></b-textarea>
         </div>
-        <!----------------------------- quotation.conditions -------------------------------------->
-
-        <!-------------------------------- quotation.credits -------------------------------------->
         <div class="col-12 mb-3">
-          <label class="mb-0 text-primary font-weight-bold"> Créditos </label>
+          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.credits}} </label>
           <b-textarea v-model=quotation.credits></b-textarea>
         </div>
-        <!-------------------------------- quotation.credits -------------------------------------->
-
-        <!------------------------------- quotation.warranty -------------------------------------->
         <div class="col-12 mb-3">
-          <label class="mb-0 text-primary font-weight-bold"> Garantía </label>
+          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.warranty}} </label>
           <b-textarea v-model=quotation.warranty></b-textarea>
         </div>
-        <!-------------------------------- quotation.warranty -------------------------------------->
-
-        <!--------------------------------- quotation.submit ---------------------------------->
         <div class="col-2 offset-10 mb-3">
-          <button class="btn btn-primary btn-block" type="submit">
+          <b-button variant="primary" block type="submit">
             {{translations.next}}
-          </button>
+          </b-button>
         </div>
-        <!--------------------------------- quotation.submit ---------------------------------->
       </b-form-row>
     </b-form>
   </div>
