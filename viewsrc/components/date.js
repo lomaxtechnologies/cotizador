@@ -9,6 +9,9 @@ export default {
 
       //date should be given in standard format YYYY-MM-DD
       let toLocalFormat = function(date){
+         if(! date){
+            return '';
+         }
          var parsed_date = I18n.t('formats.local_date');
          date = date.split('-');
          return parsed_date
