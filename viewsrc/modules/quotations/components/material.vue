@@ -71,7 +71,7 @@ export default {
     },
     comparativeMaterials: function(){
       this.http
-      .get("/api/materials")
+      .get("/api/comparative")
       .then(response => {
         this.materials = response.data;
         this.materials = this.materials.map(function(material) {
@@ -91,39 +91,46 @@ export default {
     },
     simpleMaterials: function(){
       this.http
-      .get("/api/products_by_brand",{
+      .get("/api/simple")
+      .then(response =>{
+        this.materials = response.data;
+        this.materials = this.materials.map(function(material){
+          return{
+            id: material.product_id,
+            name: `${material.brand} - ${material.name} ${material.description}`,
+            material_id: material.material_id,
+            brand: material.brand,
+            code: material.code,
+            price: material.price,
+            measure_unit: material.measure_unit
+          }
+        });
+        if (this.materials.length > 0) {
+          this.product_id = this.material_id = this.materials[0].id;
+          //this.getProducts();
+        }
+      })
+      .catch(err => {
+        console.log(JSON.stringify(err));
+      });
+    },
+    onlyBrandMaterials: function(){
+      this.http
+      .get("/api/only_brand",{
         params:{
           brand_name: this.brands[0]
         }
       })
       .then(response =>{
         this.materials = response.data;
-        if(this.quotation_type==='t_simple'){
-          this.materials = this.materials.map(function(material){
-            return{
-              id: material.product_id,
-              name: `${material.brand} - ${material.name} ${material.description}`,
-              material_id: material.material_id,
-              brand: material.brand
-            }
-          });
-        }else{
-          this.materials = this.materials.map(function(material){
-            return{
-              id: material.material_id,
-              name: `${material.name} ${material.description}`,
-              brand: material.brand
-            }
-          });
-        }
-        if (this.materials.length > 0) {
-          this.product_id = this.material_id = this.materials[0].id;
-          if (this.quotation_type === 't_simple'){
-            this.product_id = this.materials[this.material_id].material_id;
+        this.materials = this.materials.map(function(material){
+          return{
+            id: material.product_id,
+            name: `${material.name} ${material.description}`,
+            material_id: material.material_id,
+            brand: material.brand
           }
-
-          this.getProducts();
-        }
+        });
       })
       .catch(err => {
         console.log(JSON.stringify(err));
@@ -132,8 +139,10 @@ export default {
     getMaterials: function() {
       if (this.quotation_type === 't_comparative'){
         this.comparativeMaterials();
-      }else{
+      }else if(this.quotation_type === 't_simple'){
         this.simpleMaterials();
+      }else{
+        this.onlyBrandMaterials();
       }
     },
     getProducts: function() {
@@ -145,11 +154,6 @@ export default {
         })
         .then(response => {
           this.products = response.data;
-          if(this.quotation_type!=='t_comparative'){
-            this.products = this.products.filter(
-              material => material.brand === this.materials[this.material_id].brand
-            )
-          }
           this.setPrices();
         })
         .catch(err => {
@@ -200,16 +204,18 @@ export default {
             var total_siemon = this.quotation_products.amount * price_siemon;
             var total_percent_supranet = (total_supranet * this.percentage.format(this.quotation_products.percents[0]));
             var total_percent_siemon = (total_siemon * this.percentage.format(this.quotation_products.percents[1]));
-
+            // Obtaind id for Second product
             var siemon_id = null;
             if (this.products.length>1){
               siemon_id = this.products[1].product_id;
             }
+            // Material name
+            var material = this.materials.filter(material => material.id === this.material_id);
             
             this.selected_materials.push({
-              material_id: `${this.material_id}`,
+              material_id: `${material[0].id}`,
               amount: `${this.quotation_products.amount}`,
-              material: `${this.materials[this.material_id].name}`,
+              material: `${material[0].name}`,
               supranet_id: `${this.products[0].product_id}`,
               percent_supranet: `${this.quotation_products.percents[0]}`,
               price_supranet: price_supranet,

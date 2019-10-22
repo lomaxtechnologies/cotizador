@@ -61,15 +61,21 @@ class ProductsController < ApplicationController
 
   # API For prices controller
   # GET /prices/api/get-products
+  def api_comparative
+    response_with_success(Product.fields_for_comparative)
+  end
+
+  def api_simple
+    response_with_success(Product.fields_for_simple)
+  end
+
+  def api_only_brand
+    response_with_success(Product.fields_for_only_brand(params[:brand_name]))
+  end
+
   def products_by_material
     return response_with_error(t('.errors.unespecified_material')) unless params[:material_id]
     data = Product.find_by_material(params[:material_id])
-    return response_with_error(t('.errors.material_not_found')) unless data
-    response_with_success(data)
-  end
-
-  def products_by_brand
-    data = Product.find_by_brand(params[:brand_name])
     return response_with_error(t('.errors.material_not_found')) unless data
     response_with_success(data)
   end
