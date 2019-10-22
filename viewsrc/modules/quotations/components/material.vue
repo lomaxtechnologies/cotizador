@@ -81,7 +81,7 @@ export default {
           };
         });
         if (this.materials.length > 0) {
-          this.product_id=this.material_id = this.materials[0].id;
+          this.product_id = this.material_id = this.materials[0].id;
           this.getProducts();
         }
       })
@@ -290,7 +290,7 @@ export default {
             percent: material.percent_supranet,
             product_id: material.supranet_id
           });
-          if (material.product_siemon_id !== null) {
+          if (material.siemon_id !== null) {
             product_attributes.push({
               amount: material.amount,
               percent: material.percent_siemon,
@@ -330,6 +330,10 @@ export default {
   },
   watch: {
     material_id: function() {
+      this.product_id = this.material_id;
+      if (this.quotation_type === 't_simple'){
+        this.product_id = this.materials[this.material_id].material_id;
+      }
       this.getProducts();
     },
     quotation_id: function() {
