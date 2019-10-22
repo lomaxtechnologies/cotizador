@@ -20,6 +20,7 @@ export default {
       quotation_type: null,
       material_id: null,
       materials: [],
+      product_id: null,
       products: [],
       prices: [],
       brands: [],
@@ -80,7 +81,7 @@ export default {
           };
         });
         if (this.materials.length > 0) {
-          this.material_id = this.materials[0].id;
+          this.product_id=this.material_id = this.materials[0].id;
           this.getProducts();
         }
       })
@@ -116,7 +117,11 @@ export default {
           });
         }
         if (this.materials.length > 0) {
-          this.material_id = this.materials[0].id;
+          this.product_id = this.material_id = this.materials[0].id;
+          if (this.quotation_type === 't_simple'){
+            this.product_id = this.materials[this.material_id].material_id;
+          }
+
           this.getProducts();
         }
       })
@@ -131,11 +136,11 @@ export default {
         this.simpleMaterials();
       }
     },
-    getProducts: function(product_id) {
+    getProducts: function() {
       this.http
         .get("/api/products_by_material", {
           params: {
-            material_id: product_id
+            material_id: this.product_id
           }
         })
         .then(response => {
@@ -325,11 +330,7 @@ export default {
   },
   watch: {
     material_id: function() {
-      var product_id = this.material_id;
-      if (this.quotation_type === 't_simple'){
-        product_id = this.materials[this.material_id].material_id;
-      }
-      this.getProducts(product_id);
+      this.getProducts();
     },
     quotation_id: function() {
       this.getQuotationType();
