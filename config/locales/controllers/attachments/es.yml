@@ -2,3 +2,4 @@ es:
   attachments:
     error: error
     no_user: No es el usuario que agrego el archivo
+    no_save: No se pudo guardar el archivo

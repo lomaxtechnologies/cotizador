@@ -1,28 +1,28 @@
 class AttachmentsController < ApplicationController
   layout "manager"
   
-  def index
-  end
-  def new
-  end
+  def index;end
+  
+  def new;end
 
   def create
-    respond_to do |format|
-      attachment = Attachment.new(attachments_params)
-      attachment.quotation_id = params[:id]
-      attachment.user = current_user
-      format.json{ response_with_success(attachment.save)}
+    attachment = Attachment.new(attachments_params)
+    attachment.quotation_id = params[:id]
+    attachment.user = current_user
+    if attachment.save
+      response_with_success
+    else
+      response_with_error(t('.error'),t('.no_save'))
     end
+
   end
 
   def destroy
-    attachment = Attachment.find(attachment_destroy_params[:id])
-    respond_to do |format|
-      if attachment.user == current_user
-        format.json { response_with_success(attachment.destroy)}
-      else
-        format.json {response_with_error(t('attachments.error'),t('attachments.no_user'))}
-      end
+    # Just the user who created the attachment can delete
+    if attachment.user == current_user
+      response_with_success(attachment.destroy)
+    else
+      response_with_error(t('attachments.error'),t('attachments.no_user'))
     end
   end
 
@@ -31,8 +31,8 @@ class AttachmentsController < ApplicationController
     params.require(:attachment).permit(:location)
   end
 
-  def attachment_destroy_params
-    params.require(:attachment).permit(:id)
+  def set_attachment
+    @attachment = Attachment.find(params[:id])
   end
 
 end

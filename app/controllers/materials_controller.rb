@@ -60,7 +60,7 @@ class MaterialsController < ApplicationController
 
   # GET /materials/api/get-all
   def api_index
-    response_with_success(Material.all_only_indentifier_fields)
+    response_with_success(Material.fields_for_quotation)
   end
 
   private
