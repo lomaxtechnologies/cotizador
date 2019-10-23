@@ -134,6 +134,8 @@ es:
         materials: Materiales
         not_used: --
       titles:
+        option_a: Opción A
+        option_b: Opción B
         quotation_number: Cotización No.
         materials: Detalle de Materiales
         services: Propuesta Económica/Resumen

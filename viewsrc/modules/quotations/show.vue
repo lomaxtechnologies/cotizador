@@ -37,7 +37,6 @@
         .then((response)=>{
           if(response.successful){
             this.quotation = response.data;
-            console.log(JSON.stringify(this.quotation));
             this.setQuotationProductsHeaders();
           }else{
             console.log(JSON.stringify(response));
@@ -52,23 +51,22 @@
         var q_type = this.quotation.quotation_type;
         //sets columns dependind on quotation_type, types are:
         //t_comparative, t_supranet_only, t_siemon_only, t_simple
-        if(q_type === 't_comparative' || q_type === type){
-          ['t_supranet_only','t_siemon_only'].forEach((type)=>{
+        ['t_supranet_only','t_siemon_only'].forEach((type)=>{
+          if(q_type === 't_comparative' || q_type === type){
             headers.push(`${type}_percent`);
             //Adds four fields: unit price, total price, unit price plus percent and total price plus percent
             ['','_with_percent'].forEach((suffix)=>{
               headers = headers.concat([`${type}_price${suffix}`, `${type}_total${suffix}`]);
             });
-          });
-        }
+          }
+        });
         //simple type
         if(q_type === 't_simple'){
-          headers.push('brand');
+          headers = headers.concat(['brand','percent']);
           ['','_with_percent'].forEach((suffix)=>{
             headers = headers.concat([`${q_type}_price${suffix}`, `${q_type}_total${suffix}`]);
           });
         }
-        console.log(JSON.stringify(headers));
         headers.forEach((element)=>{
           this.quotation_products_headers.push({
             key:element,
@@ -178,10 +176,10 @@
                     <b-th 
                       v-if="quotation.quotation_type=='t_simple'"
                       rowspan="2"
-                      colspan="3"
+                      colspan="4"
                       class="bg-primary text-white"
                     ></b-th>
-                    <b-th v-else rowspan="3" colspan="2" class="bg-primary text-white"></b-th>
+                    <b-th v-else rowspan="3" colspan="3" class="bg-primary text-white"></b-th>
                     <b-th colspan="4" class="bg-dark">{{translations.show.custom_headers.expression}}</b-th>
                   </b-tr>
                   <b-tr v-if="quotation.quotation_type!=='t_simple'" class="text-center text-danger">
@@ -222,11 +220,11 @@
                   <b-tr class="bg-dark text-center">
                     <b-td 
                       v-if="quotation.quotation_type=='t_simple'"
-                      colspan="3"
+                      colspan="4"
                     >
                       {{translations.show.custom_headers.total}}
                     </b-td>
-                    <b-td v-else colspan="2">{{translations.show.custom_headers.total}}</b-td>
+                    <b-td v-else colspan="3">{{translations.show.custom_headers.total}}</b-td>
                     <b-td></b-td>
                     <b-td class="text-right">{{currency.format(quotation.products_totals.without_percent)}}</b-td>
                     <b-td></b-td>
@@ -259,6 +257,9 @@
             </div>
             <div class="col-12 mt-2">
               <h5><b>{{translations.show.titles.services}}</b></h5>
+              <h5 v-if="quotation.quotation_type=='t_comparative'">
+                <b class="text-danger">{{translations.show.titles.option_a}}</b>
+              </h5>
               <b-table
                 :items=quotation.quotation_services
                 :fields=quotation_services_headers
@@ -299,25 +300,154 @@
                     <b-td class="text-center">{{translations.show.custom_footers.not_used}}</b-td>
                     <b-td>
                       {{translations.show.custom_footers.materials}}
-                      {{translations.show.brands[quotation.quotation_type]}}
+                      <span v-if="quotation.quotation_type=='t_comparative'">
+                        {{translations.show.brands.t_supranet_only}}
+                      </span>
+                      <span v-else>
+                        {{translations.show.brands[quotation.quotation_type]}}
+                      </span>
                     </b-td>
                     <b-td class="text-center">{{translations.show.custom_footers.not_used}}</b-td>
                     <b-td class="text-center">{{translations.show.custom_footers.not_used}}</b-td>
-                    <b-td class="text-right">{{currency.format(quotation.products_totals.without_percent)}}</b-td>
+                    <b-td class="text-right">
+                      <span v-if="quotation.quotation_type=='t_comparative'">
+                        {{currency.format(quotation.products_totals.t_supranet_only.without_percent)}}
+                      </span>
+                      <span v-else>
+                        {{currency.format(quotation.products_totals.without_percent)}}
+                      </span>
+                    </b-td>
                     <b-td class="text-center">{{translations.show.custom_footers.not_used}}</b-td>
-                    <b-td class="text-right">{{currency.format(quotation.products_totals.with_percent)}}</b-td>
+                    <b-td class="text-right">
+                      <span v-if="quotation.quotation_type=='t_comparative'">
+                        {{currency.format(quotation.products_totals.t_supranet_only.with_percent)}}
+                      </span>
+                      <span v-else>
+                        {{currency.format(quotation.products_totals.with_percent)}}
+                      </span>
+                    </b-td>
                   </b-tr>
                   <b-tr class="bg-dark text-center">
                     <b-td colspan="2">{{translations.show.custom_headers.total}}</b-td>
                     <b-td ></b-td>
                     <b-td ></b-td>
-                    <b-td class="text-right">{{currency.format(
-                      parseFloat(quotation.services_totals.without_percent) + parseFloat(quotation.products_totals.without_percent)
-                    )}}</b-td>
+                    <b-td 
+                      v-if="quotation.quotation_type=='t_comparative'" 
+                      class="text-right"
+                    >{{
+                      currency.format(
+                        parseFloat(quotation.services_totals.without_percent) + 
+                        parseFloat(quotation.products_totals.t_supranet_only.without_percent)
+                      )}}
+                    </b-td>
+                    <b-td 
+                      v-else 
+                      class="text-right"
+                    >{{currency.format(
+                        parseFloat(quotation.services_totals.without_percent) + 
+                        parseFloat(quotation.products_totals.without_percent)
+                      )}}
+                    </b-td>
                     <b-td></b-td>
-                    <b-td class="text-right">{{currency.format(
-                      parseFloat(quotation.services_totals.with_percent) + parseFloat(quotation.products_totals.with_percent)
-                    )}}</b-td>
+                    <b-td
+                      v-if="quotation.quotation_type=='t_comparative'"
+                      class="text-right"
+                    >{{
+                      currency.format(
+                        parseFloat(quotation.services_totals.with_percent) + 
+                        parseFloat(quotation.products_totals.t_supranet_only.with_percent)
+                      )}}
+                    </b-td>
+                    <b-td 
+                      v-else
+                      class="text-right"
+                    >
+                      {{currency.format(
+                        parseFloat(quotation.services_totals.with_percent) + 
+                        parseFloat(quotation.products_totals.with_percent)
+                      )}}
+                    </b-td>
+                  </b-tr>
+                </template>
+              </b-table>
+              <h5 v-if="quotation.quotation_type=='t_comparative'">
+                <b class="text-danger">{{translations.show.titles.option_b}}</b>
+              </h5>
+              <b-table
+                v-if="quotation.quotation_type=='t_comparative'"
+                :items=quotation.quotation_services
+                :fields=quotation_services_headers
+                responsive="sm"
+                thead-tr-class="bg-primary text-white text-center"
+                striped bordered small
+              >
+                <template v-slot:thead-top="data">
+                  <b-tr class="text-center">
+                    <b-th rowspan="3" colspan="3"  class="bg-primary text-white"></b-th>
+                    <b-th colspan="4" class="bg-dark">{{translations.show.custom_headers.expression}}</b-th>
+                  </b-tr>
+                  <b-tr class="text-center text-danger">
+                    <b-th colspan="4" >{{translations.show.custom_headers.prices}}</b-th>
+                  </b-tr>
+                  <b-tr  class="text-center">
+                    <b-th colspan="2" >{{translations.show.custom_headers.without_percent}}</b-th>
+                    <b-th colspan="2" >{{translations.show.custom_headers.with_percent}}</b-th>
+                  </b-tr>
+                </template>
+                <template v-slot:cell(amount)="data">
+                  <div class="text-center">
+                    {{parseInt(data.value)}}
+                  </div>
+                </template>
+                <template v-slot:cell(service)="data">
+                  <div class="text-left">
+                    {{data.value}}
+                  </div>
+                </template>
+                <template v-slot:cell()="data">
+                  <div class="text-right">
+                    {{currency.format(data.value)}}
+                  </div>
+                </template>
+                <template v-slot:custom-foot>
+                  <b-tr class="text-important">
+                    <b-td class="text-center">{{translations.show.custom_footers.not_used}}</b-td>
+                    <b-td>
+                      {{translations.show.custom_footers.materials}}
+                      <span v-if="quotation.quotation_type=='t_comparative'">
+                        {{translations.show.brands.t_siemon_only}}
+                      </span>
+                      <span v-else>
+                        {{translations.show.brands[quotation.quotation_type]}}
+                      </span>
+                    </b-td>
+                    <b-td class="text-center">{{translations.show.custom_footers.not_used}}</b-td>
+                    <b-td class="text-center">{{translations.show.custom_footers.not_used}}</b-td>
+                    <b-td class="text-right">
+                      {{currency.format(quotation.products_totals.t_siemon_only.without_percent)}}
+                    </b-td>
+                    <b-td class="text-center">{{translations.show.custom_footers.not_used}}</b-td>
+                    <b-td class="text-right">
+                      {{currency.format(quotation.products_totals.t_siemon_only.with_percent)}}
+                    </b-td>
+                  </b-tr>
+                  <b-tr class="bg-dark text-center">
+                    <b-td colspan="2">{{translations.show.custom_headers.total}}</b-td>
+                    <b-td ></b-td>
+                    <b-td ></b-td>
+                    <b-td class="text-right">{{
+                      currency.format(
+                        parseFloat(quotation.services_totals.without_percent) + 
+                        parseFloat(quotation.products_totals.t_siemon_only.without_percent)
+                      )}}
+                    </b-td>
+                    <b-td></b-td>
+                    <b-td class="text-right">{{
+                      currency.format(
+                        parseFloat(quotation.services_totals.with_percent) + 
+                        parseFloat(quotation.products_totals.t_siemon_only.with_percent)
+                      )}}
+                    </b-td>
                   </b-tr>
                 </template>
               </b-table>
