@@ -41,6 +41,8 @@ Rails.application.routes.draw do
 
   resources :quotations
 
+  resources :dashboards
+
   
   root to: 'quotations#index'
 
