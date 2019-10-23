@@ -51,7 +51,7 @@ class Product < ApplicationRecord
       end
     end
   end
-
+  
   # finds a material and returns all its product info: code, price, brand and measure unit
   def self.find_by_material(material_id)
     return false unless Material.exists?(material_id)
@@ -70,28 +70,31 @@ class Product < ApplicationRecord
     data
   end
 
-  def self.find_by_brand(brand_name)
+  def self.fields_for_simple
     data = []
-    if brand_name.blank?
-      Product.all.each do |product|
-        data.push(
-          material_id: product.material_id,
-          name: product.material.name,
-          description: product.material.description,
-          brand: product.brand.name
-        )
-      end
-    else
-      return false unless Brand.exists?(name: brand_name)
-      brand = Brand.find_by(name: brand_name)
-      brand.products.each do |product|
-        data.push(
-          material_id: product.material_id,
-          name: product.material.name,
-          description: product.material.description,
-          brand: product.brand.name
-        )
-      end
+    Product.all.each do |product|
+      data.push(
+        material_id: product.material_id,
+        name: product.material.name,
+        description: product.material.description,
+        brand: product.brand.name,
+        product_id: product.id,
+        code: product.code,
+        price: product.price.product_price,
+        measure_unit: product.measure_unit.name
+      )
+    end
+    data
+  end
+
+  def self.fields_for_comparative
+    data =[]
+    Product.select(:material_id).distinct.each do |product|
+      data.push(
+        id: product.material_id,
+        name: product.material.name,
+        description: product.material.description
+      )
     end
     data
   end

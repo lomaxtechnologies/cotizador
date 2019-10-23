@@ -12,16 +12,16 @@ class Quotation < ApplicationRecord
   has_many_attached :files
 
   # All the possible quotation types
-  enum quotation_type: [:t_comparative,:t_siemon_only,:t_supranet_only,:t_simple]
+  enum quotation_type: %i[t_comparative t_siemon_only t_supranet_only t_simple]
   validates :quotation_type, presence: true, inclusion: { in: :quotation_type }
 
   # All possible states
-  enum state: [:created, :active, :accepted, :expired]
-  validates :state, presence: true, inclusion: {in: :state}
+  enum state: %i[created active accepted expired]
+  validates :state, presence: true, inclusion: { in: :state }
 
   paginates_per 10
-  
-  scope :type, -> (params) {select(:quotation_type).where(id: params[:id])}
+
+  scope :type, ->(params) { select(:quotation_type).where(id: params[:id]) }
 
   def self.header_fields
     Quotation.joins(:client).select(
@@ -45,9 +45,11 @@ class Quotation < ApplicationRecord
   # Returns a hash with client information, and detailed products and
   # services information
   def detailed_info
+    products = format_products
+    products = group_products(products) if t_comparative?
     data = attributes
     .merge(client: client)
-    .merge(format_products)
+    .merge(products)
     .merge(format_services)
     data
   end
@@ -64,21 +66,22 @@ class Quotation < ApplicationRecord
     }
 
     quotation_services.each do |quotation_service|
-      #Getting the data
+      # Getting the data
       service = quotation_service.service
       unit_price = service.price
       amount = quotation_service.amount
       percent = quotation_service.percent
 
-      #Calculating results
+      # Calculating results
       total_without_percent = amount * unit_price
-      unit_price_with_percent = unit_price * (1 + percent / 100)
+      unit_price_with_percent = (unit_price * (1 + percent / 100)).round(2)
       total_with_percent = unit_price_with_percent * amount
 
-      #Pushing Results to Hash
+      # Pushing Results to Hash
       data[:quotation_services].push(
         amount: amount,
         service: "#{service.name} #{service.description}",
+        percent: percent,
         price: unit_price,
         total: total_without_percent,
         price_with_percent: unit_price_with_percent,
@@ -100,21 +103,25 @@ class Quotation < ApplicationRecord
     }
 
     quotation_products.each do |quotation_product|
-      #Getting the data
+      # Getting the data
       product = quotation_product.product
       unit_price = product.price.product_price
       amount = quotation_product.amount
+      material = product.material
       percent = quotation_product.percent
 
-      #Calculating results
+      # Calculating results
       total_without_percent = amount * unit_price
-      unit_price_with_percent = unit_price * (1 + percent / 100)
+      unit_price_with_percent = (unit_price * (1 + percent / 100)).round(2)
       total_with_percent = unit_price_with_percent * amount
 
-      #pushing results to the hash
+      # Pushing results to the hash
       data[:quotation_products].push(quotation_product.attributes.merge(
-        material: "#{product.material.name} #{product.material.description}",
+        measure_unit_id: product.measure_unit.id,
+        material_id: material.id,
+        material: "#{material.name} #{material.description}",
         brand: product.brand.name,
+        "#{quotation_type}_percent": percent,
         "#{quotation_type}_price": unit_price,
         "#{quotation_type}_total": total_without_percent,
         "#{quotation_type}_price_with_percent": unit_price_with_percent,
@@ -124,6 +131,46 @@ class Quotation < ApplicationRecord
       data[:products_totals][:without_percent] += total_without_percent
     end
     data
+  end
+
+  # Groups entries to be shown in 2 columns per row on the view, The entries
+  # are only grouped if the brand is either siemon or supranet and the material 
+  # and measure units are the exact same
+  def group_products(data)
+    products = data[:quotation_products]
+    products_totals = {
+      "t_siemon_only"=>{with_percent: 0, without_percent: 0},
+      "t_supranet_only"=>{with_percent: 0, without_percent: 0}
+    }
+    grouped_products = {}
+    products.each do |p|
+      # To group the same product in different both brands an ID is generated.
+      # That ID will be made of the material id and the measure unit id.
+      id = "#{p[:material_id]}_#{p[:measure_unit_id]}"
+      new_data = grouped_products[id] || {}
+      brand_name = p[:brand].downcase
+
+      if %w[siemon supranet].include? brand_name
+        # When the brand is siemon or supranet, we push the prices 1 time
+        p.each do |key, value|
+          new_data[key.to_s.gsub('t_comparative', "t_#{brand_name}_only")] = value
+        end
+        products_totals["t_#{brand_name}_only"][:without_percent] += p[:t_comparative_total]
+        products_totals["t_#{brand_name}_only"][:with_percent] += p[:t_comparative_total_with_percent]
+      else
+        # When the brand is not siemon or supranet, we push the prices 2 times,
+        # so it appears in both columns on the views
+        %w[t_supranet_only t_siemon_only].each do |name|
+          p.each do |key, value|
+            new_data[key.to_s.gsub('t_comparative', name)] = value
+          end
+          products_totals[name][:without_percent] += p[:t_comparative_total]
+          products_totals[name][:with_percent] += p[:t_comparative_total_with_percent]
+        end
+      end
+      grouped_products[id] = new_data
+    end
+    { quotation_products: grouped_products.values,products_totals: products_totals }
   end
 
 end
