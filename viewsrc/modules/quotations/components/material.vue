@@ -97,6 +97,7 @@ export default {
             id: material.product_id,
             name: `${material.brand} - ${material.name} ${material.description}`,
             material_id: material.material_id,
+            product_id: product_id,
             brand: material.brand,
             code: material.code,
             price: material.price,
@@ -237,14 +238,14 @@ export default {
       var total_percent = total * this.percentage.format(this.quotation_products.percents[0]);
       this.selected_materials.push({
         material_id: this.material_id,
-        amount: `${this.quotation_products.amount}`,
+        amount: this.quotation_products.amount,
         code: `${material[0].code}`,
         material: `${material[0].name}`,
         brand: `${material[0].brand}`,
-        product_id: `${material[0].product_id}`,
-        percent: `${this.quotation_products.percents[0]}`,
+        product_id: material[0].product_id,
+        percent: this.quotation_products.percents[0],
         price: price,
-        total: `${this.currency.format(total)}`,
+        total: this.currency.format(total),
         price_percent: price,
         total_percent: this.currency.format(total_percent),
       });
@@ -500,9 +501,9 @@ export default {
       </template>
        <template v-else v-slot:thead-top="data">
         <b-tr class="text-center">
-          <b-th rowspan="2" colspan="3" class="bg-dark text-white"></b-th>
+          <b-th rowspan="2" colspan="4" class="bg-dark text-white"></b-th>
           <b-th colspan="4" class="bg-dark">{{translations.custom_headers.expression}}</b-th>
-          <b-th></b-th>
+          <b-th  class="bg-dark"></b-th>
         </b-tr>
         <b-tr class="text-center text-danger">
           <b-th colspan="2" class="text-center">{{translations.custom_headers.without_percentage}}</b-th>
