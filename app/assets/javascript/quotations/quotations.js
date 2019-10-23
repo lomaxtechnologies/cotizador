@@ -3387,7 +3387,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  data() {\n    return {\n      variant: 'info',\n      text: '',\n      dismissSecs: 10,\n      dismissCountDown: 0\n    }\n  },\n\n  created: function(){\n    this.bus.$on('show-vue-alert',(text,type='info')=>{\n      this.show(text,type);\n    });\n  },\n\n  methods: {\n    show(text, type) {\n      this.text = text;\n      this.variant = type;\n      this.dismissCountDown = this.dismissSecs;\n    },\n\n    countDownChanged (dismissCountDown) {\n      this.dismissCountDown = dismissCountDown;\n    }\n  }\n});\n\n\n//# sourceURL=webpack:///./viewsrc/components/alert.vue?./node_modules/vue-loader/lib??vue-loader-options");
+eval("__webpack_require__.r(__webpack_exports__);\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  data() {\n    return {\n      variant: 'info',\n      text: '',\n      dismissSecs: 5,\n      dismissCountDown: 0\n    }\n  },\n\n  created: function(){\n    this.bus.$on('show-vue-alert',(text,type='info')=>{\n      this.show(text,type);\n    });\n  },\n\n  methods: {\n    show(text, type) {\n      this.text = text;\n      this.variant = type;\n      this.dismissCountDown = this.dismissSecs;\n    },\n\n    countDownChanged (dismissCountDown) {\n      this.dismissCountDown = dismissCountDown;\n    }\n  }\n});\n\n\n//# sourceURL=webpack:///./viewsrc/components/alert.vue?./node_modules/vue-loader/lib??vue-loader-options");
 
 /***/ }),
 

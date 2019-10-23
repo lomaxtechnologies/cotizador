@@ -4,7 +4,7 @@
       return {
         variant: 'info',
         text: '',
-        dismissSecs: 10,
+        dismissSecs: 5,
         dismissCountDown: 0
       }
     },
