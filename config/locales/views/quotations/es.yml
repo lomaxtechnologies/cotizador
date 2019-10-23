@@ -78,6 +78,7 @@ es:
           percent: Holgura
           price: Unitario
           total: Total
+          code: Código
           price_percent: Unitario
           total_percent: Total
           percent_supranet: Holgura

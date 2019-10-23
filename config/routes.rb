@@ -46,7 +46,8 @@ Rails.application.routes.draw do
 
   scope :api do
     get '/clients', to: 'clients#api_index'
-    get '/materials', to: 'materials#api_index'
+    get '/comparative', to: 'products#api_comparative'
+    get '/simple', to: 'products#api_simple'
     get '/products_by_material', to: 'products#products_by_material'
     get '/quotations', to: 'quotations#api_index'
     get '/products_by_brand', to: 'products#products_by_brand'
