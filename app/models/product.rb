@@ -99,19 +99,4 @@ class Product < ApplicationRecord
     data
   end
 
-  def self.fields_for_only_brand(brand_name)
-    data = []
-    return false unless Brand.exists?(name: brand_name)
-    brand = Brand.find_by(name: brand_name)
-    brand.products.each do |product|
-      data.push(
-        material_id: product.material_id,
-        name: product.material.name,
-        description: product.material.description,
-        brand: product.brand.name
-      )
-    end
-    data
-  end
-
 end
