@@ -3,7 +3,8 @@ class CommentsController < ApplicationController
   before_action :set_comment, only:[:update,:destroy]
 
   # GET /comments
-  def index; end
+  def index 
+  end
 
   # GET /comments/1
   def show; end
@@ -16,13 +17,11 @@ class CommentsController < ApplicationController
   
   def create
     comment = Comment.new(comment_params)
-    comment.commentable_id = params[:commentable_id]
-    comment.commentable_type = (params[:commentable_type]).humanize 
     comment.user = current_user
     if comment.save
       response_with_success
     else
-      response_with_error(t('.error'),t('.no_save'))
+      response_with_error(t('.error'), comment.errors.full_messages)
     end
   end
 
@@ -39,8 +38,20 @@ class CommentsController < ApplicationController
     response_with_success(@comment.destroy)  
   end
 
-  def api_index
-    response_with_success(Comment.all(index_params).order(:id))
+  def api_list
+    comments = Comment
+      .joins(:user)
+      .joins("inner join user_details ud on ud.user_id = users.id")
+      .where(commentable_type: params[:commentable_type])
+      .where(commentable_id: params[:commentable_id])
+      .order(id: :desc)
+      .select(
+        'comments.id',
+        "concat(ud.name, ' ', ud.last_name) as name",
+        'comments.note',
+        "TO_CHAR(comments.created_at, 'dd/mm/yyyy HH:MI AM') Date"
+      )
+    response_with_success(comments)
   end
 
   private 
@@ -58,7 +69,7 @@ class CommentsController < ApplicationController
   end
   
   def comment_params
-    params.require(:comment).permit(:note)
+    params.require(:comment).permit(:note, :commentable_type, :commentable_id)
   end
 
 end
