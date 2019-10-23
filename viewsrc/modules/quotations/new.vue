@@ -3,6 +3,7 @@
   import quotationMaterials from './components/material.vue'
   import quotationConditions from './components/conditions.vue'
   import quotationService from './components/service.vue'
+  import quotationGlobalView from './components/global_view.vue'
 
   export default {
 
@@ -10,7 +11,8 @@
       'quotation-header' : quotationHeader,
       'quotation-materials' : quotationMaterials,
       'quotation-service' : quotationService,
-      'quotation-conditions': quotationConditions
+      'quotation-conditions': quotationConditions,
+      'quotation-global-view': quotationGlobalView
     },
 
     data(){
@@ -25,6 +27,7 @@
           conditions:false,
           global_view:false
         },
+        refresh_global_view: false,
         quotation:{
           id: null,
         }
@@ -34,21 +37,25 @@
     watch:{
       'completed.header': function(){
         if(this.completed.header){
+          this.refresh_global_view = true;
           this.tab_index++;
         }
       },
       'completed.conditions': function(){
         if(this.completed.conditions){
+          this.refresh_global_view = true;
           this.tab_index++;
         }
       },
       'completed.services': function(){
         if(this.completed.services){
+          this.refresh_global_view = true;
           this.tab_index++;
         }
       },
       'completed.materials': function(){
         if(this.completed.materials){
+          this.refresh_global_view = true;
           this.tab_index++;
         }
       }
@@ -134,6 +141,12 @@
                   </span>
                 </template>
                 <b-card-text>
+                  <quotation-global-view
+                    :section_valid.sync=completed.global_view
+                    :refresh_quotation.sync=refresh_global_view
+                    :quotation_id=quotation.id
+                  >
+                  </quotation-global-view>
                 </b-card-text>
               </b-tab>
             </b-tabs>

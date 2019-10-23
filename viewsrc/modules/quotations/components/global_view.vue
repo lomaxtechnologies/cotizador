@@ -118,8 +118,8 @@
     watch: {
       refresh_quotation: function(){
         if(this.refresh_quotation){
-          this.refresh_quotation = false;
-          this.refreshQuotation;
+          this.$emit('update:refresh_quotation', false);
+          this.refreshQuotation();
         }
       }
     }
