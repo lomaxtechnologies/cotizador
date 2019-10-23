@@ -1,5 +1,7 @@
 es:
   dashboards:
+    title: Panel de Cotizaciones
+    title_nav: Inicio
     states:
       created: Creada
       active: Activa
