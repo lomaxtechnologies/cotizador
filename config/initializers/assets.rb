@@ -38,6 +38,9 @@ Rails.application.config.assets.precompile += %w( products/index.js )
 # Javascript for quotations module
 Rails.application.config.assets.precompile += %w( quotations/quotations.js )
 
+# Javascript for dashboards module
+Rails.application.config.assets.precompile += %w( dashboards/dashboards.js )
+
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.

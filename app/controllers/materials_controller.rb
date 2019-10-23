@@ -56,12 +56,7 @@ class MaterialsController < ApplicationController
     end
   end
 
-  # API For materials controller
-
-  # GET /materials/api/get-all
-  def api_index
-    response_with_success(Material.fields_for_quotation)
-  end
+ 
 
   private
 

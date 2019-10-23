@@ -78,6 +78,7 @@ es:
           percent: Holgura
           price: Unitario
           total: Total
+          code: Código
           price_percent: Unitario
           total_percent: Total
           percent_supranet: Holgura
@@ -90,6 +91,16 @@ es:
           total_siemon: Total
           price_percent_siemon: Unitario
           total_percent_siemon: Total
+      discard_modal:
+        title: ¿Realmente deseas descartar esta cotización?
+        body: El número actualmente asignado a esta cotización no se podrá volver a usar, y  toda la información que has agregado hasta el momento (servicios, materiales, etc.) se perderá completamente.
+        yes_text: Si, descártala
+        no_text: Cancelar
+      buttons:
+        print_pdf: Imprimir PDF
+        print_excel: Imprimir Excel
+        discard_quotation: Descartar
+        approve_quotation: Activar Cotización
       brands:
         supranet: Supranet
         siemon: Siemon
@@ -134,6 +145,8 @@ es:
         materials: Materiales
         not_used: --
       titles:
+        option_a: Opción A
+        option_b: Opción B
         quotation_number: Cotización No.
         materials: Detalle de Materiales
         services: Propuesta Económica/Resumen
@@ -154,6 +167,7 @@ es:
       headers:
         amount: Cantidad
         brand: Marca
+        percent: Holgura
         service: Descripción
         material: Descripción
         price: Unitario
@@ -172,3 +186,5 @@ es:
         t_siemon_only_total: Total
         t_siemon_only_price_with_percent: Unitario
         t_siemon_only_total_with_percent: Total
+        t_supranet_only_percent: Holgura
+        t_siemon_only_percent: Holgura

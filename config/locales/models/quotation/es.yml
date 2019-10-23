@@ -12,3 +12,4 @@ es:
           attributes:
             state:
               destroy_impossible: no permite la eliminación de la cotización
+              activation_impossible: no permite la activación de la cotización
