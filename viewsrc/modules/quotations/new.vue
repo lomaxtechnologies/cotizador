@@ -26,7 +26,7 @@
           global_view:false
         },
         quotation:{
-          id: NaN,
+          id: null,
         }
       }
     },
