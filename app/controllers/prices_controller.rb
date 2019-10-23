@@ -11,14 +11,8 @@ class PricesController < ApplicationController
 
   def create;end
 
-  def destroy
-    @product = @price.product
-    @price.destroy
-    price = Price.new(prices_params)
-    price.save
-    redirect_to prices_path, notice: t('.update')
-  end
-  
+  def destroy;end
+
   def dashboard
     @prices = Price.ransack(created_at_gteq: 5.minutes.ago).result
   end

@@ -78,7 +78,8 @@ class Product < ApplicationRecord
           material_id: product.material_id,
           name: product.material.name,
           description: product.material.description,
-          brand: product.brand.name
+          brand: product.brand.name,
+          product_id: product.id
         )
       end
     else
@@ -89,7 +90,8 @@ class Product < ApplicationRecord
           material_id: product.material_id,
           name: product.material.name,
           description: product.material.description,
-          brand: product.brand.name
+          brand: product.brand.name,
+          product_id: product.id
         )
       end
     end
