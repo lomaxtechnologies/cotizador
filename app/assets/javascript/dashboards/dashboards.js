@@ -3411,7 +3411,7 @@ eval("var g;\n\n// This works in non-strict mode\ng = (function() {\n\treturn th
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\r\n   install (Vue, options) {\r\n      let formatter = new Intl.NumberFormat(I18n.t('js_currency_locale'), {\r\n         minimumFractionDigits: 2,\r\n         maximumFractionDigits: 2\r\n      });\r\n      let format_percent = function(percent){\r\n         percent = (percent/100)+1;\r\n         return percent\r\n      };\r\n      Vue.prototype.currency = {\r\n         formatter, \r\n         format_percent\r\n      };\r\n   }\r\n});\r\n\n\n//# sourceURL=webpack:///./viewsrc/components/currency.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\r\n   install (Vue, options) {\r\n      let formatter = new Intl.NumberFormat(I18n.t('js_currency_locale'), {\r\n         minimumFractionDigits: 2,\r\n         maximumFractionDigits: 2\r\n      });\r\n\r\n      Vue.prototype.currency = formatter;\r\n   }\r\n});\r\n\n\n//# sourceURL=webpack:///./viewsrc/components/currency.js?");
 
 /***/ }),
 
@@ -3423,7 +3423,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\r\n   install (Vue, options) {\r\n      var date_options = { year: 'numeric', month: 'numeric', day: 'numeric' };\r\n      //date will be returned in standard format YYYY-MM-DD\r\n      let today = function(){\r\n         var date = new Date();\r\n         return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();\r\n      }\r\n      let toLocalFormat = function(date){\r\n         date = new Date(date);\r\n         return date.toLocaleDateString(I18n.currentLocale(),date_options);\r\n      }\r\n      Vue.prototype.date = {\r\n         today,\r\n         toLocalFormat\r\n      };\r\n   }\r\n});\n\n//# sourceURL=webpack:///./viewsrc/components/date.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\r\n   install (Vue, options) {\r\n\r\n      //date will be returned in standard format YYYY-MM-DD\r\n      let today = function(){\r\n         var date = new Date();\r\n         return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();\r\n      }\r\n\r\n      //date should be given in standard format YYYY-MM-DD\r\n      let toLocalFormat = function(date){\r\n         if(! date){\r\n            return '';\r\n         }\r\n         var parsed_date = I18n.t('formats.local_date');\r\n         date = date.split('-');\r\n         return parsed_date\r\n         .replace('%Y',date[0])\r\n         .replace('%m',date[1])\r\n         .replace('%d',date[2]);\r\n      }\r\n      \r\n      Vue.prototype.date = {\r\n         today,\r\n         toLocalFormat\r\n      };\r\n   }\r\n});\n\n//# sourceURL=webpack:///./viewsrc/components/date.js?");
 
 /***/ }),
 

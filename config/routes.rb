@@ -44,7 +44,7 @@ Rails.application.routes.draw do
   resources :dashboards
 
   
-  root to: 'quotations#index'
+  root to: 'dashboards#index'
 
   scope :api do
     get '/clients', to: 'clients#api_index'
