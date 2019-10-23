@@ -24,11 +24,7 @@ Rails.application.routes.draw do
   post '/users/registrations/reset-password/:id', to: 'users/registrations#reset_password', as: 'reset_password_users_registration'
 
   resources :services
-  get 'api/services/', to: 'services#api_index'
-  patch 'services/api/update-batch', to: 'services#api_update_batch'
-
   resources :measure_units
-
   resources :clients
 
   resources :products, except:[:show]
@@ -41,7 +37,6 @@ Rails.application.routes.draw do
 
   resources :quotations
 
-  
   root to: 'quotations#index'
 
   scope :api do
@@ -49,16 +44,20 @@ Rails.application.routes.draw do
     get '/comparative', to: 'products#api_comparative'
     get '/simple', to: 'products#api_simple'
     get '/products_by_material', to: 'products#products_by_material'
-    get '/quotations', to: 'quotations#api_index'
     get '/products_by_brand', to: 'products#products_by_brand'
     scope :quotations do
+      put '/:id/activate', to: 'quotations#api_activate'
+      get '/', to: 'quotations#api_index'
       get '/types', to: 'quotations#api_types'
       get '/:id/type', to: 'quotations#api_type'
       post '/:id/attachments/create', to: 'attachments#create'
       put '/:id/update', to: 'quotations#update'
       delete '/:id/attachments/destroy', to: 'attachments#destroy'
     end
-
+    scope :services do
+      put '/batch', to: 'services#api_update_batch'
+      get '/', to: 'services#api_index'
+    end
     scope :comments do
       get '/', to: 'comments#api_index'
       post '/(:commentable_type)/:commentable_id', to: 'comments#create', defaults: {commentable_type: 'Quotation'}
