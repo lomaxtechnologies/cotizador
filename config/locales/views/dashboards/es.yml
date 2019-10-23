@@ -1,0 +1,20 @@
+es:
+  dashboards:
+    states:
+      created: Creada
+      active: Activa
+      accepted: Aprobada por el Cliente
+      expired: Expirada
+    index:
+      page_size_placeholder: Filas por página
+      state_created: Creada
+      state_active: Activa
+      state_accepted: Aprobada por el Cliente
+      state_expired:  Expirada
+      headers_dashboard:
+        id: Código
+        quotation_type: Tipo
+        state: Estado
+        quotation_date: Fecha
+        name: Cliente
+        actions: ''
