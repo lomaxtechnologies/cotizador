@@ -42,6 +42,15 @@ class Quotation < ApplicationRecord
     end
   end
 
+  def activate
+    if created?
+      active!
+    else
+      errors.add(:state, :activation_impossible)
+      false
+    end
+  end
+
   # Returns a hash with client information, and detailed products and
   # services information
   def detailed_info

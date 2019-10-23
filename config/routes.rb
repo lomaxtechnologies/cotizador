@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     get '/products_by_material', to: 'products#products_by_material'
     get '/products_by_brand', to: 'products#products_by_brand'
     scope :quotations do
+      put '/:id/activate', to: 'quotations#api_activate'
       get '/', to: 'quotations#api_index'
       get '/types', to: 'quotations#api_types'
       get '/:id/type', to: 'quotations#api_type'
