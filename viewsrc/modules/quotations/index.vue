@@ -4,10 +4,12 @@
     data() {
       return {
         config: {
-          selected_quotation: NaN,
           current_page: 1,
           page_size: 10,
-          show_modal:false
+          show_modal:false,
+          rows: 0,
+          //This is the quotation to be deleted once the user confirms
+          selected_quotation: null
         },
         translations: {
           index: I18n.t('quotations.index'),
@@ -15,7 +17,11 @@
           types: I18n.t('quotations.api_types')
         },
         table_headers:[],
-        quotations: []
+        quotations: [],
+        filters:{
+          id: '',
+          quotation_date: ''
+        }
       }
     },
 
@@ -25,8 +31,14 @@
     },
 
     computed:{
-      quotationRows: function(){
-        return this.quotations.length;
+
+      filteredQuotations: function(){
+        var filtered_quotations = this.quotations.filter((quotation)=>{
+          return String(quotation.id+100).includes(this.filters.id) && quotation.quotation_date.includes(this.filters.quotation_date);
+        });
+        this.config.rows = filtered_quotations.length;
+        this.config.current_page = 1;
+        return filtered_quotations;
       }
     },
 
@@ -154,7 +166,7 @@
                     <div class="input-group-text">
                       <i class="fas fa-barcode"></i>
                     </div>
-                    <b-input></b-input>
+                    <b-input v-model=filters.id></b-input>
                   </div>
                 </div>
                 <div class="col-3">
@@ -165,7 +177,7 @@
                     <div class="input-group-text">
                       <i class="fas fa-calendar"></i>
                     </div>
-                    <b-input></b-input>
+                    <b-input v-model=filters.quotation_date type="date"></b-input>
                   </div>
                 </div>
                 <div class="col-2 offset-4 text-right button-margin-top">
@@ -183,7 +195,7 @@
         id="quotations_table" 
         thead-tr-class="bg-primary text-white" 
         class="table table-sm table-striped"
-        :items=quotations
+        :items=filteredQuotations
         :fields=table_headers
         :per-page=config.page_size
         :current-page=config.current_page
@@ -227,7 +239,7 @@
       </b-table>
       <b-pagination
         v-model=config.current_page
-        :total-rows=quotationRows
+        :total-rows=config.rows
         :per-page=config.page_size
         aria-controls="quotations_table"
         class="justify-content-center"

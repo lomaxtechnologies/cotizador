@@ -135,6 +135,8 @@ es:
         materials: Materiales
         not_used: --
       titles:
+        option_a: Opción A
+        option_b: Opción B
         quotation_number: Cotización No.
         materials: Detalle de Materiales
         services: Propuesta Económica/Resumen
@@ -155,6 +157,7 @@ es:
       headers:
         amount: Cantidad
         brand: Marca
+        percent: Holgura
         service: Descripción
         material: Descripción
         price: Unitario
@@ -173,3 +176,5 @@ es:
         t_siemon_only_total: Total
         t_siemon_only_price_with_percent: Unitario
         t_siemon_only_total_with_percent: Total
+        t_supranet_only_percent: Holgura
+        t_siemon_only_percent: Holgura
