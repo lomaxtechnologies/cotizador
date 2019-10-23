@@ -1,10 +1,10 @@
 - if notice.is_a? Array
   - notice.each do |message|
-    %p.notice.rounded.text-light.p-3= message
+    %p.rails-notice.rounded.text-light.p-3= message
 - elsif notice
-  %p.notice.rounded.text-light.p-3= notice
+  %p.rails-notice.rounded.text-light.p-3= notice
 - if alert.is_a? Array
   - alert.each do |message|
-    %p.alert.rounded.text-light.p-3= message
+    %p.rails-alert.rounded.text-light.p-3= message
 - elsif alert
-  %p.alert.rounded.text-light.p-3= alert
+  %p.rails-alert.rounded.text-light.p-3= alert

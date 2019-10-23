@@ -28,6 +28,7 @@
     mounted: function(){
       this.getQuotations();
       this.setTableHeaders();
+      this.alert('Hola mundo','info');
     },
 
     computed:{
