@@ -19,6 +19,7 @@ module.exports = env => {
    performance: { hints: false },
    entry: {
       "quotations": "./viewsrc/modules/quotations/quotations.js",
+      "dashboards": "./viewsrc/modules/dashboards/dashboards.js",
    },
    output: {
       path: __dirname,
