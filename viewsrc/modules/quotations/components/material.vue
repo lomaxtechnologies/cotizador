@@ -97,7 +97,7 @@ export default {
             id: material.product_id,
             name: `${material.brand} - ${material.name} ${material.description}`,
             material_id: material.material_id,
-            product_id: product_id,
+            product_id: material.product_id,
             brand: material.brand,
             code: material.code,
             price: material.price,
@@ -122,7 +122,7 @@ export default {
         this.materials = this.materials.map(function(material){
           return{
             id: material.material_id,
-            name: `${material.material_id} ${material.name} ${material.description}`,
+            name: `${material.name} ${material.description}`,
             product_id: material.product_id,
             brand: material.brand,
             code: material.code,
