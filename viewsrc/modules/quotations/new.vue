@@ -50,9 +50,10 @@
             this.hideDiscardModal();
             this.$router.push({path: '/new'});
           }else{
-            console.log(JSON.stringify(response));
+            this.handleError(response.error);
           }
         }).catch((err)=>{
+          console.log(err.stack);
           console.log(JSON.stringify(err));
         });
       },
@@ -64,9 +65,10 @@
           if(response.successful){
             this.$router.push({path: `/${this.quotation.id}/show`});
           }else{
-            console.log(JSON.stringify(response));
+            this.handleError(response.error);
           }
         }).catch((err)=>{
+          console.log(err.stack);
           console.log(JSON.stringify(err));
         })
       },

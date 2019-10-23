@@ -38,13 +38,17 @@
         this.http
         .get('/api/services')
         .then((response)=>{
-          this.services = response.data;
-          if(this.services.length > 0){
-            this.form_fields.service_id = this.services[0].id;
-            this.form_fields.price = this.services[0].price;
+          if(response.successful){
+            this.services = response.data;
+            if(this.services.length > 0){
+              this.form_fields.service_id = this.services[0].id;
+              this.form_fields.price = this.services[0].price;
+            }
+          }else{
+            this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
       },
 
@@ -81,12 +85,13 @@
         .put(`quotations/${this.quotation_id}`, data)
         .then((response)=>{
           if(response.successful){
+            this.alert(this.translations.notifications.services_updated);
             this.$emit('update:section_valid', true);
           }else{
-            console.log(JSON.stringify(response.error));
+            this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
       },
       

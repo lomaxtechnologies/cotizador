@@ -31,11 +31,12 @@
         .then((response)=>{
           if(response.successful){
             this.$emit('update:section_valid', true);
+            this.alert(this.translations.notifications.conditions_updated);
           }else{
-            console.log(JSON.stringify(response.error));
+            this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
       }
     }
