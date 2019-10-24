@@ -1,17 +1,19 @@
 class CreateExcel
+  def initialize(params)
+    @quotation_id = params[:id]
+    @quotation = Quotation.find(@quotation_id)
+    @detail = @quotation.detail_info
+  end
+    
+  def create
+    path = 'storage/platialla_simple.xlsx'
+    path = 'storage/plantilla_comparativa.xlsx' if @quotation.quotation_type == 't_comparative'
+    
+    workbook = RubyXL::Parser.parse(path)
+    worksheet = workbook.worksheet[0]
+    worksheet.sheet_name = 'Cliente'
+    
 
-    def create
-        workbook = RubyXL::Workbook.new
-        worksheet= workbook.worksheet[0]
-        worksheet.insert_row(0)
-        worksheet.insert_row(1)
-        worksheet.insert_row(2)
-        worksheet[2].insert_column(0)
-        worksheet[2].insert_column(1)
-        worksheet[2].insert_column(2)
-        worksheet[2].insert_column(3)
-        worksheet[2].insert_column(4)
-        worksheet[2].insert_column(5)
-        workbook.write("storage/prueba.xlsx")
-    end
+  end
+
 end

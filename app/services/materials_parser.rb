@@ -8,7 +8,6 @@ class MaterialsParser
     return OpenStruct.new(success?: false, errors: I18n.t('.nofile')) if @file.path.nil?
     workbook = RubyXL::Parser.parse(@file.path)
     worksheet = workbook.worksheets[0]
-    error = Hash.new
     if isvalidfile?(worksheet)
       worksheet.each do |row|
         next if not_material?(row)
@@ -21,7 +20,7 @@ class MaterialsParser
         update_price(price_model,row)
       end
       @file.unlink
-      return OpenStruct.new(success?: true, errors: error)
+      return OpenStruct.new(success?: true, errors: I18n.t('.noformat'))
     else
       return OpenStruct.new(success?: false, errors: I18n.t('.noformat'))
     end

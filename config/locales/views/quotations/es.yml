@@ -145,6 +145,7 @@ es:
       global_view:
         title: Vista Global
     show:
+      generate_Excel: Generar Excel
       brands:
         t_supranet_only: Supranet
         t_siemon_only: Siemon
