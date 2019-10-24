@@ -3403,42 +3403,6 @@ eval("var g;\n\n// This works in non-strict mode\ng = (function() {\n\treturn th
 
 /***/ }),
 
-/***/ "./viewsrc/components/currency.js":
-/*!****************************************!*\
-  !*** ./viewsrc/components/currency.js ***!
-  \****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n   install (Vue, options) {\n      let formatter = new Intl.NumberFormat(I18n.t('js_currency_locale'), {\n         minimumFractionDigits: 2,\n         maximumFractionDigits: 2\n      });\n\n      Vue.prototype.currency = formatter;\n   }\n});\n\n\n//# sourceURL=webpack:///./viewsrc/components/currency.js?");
-
-/***/ }),
-
-/***/ "./viewsrc/components/date.js":
-/*!************************************!*\
-  !*** ./viewsrc/components/date.js ***!
-  \************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n   install (Vue, options) {\n\n      //date will be returned in standard format YYYY-MM-DD\n      let today = function(){\n         var date = new Date();\n         return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();\n      }\n\n      //date should be given in standard format YYYY-MM-DD\n      let toLocalFormat = function(date){\n         if(! date){\n            return '';\n         }\n         var parsed_date = I18n.t('formats.local_date');\n         date = date.split('-');\n         return parsed_date\n         .replace('%Y',date[0])\n         .replace('%m',date[1])\n         .replace('%d',date[2]);\n      }\n      \n      Vue.prototype.date = {\n         today,\n         toLocalFormat\n      };\n   }\n});\n\n//# sourceURL=webpack:///./viewsrc/components/date.js?");
-
-/***/ }),
-
-/***/ "./viewsrc/components/http.js":
-/*!************************************!*\
-  !*** ./viewsrc/components/http.js ***!
-  \************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n   install (Vue, options) {\n      // Get authentication token from rails\n      let meta = document.querySelector('meta[name=\"csrf-token\"]');\n      let token = '';\n      if (meta) {\n         token = meta.getAttribute('content')\n      }\n      let http = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({\n         headers: { 'X-CSRF-Token': token }\n      });\n      http.interceptors.response.use(response => {\n         if (window.debug) {\n            window.debug(response.data, \"api method: \" + response.request.responseURL)\n         }\n         if(response.data.successful){\n            return {\n               successful: response.data.successful,\n               data: response.data.data\n            }\n         }\n         return {\n            successful: response.data.successful,\n            error: response.data.error\n         }\n      }, error => {\n         let message = \"\"\n         if (error.response.data.error.message) {\n            message = error.response.data.error.message\n         }\n         return {\n            success: false,\n            error: {\n               error: error.response.statusText,\n               message: message\n            }\n         }\n      });\n      Vue.prototype.http = http;\n   }\n});\n\n//# sourceURL=webpack:///./viewsrc/components/http.js?");
-
-/***/ }),
-
 /***/ "./viewsrc/modules/dashboards/dashboards.js":
 /*!**************************************************!*\
   !*** ./viewsrc/modules/dashboards/dashboards.js ***!
@@ -3447,7 +3411,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var axio
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"./node_modules/vue/dist/vue.js\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ \"./node_modules/vue-router/dist/vue-router.esm.js\");\n/* harmony import */ var bootstrap_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap-vue */ \"./node_modules/bootstrap-vue/esm/index.js\");\n/* harmony import */ var _components_http_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/http.js */ \"./viewsrc/components/http.js\");\n/* harmony import */ var _components_date_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/date.js */ \"./viewsrc/components/date.js\");\n/* harmony import */ var _components_currency_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/currency.js */ \"./viewsrc/components/currency.js\");\n/* harmony import */ var _index_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./index.vue */ \"./viewsrc/modules/dashboards/index.vue\");\n// Loading framework and libraries\n\n\n\n\n\n\n\n// Loading app vue components\n\n\nvue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\nvue__WEBPACK_IMPORTED_MODULE_0___default.a.use(bootstrap_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"]);\nvue__WEBPACK_IMPORTED_MODULE_0___default.a.use(_components_http_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"]);\nvue__WEBPACK_IMPORTED_MODULE_0___default.a.use(_components_date_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"]);\nvue__WEBPACK_IMPORTED_MODULE_0___default.a.use(_components_currency_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"]);\n\nvar appRouter = new vue_router__WEBPACK_IMPORTED_MODULE_1__[\"default\"]({\n   routes: [\n      {\n         path: '/', redirect: '/index'\n      },\n      {\n         path: '/index', name: 'index', component: _index_vue__WEBPACK_IMPORTED_MODULE_6__[\"default\"]\n      }\n   ]\n });\n\n// Vue app\nlet app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({router: appRouter});\napp.$mount('#dashboards_app');\n\n\n//# sourceURL=webpack:///./viewsrc/modules/dashboards/dashboards.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"./node_modules/vue/dist/vue.js\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ \"./node_modules/vue-router/dist/vue-router.esm.js\");\n/* harmony import */ var bootstrap_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap-vue */ \"./node_modules/bootstrap-vue/esm/index.js\");\n/* harmony import */ var _plugins_http_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../plugins/http.js */ \"./viewsrc/plugins/http.js\");\n/* harmony import */ var _plugins_date_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../plugins/date.js */ \"./viewsrc/plugins/date.js\");\n/* harmony import */ var _plugins_currency_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../plugins/currency.js */ \"./viewsrc/plugins/currency.js\");\n/* harmony import */ var _index_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./index.vue */ \"./viewsrc/modules/dashboards/index.vue\");\n// Loading framework and libraries\n\n\n\n\n\n\n\n// Loading app vue components\n\n\nvue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\nvue__WEBPACK_IMPORTED_MODULE_0___default.a.use(bootstrap_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"]);\nvue__WEBPACK_IMPORTED_MODULE_0___default.a.use(_plugins_http_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"]);\nvue__WEBPACK_IMPORTED_MODULE_0___default.a.use(_plugins_date_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"]);\nvue__WEBPACK_IMPORTED_MODULE_0___default.a.use(_plugins_currency_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"]);\n\nvar appRouter = new vue_router__WEBPACK_IMPORTED_MODULE_1__[\"default\"]({\n   routes: [\n      {\n         path: '/', redirect: '/index'\n      },\n      {\n         path: '/index', name: 'index', component: _index_vue__WEBPACK_IMPORTED_MODULE_6__[\"default\"]\n      }\n   ]\n });\n\n// Vue app\nlet app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({router: appRouter});\napp.$mount('#dashboards_app');\n\n\n//# sourceURL=webpack:///./viewsrc/modules/dashboards/dashboards.js?");
 
 /***/ }),
 
@@ -3484,6 +3448,42 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _nod
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_18fc3a28___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=template&id=18fc3a28& */ \"./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./viewsrc/modules/dashboards/index.vue?vue&type=template&id=18fc3a28&\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_18fc3a28___WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"staticRenderFns\", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_18fc3a28___WEBPACK_IMPORTED_MODULE_0__[\"staticRenderFns\"]; });\n\n\n\n//# sourceURL=webpack:///./viewsrc/modules/dashboards/index.vue?");
+
+/***/ }),
+
+/***/ "./viewsrc/plugins/currency.js":
+/*!*************************************!*\
+  !*** ./viewsrc/plugins/currency.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n   install (Vue, options) {\n      let formatter = new Intl.NumberFormat(I18n.t('js_currency_locale'), {\n         minimumFractionDigits: 2,\n         maximumFractionDigits: 2\n      });\n\n      Vue.prototype.currency = formatter;\n   }\n});\n\n\n//# sourceURL=webpack:///./viewsrc/plugins/currency.js?");
+
+/***/ }),
+
+/***/ "./viewsrc/plugins/date.js":
+/*!*********************************!*\
+  !*** ./viewsrc/plugins/date.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n   install (Vue, options) {\n\n      //date will be returned in standard format YYYY-MM-DD\n      let today = function(){\n         var date = new Date();\n         return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();\n      }\n\n      //date should be given in standard format YYYY-MM-DD\n      let toLocalFormat = function(date){\n         if(! date){\n            return '';\n         }\n         var parsed_date = I18n.t('formats.local_date');\n         date = date.split('-');\n         return parsed_date\n         .replace('%Y',date[0])\n         .replace('%m',date[1])\n         .replace('%d',date[2]);\n      }\n      \n      Vue.prototype.date = {\n         today,\n         toLocalFormat\n      };\n   }\n});\n\n//# sourceURL=webpack:///./viewsrc/plugins/date.js?");
+
+/***/ }),
+
+/***/ "./viewsrc/plugins/http.js":
+/*!*********************************!*\
+  !*** ./viewsrc/plugins/http.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n   install (Vue, options) {\n      // Get authentication token from rails\n      let meta = document.querySelector('meta[name=\"csrf-token\"]');\n      let token = '';\n      if (meta) {\n         token = meta.getAttribute('content')\n      }\n      let http = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({\n         headers: { 'X-CSRF-Token': token }\n      });\n      http.interceptors.response.use(response => {\n         if (window.debug) {\n            window.debug(response.data, \"api method: \" + response.request.responseURL)\n         }\n         if(response.data.successful){\n            return {\n               successful: response.data.successful,\n               data: response.data.data\n            }\n         }\n         return {\n            successful: response.data.successful,\n            error: response.data.error\n         }\n      }, error => {\n         let message = \"\"\n         if (error.response.data.error.message) {\n            message = error.response.data.error.message\n         }\n         return {\n            success: false,\n            error: {\n               error: error.response.statusText,\n               message: message\n            }\n         }\n      });\n      Vue.prototype.http = http;\n   }\n});\n\n//# sourceURL=webpack:///./viewsrc/plugins/http.js?");
 
 /***/ })
 

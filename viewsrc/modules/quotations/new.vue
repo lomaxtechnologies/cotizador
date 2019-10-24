@@ -49,13 +49,14 @@ export default {
         .then(response => {
           if (response.successful) {
             this.hideDiscardModal();
-            this.$router.push({ path: "/new" });
+            this.$router.push({ path: "/index" });
+            this.alert(this.translations.notifications.quotation_discarded);
           } else {
-            console.log(JSON.stringify(response));
+            this.handleError(response.error);
           }
         })
         .catch(err => {
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
     },
 
@@ -64,10 +65,17 @@ export default {
         .put(`api/quotations/${this.quotation.id}/activate`)
         .then(response => {
           if (response.successful) {
+            this.alert(
+              this.translations.notifications.quotation_activated,
+              "success"
+            );
             this.$router.push({ path: `/${this.quotation.id}/show` });
           } else {
-            console.log(JSON.stringify(response));
+            this.handleError(response.error);
           }
+        })
+        .catch(err => {
+          console.log("Error", err.stack, err.name, err.message);
         })
         .catch(err => {
           console.log(JSON.stringify(err));
@@ -153,7 +161,7 @@ export default {
                   <i class="fas fa-check-circle"></i>
                 </span>
               </template>
-              <b-card-text v-if="completed.header">
+              <b-card-text>
                 <quotation-materials
                   :section_valid.sync="completed.materials"
                   :quotation_id="quotation.id"
@@ -167,7 +175,7 @@ export default {
                   <i class="fas fa-check-circle"></i>
                 </span>
               </template>
-              <b-card-text v-if="completed.header">
+              <b-card-text>
                 <quotation-service
                   :section_valid.sync="completed.services"
                   :quotation_id="quotation.id"
@@ -181,7 +189,7 @@ export default {
                   <i class="fas fa-check-circle"></i>
                 </span>
               </template>
-              <b-card-text v-if="completed.header">
+              <b-card-text>
                 <quotation-conditions
                   :section_valid.sync="completed.conditions"
                   :quotation_id="quotation.id"
@@ -195,7 +203,7 @@ export default {
                   <i class="fas fa-check-circle"></i>
                 </span>
               </template>
-              <b-card-text v-if="completed.header">
+              <b-card-text>
                 <div class="row">
                   <div class="col-12 text-right mb-2">
                     <b-button

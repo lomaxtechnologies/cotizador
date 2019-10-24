@@ -2,9 +2,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import BootstrapVue from 'bootstrap-vue';
-import http from '../../components/http.js';
-import date from '../../components/date.js';
-import currency from '../../components/currency.js'
+import http from '../../plugins/http.js';
+import date from '../../plugins/date.js';
+import currency from '../../plugins/currency.js'
 
 // Loading app vue components
 import dashboardsIndex from './index.vue';
