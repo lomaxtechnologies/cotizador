@@ -7,3 +7,4 @@ es:
       state_active: Activa
       state_accepted: Aprobada por el Cliente
       state_expired:  Expirada
+      expired_soon: Pronto expiraran
