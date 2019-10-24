@@ -1,7 +1,7 @@
 class AttachmentsController < ApplicationController
   layout "manager"
 
-  before_action :set_attachment, only: [:edit, :update, :show, :destory]
+  before_action :set_attachment, only: [:edit, :update, :show, :destroy]
 
   def index
     attachments = Attachment.where("quotation_id = ?", params[:quotation_id])
@@ -28,7 +28,6 @@ class AttachmentsController < ApplicationController
 
   def destroy
     # Just the user who created the attachment can delete
-
     if @attachment.user == current_user
       response_with_success(@attachment.destroy)
     else

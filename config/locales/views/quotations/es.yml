@@ -67,7 +67,7 @@ es:
         buttons:
           add_material: Agregar
           next: Siguiente
-        custom_headers: 
+        custom_headers:
           expression: Expresión en Quetzales (GTQ)
           with_percentage: Con Holgura
           without_percentage: Sin Holgura
@@ -78,10 +78,7 @@ es:
           percent: Holgura
           price: Unitario
           total: Total
-<<<<<<< HEAD
-=======
           code: Código
->>>>>>> master
           price_percent: Unitario
           total_percent: Total
           percent_supranet: Holgura

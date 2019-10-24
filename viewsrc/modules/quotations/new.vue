@@ -230,29 +230,7 @@ export default {
                   <i class="fas fa-check-circle"></i>
                 </span>
               </template>
-              <b-card-text v-if="completed.header">
-                <div class="row">
-                  <div class="col-12 text-right mb-2">
-                    <b-button
-                      variant="danger"
-                      v-b-modal.discard-modal
-                      :disabled="quotation.id==null"
-                    >
-                      <i class="fas fa-trash"></i>
-                      &nbsp;{{translations.buttons.discard_quotation}}
-                    </b-button>
-                    <b-button
-                      variant="primary"
-                      :disabled="quotation.id==null"
-                      v-on:click="activateQuotation"
-                    >
-                      <i class="fas fa-check-circle"></i>
-                      &nbsp;{{translations.buttons.approve_quotation}}
-                    </b-button>
-                  </div>
-                </div>
-                <quotations-attachments :quotation_id="quotation.id" />
-              </b-card-text>
+              <quotation-attachments :quotation_id="quotation.id" />
             </b-tab>
           </b-tabs>
         </b-card>
