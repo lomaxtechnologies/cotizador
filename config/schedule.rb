@@ -23,6 +23,6 @@ set :output, 'log/cron.log'
 env :PATH, ENV['PATH']
 env :GEM_PATH, '/usr/local/bundle'
 
-every :day, at: '12:20pm' do
+every :day, at: '12:00am' do
   rake 'quotation:check_state'
 end
