@@ -15,10 +15,16 @@
      methods:{
        generateExcel: function(){
          console.log(this.$route.params.id);
+         let quotation_id = this.$route.params.id;
+         this.http
+         .post(`/quotations/${quotation_id}/excel`)
+         .catch(err => {
+          console.log(JSON.stringify(err));
+          });
        }
      },
      components:{
-       'global-view': globalView
+      'global-view': globalView,
       'component-comment-form': componentCommentForm,
       'component-comment-list': componentCommentList
      }
@@ -28,7 +34,7 @@
 <template>
   <div class="row" >
     <div class="col-lg-12 offset-xl-1 col-xl-10 text-right">
-      <b-button variant="primary" @update="dataExcel" v-on:click="generateExcel">
+      <b-button variant="primary" v-on:click="generateExcel">
         {{this.translation.show.generate_Excel}}
       </b-button>
     </div>

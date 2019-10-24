@@ -73,7 +73,7 @@ class QuotationsController < ApplicationController
   end
 
   def generate_excel
-    CreateExcel(id: params[:id]).create
+    CreateExcel.new(id: params[:id]).create
     #respond_to do |format|
     #  format.xlsx {render xlsx: 'download', filename: filename}
     #end

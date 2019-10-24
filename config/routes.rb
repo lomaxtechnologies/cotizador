@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   resources :brands, except: [:edit, :show, :new]
 
   resources :quotations
+  post "/quotations/:id/excel", to: "quotations#generate_excel"
 
   resources :dashboards
 
