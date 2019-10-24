@@ -10,7 +10,9 @@ export default {
       attachment: {
         file: null
       },
-      attachments: []
+      attachments: {
+        
+      }
     };
   },
   methods: {

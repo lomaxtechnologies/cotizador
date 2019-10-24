@@ -1,6 +1,7 @@
 <script>
     import dashboardQuotationStateCount from './components/state.vue'
     import dashboardQuotationExpiredSoon from './components/expiredsoon.vue'
+    import dashboardQuotationComment from './components/comment.vue'
     export default {
       data(){
         return{
@@ -11,7 +12,6 @@
               expired: 0
               },
           expired_quotation: {
-              quotation_date: 0
           },    
           translations: {
               index: I18n.t('dashboards.index')
@@ -23,16 +23,17 @@
         'dashboard-quotation-active' : dashboardQuotationStateCount,
         'dashboard-quotation-accepted' : dashboardQuotationStateCount,
         'dashboard-quotation-expired' : dashboardQuotationStateCount,
-        'dashboard-quotation-expired-soon' : dashboardQuotationExpiredSoon
+        'dashboard-quotation-expired-soon' : dashboardQuotationExpiredSoon,
+        'dashboard-quotation-comment' : dashboardQuotationComment
         },
       methods: {
           getStatesCounts: function () {
           this.http
           .get('api/dashboard/count-states')
-          .then((response)=>{
+          .then((response) => {
               if(response.successful){
                 this.states_count = response.data
-                console.log(JSON.stringify(states_count));
+                console.log(JSON.stringify(this.states_count));
               }else{
                 console.log(JSON.stringify(response));
               }
@@ -43,18 +44,17 @@
           getExpiredQuotations: function () {
           this.http
           .get('api/dashboard/expired-soon')
-          .then((response)=>{
-          if(response.successful){
-            this.expired_quotation = response.data
-            console.log(JSON.stringify(this.expired_quotation));
-      
-          }else{
-            this.handleError(response.error);
+          .then((response) => {
+              if(response.successful){
+                this.expired_quotation = response.data
+                console.log(JSON.stringify(this.expired_quotation));
+              }else{
+                console.log(JSON.stringify(response));
+              }
+              }).catch((err)=>{
+                console.log(JSON.stringify(err));
+            });
           }
-          }).catch((err)=>{
-            console.log("Error", err.stack, err.name, err.message);
-          });
-            }
         },
         mounted: function(){
           this.getStatesCounts();
@@ -93,13 +93,22 @@
           </div>
           <br>
           <div>  
-            <b-card class="text-center">
                 <dashboard-quotation-expired-soon
                  :title_expired=translations.index.expired_soon
-                 :quotation_expired = expired_quotation.quotation_date
+                 :expired_quotation_state = expired_quotation
                  >
                 </dashboard-quotation-expired-soon>
-            </b-card>
+          </div>
+          <br>
+          <div>
+              <b-card-group deck >
+                <dashboard-quotation-comment>
+                </dashboard-quotation-comment>
+                <dashboard-quotation-comment>
+                </dashboard-quotation-comment>
+                <dashboard-quotation-comment>
+                </dashboard-quotation-comment>
+              </b-card-group>
           </div>
         </div>
       <br>

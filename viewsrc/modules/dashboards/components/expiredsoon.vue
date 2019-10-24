@@ -1,8 +1,7 @@
 <script>
 export default {
     props: {
-        quotation_expired: {
-            type: Number, default: 0
+        expired_quotation_state: {
         },
         title_expired: {
             type: String, default: null
@@ -16,8 +15,8 @@ export default {
 </script>
 
 <template>
-    <div class="text-center">
-      <h3>{{title_expired}}:</h3>
-      <h1>{{quotation_expired}}</h1> 
+    <div class="alert alert-danger text-center" role="alert">
+        <h3>{{title_expired}}:</h3>
+        <h1>{{expired_quotation_state}}</h1> 
     </div>
 </template>
