@@ -8,7 +8,7 @@
       },
       quotation_id:{
         type:Number,
-        default: NaN
+        default: null
       }
     },
 
@@ -35,10 +35,10 @@
 
     computed:{
       quotationCode: function(){
-        if(isNaN(this.quotation_id)){
-          return null;
+        if(this.quotation_id){
+          return this.quotation_id+100;
         }
-        return this.quotation_id+100;
+        return null;
       }
     },
 

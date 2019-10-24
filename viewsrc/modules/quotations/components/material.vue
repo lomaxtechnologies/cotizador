@@ -1,5 +1,4 @@
 <script type="text/javascript">
-import func from '../../../../vue-temp/vue-editor-bridge';
 export default {
   props: {
     section_valid: {
@@ -8,14 +7,12 @@ export default {
     },
     quotation_id: {
       type: Number,
-      default: NaN
+      default: null
     }
   },
   data() {
     return {
-      translations: {
-        material: I18n.t('quotations.material')
-      },
+      translations: I18n.t('quotations.new.materials'),
       quotation_products: {
         amount: 1,
         percents: [15.0,15.0]
@@ -48,23 +45,23 @@ export default {
           'total_percent_siemon'].forEach((element)=>{
             this.table_headers.push({
               key: element,
-              label: this.translations.material.headers[element]
+              label: this.translations.headers[element]
             });
           });
         break;
         case 't_simple':
-          ['amount','material','brand','percent','price','total','price_percent','total_percent'].forEach((element)=>{
+          ['amount','code','material','brand','percent','price','total','price_percent','total_percent'].forEach((element)=>{
             this.table_headers.push({
               key:element,
-              label:this.translations.material.headers[element]
+              label:this.translations.headers[element]
             });
           });   
         break;
         default: 
-          ['amount','material','percent','price','total','price_percent','total_percent'].forEach((element)=>{
+          ['amount','code','material','percent','price','total','price_percent','total_percent'].forEach((element)=>{
             this.table_headers.push({
               key:element,
-              label:this.translations.material.headers[element]
+              label:this.translations.headers[element]
             });
           });    
         break;
@@ -73,7 +70,7 @@ export default {
     },
     comparativeMaterials: function(){
       this.http
-      .get("/api/materials")
+      .get("/api/comparative")
       .then(response => {
         this.materials = response.data;
         this.materials = this.materials.map(function(material) {
@@ -84,7 +81,6 @@ export default {
         });
         if (this.materials.length > 0) {
           this.material_id = this.materials[0].id;
-          this.getProducts();
         }
       })
       .catch(err => {
@@ -93,34 +89,49 @@ export default {
     },
     simpleMaterials: function(){
       this.http
-      .get("/api/products_by_brand",{
-        params:{
-          brand_name: this.brands[0]
-        }
-      })
+      .get("/api/simple")
       .then(response =>{
         this.materials = response.data;
-        if(this.quotation_type==='t_simple'){
-          this.materials = this.materials.map(function(material){
-            return{
-              id: material.product_id,
-              name: `${material.brand} - ${material.name} ${material.description}`,
-              material_id: material.material_id,
-              brand: material.brand
-            }
-          });
-        }else{
-          this.materials = this.materials.map(function(material){
-            return{
-              id: material.material_id,
-              name: `${material.name} ${material.description}`,
-              brand: material.brand
-            }
-          });
-        }
+        this.materials = this.materials.map(function(material){
+          return{
+            id: material.product_id,
+            name: `${material.brand} - ${material.name} ${material.description}`,
+            material_id: material.material_id,
+            product_id: material.product_id,
+            brand: material.brand,
+            code: material.code,
+            price: material.price,
+            measure_unit: material.measure_unit
+          }
+        });
         if (this.materials.length > 0) {
           this.material_id = this.materials[0].id;
-          this.getProducts();
+          this.prices[0] = this.materials[0].price;
+        }
+      })
+      .catch(err => {
+        console.log(JSON.stringify(err));
+      });
+    },
+    onlyBrandMaterials: function(){
+      this.http
+      .get("/api/simple")
+      .then(response =>{
+        this.materials = response.data;
+        this.materials = this.materials.filter(material => material.brand !== this.brands[1]);
+        this.materials = this.materials.map(function(material){
+          return{
+            id: material.material_id,
+            name: `${material.name} ${material.description}`,
+            product_id: material.product_id,
+            brand: material.brand,
+            code: material.code,
+            price: material.price,
+            measure_unit: material.measure_unit
+          }
+        });
+        if (this.materials.length > 0) {
+          this.material_id = this.materials[0].id;
         }
       })
       .catch(err => {
@@ -130,24 +141,23 @@ export default {
     getMaterials: function() {
       if (this.quotation_type === 't_comparative'){
         this.comparativeMaterials();
-      }else{
+      }else if(this.quotation_type === 't_simple'){
         this.simpleMaterials();
+      }else{
+        this.onlyBrandMaterials();
       }
     },
-    getProducts: function(product_id) {
+    getProducts: function() {
       this.http
         .get("/api/products_by_material", {
           params: {
-            material_id: product_id
+            material_id: this.material_id
           }
         })
         .then(response => {
           this.products = response.data;
-          console.log(this.products);
           if(this.quotation_type!=='t_comparative'){
-            this.products = this.products.filter(
-              material => material.brand === this.materials[this.material_id].brand
-            )
+            this.products = this.products.filter(product => product.brand === this.brands[0]);
           }
           this.setPrices();
         })
@@ -173,10 +183,10 @@ export default {
               this.brands = ["Supranet", "Siemon"];
               break;
             case "t_siemon_only":
-              this.brands = ["Siemon"];
+              this.brands = ["Siemon","Supranet"];
               break;
             case "t_supranet_only":
-              this.brands = ["Supranet"];
+              this.brands = ["Supranet","Siemon"];
               break;
             case "t_simple":
               this.brands = [null];
@@ -188,73 +198,70 @@ export default {
           console.log(JSON.stringify(err));
         });
     },
+    addComparativeProduct: function(){
+      var price_supranet = this.prices[0];
+      var price_siemon = this.prices[1];
+      var total_supranet = this.quotation_products.amount * price_supranet;
+      var total_siemon = this.quotation_products.amount * price_siemon;
+      var total_percent_supranet = (total_supranet * this.percentage.format(this.quotation_products.percents[0]));
+      var total_percent_siemon = (total_siemon * this.percentage.format(this.quotation_products.percents[1]));
+      // Obtaind id for Second product
+      var siemon_id = null;
+      if (this.products.length>1){
+        siemon_id = this.products[1].product_id;
+      }
+      // Material name
+      var material = this.materials.filter(material => material.id === this.material_id);
+
+      this.selected_materials.push({
+        material_id: this.material_id,
+        amount: `${this.quotation_products.amount}`,
+        material: `${material[0].name}`,
+        supranet_id: `${this.products[0].product_id}`,
+        percent_supranet: `${this.quotation_products.percents[0]}`,
+        price_supranet: price_supranet,
+        total_supranet: `${total_supranet.toFixed(2)}`,
+        price_percent_supranet: price_supranet,
+        total_percent_supranet: total_percent_supranet.toFixed(2),
+        siemon_id: siemon_id,
+        percent_siemon: `${this.quotation_products.percents[1]}`,
+        price_siemon: price_siemon,
+        total_siemon: `${total_siemon.toFixed(2)}`,
+        price_percent_siemon: price_siemon,
+        total_percent_siemon: total_percent_siemon.toFixed(2)
+      });
+    },
+    addSimpleProduct: function(){
+      var material = this.materials.filter(material => material.id === this.material_id);
+      var price = material[0].price;
+      var total = price * this.quotation_products.amount;
+      var total_percent = total * this.percentage.format(this.quotation_products.percents[0]);
+      this.selected_materials.push({
+        material_id: this.material_id,
+        amount: this.quotation_products.amount,
+        code: `${material[0].code}`,
+        material: `${material[0].name}`,
+        brand: `${material[0].brand}`,
+        product_id: material[0].product_id,
+        percent: this.quotation_products.percents[0],
+        price: price,
+        total: this.currency.format(total),
+        price_percent: price,
+        total_percent: this.currency.format(total_percent),
+      });
+    },
     addProducts: function() {
       var add_product = this.selected_materials.filter(selected => selected.material_id === this.material_id)
       if (add_product.length===0){
         switch(this.quotation_type){
           case 't_comparative':
-            var price_supranet = this.prices[0];
-            var price_siemon = this.prices[1];
-            var total_supranet = this.quotation_products.amount * price_supranet;
-            var total_siemon = this.quotation_products.amount * price_siemon;
-            var total_percent_supranet = (total_supranet * this.currency.format_percent(this.quotation_products.percents[0]));
-            var total_percent_siemon = (total_siemon * this.currency.format_percent(this.quotation_products.percents[1]));
-
-            var siemon_id = null;
-            if (this.products.length>1){
-              siemon_id = this.products[1].product_id;
-            }
-            
-            this.selected_materials.push({
-              material_id: `${this.material_id}`,
-              amount: `${this.quotation_products.amount}`,
-              material: `${this.materials[this.material_id].name}`,
-              supranet_id: `${this.products[0].product_id}`,
-              percent_supranet: `${this.quotation_products.percents[0]}`,
-              price_supranet: price_supranet,
-              total_supranet: `${total_supranet.toFixed(2)}`,
-              price_percent_supranet: price_supranet,
-              total_percent_supranet: total_percent_supranet.toFixed(2),
-              siemon_id: siemon_id,
-              percent_siemon: `${this.quotation_products.percents[1]}`,
-              price_siemon: price_siemon,
-              total_siemon: `${total_siemon.toFixed(2)}`,
-              price_percent_siemon: price_siemon,
-              total_percent_siemon: total_percent_siemon.toFixed(2)
-            });
+            this.addComparativeProduct();
             break;
           case 't_simple':
-            var price = this.prices[0];
-            var total = price * this.quotation_products.amount;
-            var total_percent = total * this.currency.format_percent(this.quotation_products.percents[0]);
-            this.selected_materials.push({
-              material_id: `${this.material_id}`,
-              amount: `${this.quotation_products.amount}`,
-              material: `${this.materials[this.material_id].name}`,
-              brand: `${this.materials[this.material_id].brand}`,
-              product_id: `${this.products[0].product_id}`,
-              percent: `${this.quotation_products.percents[0]}`,
-              price: price,
-              total: `${total.toFixed(2)}`,
-              price_percentt: price,
-              total_percent: total_percent.toFixed(2),
-            });
+            this.addSimpleProduct();
             break;
           default: 
-            var price = this.prices[0];
-            var total = price * this.quotation_products.amount;
-            var total_percent = total * this.currency.format_percent(this.quotation_products.percents[0]);
-            this.selected_materials.push({
-              material_id: `${this.material_id}`,
-              amount: `${this.quotation_products.amount}`,
-              material: `${this.materials[this.material_id].name}`,
-              product_id: `${this.products[0].product_id}`,
-              percent: `${this.quotation_products.percents[0]}`,
-              price: price,
-              total: `${total.toFixed(2)}`,
-              price_percentt: price,
-              total_percent: total_percent.toFixed(2),
-            });
+            this.addSimpleProduct();
             break;
         }
       }
@@ -262,18 +269,18 @@ export default {
     editService: function(index) {
       let product_data = this.selected_materials[index];
       this.selected_materials.splice(index, 1);
-      if (this.quotation_type !== "t_comparative") {
-        this.quotation_products.percents[0] = product_data.percent;
-        this.quotation_products.amount = product_data.amount;
-        this.prices[0] = product_data.price;
-        this.material_id = product_data.id;
-      }else{
+      if(this.quotation_type === 't_comparative'){
         this.quotation_products.percents[0] = product_data.percent_supranet;
         this.quotation_products.percents[1] = product_data.percent_siemon;
         this.quotation_products.amount = product_data.amount;
         this.prices[0] = product_data.price_supranet;
         this.prices[1] = product_data.price_siemon;
-        this.material_id = product_data.id;
+        this.material_id = product_data.material_id;
+      }else{
+        this.quotation_products.percents[0] = product_data.percent;
+        this.quotation_products.amount = product_data.amount;
+        this.prices[0] = product_data.price;
+        this.material_id = product_data.material_id;
       }
     },
     deleteService: function(index) {
@@ -289,7 +296,7 @@ export default {
             percent: material.percent_supranet,
             product_id: material.supranet_id
           });
-          if (material.product_siemon_id !== null) {
+          if (material.siemon_id !== null) {
             product_attributes.push({
               amount: material.amount,
               percent: material.percent_siemon,
@@ -329,11 +336,16 @@ export default {
   },
   watch: {
     material_id: function() {
-      var product_id = this.material_id;
-      if (this.quotation_type === 't_simple'){
-        product_id = this.materials[this.material_id].material_id;
+      if(this.quotation_type === 't_comparative'){
+        this.getProducts();
+        this.percents =[15.0,15.0];
+        this.amount = 1;
+      }else{
+        var material = this.materials.filter(material => material.id === this.material_id);
+        this.prices[0] = material[0].price;
+        this.percents =[15.0,15.0];
+        this.amount = 1;
       }
-      this.getProducts(product_id);
     },
     quotation_id: function() {
       this.getQuotationType();
@@ -350,7 +362,7 @@ export default {
     <b-form>
       <b-form-row>
         <div class="col-6">
-          <label class="mb-0 text-primary font-weight-bold">Material</label>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.material}}</label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -367,15 +379,15 @@ export default {
         </div>
         <div class="col-1" right="true">
           <br />
-          <b-button variant="primary" v-on:click="addProducts">Agregar</b-button>
+          <b-button variant="primary" v-on:click="addProducts">{{translations.buttons.add_material}}</b-button>
         </div>
       </b-form-row>
       <b-form-row>
-        <div class="col-1" v-if="quotation_type!='t_simple'">
+        <div class="col-1" v-if="quotation_type!=='t_simple'">
           <label class="text-primary font-weight-bold">{{brands[0]}}</label>
         </div>
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold">Cantidad</label>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.amount}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -386,7 +398,7 @@ export default {
           </div>
         </div>
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold">Precio</label>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.price}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -397,7 +409,7 @@ export default {
           </div>
         </div>
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold">Holgura</label>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.percent}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -413,7 +425,7 @@ export default {
           <label class="text-primary font-weight-bold">{{brands[1]}}</label>
         </div>
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold">Cantidad</label>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.amount}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -424,7 +436,7 @@ export default {
           </div>
         </div>
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold">Precio</label>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.price}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -435,7 +447,7 @@ export default {
           </div>
         </div>
         <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold">Holgura</label>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.percent}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
@@ -456,8 +468,8 @@ export default {
       <template v-if="this.quotation_type==='t_comparative'" v-slot:thead-top="data">
         <b-tr class="text-center">
           <b-th rowspan="3" colspan="2" class="bg-dark text-white"></b-th>
-          <b-th colspan="5" class="bg-dark">Expresión (GTQ)</b-th>
-          <b-th colspan="5" class="bg-dark">Expresión (GTQ)</b-th>
+          <b-th colspan="5" class="bg-dark">{{translations.custom_headers.expression}}</b-th>
+          <b-th colspan="5" class="bg-dark">{{translations.custom_headers.expression}}</b-th>
           <b-th colspan="1" class="bg-dark text-white"></b-th>
         </b-tr>
         <b-tr class="text-center text-danger">
@@ -467,35 +479,35 @@ export default {
         </b-tr>
         <b-tr class="text-center text-danger">
           <b-th colspan="1" class="text-white"></b-th>
-          <b-th colspan="2" class="text-center">Sin holgura</b-th>
-          <b-th colspan="2" class="text-center">Con holgura</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.without_percentage}}</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.with_percentage}}</b-th>
           <b-th colspan="1" class="text-white"></b-th>
-          <b-th colspan="2" class="text-center">Sin holgura</b-th>
-          <b-th colspan="2" class="text-center">Con holgura</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.without_percentage}}</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.with_percentage}}</b-th>
            <b-th colspan="1" class="text-white"></b-th>
         </b-tr>
       </template>
       <template v-else-if="this.quotation_type==='t_simple'" v-slot:thead-top="data">
         <b-tr class="text-center">
-          <b-th rowspan="2" colspan="4" class="bg-dark text-white"></b-th>
-          <b-th colspan="4" class="bg-dark">Expresión (GTQ)</b-th>
-          <b-th></b-th>
+          <b-th rowspan="2" colspan="5" class="bg-dark text-white"></b-th>
+          <b-th colspan="4" class="bg-dark">{{translations.custom_headers.expression}}</b-th>
+          <b-th colspan="1" class="bg-dark"></b-th>
         </b-tr>
         <b-tr class="text-center text-danger">
-          <b-th colspan="2" class="text-center">Sin holgura</b-th>
-          <b-th colspan="2" class="text-center">Con holgura</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.without_percentage}}</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.with_percentage}}</b-th>
           <b-th></b-th>
         </b-tr>
       </template>
        <template v-else v-slot:thead-top="data">
         <b-tr class="text-center">
-          <b-th rowspan="2" colspan="3" class="bg-dark text-white"></b-th>
-          <b-th colspan="4" class="bg-dark">Expresión (GTQ)</b-th>
-          <b-th></b-th>
+          <b-th rowspan="2" colspan="4" class="bg-dark text-white"></b-th>
+          <b-th colspan="4" class="bg-dark">{{translations.custom_headers.expression}}</b-th>
+          <b-th  class="bg-dark"></b-th>
         </b-tr>
         <b-tr class="text-center text-danger">
-          <b-th colspan="2" class="text-center">Sin holgura</b-th>
-          <b-th colspan="2" class="text-center">Con holgura</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.without_percentage}}</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.with_percentage}}</b-th>
           <b-th></b-th>
         </b-tr>
       </template>
@@ -510,7 +522,7 @@ export default {
       </template>
     </b-table>
     <div class="col-2 offset-10">
-      <button class="btn btn-primary btn-block" type="submit" v-on:click="submit">Siguiente</button>
+      <button class="btn btn-primary btn-block" type="submit" v-on:click="submit">{{translations.buttons.next}}</button>
     </div>
   </div>
 </template>

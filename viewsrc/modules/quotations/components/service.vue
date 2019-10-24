@@ -8,7 +8,7 @@
       },
       quotation_id:{
         type:Number,
-        default: NaN
+        default: null
       }
     },
     
