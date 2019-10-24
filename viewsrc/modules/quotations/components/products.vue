@@ -8,6 +8,10 @@ export default {
     quotation_id: {
       type: Number,
       default: null
+    },
+    get_products:{
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -24,10 +28,32 @@ export default {
       prices: [],
       brands: [],
       selected_materials: [],
-      table_headers: []
+      deleted_materials: [],
+      table_headers: [],
+      product_id: null
     };
   },
+  mounted(){
+    this.getQuotationType();
+    this.getQuotationProducts();
+  },
   methods: {
+    getQuotationProducts: function(){
+      if(this.get_products && this.quotation_id){
+        this.http
+        .get(`api/quotations/${this.quotation_id}/products`)
+        .then((response)=>{
+          if(response.successful){
+            this.selected_materials = response.data;
+          }else{
+            this.handleError(response.error);
+          }
+        }).catch((err)=>{
+          console.log("Error", err.stack, err.name, err.message);
+        });
+      }
+    },
+
     setTableHeaders: function(){
       switch(this.quotation_type){
         case 't_comparative': 
@@ -190,33 +216,35 @@ export default {
       }
     },
     getQuotationType: function() {
-      this.http
-        .get(`/api/quotations/${this.quotation_id}/type`)
-        .then(response => {
-          if(response.successful){
-            this.quotation_type = response.data[0].quotation_type;
-            switch (this.quotation_type) {
-              case "t_comparative":
-                this.brands = ["Supranet", "Siemon"];
-                break;
-              case "t_siemon_only":
-                this.brands = ["Siemon","Supranet"];
-                break;
-              case "t_supranet_only":
-                this.brands = ["Supranet","Siemon"];
-                break;
-              case "t_simple":
-                this.brands = [null];
-                break;
+      if(this.quotation_id){
+        this.http
+          .get(`/api/quotations/${this.quotation_id}/type`)
+          .then(response => {
+            if(response.successful){
+              this.quotation_type = response.data[0].quotation_type;
+              switch (this.quotation_type) {
+                case "t_comparative":
+                  this.brands = ["Supranet", "Siemon"];
+                  break;
+                case "t_siemon_only":
+                  this.brands = ["Siemon","Supranet"];
+                  break;
+                case "t_supranet_only":
+                  this.brands = ["Supranet","Siemon"];
+                  break;
+                case "t_simple":
+                  this.brands = [null];
+                  break;
+              }
+              this.getMaterials();
+            }else{
+              this.handleError(response.error);
             }
-            this.getMaterials();
-          }else{
-            this.handleError(response.error);
-          }
-        })
-        .catch(err => {
-          console.log("Error", err.stack, err.name, err.message);
-        });
+          })
+          .catch(err => {
+            console.log("Error", err.stack, err.name, err.message);
+          });
+      }
     },
     addComparativeProduct: function(){
       var price_supranet = this.prices[0];
@@ -234,6 +262,7 @@ export default {
       var material = this.materials.filter(material => material.id === this.material_id);
 
       this.selected_materials.push({
+        id: this.product_id,
         material_id: this.material_id,
         amount: `${this.quotation_products.amount}`,
         material: `${material[0].name}`,
@@ -257,6 +286,7 @@ export default {
       var total = price * this.quotation_products.amount;
       var total_percent = total * this.percentage.format(this.quotation_products.percents[0]);
       this.selected_materials.push({
+        id: this.product_id,
         material_id: this.material_id,
         amount: this.quotation_products.amount,
         code: `${material[0].code}`,
@@ -284,27 +314,32 @@ export default {
             this.addSimpleProduct();
             break;
         }
+        this.product_id = null;
       }
     },
-    editService: function(index) {
+    editProduct: function(index) {
       let product_data = this.selected_materials[index];
       this.selected_materials.splice(index, 1);
       if(this.quotation_type === 't_comparative'){
         this.quotation_products.percents[0] = product_data.percent_supranet;
         this.quotation_products.percents[1] = product_data.percent_siemon;
-        this.quotation_products.amount = product_data.amount;
         this.prices[0] = product_data.price_supranet;
         this.prices[1] = product_data.price_siemon;
-        this.material_id = product_data.material_id;
       }else{
         this.quotation_products.percents[0] = product_data.percent;
-        this.quotation_products.amount = product_data.amount;
         this.prices[0] = product_data.price;
-        this.material_id = product_data.material_id;
       }
+      this.quotation_products.amount = product_data.amount;
+      this.material_id = product_data.material_id;
+      //The ID of the product in the database, if there is any
+      this.product_id = product_data.id;
     },
-    deleteService: function(index) {
-      this.selected_materials.splice(index, 1);
+    deleteProduct: function(index) {
+      var quotation_product = this.selected_materials.splice(index, 1)[0];
+      //If there is and ID, we have to delete it at the database
+      if(quotation_product.id){
+        this.deleted_materials.push({id: quotation_product.id, _destroy: true})
+      }
     },
     formatData: function() {
       var data;
@@ -326,13 +361,13 @@ export default {
         });
         data = {
           quotation: {
-            quotation_products_attributes: product_attributes
+            quotation_products_attributes: product_attributes.concat(this.deleted_materials)
           }
         };
       }else{
         data = {
           quotation: {
-            quotation_products_attributes: this.selected_materials
+            quotation_products_attributes: this.selected_materials.concat(this.deleted_materials)
           }
         };
       }
@@ -340,6 +375,7 @@ export default {
     },
     submit: function() {
       this.$emit("update:section_valid", false);
+      var data = this.formatData();
       this.http
         .put(`api/quotations/${this.quotation_id}/update`, this.formatData())
         .then(response => {
@@ -534,14 +570,16 @@ export default {
       </template>
       <template v-slot:cell(name)="data">{{ data.item.name }}</template>
       <template v-slot:cell(actions)="data">
-        <b-button class="btn btn-success text-white mr-1" v-on:click="editService(data.index)">
+        <b-button class="btn btn-success text-white mr-1" v-on:click="editProduct(data.index)">
           <i class="fas fa-edit fa-xs text-white"></i>
         </b-button>
-        <b-button class="btn btn-danger" type="submit" v-on:click="deleteService(data.index)">
+        <b-button class="btn btn-danger" type="submit" v-on:click="deleteProduct(data.index)">
           <i class="fas fa-trash-alt fa-xs"></i>
         </b-button>
       </template>
     </b-table>
+    {{selected_materials}}
+    {{deleted_materials}}
     <div class="col-2 offset-10">
       <button class="btn btn-primary btn-block" type="submit" v-on:click="submit">{{translations.buttons.next}}</button>
     </div>

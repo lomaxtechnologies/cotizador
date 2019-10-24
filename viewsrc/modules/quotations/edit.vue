@@ -1,16 +1,16 @@
 <script type="text/javascript">
 import quotationHeader from "./components/header.vue";
-import quotationMaterials from "./components/material.vue";
+import quotationProducts from "./components/products.vue";
 import quotationConditions from "./components/conditions.vue";
-import quotationService from "./components/service.vue";
+import quotationServices from "./components/services.vue";
 import quotationGlobalView from "./components/global_view.vue";
 import quotationAttachments from "./components/attachments.vue";
 
 export default {
   components: {
     "quotation-header": quotationHeader,
-    "quotation-materials": quotationMaterials,
-    "quotation-service": quotationService,
+    "quotation-products": quotationProducts,
+    "quotation-services": quotationServices,
     "quotation-conditions": quotationConditions,
     "quotation-global-view": quotationGlobalView,
     "quotation-attachments": quotationAttachments
@@ -24,7 +24,7 @@ export default {
       //these are only used to change the color of the tabs to green when the user finishes a section
       completed: {
         header: true,
-        materials: true,
+        products: true,
         services: true,
         conditions: true,
         global_view: false
@@ -106,8 +106,8 @@ export default {
         this.tab_index++;
       }
     },
-    "completed.materials": function() {
-      if (this.completed.materials) {
+    "completed.products": function() {
+      if (this.completed.products) {
         this.refresh_global_view = true;
         this.tab_index++;
       }
@@ -157,16 +157,17 @@ export default {
             </b-tab>
             <b-tab>
               <template v-slot:title>
-                <span v-bind:class="{'text-success':completed.materials}">
+                <span v-bind:class="{'text-success':completed.products}">
                   {{translations.materials.title}} &nbsp;
                   <i class="fas fa-check-circle"></i>
                 </span>
               </template>
               <b-card-text>
-                <quotation-materials
-                  :section_valid.sync="completed.materials"
+                <quotation-products
+                  :section_valid.sync="completed.products"
                   :quotation_id="quotation.id"
-                ></quotation-materials>
+                  :get_products="true"
+                ></quotation-products>
               </b-card-text>
             </b-tab>
             <b-tab>
@@ -177,11 +178,11 @@ export default {
                 </span>
               </template>
               <b-card-text>
-                <quotation-service
+                <quotation-services
                   :section_valid.sync="completed.services"
                   :quotation_id="quotation.id"
                   :get_services="true"
-                ></quotation-service>
+                ></quotation-services>
               </b-card-text>
             </b-tab>
             <b-tab>

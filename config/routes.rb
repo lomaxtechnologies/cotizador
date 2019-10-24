@@ -40,7 +40,6 @@ Rails.application.routes.draw do
 
   resources :comments
 
-  
   root to: 'dashboards#index'
 
   scope :api do
@@ -56,6 +55,7 @@ Rails.application.routes.draw do
       get "/:id/conditions", to: "quotations#api_conditions"
       get "/:id/header", to: "quotations#api_header"
       get "/:id/services", to: "quotations#api_services"
+      get "/:id/products", to: "quotations#api_products"
       put "/:id/activate", to: "quotations#api_activate"
       put "/:id/update", to: "quotations#update"
 

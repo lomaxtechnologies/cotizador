@@ -90,7 +90,28 @@ class Quotation < ApplicationRecord
     end
   end
 
+  def products_only
+    if t_comparative?
+      products_only_comparative_format
+    else
+      products_only_single_brand_format
+    end
+  end
+
   private
+
+  def products_only_single_brand_format
+    products = format_products["quotation_products"]
+    products.map do |product|
+      product["percent"] = product.delete("#{quotation_type}_percent")
+      product["price"] = product.delete("#{quotation_type}_price")
+      product["total"] = product.delete("#{quotation_type}_total")
+      product["price_percent"] = product.delete("#{quotation_type}_price_with_percent")
+      product["total_percent"] = product.delete("#{quotation_type}_total_with_percent")
+      product["material_id"] = product.delete("product_id")
+    end
+    products
+  end
 
   def format_services
     data = {
@@ -126,7 +147,7 @@ class Quotation < ApplicationRecord
       data[:services_totals][:with_percent] += total_with_percent
       data[:services_totals][:without_percent] += total_without_percent
     end
-    data
+    data.deep_stringify_keys
   end
 
   def format_products
@@ -153,6 +174,7 @@ class Quotation < ApplicationRecord
 
       # Pushing results to the hash
       data[:quotation_products].push(quotation_product.attributes.merge(
+        code: product.code,
         measure_unit_id: product.measure_unit.id,
         material_id: material.id,
         material: "#{material.name} #{material.description}",
@@ -166,7 +188,7 @@ class Quotation < ApplicationRecord
       data[:products_totals][:with_percent] += total_with_percent
       data[:products_totals][:without_percent] += total_without_percent
     end
-    data
+    data.deep_stringify_keys
   end
 
   # Groups entries to be shown in 2 columns per row on the view, The entries
