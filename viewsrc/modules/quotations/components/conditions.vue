@@ -10,7 +10,7 @@
         type:Number,
         default: null
       },
-      retrieve_data_from_server:{
+      get_conditions:{
         type: Boolean,
         default: false
       }
@@ -29,22 +29,26 @@
     },
 
     mounted(){
-      if(this.quotation_id && this.retrieve_data_from_server){
-        this.http
-        .get(`api/quotations/${this.quotation_id}/conditions`)
-        .then((response)=>{
-          if(response.successful){
-            this.quotation = response.data;
-          }else{
-            this.handleError(response.error);
-          }
-        }).catch((err)=>{
-          console.log("Error", err.stack, err.name, err.message);
-        })
-      }
+      this.getConditions();
     },
 
     methods:{
+      getConditions(){
+        if(this.get_conditions && this.quotation_id){
+          this.http
+          .get(`api/quotations/${this.quotation_id}/conditions`)
+          .then((response)=>{
+            if(response.successful){
+              this.quotation = response.data;
+            }else{
+              this.handleError(response.error);
+            }
+          }).catch((err)=>{
+            console.log("Error", err.stack, err.name, err.message);
+          })
+        }
+      },
+      
       updateConditions(event){
         event.preventDefault();
         this.$emit('update:section_valid', false);

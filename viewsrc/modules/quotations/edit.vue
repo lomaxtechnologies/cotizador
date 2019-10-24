@@ -151,6 +151,7 @@ export default {
                 <quotation-header
                   :section_valid.sync="completed.header"
                   :quotation_id.sync="quotation.id"
+                  :get_header="true"
                 ></quotation-header>
               </b-card-text>
             </b-tab>
@@ -193,7 +194,7 @@ export default {
                 <quotation-conditions
                   :section_valid.sync="completed.conditions"
                   :quotation_id="quotation.id"
-                  :retrieve_data_from_server=true
+                  :get_conditions="true"
                 ></quotation-conditions>
               </b-card-text>
             </b-tab>
