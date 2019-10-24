@@ -51,6 +51,7 @@ Rails.application.routes.draw do
       get "/", to: "quotations#api_index"
       get "/types", to: "quotations#api_types"
       get "/:id/type", to: "quotations#api_type"
+      get "/:id/conditions", to: "quotations#api_conditions"
       put "/:id/update", to: "quotations#update"
 
       # Attachments routes with basic actions

@@ -13,6 +13,7 @@ import quotationsAlert from '../../components/alert.vue';
 import quotationsNew from './new.vue';
 import quotationsIndex from './index.vue';
 import quotationsShow from './show.vue';
+import quotationsEdit from './edit.vue';
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
@@ -35,6 +36,9 @@ var appRouter = new VueRouter({
       },
       {
          path: '/:id/show', name: 'show', component: quotationsShow
+      },
+      {
+         path: '/:id/edit', name: 'edit', component: quotationsEdit
       }
    ]
  });

@@ -63,6 +63,10 @@ class Quotation < ApplicationRecord
     data
   end
 
+  def conditions_only
+    attributes.slice("warranty", "payment_condition", "credits")
+  end
+
   private
 
   def format_services

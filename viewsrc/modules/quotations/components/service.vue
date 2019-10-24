@@ -14,7 +14,7 @@
     
     data() {
       return {
-        translations: I18n.t('quotations.new.services'),
+        translations: I18n.t('quotations.new_edit.services'),
         form_fields: {
           service_id: 0,
           price: 0,

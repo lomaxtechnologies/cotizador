@@ -12,7 +12,7 @@ export default {
   },
   data() {
     return {
-      translations: I18n.t('quotations.new.materials'),
+      translations: I18n.t('quotations.new_edit.materials'),
       quotation_products: {
         amount: 1,
         percents: [15.0,15.0]

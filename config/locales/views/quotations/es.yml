@@ -39,8 +39,9 @@ es:
         titles:
           code: Código de la Cotización
           date: Fecha
-    new:
-      title: Nueva Cotización
+    new_edit:
+      new_title: Nueva Cotización
+      edit_title: Editar Cotización
       notifications:
         quotation_activated: La cotización ha sido activada satisfactoriamente
         quotation_discarded: La cotización ha sido descartada satifactoriamente

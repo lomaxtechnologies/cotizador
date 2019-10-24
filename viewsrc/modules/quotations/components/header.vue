@@ -14,7 +14,7 @@
 
     data(){
       return {
-        translations: I18n.t('quotations.new.header'),
+        translations: I18n.t('quotations.new_edit.header'),
         quotation:{
           client_id: null,
           client_nit: '',
@@ -211,8 +211,8 @@
               </div>
             </div>
             <b-form-select
-              v-model=quotation.quotation_type 
-              :disabled=section_valid
+              v-model="quotation.quotation_type"
+              :disabled="quotation_id!=null"
               :required=true
               :options=quotation_types
             ></b-form-select>

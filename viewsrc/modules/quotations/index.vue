@@ -229,10 +229,18 @@
             <a class="btn btn-warning text-white" v-bind:href=generateShowLink(data.item.id)>
               <i class="fas fa-eye fa-xs"></i>
             </a>
-            <a class="btn btn-success text-white" v-bind:href=generateEditLink(data.item.id)>
+            <a 
+              class="btn btn-success text-white"
+              v-bind:href="generateEditLink(data.item.id)"
+              v-bind:class="{disabled: data.item.state != 'created'}"
+            >
               <i class="fas fa-edit fa-xs"></i>
             </a>
-            <b-button class="btn btn-danger text-white" v-on:click=showModal(data.item.id)>
+            <b-button 
+              class="btn btn-danger text-white"
+              v-on:click="showModal(data.item.id)"
+              v-bind:class="{disabled: data.item.state != 'created'}"
+            >
               <i class="fas fa-trash-alt fa-xs"></i>
             </b-button>
           </div>
