@@ -41,9 +41,12 @@ es:
           date: Fecha
     new:
       title: Nueva Cotización
+      notifications:
+        quotation_activated: La cotización ha sido activada satisfactoriamente
+        quotation_discarded: La cotización ha sido descartada satifactoriamente
       header:
         notifications:
-          header_updated: Cambios guardados
+          header_updated: Cambios guardados en el encabezado
         titles:
           code: Código
           client: Cliente
@@ -62,7 +65,7 @@ es:
           client: Debe seleccionar un cliente
       materials:
         notifications:
-          materials_updated: Cambios guardados
+          materials_updated: Cambios guardados en los materiales
         title: Materiales
         select-material: Seleccione un material
         titles:
@@ -112,7 +115,7 @@ es:
         siemon: Siemon
       services:
         notifications:
-          services_updated: Cambios guardados
+          services_updated: Cambios guardados en los servicios
         headers:
           name: Servicio
           price: Precio
@@ -132,7 +135,7 @@ es:
           percent: Holgura
       conditions:
         notifications:
-          conditions_updated: Cambios guardados
+          conditions_updated: Cambios guardados en las condiciones
         next: Siguiente
         title: Condiciones
         titles:

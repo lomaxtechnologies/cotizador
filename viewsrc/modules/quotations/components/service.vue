@@ -85,7 +85,7 @@
         .put(`quotations/${this.quotation_id}`, data)
         .then((response)=>{
           if(response.successful){
-            this.alert(this.translations.notifications.services_updated);
+            this.alert(this.translations.notifications.services_updated,'success');
             this.$emit('update:section_valid', true);
           }else{
             this.handleError(response.error);

@@ -91,7 +91,7 @@
         .post('/quotations', {quotation: this.quotation})
         .then((response)=>{
           if(response.successful){
-            this.alert(this.translations.notifications.header_updated);
+            this.alert(this.translations.notifications.header_updated,'success');
             this.$emit('update:quotation_id', response.data.id);
             this.$emit('update:section_valid', true);
           }else{
@@ -108,7 +108,7 @@
         .put(`quotations/${this.quotation_id}`, {quotation: this.quotation})
         .then((response)=>{
           if(response.successful){
-            this.alert(this.translations.notifications.header_updated);
+            this.alert(this.translations.notifications.header_updated,'success');
             this.$emit('update:section_valid', true);
           }else{
             this.handleError(response.error);
