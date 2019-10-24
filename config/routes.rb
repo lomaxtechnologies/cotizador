@@ -38,7 +38,10 @@ Rails.application.routes.draw do
 
   resources :dashboards
 
-  root to: "dashboards#index"
+  resources :comments
+
+  
+  root to: 'dashboards#index'
 
   scope :api do
     get "/clients", to: "clients#api_index"
@@ -66,10 +69,7 @@ Rails.application.routes.draw do
       get "/", to: "services#api_index"
     end
     scope :comments do
-      get "/", to: "comments#api_index"
-      post "/(:commentable_type)/:commentable_id", to: "comments#create", defaults: { commentable_type: "Quotation" }
-      patch "/update/:id", to: "comments#update"
-      delete "/delete/:id", to: "comments#destroy"
+      get '/:commentable_type/:commentable_id', to: 'comments#api_list'
     end
   end
 end
