@@ -1,5 +1,8 @@
 <script type="text/javascript">
+
   import globalView from './components/global_view.vue'
+  import componentCommentForm from '../comments/form-simple.vue'
+  import componentCommentList from '../comments/list.vue'
 
    export default {
      data(){
@@ -16,6 +19,8 @@
      },
      components:{
        'global-view': globalView
+      'component-comment-form': componentCommentForm,
+      'component-comment-list': componentCommentList
      }
   }
 </script>
@@ -32,6 +37,8 @@
         :quotation_id=parseInt(this.$route.params.id)
         >
       </global-view>
+      <component-comment-form class="mb-4" />
+      <component-comment-list />
     </div>
   </div>
 </template>
