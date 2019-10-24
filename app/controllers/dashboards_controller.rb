@@ -3,7 +3,8 @@ class DashboardsController < ApplicationController
 
     def index;end
 
-    def new;end
-  
-    def create;end
+    def api_count_states
+        count_states = Quotation.all.group(:state).count
+        response_with_success(count_states)
+    end
 end

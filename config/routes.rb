@@ -67,5 +67,8 @@ Rails.application.routes.draw do
       patch '/update/:id', to: 'comments#update'
       delete '/delete/:id', to: 'comments#destroy'
     end
+    scope :dashboard do 
+      get 'count-states', to: 'dashboards#api_count_states'
+    end
   end
 end
