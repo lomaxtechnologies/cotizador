@@ -19,6 +19,7 @@ export default {
             label: this.translations.date
         }]
         this.getComments()
+        this.bus.$on('post:/comments',() => this.getComments())
     },
     methods: {
         getComments() {

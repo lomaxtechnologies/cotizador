@@ -4,7 +4,7 @@ export default {
         return {
             translations: I18n.t("comments.form"),
             comment: {
-                note: 'ldonis',
+                note: '',
                 commentable_type: 'Quotation',
                 commentable_id: 1
             }
@@ -16,7 +16,9 @@ export default {
             this.http.post('/comments', {
                 comment: this.comment
             }).then(result =>{
-                console.log(result)
+                this.bus.alert('Comentario agregado')
+                this.bus.$emit('post:/comments')
+                this.comment.note = ''
             }).catch(error => {
                 console.log(error)
             })
