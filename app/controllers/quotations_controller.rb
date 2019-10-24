@@ -1,6 +1,6 @@
 class QuotationsController < ApplicationController
   layout "manager"
-  before_action :set_quotation, only: %i[update destroy show api_type api_activate api_conditions api_header]
+  before_action :set_quotation, only: %i[update destroy show api_type api_activate api_conditions api_header api_services]
 
   # POST /quotations
   def create
@@ -71,6 +71,10 @@ class QuotationsController < ApplicationController
     response_with_success(@quotation.header_only)
   end
 
+  def api_services
+    response_with_success(@quotation.services_only)
+  end
+
   # PUT /api/quotations/:id/activate
   def api_activate
     if @quotation.activate
@@ -91,8 +95,8 @@ class QuotationsController < ApplicationController
       :payment_condition,
       :warranty,
       :client_id,
-      quotation_products_attributes: %i[amount percent product_id],
-      quotation_services_attributes: %i[id amount percent service_id]
+      quotation_products_attributes: %i[amount percent product_id _destroy],
+      quotation_services_attributes: %i[id amount percent service_id _destroy]
     )
   end
 

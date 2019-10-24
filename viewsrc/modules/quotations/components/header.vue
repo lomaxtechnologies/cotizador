@@ -48,17 +48,19 @@
     methods:{
 
       getHeader(){
-        this.http
-        .get(`api/quotations/${this.quotation_id}/header`)
-        .then((response)=>{
-          if(response.successful){
-            this.quotation = response.data;
-          }else{
-            this.handleError(response.error);
-          }
-        }).catch((err)=>{
-          console.log("Error", err.stack, err.name, err.message);
-        });
+        if(this.get_header && this.quotation_id){
+          this.http
+          .get(`api/quotations/${this.quotation_id}/header`)
+          .then((response)=>{
+            if(response.successful){
+              this.quotation = response.data;
+            }else{
+              this.handleError(response.error);
+            }
+          }).catch((err)=>{
+            console.log("Error", err.stack, err.name, err.message);
+          });
+        }
       },
 
       getClients(){
@@ -142,10 +144,12 @@
     watch:{
       //updates the client's nit when the user changes 
       'quotation.client_id': function(){
-        var selected_client = this.clients.filter((client)=>{
-          return client.id == this.quotation.client_id;
-        });
-        this.quotation.client_nit = selected_client[0].nit;
+        if(this.clients.length > 0){
+          var selected_client = this.clients.filter((client)=>{
+            return client.id == this.quotation.client_id;
+          });
+          this.quotation.client_nit = selected_client[0].nit;
+        }
       }
     }
   }

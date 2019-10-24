@@ -7,8 +7,8 @@ class Quotation < ApplicationRecord
   has_many :attachments
   has_many :quotations_notes
   has_many :comments, as: :commentable
-  accepts_nested_attributes_for :quotation_products
-  accepts_nested_attributes_for :quotation_services
+  accepts_nested_attributes_for :quotation_products, allow_destroy: true
+  accepts_nested_attributes_for :quotation_services, allow_destroy: true
   has_many_attached :files
 
   # All the possible quotation types
@@ -69,6 +69,25 @@ class Quotation < ApplicationRecord
 
   def header_only
     attributes.slice("client_id","quotation_date","quotation_type")
+  end
+
+  def services_only
+    quotation_services.map do |quotation_service|
+      service = quotation_service.service
+      amount = quotation_service.amount
+      price = service.price
+      percent = quotation_service.percent
+      {
+        id: quotation_service.id,
+        amount:amount,
+        percent: percent,
+        service_id: service.id,
+        price: price,
+        name: service.name,
+        tot_without_perc: amount * price,
+        tot_with_perc: (price * (1 + percent / 100)).round(2) * amount
+      }
+    end
   end
 
   private

@@ -180,6 +180,7 @@ export default {
                 <quotation-service
                   :section_valid.sync="completed.services"
                   :quotation_id="quotation.id"
+                  :get_services="true"
                 ></quotation-service>
               </b-card-text>
             </b-tab>

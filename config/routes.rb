@@ -50,12 +50,13 @@ Rails.application.routes.draw do
     get "/products_by_material", to: "products#products_by_material"
     get "/products_by_brand", to: "products#products_by_brand"
     scope :quotations do
-      put "/:id/activate", to: "quotations#api_activate"
       get "/", to: "quotations#api_index"
       get "/types", to: "quotations#api_types"
       get "/:id/type", to: "quotations#api_type"
       get "/:id/conditions", to: "quotations#api_conditions"
       get "/:id/header", to: "quotations#api_header"
+      get "/:id/services", to: "quotations#api_services"
+      put "/:id/activate", to: "quotations#api_activate"
       put "/:id/update", to: "quotations#update"
 
       # Attachments routes with basic actions
