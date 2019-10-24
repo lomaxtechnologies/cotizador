@@ -2,7 +2,6 @@
   import globalView from './components/global_view.vue'
 
    export default {
-
      components:{
        'global-view': globalView
      }

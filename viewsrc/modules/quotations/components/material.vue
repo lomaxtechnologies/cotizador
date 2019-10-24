@@ -72,70 +72,82 @@ export default {
       this.http
       .get("/api/comparative")
       .then(response => {
-        this.materials = response.data;
-        this.materials = this.materials.map(function(material) {
-          return {
-            id: material.id,
-            name: `${material.name} ${material.description}`
-          };
-        });
-        if (this.materials.length > 0) {
-          this.material_id = this.materials[0].id;
+        if(response.successful){
+          this.materials = response.data;
+          this.materials = this.materials.map(function(material) {
+            return {
+              id: material.id,
+              name: `${material.name} ${material.description}`
+            };
+          });
+          if (this.materials.length > 0) {
+            this.material_id = this.materials[0].id;
+          }
+        }else{
+          this.handleError(response.error);
         }
       })
       .catch(err => {
-        console.log(JSON.stringify(err));
+        console.log("Error", err.stack, err.name, err.message);
       });
     },
     simpleMaterials: function(){
       this.http
       .get("/api/simple")
       .then(response =>{
-        this.materials = response.data;
-        this.materials = this.materials.map(function(material){
-          return{
-            id: material.product_id,
-            name: `${material.brand} - ${material.name} ${material.description}`,
-            material_id: material.material_id,
-            product_id: material.product_id,
-            brand: material.brand,
-            code: material.code,
-            price: material.price,
-            measure_unit: material.measure_unit
+        if(response.successful){
+          this.materials = response.data;
+          this.materials = this.materials.map(function(material){
+            return{
+              id: material.product_id,
+              name: `${material.brand} - ${material.name} ${material.description}`,
+              material_id: material.material_id,
+              product_id: material.product_id,
+              brand: material.brand,
+              code: material.code,
+              price: material.price,
+              measure_unit: material.measure_unit
+            }
+          });
+          if (this.materials.length > 0) {
+            this.material_id = this.materials[0].id;
+            this.prices[0] = this.materials[0].price;
           }
-        });
-        if (this.materials.length > 0) {
-          this.material_id = this.materials[0].id;
-          this.prices[0] = this.materials[0].price;
+        }else{
+          this.handleError(response.error);
         }
       })
       .catch(err => {
-        console.log(JSON.stringify(err));
+        console.log("Error", err.stack, err.name, err.message);
       });
     },
     onlyBrandMaterials: function(){
       this.http
       .get("/api/simple")
       .then(response =>{
-        this.materials = response.data;
-        this.materials = this.materials.filter(material => material.brand !== this.brands[1]);
-        this.materials = this.materials.map(function(material){
-          return{
-            id: material.material_id,
-            name: `${material.name} ${material.description}`,
-            product_id: material.product_id,
-            brand: material.brand,
-            code: material.code,
-            price: material.price,
-            measure_unit: material.measure_unit
+        if(response.successful){
+          this.materials = response.data;
+          this.materials = this.materials.filter(material => material.brand !== this.brands[1]);
+          this.materials = this.materials.map(function(material){
+            return{
+              id: material.material_id,
+              name: `${material.name} ${material.description}`,
+              product_id: material.product_id,
+              brand: material.brand,
+              code: material.code,
+              price: material.price,
+              measure_unit: material.measure_unit
+            }
+          });
+          if (this.materials.length > 0) {
+            this.material_id = this.materials[0].id;
           }
-        });
-        if (this.materials.length > 0) {
-          this.material_id = this.materials[0].id;
+        }else{
+          this.handleError(response.error);
         }
       })
       .catch(err => {
-        console.log(JSON.stringify(err));
+        console.log("Error", err.stack, err.name, err.message);
       });
     },
     getMaterials: function() {
@@ -155,14 +167,18 @@ export default {
           }
         })
         .then(response => {
-          this.products = response.data;
-          if(this.quotation_type!=='t_comparative'){
-            this.products = this.products.filter(product => product.brand === this.brands[0]);
+          if(response.successful){
+            this.products = response.data;
+            if(this.quotation_type!=='t_comparative'){
+              this.products = this.products.filter(product => product.brand === this.brands[0]);
+            }
+            this.setPrices();
+          }else{
+            this.handleError(response.error);
           }
-          this.setPrices();
         })
         .catch(err => {
-          console.log(JSON.stringify(err));
+        console.log("Error", err.stack, err.name, err.message);
         });
     },
     setPrices: function() {
@@ -177,25 +193,29 @@ export default {
       this.http
         .get(`/api/quotations/${this.quotation_id}/type`)
         .then(response => {
-          this.quotation_type = response.data[0].quotation_type;
-          switch (this.quotation_type) {
-            case "t_comparative":
-              this.brands = ["Supranet", "Siemon"];
-              break;
-            case "t_siemon_only":
-              this.brands = ["Siemon","Supranet"];
-              break;
-            case "t_supranet_only":
-              this.brands = ["Supranet","Siemon"];
-              break;
-            case "t_simple":
-              this.brands = [null];
-              break;
+          if(response.successful){
+            this.quotation_type = response.data[0].quotation_type;
+            switch (this.quotation_type) {
+              case "t_comparative":
+                this.brands = ["Supranet", "Siemon"];
+                break;
+              case "t_siemon_only":
+                this.brands = ["Siemon","Supranet"];
+                break;
+              case "t_supranet_only":
+                this.brands = ["Supranet","Siemon"];
+                break;
+              case "t_simple":
+                this.brands = [null];
+                break;
+            }
+            this.getMaterials();
+          }else{
+            this.handleError(response.error);
           }
-          this.getMaterials();
         })
         .catch(err => {
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
     },
     addComparativeProduct: function(){
@@ -325,12 +345,13 @@ export default {
         .then(response => {
           if (response.successful) {
             this.$emit("update:section_valid", true);
+            this.alert(this.translations.notifications.materials_updated,'success');
           } else {
-            console.log(JSON.stringify(response.error));
+            this.handleError(response.error);
           }
         })
         .catch(err => {
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
     }
   },

@@ -38,13 +38,17 @@
         this.http
         .get('/api/services')
         .then((response)=>{
-          this.services = response.data;
-          if(this.services.length > 0){
-            this.form_fields.service_id = this.services[0].id;
-            this.form_fields.price = this.services[0].price;
+          if(response.successful){
+            this.services = response.data;
+            if(this.services.length > 0){
+              this.form_fields.service_id = this.services[0].id;
+              this.form_fields.price = this.services[0].price;
+            }
+          }else{
+            this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
       },
 
@@ -58,7 +62,8 @@
         });
       },
 
-      addService() {
+      addService(event) {
+        event.preventDefault();
         var form_data = this.form_fields;
         var selected_service = this.services.filter((service)=>{
           return service.id ==form_data.service_id;
@@ -74,19 +79,21 @@
         this.quotation_services.push(table_data);
       },
 
-      updateServices() {
+      updateServices(event) {
+        event.preventDefault();
         this.$emit('update:section_valid', false);
         var data = {quotation:{ quotation_services_attributes:this.quotation_services}};
         this.http
         .put(`quotations/${this.quotation_id}`, data)
         .then((response)=>{
           if(response.successful){
+            this.alert(this.translations.notifications.services_updated,'success');
             this.$emit('update:section_valid', true);
           }else{
-            console.log(JSON.stringify(response.error));
+            this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
       },
       

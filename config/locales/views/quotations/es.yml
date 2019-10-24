@@ -9,6 +9,8 @@ es:
       accepted: Aprobada por el Cliente
       expired: Expirada
     index:
+      notifications:
+        quotation_deleted: La cotización ha sido eliminada satisfactoriamente
       delete_modal: 
         title: ¿Realmente deseas eliminar esta cotización?
         body: Una vez eliminado no podrás recuperarla y deberás crear una nueva. Solo las cotizaciónes en estados 'Creada' y 'Expirada' se pueden eliminar
@@ -39,7 +41,12 @@ es:
           date: Fecha
     new:
       title: Nueva Cotización
+      notifications:
+        quotation_activated: La cotización ha sido activada satisfactoriamente
+        quotation_discarded: La cotización ha sido descartada satifactoriamente
       header:
+        notifications:
+          header_updated: Cambios guardados en el encabezado
         titles:
           code: Código
           client: Cliente
@@ -57,6 +64,8 @@ es:
           date: Debe ingresar una fecha válida
           client: Debe seleccionar un cliente
       materials:
+        notifications:
+          materials_updated: Cambios guardados en los materiales
         title: Materiales
         select-material: Seleccione un material
         titles:
@@ -105,6 +114,8 @@ es:
         supranet: Supranet
         siemon: Siemon
       services:
+        notifications:
+          services_updated: Cambios guardados en los servicios
         headers:
           name: Servicio
           price: Precio
@@ -123,6 +134,8 @@ es:
           amount: Cantidad
           percent: Holgura
       conditions:
+        notifications:
+          conditions_updated: Cambios guardados en las condiciones
         next: Siguiente
         title: Condiciones
         titles:
