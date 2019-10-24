@@ -11,7 +11,7 @@ es:
     index:
       notifications:
         quotation_deleted: La cotización ha sido eliminada satisfactoriamente
-      delete_modal: 
+      delete_modal:
         title: ¿Realmente deseas eliminar esta cotización?
         body: Una vez eliminado no podrás recuperarla y deberás crear una nueva. Solo las cotizaciónes en estados 'Creada' y 'Expirada' se pueden eliminar
         yes_text: Sí, elimínala
@@ -22,7 +22,7 @@ es:
         state: Estado
         quotation_date: Fecha
         name: Cliente
-        actions: ''
+        actions: ""
         default_select_option: Seleccione una opción de la lista
       search_title: Filtrar por
       page_size_placeholder: Filas por página
@@ -39,8 +39,9 @@ es:
         titles:
           code: Código de la Cotización
           date: Fecha
-    new:
-      title: Nueva Cotización
+    new_edit:
+      new_title: Nueva Cotización
+      edit_title: Editar Cotización
       notifications:
         quotation_activated: La cotización ha sido activada satisfactoriamente
         quotation_discarded: La cotización ha sido descartada satifactoriamente
@@ -76,7 +77,7 @@ es:
         buttons:
           add_material: Agregar
           next: Siguiente
-        custom_headers: 
+        custom_headers:
           expression: Expresión en Quetzales (GTQ)
           with_percentage: Con Holgura
           without_percentage: Sin Holgura
@@ -123,7 +124,7 @@ es:
           percent: Holgura
           tot_with_perc: Total con Holgura
           tot_without_perc: Total sin Holgura
-          actions: ''
+          actions: ""
         buttons:
           next: Siguiente
           add_service: Agregar
@@ -144,6 +145,8 @@ es:
           warranty: Garantía
       global_view:
         title: Vista Global
+      attachments_view:
+        title: "Attachments"
     show:
       brands:
         t_supranet_only: Supranet
@@ -201,3 +204,5 @@ es:
         t_siemon_only_total_with_percent: Total
         t_supranet_only_percent: Holgura
         t_siemon_only_percent: Holgura
+    attachments:
+      upload: "Por favor seleccione un archivo"

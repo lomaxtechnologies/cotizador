@@ -9,12 +9,16 @@
       quotation_id:{
         type:Number,
         default: null
+      },
+      get_header:{
+        type: Boolean,
+        default: false
       }
     },
 
     data(){
       return {
-        translations: I18n.t('quotations.new.header'),
+        translations: I18n.t('quotations.new_edit.header'),
         quotation:{
           client_id: null,
           client_nit: '',
@@ -29,6 +33,7 @@
     mounted(){
       this.getClients();
       this.getQuotationTypes();
+      this.getHeader();
     },
 
     computed:{
@@ -42,13 +47,27 @@
 
     methods:{
 
-      getClients: function(){
+      getHeader(){
+        this.http
+        .get(`api/quotations/${this.quotation_id}/header`)
+        .then((response)=>{
+          if(response.successful){
+            this.quotation = response.data;
+          }else{
+            this.handleError(response.error);
+          }
+        }).catch((err)=>{
+          console.log("Error", err.stack, err.name, err.message);
+        });
+      },
+
+      getClients(){
         this.http
         .get('api/clients')
         .then((response)=>{
           if(response.successful){
             this.clients = response.data;
-            if(this.clients.length > 0){
+            if(!this.get_header && this.clients.length > 0){
               this.quotation.client_id = this.clients[0].id;
               this.quotation.client_nit = this.clients[0].nit;
             }
@@ -60,13 +79,13 @@
         });
       },
 
-      getQuotationTypes: function(){
+      getQuotationTypes(){
         this.http
         .get('api/quotations/types')
         .then((response)=>{
           if(response.successful){
             this.quotation_types = response.data;
-            if(this.quotation_types.length > 0){
+            if(!this.get_header && this.quotation_types.length > 0){
               this.quotation.quotation_type = this.quotation_types[0].value;
             }
           }else{
@@ -77,7 +96,7 @@
         });
       },
 
-      submitForm: function(event){
+      submitForm(event){
         event.preventDefault();
         if(this.quotation_id){
           this.updateHeader();
@@ -86,7 +105,7 @@
         }
       },
 
-      createHeader: function(){
+      createHeader(){
         this.$emit('update:section_valid', false);
         this.http
         .post('/quotations', {quotation: this.quotation})
@@ -103,7 +122,7 @@
         });
       },
 
-      updateHeader: function(){
+      updateHeader(){
         this.$emit('update:section_valid', false);
         this.http
         .put(`quotations/${this.quotation_id}`, {quotation: this.quotation})
@@ -211,8 +230,8 @@
               </div>
             </div>
             <b-form-select
-              v-model=quotation.quotation_type 
-              :disabled=section_valid
+              v-model="quotation.quotation_type"
+              :disabled="quotation_id!=null"
               :required=true
               :options=quotation_types
             ></b-form-select>

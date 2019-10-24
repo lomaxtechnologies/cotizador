@@ -1,6 +1,6 @@
 class QuotationsController < ApplicationController
   layout "manager"
-  before_action :set_quotation, only: %i[update destroy show api_type api_activate]
+  before_action :set_quotation, only: %i[update destroy show api_type api_activate api_conditions api_header]
 
   # POST /quotations
   def create
@@ -60,6 +60,15 @@ class QuotationsController < ApplicationController
   # GET /api/quotations/:id/type
   def api_type
     response_with_success(Quotation.type(params))
+  end
+
+  # GET /api/quotations/:id/conditions
+  def api_conditions
+    response_with_success(@quotation.conditions_only)
+  end
+
+  def api_header
+    response_with_success(@quotation.header_only)
   end
 
   # PUT /api/quotations/:id/activate

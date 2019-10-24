@@ -20,18 +20,18 @@ export default {
     return {
       translations: I18n.t("quotations.new_edit"),
       global_view_index: 4,
-      tab_index: 0,
+      tab_index: 4,
       //these are only used to change the color of the tabs to green when the user finishes a section
       completed: {
-        header: false,
-        materials: false,
-        services: false,
-        conditions: false,
+        header: true,
+        materials: true,
+        services: true,
+        conditions: true,
         global_view: false
       },
       refresh_global_view: false,
       quotation: {
-        id: null
+        id: parseInt(this.$route.params.id)
       }
     };
   },
@@ -135,12 +135,12 @@ export default {
         </template>
       </b-modal>
       <h2 class="text-primary">
-        <b>{{translations.new_title}}</b>
+        <b>{{translations.edit_title}}</b>
       </h2>
       <div>
         <b-card no-body>
           <b-tabs card v-model="tab_index">
-            <b-tab active>
+            <b-tab>
               <template v-slot:title>
                 <span v-bind:class="{'text-success':completed.header}">
                   {{translations.header.title}} &nbsp;
@@ -151,6 +151,7 @@ export default {
                 <quotation-header
                   :section_valid.sync="completed.header"
                   :quotation_id.sync="quotation.id"
+                  :get_header="true"
                 ></quotation-header>
               </b-card-text>
             </b-tab>
@@ -193,10 +194,11 @@ export default {
                 <quotation-conditions
                   :section_valid.sync="completed.conditions"
                   :quotation_id="quotation.id"
+                  :get_conditions="true"
                 ></quotation-conditions>
               </b-card-text>
             </b-tab>
-            <b-tab>
+            <b-tab active>
               <template v-slot:title>
                 <span v-bind:class="{'text-success':completed.global}">
                   {{translations.global_view.title}} &nbsp;
