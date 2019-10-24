@@ -8,26 +8,6 @@ es:
       active: Activa
       accepted: Aprobada por el Cliente
       expired: Expirada
-    material:
-      headers:
-        amount: Cantidad
-        material: Material
-        brand: Marca
-        percent: Holgura
-        price: Unitario
-        total: Total
-        price_percent: Unitario
-        total_percent: Total
-        percent_supranet: Holgura
-        price_supranet: Unitario
-        total_supranet: Total
-        price_percent_supranet: Unitario
-        total_percent_supranet: Total
-        percent_siemon: Holgura
-        price_siemon: Unitario
-        total_siemon: Total
-        price_percent_siemon: Unitario
-        total_percent_siemon: Total
     index:
       delete_modal:
         title: ¿Realmente deseas eliminar esta cotización?
@@ -79,6 +59,37 @@ es:
       materials:
         title: Materiales
         select-material: Seleccione un material
+        titles:
+          material: Material
+          amount: Cantidad
+          price: Precio
+          percent: Holgura
+        buttons:
+          add_material: Agregar
+          next: Siguiente
+        custom_headers: 
+          expression: Expresión en Quetzales (GTQ)
+          with_percentage: Con Holgura
+          without_percentage: Sin Holgura
+        headers:
+          amount: Cantidad
+          material: Material
+          brand: Marca
+          percent: Holgura
+          price: Unitario
+          total: Total
+          price_percent: Unitario
+          total_percent: Total
+          percent_supranet: Holgura
+          price_supranet: Unitario
+          total_supranet: Total
+          price_percent_supranet: Unitario
+          total_percent_supranet: Total
+          percent_siemon: Holgura
+          price_siemon: Unitario
+          total_siemon: Total
+          price_percent_siemon: Unitario
+          total_percent_siemon: Total
       brands:
         supranet: Supranet
         siemon: Siemon

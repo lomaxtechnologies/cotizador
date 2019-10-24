@@ -8,7 +8,7 @@ export default {
     return {
       translations: I18n.t("quotations.attachments"),
       attachment: {
-        location: null
+        file: null
       },
       attachments: []
     };
@@ -26,7 +26,8 @@ export default {
     create() {
       // Create form data to allow upload files
       let attachment = new FormData();
-      attachment.append("attachment[location]", this.attachment.location);
+      attachment.append("attachment[file]", this.attachment.location);
+      attachment.append("attachment[name]", this.attachment.location.name);
 
       this.http
         .post(
@@ -34,7 +35,6 @@ export default {
           attachment
         )
         .then(response => {
-          this.alert(response.message);
           this.load();
         });
     },
@@ -54,7 +54,6 @@ export default {
             "/destroy"
         )
         .then(response => {
-          this.alert(response.message);
           this.load();
         });
     }
@@ -79,7 +78,7 @@ export default {
       v-for="(attached,index) in attachments"
       :key="'attachmend_' + index"
     >
-      <label>{{ attachment.location }}</label>
+      <label>{{ attached.name }}</label>
       <a @click="view(attached)">
         <i class="fa fa-eye"></i>
       </a>

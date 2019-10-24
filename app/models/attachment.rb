@@ -3,5 +3,5 @@ class Attachment < ApplicationRecord
   belongs_to :quotation
   belongs_to :user
 
-  has_one_attached :location
+  has_one_attached :file
 end
