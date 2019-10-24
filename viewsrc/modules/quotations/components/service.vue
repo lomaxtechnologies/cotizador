@@ -62,7 +62,8 @@
         });
       },
 
-      addService() {
+      addService(event) {
+        event.preventDefault();
         var form_data = this.form_fields;
         var selected_service = this.services.filter((service)=>{
           return service.id ==form_data.service_id;
@@ -78,7 +79,8 @@
         this.quotation_services.push(table_data);
       },
 
-      updateServices() {
+      updateServices(event) {
+        event.preventDefault();
         this.$emit('update:section_valid', false);
         var data = {quotation:{ quotation_services_attributes:this.quotation_services}};
         this.http

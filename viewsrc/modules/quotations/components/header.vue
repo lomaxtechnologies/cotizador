@@ -77,7 +77,8 @@
         });
       },
 
-      submitForm: function(){
+      submitForm: function(event){
+        event.preventDefault();
         if(this.quotation_id){
           this.updateHeader();
         }else{

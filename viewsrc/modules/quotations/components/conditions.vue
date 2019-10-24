@@ -24,14 +24,15 @@
     },
 
     methods:{
-      updateConditions(){
+      updateConditions(event){
+        event.preventDefault();
         this.$emit('update:section_valid', false);
         this.http
         .put(`quotations/${this.quotation_id}`, {quotation: this.quotation})
         .then((response)=>{
           if(response.successful){
             this.$emit('update:section_valid', true);
-            this.alert(this.translations.notifications.conditions_updated);
+            this.alert(this.translations.notifications.conditions_updated,'success');
           }else{
             this.handleError(response.error);
           }
