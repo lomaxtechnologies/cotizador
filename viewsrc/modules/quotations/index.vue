@@ -48,16 +48,17 @@
         this.http
         .delete(`/quotations/${this.config.selected_quotation}`)
         .then((response)=>{
+          this.$bvModal.hide('delete_confirmation_modal');
           if(response.successful){
+            this.alert(this.translations.index.notifications.quotation_deleted);
             this.quotations = this.quotations.filter((quotation)=>{
               return quotation.id != this.config.selected_quotation;
             });
-            this.$bvModal.hide('delete_confirmation_modal');
           }else{
-            console.log(JSON.stringify(response));
+            this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
       },
 
@@ -95,10 +96,10 @@
           if(response.successful){
             this.quotations = response.data;
           }else{
-            console.log(JSON.stringify(response));
+            this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
       }
     }

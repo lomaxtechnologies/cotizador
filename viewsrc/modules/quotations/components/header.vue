@@ -14,9 +14,7 @@
 
     data(){
       return {
-        translations: {
-          header: I18n.t('quotations.new.header')
-        },
+        translations: I18n.t('quotations.new.header'),
         quotation:{
           client_id: null,
           client_nit: '',
@@ -48,13 +46,17 @@
         this.http
         .get('api/clients')
         .then((response)=>{
-          this.clients = response.data;
-          if(this.clients.length > 0){
-            this.quotation.client_id = this.clients[0].id;
-            this.quotation.client_nit = this.clients[0].nit;
+          if(response.successful){
+            this.clients = response.data;
+            if(this.clients.length > 0){
+              this.quotation.client_id = this.clients[0].id;
+              this.quotation.client_nit = this.clients[0].nit;
+            }
+          }else{
+            this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
       },
 
@@ -68,14 +70,15 @@
               this.quotation.quotation_type = this.quotation_types[0].value;
             }
           }else{
-            console.log(JSON.stringify(response));
+            this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
       },
 
-      submitForm: function(){
+      submitForm: function(event){
+        event.preventDefault();
         if(this.quotation_id){
           this.updateHeader();
         }else{
@@ -89,13 +92,14 @@
         .post('/quotations', {quotation: this.quotation})
         .then((response)=>{
           if(response.successful){
+            this.alert(this.translations.notifications.header_updated,'success');
             this.$emit('update:quotation_id', response.data.id);
             this.$emit('update:section_valid', true);
           }else{
-            console.log(JSON.stringify(response));
+            this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
       },
 
@@ -105,12 +109,13 @@
         .put(`quotations/${this.quotation_id}`, {quotation: this.quotation})
         .then((response)=>{
           if(response.successful){
+            this.alert(this.translations.notifications.header_updated,'success');
             this.$emit('update:section_valid', true);
           }else{
-            console.log(JSON.stringify(response.error));
+            this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
       }
     },
@@ -133,7 +138,7 @@
       <b-form-row>
         <div class="col-2">
           <label class="mb-0 text-primary font-weight-bold">
-            {{translations.header.titles.code}}
+            {{translations.titles.code}}
           </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -150,7 +155,7 @@
         </div>
         <div class="col-4">
           <label class="mb-0 text-primary font-weight-bold">
-            {{translations.header.titles.client}}
+            {{translations.titles.client}}
           </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -170,7 +175,7 @@
         </div>
         <div class="col-3">
           <label class="mb-0 text-primary font-weight-bold">
-            {{translations.header.titles.nit}}
+            {{translations.titles.nit}}
           </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -184,7 +189,7 @@
         </div>
         <div class="col-3">
           <label class="mb-0 text-primary font-weight-bold">
-            {{translations.header.titles.date}}
+            {{translations.titles.date}}
           </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -197,7 +202,7 @@
         </div>
         <div class="col-3">
           <label class="mb-0 text-primary font-weight-bold">
-            {{translations.header.titles.quotation_type}}
+            {{translations.titles.quotation_type}}
           </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -219,7 +224,7 @@
             class="btn btn-primary btn-block"
             type="submit"
           >
-            {{translations.header.next}}
+            {{translations.next}}
           </button>
         </div>
       </b-form-row>

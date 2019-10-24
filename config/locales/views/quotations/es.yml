@@ -9,7 +9,9 @@ es:
       accepted: Aprobada por el Cliente
       expired: Expirada
     index:
-      delete_modal: 
+      notifications:
+        quotation_deleted: La cotización ha sido eliminada satisfactoriamente
+      delete_modal:
         title: ¿Realmente deseas eliminar esta cotización?
         body: Una vez eliminado no podrás recuperarla y deberás crear una nueva. Solo las cotizaciónes en estados 'Creada' y 'Expirada' se pueden eliminar
         yes_text: Sí, elimínala
@@ -20,7 +22,7 @@ es:
         state: Estado
         quotation_date: Fecha
         name: Cliente
-        actions: ''
+        actions: ""
         default_select_option: Seleccione una opción de la lista
       search_title: Filtrar por
       page_size_placeholder: Filas por página
@@ -39,7 +41,12 @@ es:
           date: Fecha
     new:
       title: Nueva Cotización
+      notifications:
+        quotation_activated: La cotización ha sido activada satisfactoriamente
+        quotation_discarded: La cotización ha sido descartada satifactoriamente
       header:
+        notifications:
+          header_updated: Cambios guardados en el encabezado
         titles:
           code: Código
           client: Cliente
@@ -57,6 +64,8 @@ es:
           date: Debe ingresar una fecha válida
           client: Debe seleccionar un cliente
       materials:
+        notifications:
+          materials_updated: Cambios guardados en los materiales
         title: Materiales
         select-material: Seleccione un material
         titles:
@@ -67,7 +76,7 @@ es:
         buttons:
           add_material: Agregar
           next: Siguiente
-        custom_headers: 
+        custom_headers:
           expression: Expresión en Quetzales (GTQ)
           with_percentage: Con Holgura
           without_percentage: Sin Holgura
@@ -105,6 +114,8 @@ es:
         supranet: Supranet
         siemon: Siemon
       services:
+        notifications:
+          services_updated: Cambios guardados en los servicios
         headers:
           name: Servicio
           price: Precio
@@ -112,7 +123,7 @@ es:
           percent: Holgura
           tot_with_perc: Total con Holgura
           tot_without_perc: Total sin Holgura
-          actions: ''
+          actions: ""
         buttons:
           next: Siguiente
           add_service: Agregar
@@ -123,6 +134,8 @@ es:
           amount: Cantidad
           percent: Holgura
       conditions:
+        notifications:
+          conditions_updated: Cambios guardados en las condiciones
         next: Siguiente
         title: Condiciones
         titles:
@@ -131,6 +144,8 @@ es:
           warranty: Garantía
       global_view:
         title: Vista Global
+      attachments_view:
+        title: "Attachments"
     show:
       brands:
         t_supranet_only: Supranet
@@ -188,3 +203,5 @@ es:
         t_siemon_only_total_with_percent: Total
         t_supranet_only_percent: Holgura
         t_siemon_only_percent: Holgura
+    attachments:
+      upload: "Por favor seleccione un archivo"
