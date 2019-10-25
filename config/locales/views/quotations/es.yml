@@ -118,11 +118,11 @@ es:
         notifications:
           services_updated: Cambios guardados en los servicios
         headers:
-          name: Servicio
+          service: Servicio
           price: Precio
           amount: Cantidad
           percent: Holgura
-          tot_with_perc: Total con Holgura
+          total_with_percent: Total con Holgura
           tot_without_perc: Total sin Holgura
           actions: ""
         buttons:
@@ -157,6 +157,9 @@ es:
         with_percent: Con Holgura
         without_percent: Sin Holgura
         total: Total (GTQ)
+      tabs:
+        comments: Comentarios
+        attachments: Archivos adjuntos
       custom_footers:
         materials: Materiales
         not_used: --
