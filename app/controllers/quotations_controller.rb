@@ -35,9 +35,6 @@ class QuotationsController < ApplicationController
 
   # PUT /quotations/:id
   def update
-    puts "----------------------------------------------"
-    puts quotation_params.merge(user: current_user)
-    puts "----------------------------------------------"
     if @quotation.update(quotation_params.merge(user: current_user))
       response_with_success
     else
@@ -80,7 +77,7 @@ class QuotationsController < ApplicationController
     response_with_success(@quotation.conditions_only)
   end
 
-  # GET /api/quotations/:id/materials
+  # GET /api/quotations/:id/header
   def api_header
     response_with_success(@quotation.header_only)
   end
