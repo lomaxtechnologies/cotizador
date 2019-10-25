@@ -100,15 +100,31 @@ class Quotation < ApplicationRecord
 
   private
 
+  def products_only_comparative_format
+    products = group_products(format_products).deep_stringify_keys["quotation_products"]
+    products.map do |product|
+      ["supranet", "siemon"].each do |brand_name|
+        product["percent_#{brand_name}"] = product.delete("t_#{brand_name}_only_percent")
+        product["price_#{brand_name}"] = product.delete("t_#{brand_name}_only_price")
+        product["total_#{brand_name}"] = product.delete("t_#{brand_name}_only_total")
+        product["price_percent_#{brand_name}"] = product.delete("t_#{brand_name}_only_price_with_percent")
+        product["total_percent_#{brand_name}"] = product.delete("t_#{brand_name}_only_total_with_percent")
+      end
+    end
+    products
+  end
+
   def products_only_single_brand_format
-    products = format_products["quotation_products"]
+    products = format_products.deep_stringify_keys["quotation_products"]
     products.map do |product|
       product["percent"] = product.delete("#{quotation_type}_percent")
       product["price"] = product.delete("#{quotation_type}_price")
       product["total"] = product.delete("#{quotation_type}_total")
       product["price_percent"] = product.delete("#{quotation_type}_price_with_percent")
       product["total_percent"] = product.delete("#{quotation_type}_total_with_percent")
-      product["material_id"] = product.delete("product_id")
+      if t_simple?
+        product["material_id"] = product.delete("product_id")
+      end
     end
     products
   end
@@ -147,7 +163,7 @@ class Quotation < ApplicationRecord
       data[:services_totals][:with_percent] += total_with_percent
       data[:services_totals][:without_percent] += total_without_percent
     end
-    data.deep_stringify_keys
+    data
   end
 
   def format_products
@@ -188,7 +204,7 @@ class Quotation < ApplicationRecord
       data[:products_totals][:with_percent] += total_with_percent
       data[:products_totals][:without_percent] += total_without_percent
     end
-    data.deep_stringify_keys
+    data
   end
 
   # Groups entries to be shown in 2 columns per row on the view, The entries
@@ -207,6 +223,11 @@ class Quotation < ApplicationRecord
       id = "#{p[:material_id]}_#{p[:measure_unit_id]}"
       new_data = grouped_products[id] || {}
       brand_name = p[:brand].downcase
+
+      # These 3 lines helps the frontend associate a product_id when the brand is not siemon or supranet
+      brand_name_tag = brand_name == "siemon" ? brand_name : "supranet"
+      p["#{brand_name_tag}_id"] = p["product_id"];
+      p["quotation_product_#{brand_name_tag}_id"] = p.delete("id");
 
       if %w[siemon supranet].include? brand_name
         # When the brand is siemon or supranet, we push the prices 1 time

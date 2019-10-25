@@ -318,9 +318,9 @@ export default {
       }
     },
     editProduct: function(index) {
-      let product_data = this.selected_materials[index];
-      this.selected_materials.splice(index, 1);
-      if(this.quotation_type === 't_comparative'){
+      let is_comparative = this.quotation_type === 't_comparative';
+      let product_data = this.deleteProduct(index,is_comparative);
+      if(is_comparative){
         this.quotation_products.percents[0] = product_data.percent_supranet;
         this.quotation_products.percents[1] = product_data.percent_siemon;
         this.prices[0] = product_data.price_supranet;
@@ -334,12 +334,17 @@ export default {
       //The ID of the product in the database, if there is any
       this.product_id = product_data.id;
     },
-    deleteProduct: function(index) {
+    deleteProduct: function(index,staged_for_delete=true) {
+      //If there is and ID, we have to delete the record at the database
       var quotation_product = this.selected_materials.splice(index, 1)[0];
-      //If there is and ID, we have to delete it at the database
-      if(quotation_product.id){
-        this.deleted_materials.push({id: quotation_product.id, _destroy: true})
+      if(staged_for_delete){
+        ['quotation_product_supranet_id','quotation_product_siemon_id','id'].forEach((id)=>{
+          if(quotation_product[id]){
+            this.deleted_materials.push({id: quotation_product[id], _destroy: true});
+          }
+        });
       }
+      return quotation_product;
     },
     formatData: function() {
       var data;
@@ -347,12 +352,14 @@ export default {
         var product_attributes = [];
         this.selected_materials.forEach(material => {
           product_attributes.push({
+            id: material.quotation_product_supranet_id,
             amount: material.amount,
             percent: material.percent_supranet,
             product_id: material.supranet_id
           });
-          if (material.siemon_id !== null) {
+          if (material.siemon_id) {
             product_attributes.push({
+              id: material.quotation_product_siemon_id,
               amount: material.amount,
               percent: material.percent_siemon,
               product_id: material.siemon_id
@@ -375,7 +382,6 @@ export default {
     },
     submit: function() {
       this.$emit("update:section_valid", false);
-      var data = this.formatData();
       this.http
         .put(`api/quotations/${this.quotation_id}/update`, this.formatData())
         .then(response => {
@@ -578,8 +584,6 @@ export default {
         </b-button>
       </template>
     </b-table>
-    {{selected_materials}}
-    {{deleted_materials}}
     <div class="col-2 offset-10">
       <button class="btn btn-primary btn-block" type="submit" v-on:click="submit">{{translations.buttons.next}}</button>
     </div>
