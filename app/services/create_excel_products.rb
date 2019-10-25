@@ -19,7 +19,6 @@ class CreateExcelProducts
       worksheet.add_cell(cont,5,product.price.product_price)   
       cont = cont + 1 
     end
-    filename_path = 'storage/'+ Date.today.to_s+".xlsx"
-    workbook.write(filename_path)
+    workbook.stream.read
   end
 end

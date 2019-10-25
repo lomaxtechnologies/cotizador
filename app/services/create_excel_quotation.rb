@@ -35,11 +35,13 @@ class CreateExcelQuotation
       addProductsSimple(worksheet,products)
       addProductsTotal(worksheet,products_totals)
       addServicesSimple(worksheet,services)
+      addResumeTotals(worksheet,products_totals,services_totals)
     else
       deleteBrandRow(worksheet)
       addProductsBrand(worksheet,products)
       addProductsTotal(worksheet,products_totals)
       addServicesSimple(worksheet,services)
+      addResumeTotals(worksheet,products_totals,services_totals)
     end
     workbook.write(filename_path)
     #send_data workbook.stream.string, filename: filename, disposition: 'attachment'
@@ -119,7 +121,7 @@ class CreateExcelQuotation
       worksheet[@cont][5].change_contents(products_totals['t_siemon_only'][:without_percent].to_d)
       worksheet[@cont][8].change_contents(products_totals['t_supranet_only'][:with_percent].to_d)
       worksheet[@cont][9].change_contents(products_totals['t_siemon_only'][:with_percent].to_d)
-    elsif @quotation.quotation_type == 't_comparative'
+    elsif @quotation.quotation_type == 't_simple'
       worksheet[@cont][4].change_contents(products_totals[:without_percent].to_d)
       worksheet[@cont][6].change_contents(products_totals[:with_percent].to_d)
     else
@@ -143,6 +145,12 @@ class CreateExcelQuotation
   end
   
   def addServicesSimple(worksheet,services)
+    if @quotation.quotation_type != 't_simple'   
+      worksheet[@cont-1][2].change_contents('Precio Unitario')  
+      worksheet[@cont-1][3].change_fill('1c4587')
+      worksheet[@cont-1][3].change_font_color('ffffff')
+      worksheet[@cont-1][3].change_contents('Total')  
+    end
     services.each do |service|
       worksheet[@cont][0].change_contents(service[:amount].to_i) 
       worksheet[@cont][1].change_contents(service[:service].to_s) 
@@ -167,6 +175,12 @@ class CreateExcelQuotation
       worksheet[@cont][3].change_contents(general_total_supranet)
       worksheet[@cont][4].change_contents(general_total_siemon)
     else
+      general_total = products_totals[:with_percent].to_d + services_totals[:with_percent].to_d
+      worksheet[@cont][3].change_contents(products_totals[:with_percent].to_d)
+      @cont = @cont + 1
+      worksheet[@cont][3].change_contents(services_totals[:with_percent].to_d)      
+      @cont = @cont + 1
+      worksheet[@cont][3].change_contents(general_total)
     end
   end
 end

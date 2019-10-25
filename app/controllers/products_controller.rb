@@ -60,8 +60,9 @@ class ProductsController < ApplicationController
   end
 
   def download_price
-    file_path = CreateExcelProducts.new().create
-    return send_file file_path, disposition: 'inline'
+    workbook = CreateExcelProducts.new().create
+    filename = Date.today.to_s+".xlsx"
+    return send_data workbook, filename: filename, type: 'application/excel', disposition: 'inline'
   end
 
   # API For prices controller
