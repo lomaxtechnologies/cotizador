@@ -9,12 +9,16 @@
       quotation_id:{
         type:Number,
         default: null
+      },
+      get_services:{
+        type: Boolean,
+        default: false
       }
     },
     
     data() {
       return {
-        translations: I18n.t('quotations.new.services'),
+        translations: I18n.t('quotations.new_edit.services'),
         form_fields: {
           service_id: 0,
           price: 0,
@@ -23,6 +27,7 @@
         },
         services: [],
         quotation_services: [],
+        deleted_quotation_services: [],
         table_headers: []
       }
     },
@@ -30,9 +35,27 @@
     mounted() {
       this.getService();
       this.setTableHeaders();
+      this.getQuotationServices();
     },
     
     methods: {
+      //When the quotation is in 'created' state, this method gets the services that have
+      //been already saved and shows them
+      getQuotationServices(){
+        if(this.get_services && this.quotation_id){
+          this.http
+          .get(`api/quotations/${this.quotation_id}/services`)
+          .then((response)=>{
+            if(response.successful){
+              this.quotation_services = response.data;
+            }else{
+              this.handleError(response.error);
+            }
+          }).catch((err)=>{
+            console.log("Error", err.stack, err.name, err.message);
+          });
+        }
+      },
 
       getService() {
         this.http
@@ -66,23 +89,29 @@
         event.preventDefault();
         var form_data = this.form_fields;
         var selected_service = this.services.filter((service)=>{
-          return service.id ==form_data.service_id;
+          return service.id == form_data.service_id;
         });
         var tot_without_perc = form_data.amount * form_data.price;
-        
         //Using ES6 to merge form_data and some extra fields into table_data
         var table_data = { ...form_data, ...{
           tot_without_perc: tot_without_perc,
           tot_with_perc: tot_without_perc * (1+form_data.percent/100),
           name: selected_service[0].name
         }};
+        //Remove the ID field if it exists
+        delete this.form_fields.id;
         this.quotation_services.push(table_data);
       },
 
       updateServices(event) {
         event.preventDefault();
         this.$emit('update:section_valid', false);
-        var data = {quotation:{ quotation_services_attributes:this.quotation_services}};
+        var data = {
+          quotation:{
+            quotation_services_attributes: this.quotation_services.concat(this.deleted_quotation_services)
+          }
+        };
+        this.deleted_quotation_services = [];
         this.http
         .put(`quotations/${this.quotation_id}`, data)
         .then((response)=>{
@@ -98,12 +127,16 @@
       },
       
       deleteService: function(table_row_data) {
-        this.quotation_services.splice(table_row_data.index, 1);
+        var quotation_service = this.quotation_services.splice(table_row_data.index, 1)[0];
+        //If there is and ID, we have to delete it at the database
+        if(quotation_service.id){
+          this.deleted_quotation_services.push({id: quotation_service.id, _destroy: true})
+        }
       },
 
       editService: function(table_row_data) {
         this.form_fields = table_row_data.item;
-        this.deleteService(table_row_data);
+        this.quotation_services.splice(table_row_data.index, 1);
       },
     },
     
@@ -195,7 +228,7 @@
           </template>
           <template v-slot:cell(amount)="data">
             <div class="text-right">
-              {{data.value}}
+              {{parseInt(data.value)}}
             </div>
           </template>
           <template v-slot:cell(percent)="data">

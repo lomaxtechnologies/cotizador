@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+# Automated task for deadline (15 days) in quotations.
 namespace :quotation do
   desc 'TODO'
   task check_state: :environment do

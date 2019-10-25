@@ -32,7 +32,7 @@
               .input-group-prepend
                 .input-group-text
                   %i.fas.fa-coins
-              = nested_form.number_field :product_price, class: "form-control form-control-sm", required: true
+              = nested_form.number_field :product_price, class: "form-control form-control-sm", required: true, step: 0.01
         .form-row.actions.text-right
           .col-12
             = f.submit t('products.save'), class: "btn btn-primary"
