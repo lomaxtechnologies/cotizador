@@ -59,6 +59,12 @@ class ProductsController < ApplicationController
     redirect_to products_path, notice: t('.upload')
   end
 
+  def download_price
+    workbook = CreateExcelProducts.new().create
+    filename = Date.today.to_s+".xlsx"
+    return send_data workbook, filename: filename, type: 'application/excel', disposition: 'inline'
+  end
+
   # API For prices controller
   # GET /prices/api/get-products
   def api_comparative

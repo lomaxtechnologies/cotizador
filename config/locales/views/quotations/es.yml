@@ -150,6 +150,7 @@ es:
       attachments_view:
         title: "Attachments"
     show:
+      generate_Excel: Generar Excel
       company:
         name: Lomax Technologies,
         address: 25 Avenida 1-89, Zona 15, Vista Hermosa 2, Edificio Insigne, Oficina 711.

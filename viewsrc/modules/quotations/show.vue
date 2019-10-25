@@ -5,23 +5,34 @@
   import componentCommentForm from '../comments/form-simple.vue'
   import componentCommentList from '../comments/list.vue'
 
-  export default {
+   export default {
+    data() {
+      return {
+        translations: I18n.t("quotations.show")
+      }
+    },
+    methods:{
+      generateExcel: function(){
+        console.log(this.$route.params.id);
+        let quotation_id = this.$route.params.id;
+        this.http
+        .post(`/quotations/${quotation_id}/excel`)
+        .catch(err => {
+        console.log(JSON.stringify(err));
+        });
+      }
+    },
     components:{
       'global-view': globalView,
       'component-comment-form': componentCommentForm,
       'component-comment-list': componentCommentList,
       "quotation-attachments": quotationAttachments
-    },
-    data() {
-      return {
-        translations: I18n.t("quotations.show")
-      }
     }
   }
 </script>
 
 <template>
-  <div class="row">
+  <div class="row" >
     <div class="col-lg-12 offset-xl-1 col-xl-10">
       <div class="row">
         <div class="col-8">
@@ -40,6 +51,10 @@
           <b-button variant="info" class="text-white">
             <i class="fas fa-clone"></i>
             {{translations.buttons.clone}}
+          </b-button>
+          <b-button variant="primary" class="text-white" v-on:click="generateExcel">
+            <i class="fas fa-file"></i>
+            {{this.translations.generate_Excel}}
           </b-button>
         </div>
         <div class="col-4 text-right">
