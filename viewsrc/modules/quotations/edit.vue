@@ -23,5 +23,7 @@ export default {
       <quotation-form :is_edit="true">
       </quotation-form>
     </div>
+    <component-comment-form :quotation_id="parseInt(this.$route.params.id)" class="mb-4" />
+    <component-comment-list :quotation_id="parseInt(this.$route.params.id)" />
   </div>
 </template>

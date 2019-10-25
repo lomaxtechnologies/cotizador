@@ -1,12 +1,18 @@
 <script>
 export default {
+    props: {
+        quotation_id: {
+            required: true,
+            default: null
+        }
+    },
     data() {
         return {
             translations: I18n.t("comments.form"),
             comment: {
                 note: '',
                 commentable_type: 'Quotation',
-                commentable_id: 1
+                commentable_id: this.quotation_id
             }
         }
     },
@@ -23,12 +29,11 @@ export default {
                 console.log(error)
             })
         }
-    }  
+    }
 }
 </script>
 <template>
     <section>
-        
         <form class="form-inline" @submit="postComment">
             <div class="form-group">
                 <input type="text" class="form-control" v-model="comment.note" :placeholder="translations.add">

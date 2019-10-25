@@ -1,5 +1,11 @@
 <script>
 export default {
+    props: {
+        quotation_id: {
+            required: true,
+            default: null
+        }
+    },
     data() {
         return {
             translations: I18n.t("comments.list"),
@@ -23,7 +29,7 @@ export default {
     },
     methods: {
         getComments() {
-            this.http.get('/api/comments/Quotation/1').then(result =>{
+            this.http.get(`/api/comments/Quotation/${this.quotation_id}`).then(result =>{
                 if (result.successful) {
                     this.comments = result.data
                 }

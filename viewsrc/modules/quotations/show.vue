@@ -27,8 +27,8 @@
       </global-view>
       <b-tabs>
         <b-tab :title="translations.tabs.comments">
-          <component-comment-form class="mb-4" />
-          <component-comment-list />
+          <component-comment-form :quotation_id="parseInt(this.$route.params.id)" class="mb-4" />
+          <component-comment-list :quotation_id="parseInt(this.$route.params.id)" />
         </b-tab>
         <b-tab :title="translations.tabs.attachments">
           <quotation-attachments :quotation_id="parseInt(this.$route.params.id)" />
