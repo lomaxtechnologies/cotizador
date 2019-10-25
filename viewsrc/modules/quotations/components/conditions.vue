@@ -14,7 +14,7 @@
 
     data(){
       return {
-        translations: I18n.t('quotations.new.conditions'),
+        translations: I18n.t('quotations.new_edit.conditions'),
         quotation:{
           payment_condition:'',
           credits:'',
@@ -23,12 +23,32 @@
       }
     },
 
+    mounted(){
+      this.getConditions();
+    },
+
     methods:{
+      getConditions(){
+        if(this.quotation_id){
+          this.http
+          .get(`/api/quotations/${this.quotation_id}/conditions`)
+          .then((response)=>{
+            if(response.successful){
+              this.quotation = response.data;
+            }else{
+              this.handleError(response.error);
+            }
+          }).catch((err)=>{
+            console.log("Error", err.stack, err.name, err.message);
+          })
+        }
+      },
+      
       updateConditions(event){
         event.preventDefault();
         this.$emit('update:section_valid', false);
         this.http
-        .put(`quotations/${this.quotation_id}`, {quotation: this.quotation})
+        .put(`/quotations/${this.quotation_id}`, {quotation: this.quotation})
         .then((response)=>{
           if(response.successful){
             this.$emit('update:section_valid', true);

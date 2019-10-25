@@ -2,6 +2,7 @@
 export default {
     data() {
         return {
+            translations: I18n.t("comments.form"),
             comment: {
                 note: 'ldonis',
                 commentable_type: 'Quotation',
@@ -25,11 +26,12 @@ export default {
 </script>
 <template>
     <section>
+        
         <form class="form-inline" @submit="postComment">
             <div class="form-group">
-                <input type="text" class="form-control" v-model="comment.note" placeholder="Agregar comentario">
+                <input type="text" class="form-control" v-model="comment.note" :placeholder="translations.add">
             </div>
-            <button type="submit" class="btn btn-primary" @click="postComment">Enviar</button>
+            <button type="submit" class="btn btn-primary" @click="postComment">{{ translations.send }} </button>
         </form>
     </section>
 </template>

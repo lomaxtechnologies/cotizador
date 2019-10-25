@@ -1,6 +1,7 @@
 <script type="text/javascript">
 
   import globalView from './components/global_view.vue'
+  import quotationAttachments from "./components/attachments.vue"
   import componentCommentForm from '../comments/form-simple.vue'
   import componentCommentList from '../comments/list.vue'
 
@@ -8,7 +9,13 @@
     components:{
       'global-view': globalView,
       'component-comment-form': componentCommentForm,
-      'component-comment-list': componentCommentList
+      'component-comment-list': componentCommentList,
+      "quotation-attachments": quotationAttachments
+    },
+    data() {
+      return {
+        translations: I18n.t("quotations.show")
+      }
     }
   }
 </script>
@@ -18,8 +25,15 @@
     <div class="col-lg-12 offset-xl-1 col-xl-10">
       <global-view :quotation_id=parseInt(this.$route.params.id)>
       </global-view>
-      <component-comment-form class="mb-4" />
-      <component-comment-list />
+      <b-tabs>
+        <b-tab :title="translations.tabs.comments">
+          <component-comment-form class="mb-4" />
+          <component-comment-list />
+        </b-tab>
+        <b-tab :title="translations.tabs.attachments">
+          <quotation-attachments :quotation_id="parseInt(this.$route.params.id)" />
+        </b-tab>
+      </b-tabs>
     </div>
   </div>
 </template>

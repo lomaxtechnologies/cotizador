@@ -18,9 +18,9 @@ export default {
   <div class="row">
     <div class="col-lg-12 offset-xl-1 col-xl-10">
       <h2 class="text-primary">
-        <b>{{translations.new_title}}</b>
+        <b>{{translations.edit_title}}</b>
       </h2>
-      <quotation-form>
+      <quotation-form :is_edit="true">
       </quotation-form>
     </div>
   </div>

@@ -7,8 +7,8 @@ class Quotation < ApplicationRecord
   has_many :attachments
   has_many :quotations_notes
   has_many :comments, as: :commentable
-  accepts_nested_attributes_for :quotation_products
-  accepts_nested_attributes_for :quotation_services
+  accepts_nested_attributes_for :quotation_products, allow_destroy: true
+  accepts_nested_attributes_for :quotation_services, allow_destroy: true
   has_many_attached :files
 
   # All the possible quotation types
@@ -63,7 +63,56 @@ class Quotation < ApplicationRecord
     data
   end
 
+  def conditions_only
+    attributes.slice("warranty", "payment_condition", "credits")
+  end
+
+  def header_only
+    attributes.slice("client_id","quotation_date","quotation_type")
+  end
+
+  def services_only
+    format_services[:quotation_services]
+  end
+
+  def products_only
+    if t_comparative?
+      products_only_comparative_format
+    else
+      products_only_single_brand_format
+    end
+  end
+
   private
+
+  def products_only_comparative_format
+    products = group_products(format_products).deep_stringify_keys["quotation_products"]
+    products.map do |product|
+      ["supranet", "siemon"].each do |brand_name|
+        product["percent_#{brand_name}"] = product.delete("t_#{brand_name}_only_percent")
+        product["price_#{brand_name}"] = product.delete("t_#{brand_name}_only_price")
+        product["total_#{brand_name}"] = product.delete("t_#{brand_name}_only_total")
+        product["price_percent_#{brand_name}"] = product.delete("t_#{brand_name}_only_price_with_percent")
+        product["total_percent_#{brand_name}"] = product.delete("t_#{brand_name}_only_total_with_percent")
+      end
+    end
+    products
+  end
+
+  def products_only_single_brand_format
+    products = format_products.deep_stringify_keys["quotation_products"]
+    products.map do |product|
+      product["percent"] = product.delete("#{quotation_type}_percent")
+      product["price"] = product.delete("#{quotation_type}_price")
+      product["total"] = product.delete("#{quotation_type}_total")
+      product["price_percent"] = product.delete("#{quotation_type}_price_with_percent")
+      product["total_percent"] = product.delete("#{quotation_type}_total_with_percent")
+      if t_simple?
+        product["material_id"] = product.delete("product_id")
+      end
+    end
+    products
+  end
 
   def format_services
     data = {
@@ -88,6 +137,7 @@ class Quotation < ApplicationRecord
 
       # Pushing Results to Hash
       data[:quotation_services].push(
+        id: quotation_service.id,
         amount: amount,
         service: "#{service.name} #{service.description}",
         percent: percent,
@@ -126,6 +176,7 @@ class Quotation < ApplicationRecord
 
       # Pushing results to the hash
       data[:quotation_products].push(quotation_product.attributes.merge(
+        code: product.code,
         measure_unit_id: product.measure_unit.id,
         material_id: material.id,
         material: "#{material.name} #{material.description}",
@@ -158,6 +209,11 @@ class Quotation < ApplicationRecord
       id = "#{p[:material_id]}_#{p[:measure_unit_id]}"
       new_data = grouped_products[id] || {}
       brand_name = p[:brand].downcase
+
+      # These 3 lines helps the frontend associate a product_id when the brand is not siemon or supranet
+      brand_name_tag = brand_name == "siemon" ? brand_name : "supranet"
+      p["#{brand_name_tag}_id"] = p["product_id"];
+      p["quotation_product_#{brand_name_tag}_id"] = p.delete("id");
 
       if %w[siemon supranet].include? brand_name
         # When the brand is siemon or supranet, we push the prices 1 time
