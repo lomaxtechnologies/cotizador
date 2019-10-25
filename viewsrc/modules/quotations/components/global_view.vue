@@ -130,9 +130,10 @@
   <div class="card">
     <div class="card-header">
       <div class="row">
-        <div class="col-6 mb-4">
+        <div class="col-2 mb-4">
+          <b-img src="assets/lomax-logo.png" fluid alt="Fluid image"></b-img>
         </div>
-        <div class="col-12 mb-4 text-right">
+        <div class="col-10 mb-4 text-right">
           <h3><b>{{translations.show.titles.quotation_number}}
             <span class="text-danger"> {{100+quotation.id}}</span>
           </b></h3>
@@ -170,18 +171,19 @@
         </div>
 
         <div class="col-12 mt-3">
-          <h5><b>{{translations.show.titles.materials}}</b></h5>
           <b-table
             :items=quotation.quotation_products
             :fields=quotation_products_headers
             responsive="sm"
-            thead-tr-class="bg-primary text-white text-center"
+            thead-tr-class="bg-lomax text-white text-center"
             striped bordered small
           >
             <!---- One of 2 templates below is rendered for the header depending on quotation_type ---->
             <template v-if="quotation.quotation_type=='t_comparative'" v-slot:thead-top="data">
               <b-tr class="text-center">
-                <b-th rowspan="3" colspan="2" class="bg-primary text-white"></b-th>
+                <b-th rowspan="3" colspan="2" class="align-middle bg-outline-primary">
+                  <h5><b>{{translations.show.titles.materials}}</b></h5>
+                </b-th>
                 <b-th colspan="5" class="bg-dark">{{translations.show.custom_headers.expression}}</b-th>
                 <b-th colspan="5" class="bg-dark">{{translations.show.custom_headers.expression}}</b-th>
               </b-tr>
@@ -204,9 +206,9 @@
                   v-if="quotation.quotation_type=='t_simple'"
                   rowspan="2"
                   colspan="4"
-                  class="bg-primary text-white"
+                  class="bg-lomax text-white"
                 ></b-th>
-                <b-th v-else rowspan="3" colspan="3" class="bg-primary text-white"></b-th>
+                <b-th v-else rowspan="3" colspan="3" class="bg-lomax text-white"></b-th>
                 <b-th colspan="4" class="bg-dark">{{translations.show.custom_headers.expression}}</b-th>
               </b-tr>
               <b-tr v-if="quotation.quotation_type!=='t_simple'" class="text-center text-danger">
@@ -291,12 +293,12 @@
             :items=quotation.quotation_services
             :fields=quotation_services_headers
             responsive="sm"
-            thead-tr-class="bg-primary text-white text-center"
+            thead-tr-class="bg-lomax text-white text-center"
             striped bordered small
           >
             <template v-slot:thead-top="data">
               <b-tr class="text-center">
-                <b-th rowspan="3" colspan="3"  class="bg-primary text-white"></b-th>
+                <b-th rowspan="3" colspan="3"  class="bg-lomax text-white"></b-th>
                 <b-th colspan="4" class="bg-dark">{{translations.show.custom_headers.expression}}</b-th>
               </b-tr>
               <b-tr class="text-center text-danger">
@@ -405,12 +407,12 @@
             :items=quotation.quotation_services
             :fields=quotation_services_headers
             responsive="sm"
-            thead-tr-class="bg-primary text-white text-center"
+            thead-tr-class="bg-lomax text-white text-center"
             striped bordered small
           >
             <template v-slot:thead-top="data">
               <b-tr class="text-center">
-                <b-th rowspan="3" colspan="3"  class="bg-primary text-white"></b-th>
+                <b-th rowspan="3" colspan="3"  class="bg-lomax text-white"></b-th>
                 <b-th colspan="4" class="bg-dark">{{translations.show.custom_headers.expression}}</b-th>
               </b-tr>
               <b-tr class="text-center text-danger">
@@ -495,6 +497,30 @@
           <h5><b>{{translations.show.titles.payment_condition}}</b></h5>
           <span class="text-justify">
             {{quotation.payment_condition}}
+          </span>
+        </div>
+        <div class="col-8 offset-2 mt-2">
+          <table class="table table-sm table-bordered text-center">
+            <thead class="bg-lomax text-white">
+              <th>{{translations.show.titles.signature}}</th>
+              <th colspan="2">{{translations.show.titles.option}}</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td  class="py-4 text-left">&nbsp;</td>
+                <td  class="text-left align-top"><b>{{translations.show.brands.t_supranet_only}}</b></td>
+                <td  class="text-left align-top"><b>{{translations.show.brands.t_siemon_only}}</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-12 mt-3">
+          <hr>
+          <span class="text-muted">
+            <b>{{translations.show.company.name}}</b>
+            <b>{{translations.show.titles.address}}</b>: {{translations.show.company.address}}
+            <b>{{translations.show.titles.email}}</b>: {{translations.show.company.email}}
+            <b>{{translations.show.titles.web_page}}</b>: {{translations.show.company.web_page}}
           </span>
         </div>
       </div>

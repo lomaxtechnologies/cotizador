@@ -8,10 +8,6 @@ export default {
     quotation_id: {
       type: Number,
       default: null
-    },
-    get_products:{
-      type: Boolean,
-      default: false
     }
   },
   data() {
@@ -39,9 +35,9 @@ export default {
   },
   methods: {
     getQuotationProducts: function(){
-      if(this.get_products && this.quotation_id){
+      if(this.quotation_id){
         this.http
-        .get(`api/quotations/${this.quotation_id}/products`)
+        .get(`/api/quotations/${this.quotation_id}/products`)
         .then((response)=>{
           if(response.successful){
             this.selected_materials = response.data;
@@ -383,7 +379,7 @@ export default {
     submit: function() {
       this.$emit("update:section_valid", false);
       this.http
-        .put(`api/quotations/${this.quotation_id}/update`, this.formatData())
+        .put(`/api/quotations/${this.quotation_id}/update`, this.formatData())
         .then(response => {
           if (response.successful) {
             this.$emit("update:section_valid", true);

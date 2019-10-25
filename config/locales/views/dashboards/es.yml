@@ -1,22 +1,12 @@
 es:
   dashboards:
-    title: Panel de Cotizaciones
-    title_nav: Inicio
-    states:
-      created: Creada
-      active: Activa
-      accepted: Aprobada por el Cliente
-      expired: Expirada
+    title_nav: Panel de Cotizaciones
     index:
-      page_size_placeholder: Filas por página
       state_created: Creada
       state_active: Activa
       state_accepted: Aprobada por el Cliente
       state_expired:  Expirada
-      headers_dashboard:
-        id: Código
-        quotation_type: Tipo
-        state: Estado
-        quotation_date: Fecha
-        name: Cliente
-        actions: ''
+      expired_soon: Pronto expirarán
+      last_attachments: Últimos arhivos
+      last_comments: Últimos comentarios
+      last_quotation_update: Últimas Actualizaciones de Cotizaciones
