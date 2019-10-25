@@ -13,13 +13,7 @@
     },
     methods:{
       generateExcel: function(){
-        console.log(this.$route.params.id);
-        let quotation_id = this.$route.params.id;
-        this.http
-        .post(`/quotations/${quotation_id}/excel`)
-        .catch(err => {
-        console.log(JSON.stringify(err));
-        });
+        window.open(`/quotations/${this.$route.params.id}/excel`,"_self");
       }
     },
     components:{
