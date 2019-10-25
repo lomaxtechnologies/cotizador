@@ -44,7 +44,7 @@
     methods:{
 
       getHeader(){
-        if(this.get_header){
+        if(this.quotation_id){
           this.http
           .get(`/api/quotations/${this.quotation_id}/header`)
           .then((response)=>{
