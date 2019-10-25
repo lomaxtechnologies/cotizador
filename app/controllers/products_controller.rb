@@ -59,6 +59,11 @@ class ProductsController < ApplicationController
     redirect_to products_path, notice: t('.upload')
   end
 
+  def download_price
+    file_path = CreateExcelProducts.new().create
+    return send_file file_path, disposition: 'inline'
+  end
+
   # API For prices controller
   # GET /prices/api/get-products
   def api_comparative
