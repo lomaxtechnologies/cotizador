@@ -15,7 +15,9 @@ export default {
 </script>
 
 <template>
-    <div class="alert alert-danger text-center" role="alert">
-        <h3>{{title_expired}}: {{expired_quotation_state}}</h3> 
+    <div>
+        <div class="alert alert-danger text-center" role="alert">
+        <p>{{title_expired}}: {{expired_quotation_state}}</p> 
+        </div>    
     </div>
 </template>

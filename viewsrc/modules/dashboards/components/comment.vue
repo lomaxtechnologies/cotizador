@@ -16,21 +16,18 @@ export default {
       .get('api/dashboard/comment')
       .then((response) => {
           if(response.successful){
-            console.log(JSON.stringify(response));
-            this.last_comment = response.data.map(function(comment){
-                return{
-                  Archivo: comment.name,
+            this.last_comment = response.data.map((comment) => {
+                return{ 
+                  Cotización: comment.id+100,
+                  Fecha: comment.created_at,
                   Usuario: comment.user,
-                  Fecha: comment.created_at
+                  Comentario: comment.note
                 }
                 } )
-                
           }else{
             console.log(JSON.stringify(response));
           }
-          }).catch((err)=>{
-            console.log(JSON.stringify(err));
-        });
+          })
       }
     },
     mounted: function(){
@@ -44,7 +41,7 @@ export default {
     <b-card header-tag="header" footer-tag="footer" >
       <template>
         <div>
-          <b-table striped hover :items="last_comment"></b-table>
+          <b-table striped hover small :items="last_comment"></b-table>
         </div>
       </template>
     </b-card>

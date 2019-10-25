@@ -3,6 +3,7 @@
     import dashboardQuotationExpiredSoon from './components/expiredsoon.vue'
     import dashboardQuotationComment from './components/comment.vue'
     import dashboardQuotationAttachment from './components/attachment.vue'
+    import dashboardQuotationUpdated from './components/quotation.vue'
     export default {
       data(){
         return{
@@ -12,6 +13,7 @@
               accepted: 0,
               expired: 0
               },
+              tabIndex: 1,
           expired_quotation: {},
           translations: {
               index: I18n.t('dashboards.index')
@@ -25,7 +27,9 @@
         'dashboard-quotation-expired' : dashboardQuotationStateCount,
         'dashboard-quotation-expired-soon' : dashboardQuotationExpiredSoon,
         'dashboard-quotation-comment' : dashboardQuotationComment,
-        'dashboard-quotation-attachment' : dashboardQuotationAttachment
+        'dashboard-quotation-attachment' : dashboardQuotationAttachment,
+        'dashboard-quotation-updated' : dashboardQuotationUpdated,
+
         },
       methods: {
           getStatesCounts: function () {
@@ -76,16 +80,19 @@
                 <dashboard-quotation-active
                 :amount = states_count.active
                 :title=translations.index.state_active
+                class="bg-primary"
                 >
                 </dashboard-quotation-active>
                 <dashboard-quotation-accepted
                 :amount = states_count.accepted
                 :title=translations.index.state_accepted
+                class="bg-success"
                 >
                 </dashboard-quotation-accepted>
                 <dashboard-quotation-expired
                 :amount = states_count.expired
                 :title=translations.index.state_expired
+                class="bg-danger"
                 >
                 </dashboard-quotation-expired>
               </b-card-group>
@@ -100,19 +107,29 @@
           </div>
           <br>
           <div>
-              <b-card-group deck >
-                <dashboard-quotation-attachment>
-                </dashboard-quotation-attachment>
-                <dashboard-quotation-comment>
-                </dashboard-quotation-comment>
-              </b-card-group>
-          </div>
-          <br>
-          <div>
-              <b-card-group deck >
-                <dashboard-quotation-attachment>
-                </dashboard-quotation-attachment>
-              </b-card-group>
+            <!-- Tabs with card integration -->
+            <b-card no-body>
+              <b-tabs v-model="tabIndex" small card>
+                <b-tab active :title="translations.index.last_attachments">
+                  <b-card-group deck >
+                  <dashboard-quotation-attachment>
+                  </dashboard-quotation-attachment>
+                  </b-card-group>
+                </b-tab>
+                <b-tab :title="translations.index.last_comments">
+                  <b-card-group deck >
+                  <dashboard-quotation-comment>
+                  </dashboard-quotation-comment>
+                  </b-card-group>
+                </b-tab>
+                <b-tab :title="translations.index.last_quotation_update">
+                  <b-card-group deck >
+                  <dashboard-quotation-updated>
+                  </dashboard-quotation-updated>
+                  </b-card-group>
+                </b-tab>
+              </b-tabs>
+            </b-card>
           </div>
         </div>
       <br>

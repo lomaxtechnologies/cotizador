@@ -77,6 +77,7 @@ Rails.application.routes.draw do
       get 'expired-soon', to: 'dashboards#api_expired_soon'
       get 'comment', to: 'dashboards#api_recents_comment'
       get 'attachment', to: 'dashboards#api_recents_attachment'
+      get 'quotation', to: 'dashboards#api_recents_quotation'
       
     end
   end

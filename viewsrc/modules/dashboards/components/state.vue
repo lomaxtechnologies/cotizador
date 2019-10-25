@@ -18,7 +18,7 @@ export default {
 <template>
     <b-card header-tag="header" footer-tag="footer">
         <template v-slot:header>
-          <h6 class="mb-0">
+          <h6 class="mb-0 text-center">
             <b>{{title}}</b>
           </h6>
         </template>

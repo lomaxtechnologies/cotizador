@@ -18,20 +18,30 @@ class DashboardsController < ApplicationController
   end
 
   def api_recents_comment
-    last_comment = Comment.ransack(created_at_gteq: 3.days.ago).result.map {|attachment| 
-    comment.attributes.merge({
-        user: comment.user.user_detail.name
+    last_comment = Comment.order(created_at: "desc").limit(5).map {|attachment| 
+    attachment.attributes.merge({
+        user: attachment.user.user_detail.name
       })  
     }
     response_with_success(last_comment)
   end
 
   def api_recents_attachment
-    last_attachment = Attachment.ransack(created_at_gteq: 3.days.ago).result.map {|attachment| 
+    last_attachment = Attachment.order(created_at: "desc").limit(5).map {|attachment| 
+      attachment.attributes.merge({
+        user: attachment.user.user_detail.name,
+        quotation: attachment.quotation.id
+      })  
+    }
+    response_with_success(last_attachment)
+  end
+
+  def api_recents_quotation
+    last_update_quotation = Quotation.order(created_at: "desc").limit(5).map {|attachment| 
       attachment.attributes.merge({
         user: attachment.user.user_detail.name
       })  
     }
-    response_with_success(last_attachment)
+    response_with_success(last_update_quotation)
   end
 end

@@ -1,10 +1,5 @@
 <script>
 export default {
-    props: {
-      title: {
-        type: String, default: null
-      }
-    },
     data() {
       return {
         last_attachment: []
@@ -16,15 +11,14 @@ export default {
       .get('api/dashboard/attachment')
       .then((response) => {
           if(response.successful){
-            console.log(JSON.stringify(response));
             this.last_attachment = response.data.map(function(attachment){
                 return{
+                  Cotización: attachment.quotation+100,
                   Archivo: attachment.name,
                   Usuario: attachment.user,
-                  Fecha: attachment.created_at
+                  Fecha: attachment.created_at,
                 }
                 } )
-                
           }else{
             console.log(JSON.stringify(response));
           }
