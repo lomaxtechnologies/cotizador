@@ -9,12 +9,7 @@
       quotation_id:{
         type:Number,
         default: null
-      },
-      get_conditions:{
-        type: Boolean,
-        default: false
       }
-
     },
 
     data(){
@@ -34,9 +29,9 @@
 
     methods:{
       getConditions(){
-        if(this.get_conditions && this.quotation_id){
+        if(this.quotation_id){
           this.http
-          .get(`api/quotations/${this.quotation_id}/conditions`)
+          .get(`/api/quotations/${this.quotation_id}/conditions`)
           .then((response)=>{
             if(response.successful){
               this.quotation = response.data;
@@ -53,7 +48,7 @@
         event.preventDefault();
         this.$emit('update:section_valid', false);
         this.http
-        .put(`quotations/${this.quotation_id}`, {quotation: this.quotation})
+        .put(`/quotations/${this.quotation_id}`, {quotation: this.quotation})
         .then((response)=>{
           if(response.successful){
             this.$emit('update:section_valid', true);
