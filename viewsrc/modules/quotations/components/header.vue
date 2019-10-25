@@ -65,7 +65,7 @@
         .then((response)=>{
           if(response.successful){
             this.clients = response.data;
-            if(!this.get_header && this.clients.length > 0){
+            if(!this.quotation_id && this.clients.length > 0){
               this.quotation.client_id = this.clients[0].id;
               this.quotation.client_nit = this.clients[0].nit;
             }
@@ -83,7 +83,7 @@
         .then((response)=>{
           if(response.successful){
             this.quotation_types = response.data;
-            if(!this.get_header && this.quotation_types.length > 0){
+            if(!this.quotation_id && this.quotation_types.length > 0){
               this.quotation.quotation_type = this.quotation_types[0].value;
             }
           }else{
