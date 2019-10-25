@@ -1,11 +1,18 @@
 <script>
 export default {
+    props: {
+        quotation_id: {
+            required: true,
+            default: null
+        }
+    },
     data() {
         return {
+            translations: I18n.t("comments.form"),
             comment: {
-                note: 'ldonis',
+                note: '',
                 commentable_type: 'Quotation',
-                commentable_id: 1
+                commentable_id: this.quotation_id
             }
         }
     },
@@ -15,21 +22,23 @@ export default {
             this.http.post('/comments', {
                 comment: this.comment
             }).then(result =>{
-                console.log(result)
+                this.bus.alert('Comentario agregado')
+                this.bus.$emit('post:/comments')
+                this.comment.note = ''
             }).catch(error => {
                 console.log(error)
             })
         }
-    }  
+    }
 }
 </script>
 <template>
     <section>
         <form class="form-inline" @submit="postComment">
             <div class="form-group">
-                <input type="text" class="form-control" v-model="comment.note" placeholder="Agregar comentario">
+                <input type="text" class="form-control" v-model="comment.note" :placeholder="translations.add">
             </div>
-            <button type="submit" class="btn btn-primary" @click="postComment">Enviar</button>
+            <button type="submit" class="btn btn-primary" @click="postComment">{{ translations.send }} </button>
         </form>
     </section>
 </template>
