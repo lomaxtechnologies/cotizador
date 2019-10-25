@@ -157,6 +157,9 @@ es:
         with_percent: Con Holgura
         without_percent: Sin Holgura
         total: Total (GTQ)
+      tabs:
+        comments: Comentarios
+        attachments: Archivos adjuntos
       custom_footers:
         materials: Materiales
         not_used: --

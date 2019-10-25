@@ -9,3 +9,10 @@ es:
     destroy:
       error: error
       no_delete: No se pudo eliminar el comentario
+    form:
+      add: Nuevo
+      send: Enviar
+    list:
+      name: Nombre
+      note: Nota
+      date: Fecha

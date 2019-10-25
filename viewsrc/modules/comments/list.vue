@@ -2,10 +2,22 @@
 export default {
     data() {
         return {
+            translations: I18n.t("comments.list"),
+            table_fields: [],
             comments: []
         }
     },
     mounted() {
+        this.table_fields = ['id', {
+            key: 'name',
+            label: this.translations.name
+        }, {
+            key: 'note',
+            label: this.translations.note
+        }, {
+            key: 'date',
+            label: this.translations.date
+        }]
         this.getComments()
     },
     methods: {
@@ -25,7 +37,7 @@ export default {
     <section>
         <div class="card">
             <div class="card-body">
-                <b-table striped :fields="['id', 'name', 'note', 'date']" :items="comments"></b-table>
+                <b-table striped :fields="table_fields" :items="comments"></b-table>
             </div>
         </div>
     </section>
