@@ -1,6 +1,16 @@
 class QuotationsController < ApplicationController
   layout "manager"
-  before_action :set_quotation, only: %i[update destroy show api_type api_activate]
+  before_action :set_quotation, only: %i[
+    update
+    destroy
+    show
+    api_type
+    api_activate
+    api_conditions
+    api_header
+    api_services
+    api_products
+  ]
 
   # POST /quotations
   def create
@@ -25,6 +35,9 @@ class QuotationsController < ApplicationController
 
   # PUT /quotations/:id
   def update
+    puts "----------------------------------------------"
+    puts quotation_params.merge(user: current_user)
+    puts "----------------------------------------------"
     if @quotation.update(quotation_params.merge(user: current_user))
       response_with_success
     else
@@ -62,6 +75,26 @@ class QuotationsController < ApplicationController
     response_with_success(Quotation.type(params))
   end
 
+  # GET /api/quotations/:id/conditions
+  def api_conditions
+    response_with_success(@quotation.conditions_only)
+  end
+
+  # GET /api/quotations/:id/materials
+  def api_header
+    response_with_success(@quotation.header_only)
+  end
+
+  # GET /api/quotations/:id/services
+  def api_services
+    response_with_success(@quotation.services_only)
+  end
+
+  # GET /api/quotations/:id/products
+  def api_products
+    response_with_success(@quotation.products_only)
+  end
+
   # PUT /api/quotations/:id/activate
   def api_activate
     if @quotation.activate
@@ -82,8 +115,8 @@ class QuotationsController < ApplicationController
       :payment_condition,
       :warranty,
       :client_id,
-      quotation_products_attributes: %i[amount percent product_id],
-      quotation_services_attributes: %i[id amount percent service_id]
+      quotation_products_attributes: %i[id amount percent product_id _destroy],
+      quotation_services_attributes: %i[id amount percent service_id _destroy]
     )
   end
 
