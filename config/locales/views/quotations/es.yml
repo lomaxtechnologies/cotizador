@@ -40,6 +40,8 @@ es:
           code: Código de la Cotización
           date: Fecha
     new_edit:
+      anchors:
+        return: Regresar
       new_title: Nueva Cotización
       edit_title: Editar Cotización
       notifications:
@@ -148,6 +150,13 @@ es:
       attachments_view:
         title: "Attachments"
     show:
+      anchors:
+        return: Regresar
+      buttons:
+        approve: Aprobar
+        expire: Expirar
+        regenerate: Regenerar
+        clone: Clonar
       brands:
         t_supranet_only: Supranet
         t_siemon_only: Siemon
