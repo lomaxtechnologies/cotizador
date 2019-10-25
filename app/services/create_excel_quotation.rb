@@ -44,8 +44,7 @@ class CreateExcelQuotation
       addResumeTotals(worksheet,products_totals,services_totals)
     end
     workbook.write(filename_path)
-    #send_data workbook.stream.string, filename: filename, disposition: 'attachment'
-    return filename
+    return filename_path
   end
 
   def deleteBrandRow(worksheet)
