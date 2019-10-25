@@ -11,8 +11,6 @@
   #navbarSupportedContent.collapse.navbar-collapse
     %ul.navbar-nav.mr-auto
       %li.nav-item
-        = link_to t('dashboards.title_nav'), dashboards_path, id: 'color-nav', class: 'nav-link' 
-      %li.nav-item
         = link_to t('clients.title'), clients_path, id: 'color-nav', class: 'nav-link' 
       %li.nav-item
         = link_to t('services.title'), services_path, id: 'color-nav', class: 'nav-link'
@@ -40,28 +38,10 @@
             = link_to products_path do
               %i.fas.fa-dollar-sign
               = t('prices.title')
-      %li.nav-item.dropdown
-        %a#color-nav.nav-link.dropdown-toggle{"aria-expanded" => "false",
-          "aria-haspopup" => "true",
-          "data-toggle" => "dropdown",
-          :href => "#",
-          :role => "button"}
-          = t('quotations.index.title')
-        .dropdown-menu{"aria-labelledby" => "nav-dropdown-quotations"}
-          .dropdown-item
-            = link_to quotations_path do
-              %i.fas.fa-tasks
-              = t('quotations.manager')
-          .dropdown-item
-            = link_to dashboards_path do
-              %i.fas.fa-columns
-              = t('dashboards.title')
-          %a.dropdown-item{:href => "#"}
-            %i.fas.fa-history
-            = t('quotations.log')
-          %a.dropdown-item{:href => "#"}
-            %i.fas.fa-eraser
-            = t('quotations.deleted_list')
+        %li.nav-item
+          = link_to t('quotations.index.title'), quotations_path, id: 'color-nav', class: 'nav-link' 
+        %li.nav-item
+          = link_to t('dashboards.title_nav'), dashboards_path, id: 'color-nav', class: 'nav-link' 
     %form.form-inline.my-2.my-lg-0
       = link_to users_registrations_path, id: 'color-nav', class: "mr-3" do
         %i.fas.fa-users

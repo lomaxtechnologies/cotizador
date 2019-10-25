@@ -72,5 +72,13 @@ Rails.application.routes.draw do
     scope :comments do
       get '/:commentable_type/:commentable_id', to: 'comments#api_list'
     end
+    scope :dashboard do 
+      get 'count-states', to: 'dashboards#api_count_states'
+      get 'expired-soon', to: 'dashboards#api_expired_soon'
+      get 'comment', to: 'dashboards#api_recents_comment'
+      get 'attachment', to: 'dashboards#api_recents_attachment'
+      get 'quotation', to: 'dashboards#api_recents_quotation'
+      
+    end
   end
 end
