@@ -9,10 +9,6 @@
       quotation_id:{
         type:Number,
         default: null
-      },
-      get_services:{
-        type: Boolean,
-        default: false
       }
     },
     
@@ -42,7 +38,7 @@
       //When the quotation is in 'created' state, this method gets the services that have
       //been already saved and shows them
       getQuotationServices(){
-        if(this.get_services && this.quotation_id){
+        if(this.quotation_id){
           this.http
           .get(`api/quotations/${this.quotation_id}/services`)
           .then((response)=>{

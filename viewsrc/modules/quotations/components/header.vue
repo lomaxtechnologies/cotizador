@@ -9,10 +9,6 @@
       quotation_id:{
         type:Number,
         default: null
-      },
-      get_header:{
-        type: Boolean,
-        default: false
       }
     },
 
@@ -48,9 +44,9 @@
     methods:{
 
       getHeader(){
-        if(this.get_header && this.quotation_id){
+        if(this.get_header){
           this.http
-          .get(`api/quotations/${this.quotation_id}/header`)
+          .get(`/api/quotations/${this.quotation_id}/header`)
           .then((response)=>{
             if(response.successful){
               this.quotation = response.data;
@@ -65,7 +61,7 @@
 
       getClients(){
         this.http
-        .get('api/clients')
+        .get('/api/clients')
         .then((response)=>{
           if(response.successful){
             this.clients = response.data;
@@ -83,7 +79,7 @@
 
       getQuotationTypes(){
         this.http
-        .get('api/quotations/types')
+        .get('/api/quotations/types')
         .then((response)=>{
           if(response.successful){
             this.quotation_types = response.data;
@@ -127,7 +123,7 @@
       updateHeader(){
         this.$emit('update:section_valid', false);
         this.http
-        .put(`quotations/${this.quotation_id}`, {quotation: this.quotation})
+        .put(`/quotations/${this.quotation_id}`, {quotation: this.quotation})
         .then((response)=>{
           if(response.successful){
             this.alert(this.translations.notifications.header_updated,'success');
