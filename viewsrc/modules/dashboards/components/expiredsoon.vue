@@ -16,7 +16,6 @@ export default {
 
 <template>
     <div class="alert alert-danger text-center" role="alert">
-        <h3>{{title_expired}}:</h3>
-        <h1>{{expired_quotation_state}}</h1> 
+        <h3>{{title_expired}}: {{expired_quotation_state}}</h3> 
     </div>
 </template>

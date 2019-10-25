@@ -2,6 +2,7 @@
     import dashboardQuotationStateCount from './components/state.vue'
     import dashboardQuotationExpiredSoon from './components/expiredsoon.vue'
     import dashboardQuotationComment from './components/comment.vue'
+    import dashboardQuotationAttachment from './components/attachment.vue'
     export default {
       data(){
         return{
@@ -11,8 +12,7 @@
               accepted: 0,
               expired: 0
               },
-          expired_quotation: {
-          },    
+          expired_quotation: {},
           translations: {
               index: I18n.t('dashboards.index')
             }
@@ -24,7 +24,8 @@
         'dashboard-quotation-accepted' : dashboardQuotationStateCount,
         'dashboard-quotation-expired' : dashboardQuotationStateCount,
         'dashboard-quotation-expired-soon' : dashboardQuotationExpiredSoon,
-        'dashboard-quotation-comment' : dashboardQuotationComment
+        'dashboard-quotation-comment' : dashboardQuotationComment,
+        'dashboard-quotation-attachment' : dashboardQuotationAttachment
         },
       methods: {
           getStatesCounts: function () {
@@ -33,7 +34,6 @@
           .then((response) => {
               if(response.successful){
                 this.states_count = response.data
-                console.log(JSON.stringify(this.states_count));
               }else{
                 console.log(JSON.stringify(response));
               }
@@ -47,14 +47,13 @@
           .then((response) => {
               if(response.successful){
                 this.expired_quotation = response.data
-                console.log(JSON.stringify(this.expired_quotation));
               }else{
                 console.log(JSON.stringify(response));
               }
               }).catch((err)=>{
                 console.log(JSON.stringify(err));
             });
-          }
+          },
         },
         mounted: function(){
           this.getStatesCounts();
@@ -102,12 +101,17 @@
           <br>
           <div>
               <b-card-group deck >
+                <dashboard-quotation-attachment>
+                </dashboard-quotation-attachment>
                 <dashboard-quotation-comment>
                 </dashboard-quotation-comment>
-                <dashboard-quotation-comment>
-                </dashboard-quotation-comment>
-                <dashboard-quotation-comment>
-                </dashboard-quotation-comment>
+              </b-card-group>
+          </div>
+          <br>
+          <div>
+              <b-card-group deck >
+                <dashboard-quotation-attachment>
+                </dashboard-quotation-attachment>
               </b-card-group>
           </div>
         </div>

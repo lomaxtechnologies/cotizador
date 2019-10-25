@@ -13,7 +13,25 @@ class DashboardsController < ApplicationController
       state_in: [0, 1],
       created_at_lteq: 11.days.ago, 
       created_at_gteq: 15.days.ago).result
-    expired_quotation = expired_quotation.count
-    response_with_success(expired_quotation)
+    total_expired = expired_quotation.count
+    response_with_success(total_expired)
+  end
+
+  def api_recents_comment
+    last_comment = Comment.ransack(created_at_gteq: 3.days.ago).result.map {|attachment| 
+    comment.attributes.merge({
+        user: comment.user.user_detail.name
+      })  
+    }
+    response_with_success(last_comment)
+  end
+
+  def api_recents_attachment
+    last_attachment = Attachment.ransack(created_at_gteq: 3.days.ago).result.map {|attachment| 
+      attachment.attributes.merge({
+        user: attachment.user.user_detail.name
+      })  
+    }
+    response_with_success(last_attachment)
   end
 end

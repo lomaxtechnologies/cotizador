@@ -7,21 +7,21 @@ export default {
     },
     data() {
       return {
-        last_comment: []
+        last_attachment: []
       }
     },
     methods:{
-      getLastComment: function () {
+      getLastAttachment: function () {
       this.http
-      .get('api/dashboard/comment')
+      .get('api/dashboard/attachment')
       .then((response) => {
           if(response.successful){
             console.log(JSON.stringify(response));
-            this.last_comment = response.data.map(function(comment){
+            this.last_attachment = response.data.map(function(attachment){
                 return{
-                  Archivo: comment.name,
-                  Usuario: comment.user,
-                  Fecha: comment.created_at
+                  Archivo: attachment.name,
+                  Usuario: attachment.user,
+                  Fecha: attachment.created_at
                 }
                 } )
                 
@@ -34,7 +34,7 @@ export default {
       }
     },
     mounted: function(){
-      this.getLastComment();
+      this.getLastAttachment();
     }
 
 }
@@ -44,7 +44,7 @@ export default {
     <b-card header-tag="header" footer-tag="footer" >
       <template>
         <div>
-          <b-table striped hover :items="last_comment"></b-table>
+          <b-table striped hover :items="last_attachment"></b-table>
         </div>
       </template>
     </b-card>
