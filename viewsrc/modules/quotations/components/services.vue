@@ -67,7 +67,7 @@
             this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log("Error", err.stack, err.service, err.message);
+          console.log("Error", err.stack, err.name, err.message);
         });
       },
 
