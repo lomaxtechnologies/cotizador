@@ -40,7 +40,7 @@
       getQuotationServices(){
         if(this.quotation_id){
           this.http
-          .get(`api/quotations/${this.quotation_id}/services`)
+          .get(`/api/quotations/${this.quotation_id}/services`)
           .then((response)=>{
             if(response.successful){
               this.quotation_services = response.data;
@@ -67,17 +67,19 @@
             this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log("Error", err.stack, err.name, err.message);
+          console.log("Error", err.stack, err.service, err.message);
         });
       },
 
       setTableHeaders() {
-        ['name','price','amount','percent','tot_without_perc','tot_with_perc','actions'].forEach((element)=>{
+        ['service','price','amount','percent','total','total_with_percent','actions'].forEach((element)=>{
           this.table_headers.push({
             key:element,
             label:this.translations.headers[element],
             sortable:true
-          })
+          });
+          //Setting max width for service column
+          this.table_headers[0]['tdClass'] = 'w-50';
         });
       },
 
@@ -87,12 +89,12 @@
         var selected_service = this.services.filter((service)=>{
           return service.id == form_data.service_id;
         });
-        var tot_without_perc = form_data.amount * form_data.price;
+        var total = form_data.amount * form_data.price;
         //Using ES6 to merge form_data and some extra fields into table_data
         var table_data = { ...form_data, ...{
-          tot_without_perc: tot_without_perc,
-          tot_with_perc: tot_without_perc * (1+form_data.percent/100),
-          name: selected_service[0].name
+          total: total,
+          total_with_percent: total * (1+form_data.percent/100),
+          service: selected_service[0].name
         }};
         //Remove the ID field if it exists
         delete this.form_fields.id;
@@ -109,7 +111,7 @@
         };
         this.deleted_quotation_services = [];
         this.http
-        .put(`quotations/${this.quotation_id}`, data)
+        .put(`/quotations/${this.quotation_id}`, data)
         .then((response)=>{
           if(response.successful){
             this.alert(this.translations.notifications.services_updated,'success');
@@ -211,15 +213,15 @@
     </b-form>
     <b-form v-on:submit=updateServices>
       <b-form-row>
-        <b-table thead-tr-class="bg-primary text-white" class="table table-sm table-striped" 
+        <b-table thead-tr-class="bg-primary text-white text-center" class="table table-sm table-striped" 
           striped
           bordered
           :items=quotation_services 
           :fields=table_headers
         >
-          <template v-slot:cell(price)="data">
-            <div class="text-right">
-              {{currency.format(data.value)}}
+          <template v-slot:cell(service)="data">
+            <div class="text-break">
+              {{data.value}}
             </div>
           </template>
           <template v-slot:cell(amount)="data">
@@ -227,17 +229,7 @@
               {{parseInt(data.value)}}
             </div>
           </template>
-          <template v-slot:cell(percent)="data">
-            <div class="text-right">
-              {{currency.format(data.value)}}
-            </div>
-          </template>
-          <template v-slot:cell(tot_without_perc)="data">
-            <div class="text-right">
-              {{currency.format(data.value)}}
-            </div>
-          </template>
-          <template v-slot:cell(tot_with_perc)="data">
+          <template v-slot:cell()="data">
             <div class="text-right">
               {{currency.format(data.value)}}
             </div>
@@ -255,12 +247,9 @@
         </b-table>
         <div class="col-2 offset-10">
           <label class="mb-0 text-primary font-weight-bold">&nbsp;</label>
-          <button 
-            class="btn btn-primary btn-block"
-            type="submit"
-          >
+          <b-button variant="primary" block type="submit">
             {{translations.buttons.next}}
-          </button>
+          </b-button>
         </div>
       </b-form-row>
     </b-form>

@@ -72,22 +72,7 @@ class Quotation < ApplicationRecord
   end
 
   def services_only
-    quotation_services.map do |quotation_service|
-      service = quotation_service.service
-      amount = quotation_service.amount
-      price = service.price
-      percent = quotation_service.percent
-      {
-        id: quotation_service.id,
-        amount:amount,
-        percent: percent,
-        service_id: service.id,
-        price: price,
-        name: service.name,
-        tot_without_perc: amount * price,
-        tot_with_perc: (price * (1 + percent / 100)).round(2) * amount
-      }
-    end
+    format_services[:quotation_services]
   end
 
   def products_only
@@ -152,6 +137,7 @@ class Quotation < ApplicationRecord
 
       # Pushing Results to Hash
       data[:quotation_services].push(
+        id: quotation_service.id,
         amount: amount,
         service: "#{service.name} #{service.description}",
         percent: percent,
