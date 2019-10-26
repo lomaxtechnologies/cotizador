@@ -2,6 +2,7 @@ class Service < ApplicationRecord
   acts_as_paranoid
   validates :name, presence: true
   validates :price, presence: true, numericality: {greater_than_or_equal_to: 0}
+  has_many :quotation_services
   paginates_per 10
 
   # Returns all the services, but only the id, name description and price

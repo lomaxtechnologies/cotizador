@@ -117,34 +117,33 @@ class Quotation < ApplicationRecord
   def format_services
     data = {
       quotation_services: [],
-      services_totals: {
-        with_percent: 0,
-        without_percent: 0
-      }
+      services_totals: { with_percent: 0, without_percent: 0 }
     }
 
-    quotation_services.each do |quotation_service|
-      # Getting the data
-      service = quotation_service.service
-      unit_price = service.price
-      amount = quotation_service.amount
-      percent = quotation_service.percent
+    services_data = Service
+      .with_deleted
+      .joins(:quotation_services)
+      .where("quotation_services.quotation_id"=>id)
+      .select(
+        "quotation_services.id",
+        "quotation_services.amount",
+        "quotation_services.percent",
+        "services.price",
+        "concat(services.name,' ',services.description) as service"
+      ).order(name: :asc)
 
+    services_data.each do |sd|
       # Calculating results
-      total_without_percent = amount * unit_price
-      unit_price_with_percent = (unit_price * (1 + percent / 100)).round(2)
-      total_with_percent = unit_price_with_percent * amount
-
+      total_without_percent = sd.amount * sd.price
+      unit_price_with_percent = (sd.price * (1 + sd.percent / 100)).round(2)
+      total_with_percent = unit_price_with_percent * sd.amount
       # Pushing Results to Hash
       data[:quotation_services].push(
-        id: quotation_service.id,
-        amount: amount,
-        service: "#{service.name} #{service.description}",
-        percent: percent,
-        price: unit_price,
-        total: total_without_percent,
-        price_with_percent: unit_price_with_percent,
-        total_with_percent: total_with_percent
+        sd.attributes.merge(
+          total: total_without_percent,
+          price_with_percent: unit_price_with_percent,
+          total_with_percent: total_with_percent
+        )
       )
       data[:services_totals][:with_percent] += total_with_percent
       data[:services_totals][:without_percent] += total_without_percent

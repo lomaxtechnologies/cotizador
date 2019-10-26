@@ -10,10 +10,10 @@
         .card
           .card-header
             .row
-              .col-8
+              .col-6
                 %h4.text-primary 
                   %b= t('products.title')
-              .col-4.text-right
+              .col-6.text-right
                 %button.btn.btn-primary{onclick: "show_new_price_modal()"}
                   = t('products.new_modal.upload')
                 = link_to t('.download'), download_path, class: "btn btn-primary"
