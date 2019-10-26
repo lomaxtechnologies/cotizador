@@ -7,7 +7,7 @@ export default {
     },
     methods: {
         getQuotationUpdated() {
-            this.http.get('api/dashboard/quotation').then(response =>{
+            this.http.get('api/dashboard/quotation_update').then(response =>{
                 if (response.successful) {
                 console.log(JSON.stringify(response));
                     this.last_quotation_updated = response.data.map((quotation) => {

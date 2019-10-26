@@ -26,14 +26,15 @@ class DashboardsController < ApplicationController
     response_with_success(last_comment)
   end
 
-  def api_recents_attachment
-    last_attachment = Attachment.order(created_at: "desc").limit(5).map {|attachment| 
-      attachment.attributes.merge({
-        user: attachment.user.user_detail.name,
-        quotation: attachment.quotation.id
-      })  
+  def api_recents_attachments
+    last_attachments = Attachment.order(created_at: "desc").limit(5).map {|attachment|
+    attachment.attributes.merge({
+      user: attachment.user.user_detail.name,
+      quotation: attachment.quotation.id+100,
+      date: attachment.created_at
+    })
     }
-    response_with_success(last_attachment)
+    response_with_success(last_attachments)
   end
 
   def api_recents_quotation
