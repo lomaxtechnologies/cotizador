@@ -120,17 +120,17 @@ class Quotation < ApplicationRecord
       services_totals: { with_percent: 0, without_percent: 0 }
     }
 
-    services_data = Service
-      .with_deleted
-      .joins(:quotation_services)
-      .where("quotation_services.quotation_id"=>id)
-      .select(
-        "quotation_services.id",
-        "quotation_services.amount",
-        "quotation_services.percent",
-        "services.price",
-        "concat(services.name,' ',services.description) as service"
-      ).order(name: :asc)
+    services_data = Service.with_deleted
+    .joins(:quotation_services)
+    .where("quotation_services.quotation_id"=>id)
+    .select(
+      "services.id as service_id",
+      "quotation_services.id",
+      "quotation_services.amount",
+      "quotation_services.percent",
+      "services.price",
+      "concat(services.name,' ',services.description) as service"
+    ).order(name: :asc)
 
     services_data.each do |sd|
       # Calculating results
@@ -154,16 +154,14 @@ class Quotation < ApplicationRecord
   def format_products
     data = {
       quotation_products: [],
-      products_totals: {
-        with_percent: 0,
-        without_percent: 0
-      }
+      products_totals: { with_percent: 0, without_percent: 0 }
     }
 
     quotation_products.each do |quotation_product|
       # Getting the data
       product = quotation_product.product
-      unit_price = product.price.product_price
+      # Getting the price that was active when the product was added to the quotation
+      unit_price = find_product_price(product.id,quotation_product.created_at)
       amount = quotation_product.amount
       material = product.material
       percent = quotation_product.percent
@@ -235,6 +233,16 @@ class Quotation < ApplicationRecord
       grouped_products[id] = new_data
     end
     { quotation_products: grouped_products.values,products_totals: products_totals }
+  end
+
+  def find_product_price(product_id,creation_date)
+    Price.with_deleted
+    .joins(:product)
+    .where(product_id: product_id)
+    .where("prices.deleted_at >= '#{creation_date}' OR prices.deleted_at is null")
+    .select(:product_price)
+    .order(:deleted_at)
+    .limit(1)[0].product_price
   end
 
 end
