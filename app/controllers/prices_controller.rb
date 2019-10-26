@@ -14,7 +14,7 @@ class PricesController < ApplicationController
   def destroy;end
 
   def dashboard
-    @prices = Price.ransack(created_at_gteq: 5.minutes.ago).result
+    @prices = Price.ransack(created_at_lteq: 5.minutes.ago).result
   end
 
   private

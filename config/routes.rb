@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
   resources :products, except: [:show]
   post "products/upload", to: "products#upload", as: "upload"
+  get "products/download", to: "products#download_price", as: "download"
   get "products/dashboard", to: "prices#dashboard", as: "dashboard"
 
   resources :materials
@@ -35,6 +36,7 @@ Rails.application.routes.draw do
   resources :brands, except: [:edit, :show, :new]
 
   resources :quotations
+  get "/quotations/:id/excel", to: "quotations#generate_excel"
 
   resources :dashboards
 

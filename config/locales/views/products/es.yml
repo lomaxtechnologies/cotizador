@@ -11,6 +11,7 @@ es:
     manager: Administrar
     index:
       new: Nuevo Precio
+      download: Descargar Excel
       page_size_placeholder: Filas por página
       search_title: Filtrar por
       measure_unit: Unidad

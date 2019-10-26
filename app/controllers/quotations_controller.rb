@@ -102,6 +102,12 @@ class QuotationsController < ApplicationController
     end
   end
 
+  def generate_excel
+    file_path = CreateExcelQuotation.new(id: params[:id]).create
+    #p file_path
+    return send_file file_path, disposition: 'inline'
+  end
+
   private
 
   def quotation_params
