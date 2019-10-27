@@ -201,6 +201,7 @@ es:
           nit: NIT
           phone: Teléfono
         quotation:
+          state: Estado
           info: Datos de la Cotización
           number: Número
           date: Fecha
