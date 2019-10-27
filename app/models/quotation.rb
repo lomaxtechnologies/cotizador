@@ -64,7 +64,7 @@ class Quotation < ApplicationRecord
   end
 
   def conditions_only
-    attributes.slice("warranty", "payment_condition", "credits")
+    attributes.slice("warranty", "payment_condition")
   end
 
   def header_only

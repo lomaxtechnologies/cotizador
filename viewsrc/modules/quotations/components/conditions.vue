@@ -75,10 +75,6 @@
           <b-textarea v-model=quotation.payment_condition></b-textarea>
         </div>
         <div class="col-12 mb-3">
-          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.credits}} </label>
-          <b-textarea v-model=quotation.credits></b-textarea>
-        </div>
-        <div class="col-12 mb-3">
           <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.warranty}} </label>
           <b-textarea v-model=quotation.warranty></b-textarea>
         </div>

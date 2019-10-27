@@ -482,12 +482,6 @@
           </b-table>
         </div>
         <div class="col-12 mt-2">
-          <h5><b>{{translations.show.titles.credits}}</b></h5>
-          <span class="text-justify">
-            {{quotation.credits}}
-          </span>
-        </div>
-        <div class="col-12 mt-2">
           <h5><b>{{translations.show.titles.warranty}}</b></h5>
           <span class="text-justify">
             {{quotation.warranty}}

@@ -114,7 +114,6 @@ class QuotationsController < ApplicationController
     params.require(:quotation).permit(
       :quotation_date,
       :quotation_type,
-      :credits,
       :payment_condition,
       :warranty,
       :client_id,
