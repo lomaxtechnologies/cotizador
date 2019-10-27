@@ -6,7 +6,7 @@ es:
       client:
         name: Cliente
         address: Dirección
-        nit: Nit
+        nit: NIT
         phone: Teléfono
     errors:
         models:

@@ -213,7 +213,7 @@
     </b-form>
     <b-form v-on:submit=updateServices>
       <b-form-row>
-        <b-table thead-tr-class="bg-primary text-white text-center" class="table table-sm table-striped" 
+        <b-table thead-tr-class="bg-lomax text-white text-center" class="table table-sm table-striped" 
           striped
           bordered
           :items=quotation_services 

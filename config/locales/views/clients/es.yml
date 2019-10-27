@@ -8,7 +8,7 @@ es:
     index: 
       name: Nombre
       address: Dirección
-      nit: Nit
+      nit: NIT
       phone: Teléfono
       search_title: Filtrar por
       search_name: Nombre del cliente

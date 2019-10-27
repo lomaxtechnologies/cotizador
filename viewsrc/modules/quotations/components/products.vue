@@ -519,7 +519,7 @@ export default {
       </b-form-row>
     </b-form>
     <b-table
-      thead-tr-class="bg-primary text-white"
+      thead-tr-class="bg-lomax text-white"
       class="table table-sm table-striped"
       :items="selected_materials"
       :fields="table_headers"
