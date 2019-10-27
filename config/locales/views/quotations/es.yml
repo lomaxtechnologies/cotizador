@@ -69,6 +69,7 @@ es:
       materials:
         notifications:
           materials_updated: Cambios guardados en los materiales
+          remember_save: Recuerda presionar 'Siguiente' para guardar los cambios
         title: Materiales
         select-material: Seleccione un material
         titles:
@@ -119,6 +120,7 @@ es:
       services:
         notifications:
           services_updated: Cambios guardados en los servicios
+          remember_save: Recuerda presionar 'Siguiente' para guardar los cambios
         headers:
           service: Servicio
           price: Precio

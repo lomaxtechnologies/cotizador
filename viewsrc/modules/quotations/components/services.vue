@@ -99,6 +99,7 @@
         //Remove the ID field if it exists
         delete this.form_fields.id;
         this.quotation_services.push(table_data);
+        this.alert(this.translations.notifications.remember_save,'info');
       },
 
       updateServices(event) {

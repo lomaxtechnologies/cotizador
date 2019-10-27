@@ -311,6 +311,7 @@ export default {
             break;
         }
         this.product_id = null;
+        this.alert(this.translations.notifications.remember_save,'info');
       }
     },
     editProduct: function(index) {
