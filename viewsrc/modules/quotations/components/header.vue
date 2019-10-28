@@ -35,7 +35,7 @@
     computed:{
       quotationCode: function(){
         if(this.quotation_id){
-          return this.quotation_id+100;
+          return this.quotation_id;
         }
         return null;
       }

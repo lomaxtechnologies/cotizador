@@ -16,9 +16,7 @@
 # Ignore uploaded files in development.
 /storage/*
 !/storage/.keep
-!/storage/template-comparative.xlsx
-!/storage/template-simple.xlsx
-!/storage/plantilla_precios.xlsx
+!/storage/templates
 
 .byebug_history
 

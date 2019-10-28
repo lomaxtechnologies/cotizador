@@ -61,7 +61,7 @@ class ProductsController < ApplicationController
 
   def download_price
     workbook = CreateExcelProducts.new().create
-    filename = Date.today.to_s+".xlsx"
+    filename = "#{t('.filename_prefix')}#{Date.today.to_s}.xlsx"
     return send_data workbook, filename: filename, type: 'application/excel', disposition: 'inline'
   end
 
