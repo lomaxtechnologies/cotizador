@@ -4,6 +4,8 @@ es:
       upload: Se ha importado el archivo y actualizado los precios.
     create:
       success: El precio fue creado satisfactoriamente.
+    download_price:
+      filename_prefix: "precios_productos_"
     update:
       update: El precio se actualizó satisfactoriamente.
     destroy:
