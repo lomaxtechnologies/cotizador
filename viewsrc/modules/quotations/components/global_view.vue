@@ -23,7 +23,8 @@
         },
         translations:{
           show: I18n.t('quotations.show'),
-          types: I18n.t('quotations.api_types')
+          types: I18n.t('quotations.api_types'),
+          states: I18n.t('quotations.states')
         },
         quotation: {
           client: {},
@@ -40,6 +41,12 @@
     
     mounted: function(){
       this.refreshQuotation();
+    },
+
+    computed: {
+      quotationProductsEmpty: function(){
+        return this.quotation.quotation_products.length == 0;
+      }
     },
 
     methods: {
@@ -149,6 +156,8 @@
             </div>
             <div class="col-12">
               <b>{{translations.show.titles.client.nit}}</b>: {{quotation.client.nit}}
+            </div>
+            <div class="col-12">
               <b>{{translations.show.titles.client.phone}}</b>: {{quotation.client.phone}}
             </div>
           </div>
@@ -167,10 +176,14 @@
               <b>{{translations.show.titles.quotation.type}}</b>:
               {{translations.types[quotation.quotation_type]}}
             </div>
+            <div class="col-12">
+              <b>{{translations.show.titles.quotation.state}}</b>:
+              {{translations.states[quotation.state]}}
+            </div>
           </div>
         </div>
 
-        <div class="col-12 mt-3">
+        <div v-if="!quotationProductsEmpty" class="col-12 mt-3">
           <b-table
             :items=quotation.quotation_products
             :fields=quotation_products_headers
@@ -325,7 +338,7 @@
               </div>
             </template>
             <template v-slot:custom-foot>
-              <b-tr class="text-important">
+              <b-tr v-if="!quotationProductsEmpty" class="text-important">
                 <b-td class="text-center">{{translations.show.custom_footers.not_used}}</b-td>
                 <b-td>
                   {{translations.show.custom_footers.materials}}
@@ -480,12 +493,6 @@
               </b-tr>
             </template>
           </b-table>
-        </div>
-        <div class="col-12 mt-2">
-          <h5><b>{{translations.show.titles.credits}}</b></h5>
-          <span class="text-justify">
-            {{quotation.credits}}
-          </span>
         </div>
         <div class="col-12 mt-2">
           <h5><b>{{translations.show.titles.warranty}}</b></h5>

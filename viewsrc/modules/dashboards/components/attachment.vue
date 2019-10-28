@@ -1,36 +1,45 @@
 <script>
 export default {
-    data() {
-      return {
-        last_attachment: []
-      }
+    data(){
+        return {
+          translations: I18n.t('dashboards.index'),
+          last_attachments: [],
+          table_fields: []
+        }
     },
-    methods:{
-      getLastAttachment: function () {
-      this.http
-      .get('api/dashboard/attachment')
-      .then((response) => {
-          if(response.successful){
-            this.last_attachment = response.data.map(function(attachment){
-                return{
-                  Cotización: attachment.quotation+100,
-                  Archivo: attachment.name,
-                  Usuario: attachment.user,
-                  Fecha: attachment.created_at,
+    mounted() {
+        this.getLastAttachments();
+        this.table_fields = [
+        {
+            key: 'quotation',
+            label: this.translations.components.quotation
+        }, {
+            key: 'client',
+            label: this.translations.components.client
+        }, {
+            key: 'user',
+            label: this.translations.components.user
+        }, {
+            key: 'name',
+            label: this.translations.components.name
+        }, {
+            key: 'date',
+            label: this.translations.components.date
+        }]
+    },
+    methods: {
+        getLastAttachments() {
+            this.http
+            .get('api/dashboard/attachments')
+            .then((response) => {
+                if(response.successful){
+                  this.last_attachments = response.data
+                }else{
+                  console.log(JSON.stringify(response));
                 }
-                } )
-          }else{
-            console.log(JSON.stringify(response));
-          }
-          }).catch((err)=>{
-            console.log(JSON.stringify(err));
-        });
-      }
-    },
-    mounted: function(){
-      this.getLastAttachment();
+            })
+        }
     }
-
 }
 </script>
 
@@ -38,7 +47,11 @@ export default {
     <b-card header-tag="header" footer-tag="footer" >
       <template>
         <div>
-          <b-table striped hover :items="last_attachment"></b-table>
+          <b-table striped 
+            :fields="table_fields" 
+            :items="last_attachments" 
+            >
+          </b-table>
         </div>
       </template>
     </b-card>

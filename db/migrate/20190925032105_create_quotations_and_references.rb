@@ -6,7 +6,6 @@ class CreateQuotationsAndReferences < ActiveRecord::Migration[6.0]
       t.integer :state, default: 0
       t.date :quotation_date
       t.string :currency
-      t.text :credits
       t.text :payment_condition
       t.text :warranty
       t.references :client, null: false, foreign_key: true
