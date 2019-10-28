@@ -99,6 +99,7 @@
         //Remove the ID field if it exists
         delete this.form_fields.id;
         this.quotation_services.push(table_data);
+        this.alert(this.translations.notifications.remember_save,'info');
       },
 
       updateServices(event) {
@@ -213,7 +214,7 @@
     </b-form>
     <b-form v-on:submit=updateServices>
       <b-form-row>
-        <b-table thead-tr-class="bg-primary text-white text-center" class="table table-sm table-striped" 
+        <b-table thead-tr-class="bg-lomax text-white text-center" class="table table-sm table-striped" 
           striped
           bordered
           :items=quotation_services 
@@ -236,7 +237,11 @@
           </template>
           <template v-slot:cell(actions)="data">
             <div class="text-right">
-              <b-button class="btn btn-success text-whit" v-on:click=editService(data)>
+              <b-button 
+                class="btn btn-success text-white" 
+                v-on:click=editService(data)
+                v-bind:disabled="data.item.deleted_at != null"
+              >
                 <i class="fas fa-edit fa-xs text-white"></i>
               </b-button>
               <b-button class="btn btn-danger" v-on:click=deleteService(data)>
