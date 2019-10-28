@@ -156,7 +156,6 @@ ActiveRecord::Schema.define(version: 2019_10_02_172151) do
     t.integer "state", default: 0
     t.date "quotation_date"
     t.string "currency"
-    t.text "credits"
     t.text "payment_condition"
     t.text "warranty"
     t.bigint "client_id", null: false

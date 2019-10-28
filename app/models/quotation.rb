@@ -64,7 +64,7 @@ class Quotation < ApplicationRecord
   end
 
   def conditions_only
-    attributes.slice("warranty", "payment_condition", "credits")
+    attributes.slice("warranty", "payment_condition")
   end
 
   def header_only
@@ -117,34 +117,34 @@ class Quotation < ApplicationRecord
   def format_services
     data = {
       quotation_services: [],
-      services_totals: {
-        with_percent: 0,
-        without_percent: 0
-      }
+      services_totals: { with_percent: 0, without_percent: 0 }
     }
 
-    quotation_services.each do |quotation_service|
-      # Getting the data
-      service = quotation_service.service
-      unit_price = service.price
-      amount = quotation_service.amount
-      percent = quotation_service.percent
+    services_data = Service.with_deleted
+    .joins(:quotation_services)
+    .where("quotation_services.quotation_id"=>id)
+    .select(
+      "services.deleted_at",
+      "services.id as service_id",
+      "quotation_services.id",
+      "quotation_services.amount",
+      "quotation_services.percent",
+      "services.price",
+      "concat(services.name,' ',services.description) as service"
+    ).order(name: :asc)
 
+    services_data.each do |sd|
       # Calculating results
-      total_without_percent = amount * unit_price
-      unit_price_with_percent = (unit_price * (1 + percent / 100)).round(2)
-      total_with_percent = unit_price_with_percent * amount
-
+      total_without_percent = sd.amount * sd.price
+      unit_price_with_percent = (sd.price * (1 + sd.percent / 100)).round(2)
+      total_with_percent = unit_price_with_percent * sd.amount
       # Pushing Results to Hash
       data[:quotation_services].push(
-        id: quotation_service.id,
-        amount: amount,
-        service: "#{service.name} #{service.description}",
-        percent: percent,
-        price: unit_price,
-        total: total_without_percent,
-        price_with_percent: unit_price_with_percent,
-        total_with_percent: total_with_percent
+        sd.attributes.merge(
+          total: total_without_percent,
+          price_with_percent: unit_price_with_percent,
+          total_with_percent: total_with_percent
+        )
       )
       data[:services_totals][:with_percent] += total_with_percent
       data[:services_totals][:without_percent] += total_without_percent
@@ -155,16 +155,14 @@ class Quotation < ApplicationRecord
   def format_products
     data = {
       quotation_products: [],
-      products_totals: {
-        with_percent: 0,
-        without_percent: 0
-      }
+      products_totals: { with_percent: 0, without_percent: 0 }
     }
 
     quotation_products.each do |quotation_product|
       # Getting the data
-      product = quotation_product.product
-      unit_price = product.price.product_price
+      product = Product.with_deleted.find(quotation_product.product_id)
+      # Getting the price that was active when the product was added to the quotation
+      unit_price = find_product_price(product.id, quotation_product.created_at)
       amount = quotation_product.amount
       material = product.material
       percent = quotation_product.percent
@@ -181,6 +179,7 @@ class Quotation < ApplicationRecord
         material_id: material.id,
         material: "#{material.name} #{material.description}",
         brand: product.brand.name,
+        deleted_at: product.deleted_at,
         "#{quotation_type}_percent": percent,
         "#{quotation_type}_price": unit_price,
         "#{quotation_type}_total": total_without_percent,
@@ -236,6 +235,16 @@ class Quotation < ApplicationRecord
       grouped_products[id] = new_data
     end
     { quotation_products: grouped_products.values,products_totals: products_totals }
+  end
+
+  def find_product_price(product_id,creation_date)
+    Price.with_deleted
+    .joins("INNER JOIN products ON products.id = prices.product_id")
+    .where(product_id: product_id)
+    .where("prices.deleted_at >= '#{creation_date}' OR prices.deleted_at is null")
+    .select(:product_price)
+    .order(:deleted_at)
+    .limit(1)[0].product_price
   end
 
 end

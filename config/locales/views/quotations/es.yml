@@ -40,6 +40,8 @@ es:
           code: Código de la Cotización
           date: Fecha
     new_edit:
+      anchors:
+        return: Regresar
       new_title: Nueva Cotización
       edit_title: Editar Cotización
       notifications:
@@ -51,7 +53,7 @@ es:
         titles:
           code: Código
           client: Cliente
-          nit: Nit
+          nit: NIT
           date: Fecha
           quotation_type: Tipo Cotización
         next: Siguiente
@@ -67,6 +69,7 @@ es:
       materials:
         notifications:
           materials_updated: Cambios guardados en los materiales
+          remember_save: Recuerda presionar 'Siguiente' para guardar los cambios
         title: Materiales
         select-material: Seleccione un material
         titles:
@@ -117,6 +120,7 @@ es:
       services:
         notifications:
           services_updated: Cambios guardados en los servicios
+          remember_save: Recuerda presionar 'Siguiente' para guardar los cambios
         headers:
           service: Servicio
           price: Precio
@@ -148,6 +152,19 @@ es:
       attachments_view:
         title: "Attachments"
     show:
+      generate_Excel: Generar Excel
+      company:
+        name: Lomax Technologies,
+        address: 25 Avenida 1-89, Zona 15, Vista Hermosa 2, Edificio Insigne, Oficina 711.
+        email: info@lomax.com.gt
+        web_page: http://lomax.com.gt
+      anchors:
+        return: Regresar
+      buttons:
+        approve: Aprobar
+        expire: Expirar
+        regenerate: Regenerar
+        clone: Clonar
       brands:
         t_supranet_only: Supranet
         t_siemon_only: Siemon
@@ -164,21 +181,27 @@ es:
         materials: Materiales
         not_used: --
       titles:
+        address: Dirección
+        email: Correo Electónico
+        web_page: Sitio Web
         option_a: Opción A
         option_b: Opción B
         quotation_number: Cotización No.
+        option: Opción a Elegir
         materials: Detalle de Materiales
         services: Propuesta Económica/Resumen
         credits: Crédito
         warranty: Garantía
         payment_condition: Condiciones de Pago
+        signature: Firma y Sello
         client:
           info: Datos del Cliente
           client: Cliente
           address: Dirección
-          nit: Nit
+          nit: NIT
           phone: Teléfono
         quotation:
+          state: Estado
           info: Datos de la Cotización
           number: Número
           date: Fecha

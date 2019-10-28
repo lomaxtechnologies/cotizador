@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
   resources :products, except: [:show]
   post "products/upload", to: "products#upload", as: "upload"
+  get "products/download", to: "products#download_price", as: "download"
   get "products/dashboard", to: "prices#dashboard", as: "dashboard"
 
   resources :materials
@@ -35,6 +36,7 @@ Rails.application.routes.draw do
   resources :brands, except: [:edit, :show, :new]
 
   resources :quotations
+  get "/quotations/:id/excel", to: "quotations#generate_excel"
 
   resources :dashboards
 
@@ -71,6 +73,15 @@ Rails.application.routes.draw do
     end
     scope :comments do
       get '/:commentable_type/:commentable_id', to: 'comments#api_list'
+    end
+    scope :dashboard do 
+      get 'count-states', to: 'dashboards#api_count_states'
+      get 'expired-soon', to: 'dashboards#api_expired_soon'
+      get 'comments', to: 'dashboards#api_recent_comments'
+      get 'attachments', to: 'dashboards#api_recent_attachments'
+      get 'recent_quotations', to: 'dashboards#api_recent_quotations'
+      get 'info-states', to: 'dashboards#api_info_states'
+      
     end
   end
 end

@@ -311,6 +311,7 @@ export default {
             break;
         }
         this.product_id = null;
+        this.alert(this.translations.notifications.remember_save,'info');
       }
     },
     editProduct: function(index) {
@@ -436,46 +437,46 @@ export default {
             ></b-form-select>
           </div>
         </div>
-        <div class="col-1" right="true">
+        <div class="col-2 offset-4">
           <br />
-          <b-button variant="primary" v-on:click="addProducts">{{translations.buttons.add_material}}</b-button>
+          <b-button variant="primary" block v-on:click="addProducts">{{translations.buttons.add_material}}</b-button>
         </div>
       </b-form-row>
       <b-form-row>
         <div class="col-1" v-if="quotation_type!=='t_simple'">
           <label class="text-primary font-weight-bold">{{brands[0]}}</label>
         </div>
-        <div class="col-2">
+        <div class="col-3">
           <label class="mb-0 text-primary font-weight-bold">{{translations.titles.amount}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-sort-amount-up"></i>
               </div>
-              <b-form-input v-model="quotation_products.amount"></b-form-input>
             </div>
+            <b-form-input v-model="quotation_products.amount"></b-form-input>
           </div>
         </div>
-        <div class="col-2">
+        <div class="col-3">
           <label class="mb-0 text-primary font-weight-bold">{{translations.titles.price}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-money-bill-wave"></i>
               </div>
-              <b-form-input disabled v-model="prices[0]"></b-form-input>
             </div>
+            <b-form-input disabled v-model="prices[0]"></b-form-input>
           </div>
         </div>
-        <div class="col-2">
+        <div class="col-3">
           <label class="mb-0 text-primary font-weight-bold">{{translations.titles.percent}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-percentage"></i>
               </div>
-              <b-form-input v-model="quotation_products.percents[0]"></b-form-input>
             </div>
+            <b-form-input v-model="quotation_products.percents[0]"></b-form-input>
           </div>
         </div>
       </b-form-row>
@@ -483,43 +484,43 @@ export default {
         <div class="col-1">
           <label class="text-primary font-weight-bold">{{brands[1]}}</label>
         </div>
-        <div class="col-2">
+        <div class="col-3">
           <label class="mb-0 text-primary font-weight-bold">{{translations.titles.amount}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-sort-amount-up"></i>
               </div>
-              <b-form-input v-model="quotation_products.amount"></b-form-input>
             </div>
+            <b-form-input v-model="quotation_products.amount"></b-form-input>
           </div>
         </div>
-        <div class="col-2">
+        <div class="col-3">
           <label class="mb-0 text-primary font-weight-bold">{{translations.titles.price}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-money-bill-wave"></i>
               </div>
-              <b-form-input disabled v-model="prices[1]"></b-form-input>
             </div>
+            <b-form-input disabled v-model="prices[1]"></b-form-input>
           </div>
         </div>
-        <div class="col-2">
+        <div class="col-3">
           <label class="mb-0 text-primary font-weight-bold">{{translations.titles.percent}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text bg-white text-primary">
                 <i class="fas fa-percentage"></i>
               </div>
-              <b-form-input v-model="quotation_products.percents[1]"></b-form-input>
             </div>
+            <b-form-input v-model="quotation_products.percents[1]"></b-form-input>
           </div>
         </div>
       </b-form-row>
     </b-form>
     <b-table
-      thead-tr-class="bg-primary text-white"
+      thead-tr-class="bg-lomax text-white"
       class="table table-sm table-striped"
       :items="selected_materials"
       :fields="table_headers"
@@ -580,8 +581,10 @@ export default {
         </b-button>
       </template>
     </b-table>
-    <div class="col-2 offset-10">
-      <button class="btn btn-primary btn-block" type="submit" v-on:click="submit">{{translations.buttons.next}}</button>
+    <div class="row">
+      <div class="col-2 offset-10">
+        <button class="btn btn-primary btn-block" type="submit" v-on:click="submit">{{translations.buttons.next}}</button>
+      </div>
     </div>
   </div>
 </template>
