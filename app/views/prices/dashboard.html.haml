@@ -19,7 +19,7 @@
             %th= "#{t('prices.price')} (#{t('currency')})"
         %tbody
           - @prices.each do |price|
-            - product = price.product
+            - product = Product.with_deleted.find(price.product_id)
             %tr
               %td= product.code
               %td= product.material.name
