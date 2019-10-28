@@ -77,9 +77,10 @@ Rails.application.routes.draw do
     scope :dashboard do 
       get 'count-states', to: 'dashboards#api_count_states'
       get 'expired-soon', to: 'dashboards#api_expired_soon'
-      get 'comment', to: 'dashboards#api_recents_comment'
-      get 'attachment', to: 'dashboards#api_recents_attachment'
-      get 'quotation', to: 'dashboards#api_recents_quotation'
+      get 'comments', to: 'dashboards#api_recents_comments'
+      get 'attachments', to: 'dashboards#api_recents_attachments'
+      get 'quotations_update', to: 'dashboards#api_recents_quotations'
+      get 'info-states', to: 'dashboards#api_info_states'
       
     end
   end

@@ -19,7 +19,7 @@
               index: I18n.t('dashboards.index')
             }
           }
-        },
+      },
       components:{
         'dashboard-quotation-created' : dashboardQuotationStateCount,
         'dashboard-quotation-active' : dashboardQuotationStateCount,
@@ -30,7 +30,7 @@
         'dashboard-quotation-attachment' : dashboardQuotationAttachment,
         'dashboard-quotation-updated' : dashboardQuotationUpdated,
 
-        },
+      },
       methods: {
           getStatesCounts: function () {
           this.http
@@ -56,13 +56,13 @@
               }
               }).catch((err)=>{
                 console.log(JSON.stringify(err));
-            });
-          },
+              });
+            },
         },
         mounted: function(){
           this.getStatesCounts();
           this.getExpiredQuotations();
-          }
+        }
       }
 </script>
 
@@ -75,42 +75,69 @@
                 <dashboard-quotation-created
                 :amount = states_count.created
                 :title=translations.index.state_created
+                class="bg-secondary"
+                v-b-toggle.collapse-a
                 >
                 </dashboard-quotation-created>
                 <dashboard-quotation-active
                 :amount = states_count.active
                 :title=translations.index.state_active
                 class="bg-primary"
+                v-b-toggle.collapse-a2
                 >
                 </dashboard-quotation-active>
                 <dashboard-quotation-accepted
                 :amount = states_count.accepted
                 :title=translations.index.state_accepted
                 class="bg-success"
+                v-b-toggle.collapse-a3
                 >
                 </dashboard-quotation-accepted>
+                <dashboard-quotation-expired-soon
+                 :title_expired=translations.index.expired_soon
+                 :expired_quotation_state = expired_quotation
+                 class="bg-warning"
+                 v-b-toggle.collapse-a4
+                 >
+                </dashboard-quotation-expired-soon>
                 <dashboard-quotation-expired
                 :amount = states_count.expired
                 :title=translations.index.state_expired
                 class="bg-danger"
+                v-b-toggle.collapse-a5
                 >
                 </dashboard-quotation-expired>
               </b-card-group>
-          </div>
-          <br>
-          <div>  
-                <dashboard-quotation-expired-soon
-                 :title_expired=translations.index.expired_soon
-                 :expired_quotation_state = expired_quotation
-                 >
-                </dashboard-quotation-expired-soon>
+              <div>
+                <b-collapse id="collapse-a" class="mt-2">
+                  <b-card>{{states_count.created}}</b-card>
+                </b-collapse>
+                <b-collapse id="collapse-a2" class="mt-2">
+                  <b-card>{{states_count.active}}</b-card>
+                </b-collapse>
+                <b-collapse id="collapse-a3" class="mt-2">
+                  <b-card>{{states_count.accepted}}</b-card>
+                </b-collapse>
+                <b-collapse id="collapse-a4" class="mt-2">
+                  <b-card>{{expired_quotation}}</b-card>
+                </b-collapse>
+                <b-collapse id="collapse-a5" class="mt-2">
+                  <b-card>{{states_count.expired}}</b-card>
+                </b-collapse>
+              </div>
           </div>
           <br>
           <div>
             <!-- Tabs with card integration -->
             <b-card no-body>
               <b-tabs v-model="tabIndex" small card>
-                <b-tab active :title="translations.index.last_attachments">
+                <b-tab active :title="translations.index.last_quotation_update">
+                  <b-card-group deck >
+                  <dashboard-quotation-updated>
+                  </dashboard-quotation-updated>
+                  </b-card-group>
+                </b-tab>
+                <b-tab :title="translations.index.last_attachments">
                   <b-card-group deck >
                   <dashboard-quotation-attachment>
                   </dashboard-quotation-attachment>
@@ -120,12 +147,6 @@
                   <b-card-group deck >
                   <dashboard-quotation-comment>
                   </dashboard-quotation-comment>
-                  </b-card-group>
-                </b-tab>
-                <b-tab :title="translations.index.last_quotation_update">
-                  <b-card-group deck >
-                  <dashboard-quotation-updated>
-                  </dashboard-quotation-updated>
                   </b-card-group>
                 </b-tab>
               </b-tabs>
