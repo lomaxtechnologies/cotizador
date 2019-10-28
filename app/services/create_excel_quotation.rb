@@ -9,9 +9,6 @@ class CreateExcelQuotation
   end
     
   def create
-    code =@quotation_id.to_i + 100
-    filename_path ="storage/"+@quotation.quotation_date.to_s.gsub(/-/,'')+"-"+code.to_s+"-"+@detail[:client].name+".xlsx"
-    filename = @quotation.quotation_date.to_s.gsub(/-/,'')+"-"+code.to_s+"-"+@detail[:client].name+".xlsx"
     path = 'storage/template-simple.xlsx'
     if @quotation.quotation_type == 't_comparative'
       path = 'storage/template-comparative.xlsx'
@@ -41,8 +38,7 @@ class CreateExcelQuotation
       addServices(worksheet,services)
       addTotalOptionSimple(worksheet,products_totals,services_totals)
     end
-    workbook.write(filename_path)
-    return filename_path
+    workbook.stream.read
   end
   
   def headerForBrand(worksheet)
