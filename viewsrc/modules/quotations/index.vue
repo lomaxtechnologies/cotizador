@@ -194,7 +194,7 @@
       </div>
       <b-table 
         id="quotations_table" 
-        thead-tr-class="bg-primary text-white" 
+        thead-tr-class="bg-lomax text-white" 
         class="table table-sm table-striped"
         :items=filteredQuotations
         :fields=table_headers
