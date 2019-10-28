@@ -17,7 +17,7 @@ class MaterialsParser
         product_model.measure_unit_id = evaluate_measure_unit(row)
         price_model = Price.new
         price_model.product_id = evalute_product(product_model,row)
-        update_price(price_model,row)
+        update_price(price_model, row)
       end
       @file.unlink
       return OpenStruct.new(success?: true, errors: I18n.t('.noformat'))
@@ -33,7 +33,7 @@ class MaterialsParser
   def not_material?(row)
     row.cells[2].blank? || row.cells[2].value.blank? || row.cells[2].value.downcase == 'nombre'
   end
-  
+
   def not_code?(str)
     !str.to_s.match(/^LMX-\d{5,8}/)
   end
@@ -45,16 +45,18 @@ class MaterialsParser
     if !(row.cells[3].blank? || row.cells[3].value.blank?)
       material_description = row.cells[3].value.gsub(/\s\s+/,' ').gsub(/^\s|\s$/,'')
     end
-    material = Material.find_by(["lower(name) = ?", material_name.downcase])
-    if !(material.blank?) && material.description.downcase == material_description.downcase
-      return material.id
-    else
-      material_model = Material.new
-      material_model.name = material_name
-      material_model.description = material_description
-      material_model.save
-      return material_model.id
-    end
+    material = Material.find_by([
+      "lower(name) = ? AND lower(description) = ?",
+      material_name.downcase,
+      material_description.downcase
+    ])
+    return material.id if material
+
+    material_model = Material.new
+    material_model.name = material_name
+    material_model.description = material_description
+    material_model.save
+    material_model.id
   end
 
   # Verify if brand is nil, exist or is new, and assign id
@@ -115,15 +117,15 @@ class MaterialsParser
   end
 
   # Soft delete of prices and add new price to exist product
-  def update_price(price_model,row)
+  def update_price(price_model, row)
     price_model.product_price = row.cells[5].value.to_s.gsub(/[^\d^\.]/,'').to_f
     if Price.exists?(product_id: price_model.product_id)
       if price_model.product_price != Price.find_by(product_id: price_model.product_id).product_price
         Price.destroy_by(product_id: price_model.product_id) 
-        price_model.save        
+        price_model.save
       end
     else
-      price_model.save  
+      price_model.save
     end
   end
 end
