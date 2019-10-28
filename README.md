@@ -1,24 +1,12 @@
-# README
+# Infrastructure Projects Quote - Lomax Technologies
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A web application that provides an easy way to create simple and comparative quotations. Brands **Siemon** and **Supranet** are used for comparative quotations.
 
-Things you may want to cover:
+Instalation steps:
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```bash
+git pull origin master
+rails assets:clean
+rails assets:precompile RAIS_ENV=production
+sudo service nginx restart
+```
