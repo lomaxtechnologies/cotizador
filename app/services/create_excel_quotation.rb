@@ -5,181 +5,185 @@ class CreateExcelQuotation
     @quotation_id = params[:id]
     @quotation = Quotation.find(@quotation_id)
     @detail = @quotation.detailed_info
-    @cont = 1
+    @cont = 4
   end
     
   def create
     code =@quotation_id.to_i + 100
     filename_path ="storage/"+@quotation.quotation_date.to_s.gsub(/-/,'')+"-"+code.to_s+"-"+@detail[:client].name+".xlsx"
     filename = @quotation.quotation_date.to_s.gsub(/-/,'')+"-"+code.to_s+"-"+@detail[:client].name+".xlsx"
-    path = 'storage/plantilla_simple.xlsx'
+    path = 'storage/template-simple.xlsx'
     if @quotation.quotation_type == 't_comparative'
-      path = 'storage/plantilla_comparativa.xlsx'
+      path = 'storage/template-comparative.xlsx'
     end
     
     workbook = RubyXL::Parser.parse(path)
     worksheet = workbook.worksheets[0]
-    worksheet.sheet_name = @detail[:client].name
-    #Parse data in @detail
+    worksheet.sheet_name = 'Propuesta'
     products = @detail[:quotation_products]
     products_totals = @detail[:products_totals]
     services = @detail[:quotation_services]
     services_totals = @detail[:services_totals]
-    p services_totals
     if @quotation.quotation_type == 't_comparative'
       addProductsComparative(worksheet,products)
       addProductsTotal(worksheet,products_totals)
-      addServicesComparative(worksheet,services)
-      addResumeTotals(worksheet,products_totals,services_totals)
-    elsif @quotation.quotation_type == 't_simple'
+      addHeaderForOptions(worksheet)
+      addServices(worksheet,services)
+      addTotalOptionA(worksheet,products_totals,services_totals)
+      addHeaderForOptions(worksheet)
+      addServices(worksheet,services)
+      addTotalOptionB(worksheet,products_totals,services_totals)
+    else
+      headerForBrand(worksheet)
       addProductsSimple(worksheet,products)
       addProductsTotal(worksheet,products_totals)
-      addServicesSimple(worksheet,services)
-      addResumeTotals(worksheet,products_totals,services_totals)
-    else
-      deleteBrandRow(worksheet)
-      addProductsBrand(worksheet,products)
-      addProductsTotal(worksheet,products_totals)
-      addServicesSimple(worksheet,services)
-      addResumeTotals(worksheet,products_totals,services_totals)
+      addHeaderForOptions(worksheet)
+      addServices(worksheet,services)
+      addTotalOptionSimple(worksheet,products_totals,services_totals)
     end
     workbook.write(filename_path)
     return filename_path
   end
-
-  def deleteBrandRow(worksheet)
-    worksheet.delete_column(2)
-    if @quotation_type == 't_supranet_only'
-      worksheet[0][3].change_contents('Total Supranet')
-      worksheet[0][4].change_contents('(+)% Supranet')
-      worksheet[0][5].change_contents('Total Supranet')
-    else
-      worksheet[0][3].change_contents('Total Siemon')
-      worksheet[0][4].change_contents('(+)% Siemon')
-      worksheet[0][5].change_contents('Total Siemon')
-    end
-  end
   
-  def addProductsSimple(worksheet,products)
-    products.each do |product|
-      worksheet[@cont][0].change_contents(product['amount'].to_i) 
-      worksheet[@cont][1].change_contents(product[:material].to_s) 
-      worksheet[@cont][2].change_contents(product[:brand].to_s) 
-      worksheet[@cont][3].change_contents(product[:t_simple_price].to_d) 
-      worksheet[@cont][4].change_contents(product[:t_simple_total].to_d) 
-      worksheet[@cont][5].change_contents(product[:t_simple_price_with_percent].to_d) 
-      worksheet[@cont][6].change_contents(product[:t_simple_total_with_percent].to_d) 
-      @cont = @cont+1
-      worksheet.insert_row(@cont)
+  def headerForBrand(worksheet)
+    if @quotation.quotation_type == 't_supranet_only'
+      worksheet[1][2].change_contents('Supranet')
+    elsif @quotation.quotation_type == 't_siemon_only'
+      worksheet[1][2].change_contents('Siemon')
+    else
+      worksheet[1][2].change_contents('Detalle')
     end
-    worksheet.delete_row(@cont)
-  end
-
-  def addProductsBrand(worksheet,products)
-    products.each do |product|
-      worksheet[@cont][0].change_contents(product['amount'].to_i) 
-      worksheet[@cont][1].change_contents(product[:material].to_s)
-      if @quotation.quotation_type == 't_supranet_only'
-        worksheet[@cont][2].change_contents(product[:t_supranet_only_price].to_d) 
-        worksheet[@cont][3].change_contents(product[:t_supranet_only_total].to_d) 
-        worksheet[@cont][4].change_contents(product[:t_supranet_only_price_with_percent].to_d) 
-        worksheet[@cont][5].change_contents(product[:t_supranet_only_total_with_percent].to_d) 
-      else
-        worksheet[@cont][2].change_contents(product[:t_siemon_only_price].to_d) 
-        worksheet[@cont][3].change_contents(product[:t_siemon_only_total].to_d) 
-        worksheet[@cont][4].change_contents(product[:t_siemon_only_price_with_percent].to_d) 
-        worksheet[@cont][5].change_contents(product[:t_siemon_only_total_with_percent].to_d) 
-      end
-      @cont = @cont+1
-      worksheet.insert_row(@cont)
-    end
-    worksheet.delete_row(@cont)
   end
   
   def addProductsComparative(worksheet, products)
     products.each do |product|
-      worksheet[@cont][0].change_contents(product['amount'].to_i) 
-      worksheet[@cont][1].change_contents(product['material'].to_s) 
-      worksheet[@cont][2].change_contents(product['t_supranet_only_price'].to_d) 
-      worksheet[@cont][3].change_contents(product['t_siemon_only_price'].to_d) 
-      worksheet[@cont][4].change_contents(product['t_supranet_only_total'].to_d) 
-      worksheet[@cont][5].change_contents(product['t_siemon_only_total'].to_d) 
-      worksheet[@cont][6].change_contents(product['t_supranet_only_price_with_percent'].to_d) 
-      worksheet[@cont][7].change_contents(product['t_siemon_only_price_with_percent'].to_d) 
-      worksheet[@cont][8].change_contents(product['t_supranet_only_total_with_percent'].to_d) 
-      worksheet[@cont][9].change_contents(product['t_siemon_only_total_with_percent'].to_d) 
+      worksheet.add_cell(@cont,0,product['amount'].to_i) 
+      worksheet.add_cell(@cont,1,product['material'].to_s) 
+      worksheet.add_cell(@cont,2,product['t_supranet_only_percent'].to_d) 
+      worksheet.add_cell(@cont,3,product['t_supranet_only_price'].to_d) 
+      worksheet.add_cell(@cont,4,product['t_supranet_only_total'].to_d) 
+      worksheet.add_cell(@cont,5,product['t_supranet_only_price_with_percent'].to_d) 
+      worksheet.add_cell(@cont,6,product['t_supranet_only_total_with_percent'].to_d) 
+      worksheet.add_cell(@cont,7,product['t_siemon_only_percent'].to_d) 
+      worksheet.add_cell(@cont,8,product['t_siemon_only_price'].to_d) 
+      worksheet.add_cell(@cont,9,product['t_siemon_only_total'].to_d) 
+      worksheet.add_cell(@cont,10,product['t_siemon_only_price_with_percent'].to_d) 
+      worksheet.add_cell(@cont,11,product['t_siemon_only_total_with_percent'].to_d) 
       @cont = @cont+1
       worksheet.insert_row(@cont)
     end
     worksheet.delete_row(@cont)
   end
-  
+
+  def addProductsSimple(worksheet,products)
+    products.each do |product|
+      worksheet.add_cell(@cont,0,product['amount'].to_i) 
+      worksheet.add_cell(@cont,1,product[:material].to_s)   
+      if @quotation.quotation_type == 't_siemon_only'
+        worksheet.add_cell(@cont,2,product[:t_siemon_only_percent].to_d) 
+        worksheet.add_cell(@cont,3,product[:t_siemon_only_price].to_d) 
+        worksheet.add_cell(@cont,4,product[:t_siemon_only_total].to_d) 
+        worksheet.add_cell(@cont,5,product[:t_siemon_only_price_with_percent].to_d) 
+        worksheet.add_cell(@cont,6,product[:t_siemon_only_total_with_percent].to_d) 
+      elsif @quotation.quotation_type == 't_supranet_only'
+        worksheet.add_cell(@cont,2,product[:t_supranet_only_percent].to_d) 
+        worksheet.add_cell(@cont,3,product[:t_supranet_only_price].to_d) 
+        worksheet.add_cell(@cont,4,product[:t_supranet_only_total].to_d) 
+        worksheet.add_cell(@cont,5,product[:t_supranet_only_total_with_percent].to_d) 
+        worksheet.add_cell(@cont,6,product[:t_supranet_only_price_with_percent].to_d) 
+      else
+        material = product[:brand] + " - " + product[:material]
+        worksheet.add_cell(@cont,1,material)   
+        worksheet.add_cell(@cont,2,product[:t_simple_percent].to_d) 
+        worksheet.add_cell(@cont,3,product[:t_simple_price].to_d) 
+        worksheet.add_cell(@cont,4,product[:t_simple_total].to_d) 
+        worksheet.add_cell(@cont,5,product[:t_simple_price_with_percent].to_d) 
+        worksheet.add_cell(@cont,6,product[:t_simple_total_with_percent].to_d) 
+      end 
+      @cont = @cont+1
+      worksheet.insert_row(@cont)
+    end
+    worksheet.delete_row(@cont)
+  end
+
   def addProductsTotal(worksheet,products_totals)
+    worksheet.merge_cells(@cont,0,@cont,1)
     if @quotation.quotation_type == 't_comparative'
       worksheet[@cont][4].change_contents(products_totals['t_supranet_only'][:without_percent].to_d)
-      worksheet[@cont][5].change_contents(products_totals['t_siemon_only'][:without_percent].to_d)
-      worksheet[@cont][8].change_contents(products_totals['t_supranet_only'][:with_percent].to_d)
-      worksheet[@cont][9].change_contents(products_totals['t_siemon_only'][:with_percent].to_d)
-    elsif @quotation.quotation_type == 't_simple'
+      worksheet[@cont][6].change_contents(products_totals['t_supranet_only'][:with_percent].to_d)
+      worksheet[@cont][9].change_contents(products_totals['t_siemon_only'][:without_percent].to_d)
+      worksheet[@cont][11].change_contents(products_totals['t_siemon_only'][:with_percent].to_d)
+    else
       worksheet[@cont][4].change_contents(products_totals[:without_percent].to_d)
       worksheet[@cont][6].change_contents(products_totals[:with_percent].to_d)
-    else
-      worksheet[@cont][3].change_contents(products_totals[:without_percent].to_d)
-      worksheet[@cont][5].change_contents(products_totals[:with_percent].to_d)
     end
-    @cont = @cont+5
+    @cont = @cont+3
   end
 
-  def addServicesComparative(worksheet,services)
-    services.each do |service|
-      worksheet[@cont][0].change_contents(service[:amount].to_i) 
-      worksheet[@cont][1].change_contents(service[:service].to_s) 
-      worksheet[@cont][2].change_contents(service[:price_with_percent].to_d) 
-      worksheet[@cont][3].change_contents(service[:total_with_percent].to_d) 
-      worksheet[@cont][4].change_contents(service[:total_with_percent].to_d)
-      @cont = @cont+1
-      worksheet.insert_row(@cont)
-    end
-    worksheet.delete_row(@cont)
-  end
   
-  def addServicesSimple(worksheet,services)
-    if @quotation.quotation_type != 't_simple'   
-      worksheet[@cont-1][2].change_contents('Precio Unitario')  
-      worksheet[@cont-1][3].change_fill('1c4587')
-      worksheet[@cont-1][3].change_font_color('ffffff')
-      worksheet[@cont-1][3].change_contents('Total')  
+  def addHeaderForOptions(worksheet)
+    worksheet.merge_cells(@cont,0,@cont+2,1) 
+    worksheet.merge_cells(@cont,2,@cont,6) 
+    @cont=@cont+1
+    worksheet.merge_cells(@cont,2,@cont,6)
+    if @quotation.quotation_type == 't_supranet_only'
+      worksheet[@cont][2].change_contents('Supranet')
+    elsif @quotation.quotation_type == 't_siemon_only'
+      worksheet[@cont][2].change_contents('Siemon')
+    elsif @quotation.quotation_type == 't_simple'
+      worksheet[@cont][2].change_contents('Detalle') 
     end
+    
+    @cont=@cont+1
+    worksheet.merge_cells(@cont,3,@cont,4) 
+    worksheet.merge_cells(@cont,5,@cont,6) 
+    @cont=@cont+2
+  end
+
+  def addServices(worksheet,services)
     services.each do |service|
-      worksheet[@cont][0].change_contents(service[:amount].to_i) 
-      worksheet[@cont][1].change_contents(service[:service].to_s) 
-      worksheet[@cont][2].change_contents(service[:price_with_percent].to_d) 
-      worksheet[@cont][3].change_contents(service[:total_with_percent].to_d) 
+      worksheet.add_cell(@cont,0,service[:amount].to_i) 
+      worksheet.add_cell(@cont,1,service[:service].to_s) 
+      worksheet.add_cell(@cont,2,service[:percent].to_d) 
+      worksheet.add_cell(@cont,3,service[:price].to_d) 
+      worksheet.add_cell(@cont,4,service[:total].to_d) 
+      worksheet.add_cell(@cont,5,service[:price_with_percent].to_d) 
+      worksheet.add_cell(@cont,6,service[:total_with_percent].to_d) 
       @cont = @cont+1
       worksheet.insert_row(@cont)
     end
     worksheet.delete_row(@cont)
   end
 
-  def addResumeTotals(worksheet,products_totals, services_totals)
-    if @quotation.quotation_type == 't_comparative'
-      general_total_supranet = products_totals['t_supranet_only'][:with_percent].to_d + services_totals[:with_percent].to_d
-      general_total_siemon = products_totals['t_siemon_only'][:with_percent].to_d + services_totals[:with_percent].to_d
-      worksheet[@cont][3].change_contents(products_totals['t_supranet_only'][:with_percent].to_d)
-      worksheet[@cont][4].change_contents(products_totals['t_siemon_only'][:with_percent].to_d)
-      @cont = @cont + 1
-      worksheet[@cont][3].change_contents(services_totals[:with_percent].to_d)
-      worksheet[@cont][4].change_contents(services_totals[:with_percent].to_d)
-      @cont = @cont + 1
-      worksheet[@cont][3].change_contents(general_total_supranet)
-      worksheet[@cont][4].change_contents(general_total_siemon)
-    else
-      general_total = products_totals[:with_percent].to_d + services_totals[:with_percent].to_d
-      worksheet[@cont][3].change_contents(products_totals[:with_percent].to_d)
-      @cont = @cont + 1
-      worksheet[@cont][3].change_contents(services_totals[:with_percent].to_d)      
-      @cont = @cont + 1
-      worksheet[@cont][3].change_contents(general_total)
-    end
+  def addTotalOptionA(worksheet,products_totals,services_totals)
+    total = products_totals['t_supranet_only'][:without_percent].to_d + services_totals[:without_percent].to_d
+    total_with_percent = products_totals['t_supranet_only'][:with_percent].to_d + services_totals[:with_percent].to_d
+    worksheet[@cont][4].change_contents(products_totals['t_supranet_only'][:without_percent].to_d)
+    worksheet[@cont][6].change_contents(products_totals['t_supranet_only'][:with_percent].to_d)
+    @cont=@cont+1
+    worksheet[@cont][4].change_contents(total)
+    worksheet[@cont][6].change_contents(total_with_percent)
+    @cont=@cont+2
   end
+
+  def addTotalOptionB(worksheet,products_totals,services_totals)
+    total = products_totals['t_siemon_only'][:without_percent].to_d + services_totals[:without_percent].to_d
+    total_with_percent = products_totals['t_siemon_only'][:with_percent].to_d + services_totals[:with_percent].to_d
+    worksheet[@cont][4].change_contents(products_totals['t_siemon_only'][:without_percent].to_d)
+    worksheet[@cont][6].change_contents(products_totals['t_siemon_only'][:with_percent].to_d)
+    @cont=@cont+1
+    worksheet[@cont][4].change_contents(total)
+    worksheet[@cont][6].change_contents(total_with_percent) 
+  end
+
+  def addTotalOptionSimple(worksheet,products_totals,services_totals)
+    total = products_totals[:without_percent].to_d + services_totals[:without_percent].to_d
+    total_with_percent = products_totals[:with_percent].to_d + services_totals[:with_percent].to_d
+    worksheet[@cont][4].change_contents(products_totals[:without_percent].to_d)
+    worksheet[@cont][6].change_contents(products_totals[:with_percent].to_d)
+    @cont=@cont+1
+    worksheet[@cont][4].change_contents(total)
+    worksheet[@cont][6].change_contents(total_with_percent) 
+  end 
+
 end
