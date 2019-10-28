@@ -237,7 +237,11 @@
           </template>
           <template v-slot:cell(actions)="data">
             <div class="text-right">
-              <b-button class="btn btn-success text-whit" v-on:click=editService(data)>
+              <b-button 
+                class="btn btn-success text-white" 
+                v-on:click=editService(data)
+                v-bind:disabled="data.item.deleted_at != null"
+              >
                 <i class="fas fa-edit fa-xs text-white"></i>
               </b-button>
               <b-button class="btn btn-danger" v-on:click=deleteService(data)>

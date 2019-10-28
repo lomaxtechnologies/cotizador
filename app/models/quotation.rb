@@ -124,6 +124,7 @@ class Quotation < ApplicationRecord
     .joins(:quotation_services)
     .where("quotation_services.quotation_id"=>id)
     .select(
+      "services.deleted_at",
       "services.id as service_id",
       "quotation_services.id",
       "quotation_services.amount",
@@ -159,9 +160,9 @@ class Quotation < ApplicationRecord
 
     quotation_products.each do |quotation_product|
       # Getting the data
-      product = quotation_product.product
+      product = Product.with_deleted.find(quotation_product.product_id)
       # Getting the price that was active when the product was added to the quotation
-      unit_price = find_product_price(product.id,quotation_product.created_at)
+      unit_price = find_product_price(product.id, quotation_product.created_at)
       amount = quotation_product.amount
       material = product.material
       percent = quotation_product.percent
@@ -178,6 +179,7 @@ class Quotation < ApplicationRecord
         material_id: material.id,
         material: "#{material.name} #{material.description}",
         brand: product.brand.name,
+        deleted_at: product.deleted_at,
         "#{quotation_type}_percent": percent,
         "#{quotation_type}_price": unit_price,
         "#{quotation_type}_total": total_without_percent,
@@ -237,7 +239,7 @@ class Quotation < ApplicationRecord
 
   def find_product_price(product_id,creation_date)
     Price.with_deleted
-    .joins(:product)
+    .joins("INNER JOIN products ON products.id = prices.product_id")
     .where(product_id: product_id)
     .where("prices.deleted_at >= '#{creation_date}' OR prices.deleted_at is null")
     .select(:product_price)
