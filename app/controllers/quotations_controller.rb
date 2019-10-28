@@ -105,12 +105,10 @@ class QuotationsController < ApplicationController
 
   def generate_excel
     workbook = CreateExcelQuotation.new(id: params[:id]).create
-    #p file_path
     code = (@quotation.id+100)
     client = @quotation.client.name
-    filename = Date.today.to_s.gsub(/-/,'')+"-"+code.to_s+"-"+client+".xlsx"
+    filename = Date.today.strftime("%Y%m%d")+"-"+code.to_s+"-"+client+".xlsx"
     return send_data workbook, filename: filename, type: 'application/excel', disposition: 'inline'
-    #return send_file file_path, disposition: 'inline'
   end
 
   private
