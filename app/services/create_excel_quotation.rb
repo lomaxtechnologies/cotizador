@@ -138,9 +138,10 @@ class CreateExcelQuotation
 
   def addServices(worksheet,services)
     services.each do |service|
-      worksheet.add_cell(@cont,0,service[:amount].to_i) 
-      worksheet.add_cell(@cont,1,service[:service].to_s) 
-      worksheet.add_cell(@cont,2,service[:percent].to_d) 
+      p service
+      worksheet.add_cell(@cont,0,service['amount'].to_i) 
+      worksheet.add_cell(@cont,1,service['service'].to_s) 
+      worksheet.add_cell(@cont,2,service['percent'].to_d) 
       worksheet.add_cell(@cont,3,service[:price].to_d) 
       worksheet.add_cell(@cont,4,service[:total].to_d) 
       worksheet.add_cell(@cont,5,service[:price_with_percent].to_d) 
