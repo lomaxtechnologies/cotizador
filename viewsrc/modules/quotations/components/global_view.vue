@@ -142,7 +142,7 @@
         </div>
         <div class="col-10 mb-4 text-right">
           <h3><b>{{translations.show.titles.quotation_number}}
-            <span class="text-danger"> {{100+quotation.id}}</span>
+            <span class="text-danger"> {{quotation.id}}</span>
           </b></h3>
         </div>
         <div class="col-7">
@@ -166,7 +166,7 @@
           <h5><b>{{translations.show.titles.quotation.info}}</b></h5>
           <div class="row">
             <div class="col-12">
-              <b>{{translations.show.titles.quotation.number}}</b>: {{100+quotation.id}}
+              <b>{{translations.show.titles.quotation.number}}</b>: {{quotation.id}}
             </div>
             <div class="col-12">
               <b>{{translations.show.titles.quotation.date}}</b>:
