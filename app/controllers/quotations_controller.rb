@@ -10,6 +10,7 @@ class QuotationsController < ApplicationController
     api_header
     api_services
     api_products
+    generate_excel
   ]
 
   # POST /quotations
@@ -103,9 +104,10 @@ class QuotationsController < ApplicationController
   end
 
   def generate_excel
-    file_path = CreateExcelQuotation.new(id: params[:id]).create
-    #p file_path
-    return send_file file_path, disposition: 'inline'
+    workbook = CreateExcelQuotation.new(id: params[:id]).create
+    client = @quotation.client.name
+    filename = Date.today.strftime("%Y%m%d")+"-"+@quotation.id.to_s+"-"+client+".xlsx"
+    return send_data workbook, filename: filename, type: 'application/excel', disposition: 'inline'
   end
 
   private

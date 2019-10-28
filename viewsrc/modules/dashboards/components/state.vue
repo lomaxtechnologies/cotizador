@@ -8,10 +8,15 @@ export default {
       type: String, default: null
     }
   },
-    data() {
-      return {
-      }
+  data() {
+    return {
     }
+  },
+  methods: {
+          hola() {
+            console.log('hola')
+          }
+  }
 }
 </script>
 

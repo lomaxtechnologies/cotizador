@@ -13,7 +13,7 @@ brands.each do |name|
   Brand.create(name: name)
 end
 
-MeasureUnit.create(name: 'Unidad', unit_type: 'Unidad')
-MeasureUnit.create(name: 'Metro', unit_type: 'Longitud')
-MeasureUnit.create(name: 'Pie', unit_type: 'Longitud')
-MeasureUnit.create(name: 'Bobina', unit_type: 'Longitud')
+MeasureUnit.create(name:'Unidad',unit_type: 'Unidad')
+MeasureUnit.create(name:'Metro',unit_type: 'Longitud')
+MeasureUnit.create(name:'Pie',unit_type: 'Longitud')
+MeasureUnit.create(name:'Bobina',unit_type: 'Longitud')
