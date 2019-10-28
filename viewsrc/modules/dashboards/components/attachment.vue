@@ -3,11 +3,29 @@ export default {
     data(){
         return {
           translations: I18n.t('dashboards.index'),
-          last_attachments: []
+          last_attachments: [],
+          table_fields: []
         }
     },
     mounted() {
         this.getLastAttachments();
+        this.table_fields = [
+        {
+            key: 'quotation',
+            label: this.translations.components.quotation
+        }, {
+            key: 'client',
+            label: this.translations.components.client
+        }, {
+            key: 'user',
+            label: this.translations.components.user
+        }, {
+            key: 'name',
+            label: this.translations.components.name
+        }, {
+            key: 'date',
+            label: this.translations.components.date
+        }]
     },
     methods: {
         getLastAttachments() {
@@ -30,7 +48,7 @@ export default {
       <template>
         <div>
           <b-table striped 
-            :fields="['id', 'user', 'name', 'quotation', 'date' ]" 
+            :fields="table_fields" 
             :items="last_attachments" 
             >
           </b-table>
