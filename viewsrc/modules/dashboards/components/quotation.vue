@@ -28,7 +28,7 @@ export default {
     methods: {
         getLastQuotationsUpdated() {
             this.http
-            .get('api/dashboard/quotations_update')
+            .get('api/dashboard/recent_quotations')
             .then((response) => {
                 if(response.successful){
                   this.last_quotations_updated = response.data

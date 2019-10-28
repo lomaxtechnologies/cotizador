@@ -22,7 +22,7 @@ class DashboardsController < ApplicationController
     response_with_success(total_expired)
   end
 
-  def api_recents_comments
+  def api_recent_comments
     last_comment = Comment.order(created_at: "desc").limit(5).map {|attachment| 
     attachment.attributes.merge({
         user: attachment.user.user_detail.name,
@@ -32,7 +32,7 @@ class DashboardsController < ApplicationController
     response_with_success(last_comment)
   end
 
-  def api_recents_attachments
+  def api_recent_attachments
     last_attachments = Attachment.order(created_at: "desc").limit(5).map {|attachment|
     attachment.attributes.merge({
       user: attachment.user.user_detail.name,
@@ -44,7 +44,7 @@ class DashboardsController < ApplicationController
     response_with_success(last_attachments)
   end
 
-  def api_recents_quotations
+  def api_recent_quotations
     last_quotations_updated = Quotation.order(updated_at: "desc").limit(5).map {|attachment| 
       attachment.attributes.merge({
         user: attachment.user.user_detail.name,
