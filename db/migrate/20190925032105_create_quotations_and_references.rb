@@ -14,5 +14,6 @@ class CreateQuotationsAndReferences < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+    execute "ALTER SEQUENCE quotations_id_seq RESTART 100;"
   end
 end
