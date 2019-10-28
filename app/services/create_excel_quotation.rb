@@ -9,9 +9,9 @@ class CreateExcelQuotation
   end
     
   def create
-    path = 'storage/template-simple.xlsx'
+    path = 'storage/templates/template-simple.xlsx'
     if @quotation.quotation_type == 't_comparative'
-      path = 'storage/template-comparative.xlsx'
+      path = 'storage/templates/template-comparative.xlsx'
     end
     
     workbook = RubyXL::Parser.parse(path)
