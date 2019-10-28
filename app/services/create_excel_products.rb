@@ -7,7 +7,7 @@ class CreateExcelProducts
     
   def create
     cont = 3
-    path = 'storage/plantilla_precios.xlsx'
+    path = 'storage/templates/plantilla_precios.xlsx'
     workbook = RubyXL::Parser.parse(path)
     worksheet = workbook.worksheets[0]
     @products.each do |product| 
