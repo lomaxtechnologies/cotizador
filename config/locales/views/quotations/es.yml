@@ -244,3 +244,4 @@ es:
         t_siemon_only_percent: Holgura
     attachments:
       upload: "Por favor seleccione un archivo"
+      button: "Subir archivo"
