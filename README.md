@@ -5,8 +5,10 @@ A web application that provides an easy way to create simple and comparative quo
 Instalation steps:
 
 ```bash
+sudo service nginx stop
 git pull origin master
 rails assets:clean
+rails db:migrate
 rails assets:precompile RAIS_ENV=production
 sudo service nginx restart
 ```
