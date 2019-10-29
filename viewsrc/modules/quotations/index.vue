@@ -4,10 +4,12 @@
     data() {
       return {
         config: {
-          selected_quotation: NaN,
           current_page: 1,
           page_size: 10,
-          show_modal:false
+          show_modal:false,
+          rows: 0,
+          //This is the quotation to be deleted once the user confirms
+          selected_quotation: null
         },
         translations: {
           index: I18n.t('quotations.index'),
@@ -15,7 +17,11 @@
           types: I18n.t('quotations.api_types')
         },
         table_headers:[],
-        quotations: []
+        quotations: [],
+        filters:{
+          id: '',
+          quotation_date: ''
+        }
       }
     },
 
@@ -25,8 +31,14 @@
     },
 
     computed:{
-      quotationRows: function(){
-        return this.quotations.length;
+
+      filteredQuotations: function(){
+        var filtered_quotations = this.quotations.filter((quotation)=>{
+          return String(quotation.id+100).includes(this.filters.id) && quotation.quotation_date.includes(this.filters.quotation_date);
+        });
+        this.config.rows = filtered_quotations.length;
+        this.config.current_page = 1;
+        return filtered_quotations;
       }
     },
 
@@ -36,16 +48,17 @@
         this.http
         .delete(`/quotations/${this.config.selected_quotation}`)
         .then((response)=>{
+          this.$bvModal.hide('delete_confirmation_modal');
           if(response.successful){
+            this.alert(this.translations.index.notifications.quotation_deleted);
             this.quotations = this.quotations.filter((quotation)=>{
               return quotation.id != this.config.selected_quotation;
             });
-            this.$bvModal.hide('delete_confirmation_modal');
           }else{
-            console.log(JSON.stringify(response));
+            this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
       },
 
@@ -83,10 +96,10 @@
           if(response.successful){
             this.quotations = response.data;
           }else{
-            console.log(JSON.stringify(response));
+            this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
       }
     }
@@ -154,7 +167,7 @@
                     <div class="input-group-text">
                       <i class="fas fa-barcode"></i>
                     </div>
-                    <b-input></b-input>
+                    <b-input v-model=filters.id></b-input>
                   </div>
                 </div>
                 <div class="col-3">
@@ -165,7 +178,7 @@
                     <div class="input-group-text">
                       <i class="fas fa-calendar"></i>
                     </div>
-                    <b-input></b-input>
+                    <b-input v-model=filters.quotation_date type="date"></b-input>
                   </div>
                 </div>
                 <div class="col-2 offset-4 text-right button-margin-top">
@@ -181,9 +194,9 @@
       </div>
       <b-table 
         id="quotations_table" 
-        thead-tr-class="bg-primary text-white" 
+        thead-tr-class="bg-lomax text-white" 
         class="table table-sm table-striped"
-        :items=quotations
+        :items=filteredQuotations
         :fields=table_headers
         :per-page=config.page_size
         :current-page=config.current_page
@@ -213,13 +226,25 @@
         </template>
         <template v-slot:cell(actions)=data>
           <div class="text-right">
-            <a class="btn btn-warning text-white" v-bind:href=generateShowLink(data.item.id)>
+            <a 
+              class="btn btn-warning text-white"
+              v-bind:href=generateShowLink(data.item.id)
+              v-bind:class="{disabled: data.item.state == 'created'}"
+            >
               <i class="fas fa-eye fa-xs"></i>
             </a>
-            <a class="btn btn-success text-white" v-bind:href=generateEditLink(data.item.id)>
+            <a 
+              class="btn btn-success text-white"
+              v-bind:href="generateEditLink(data.item.id)"
+              v-bind:class="{disabled: data.item.state != 'created'}"
+            >
               <i class="fas fa-edit fa-xs"></i>
             </a>
-            <b-button class="btn btn-danger text-white" v-on:click=showModal(data.item.id)>
+            <b-button 
+              class="btn btn-danger text-white"
+              v-on:click="showModal(data.item.id)"
+              v-bind:class="{disabled: data.item.state != 'created'}"
+            >
               <i class="fas fa-trash-alt fa-xs"></i>
             </b-button>
           </div>
@@ -227,7 +252,7 @@
       </b-table>
       <b-pagination
         v-model=config.current_page
-        :total-rows=quotationRows
+        :total-rows=config.rows
         :per-page=config.page_size
         aria-controls="quotations_table"
         class="justify-content-center"

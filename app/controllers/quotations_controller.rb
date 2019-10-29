@@ -1,6 +1,20 @@
 class QuotationsController < ApplicationController
   layout "manager"
-  before_action :set_quotation, only: [:update, :destroy, :show, :api_type]
+  before_action :set_quotation, only: %i[
+    update
+    destroy
+    show
+    api_type
+    api_activate
+    api_approve
+    api_expire
+    api_state
+    api_conditions
+    api_header
+    api_services
+    api_products
+    generate_excel
+  ]
 
   # POST /quotations
   def create
@@ -62,18 +76,80 @@ class QuotationsController < ApplicationController
     response_with_success(Quotation.type(params))
   end
 
+  # GET /api/quotations/:id/state
+  def api_state
+    response_with_success(@quotation.state)
+  end
+
+  # GET /api/quotations/:id/conditions
+  def api_conditions
+    response_with_success(@quotation.conditions_only)
+  end
+
+  # GET /api/quotations/:id/header
+  def api_header
+    response_with_success(@quotation.header_only)
+  end
+
+  # GET /api/quotations/:id/services
+  def api_services
+    response_with_success(@quotation.services_only)
+  end
+
+  # GET /api/quotations/:id/products
+  def api_products
+    response_with_success(@quotation.products_only)
+  end
+
+  # PUT /api/quotations/:id/activate
+  def api_activate
+    if @quotation.activate
+      response_with_success
+    else 
+      errors = @quotation.errors.full_messages
+      response_with_error( t('.error'), errors )
+    end
+  end
+
+  # PUT /api/quotations/:id/approve
+  def api_approve
+    if @quotation.approve
+      response_with_success
+    else
+      errors = @quotation.errors.full_messages
+      response_with_error( t('.error'), errors )
+    end
+  end
+
+  # PUT /api/quotations/:id/expire
+  def api_expire
+    if @quotation.expire
+      response_with_success
+    else
+      errors = @quotation.errors.full_messages
+      response_with_error( t('.error'), errors )
+    end
+  end
+
+
+  def generate_excel
+    workbook = CreateExcelQuotation.new(id: params[:id]).create
+    client = @quotation.client.name
+    filename = Date.today.strftime("%Y%m%d")+"-"+@quotation.id.to_s+"-"+client+".xlsx"
+    return send_data workbook, filename: filename, type: 'application/excel', disposition: 'inline'
+  end
+
   private
 
   def quotation_params
     params.require(:quotation).permit(
       :quotation_date,
       :quotation_type,
-      :credits,
       :payment_condition,
       :warranty,
       :client_id,
-      quotation_products_attributes: %i[amount percent product_id],
-      quotation_services_attributes: %i[id amount percent service_id]
+      quotation_products_attributes: %i[id amount percent product_id _destroy],
+      quotation_services_attributes: %i[id amount percent service_id _destroy]
     )
   end
 

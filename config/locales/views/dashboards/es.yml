@@ -1,0 +1,21 @@
+es:
+  dashboards:
+    title_nav: Panel de Cotizaciones
+    index:
+      state_created: Creada
+      state_active: Activa
+      state_accepted: Aprobada
+      state_expired:  Expirada
+      expired_soon: Pronto expirarán
+      last_attachments: Últimos arhivos
+      last_comments: Últimos comentarios
+      last_quotation_update: Últimas Actualizaciones de Cotizaciones
+      components:
+        name: Adjunto
+        user: Usuario
+        quotation: Cotización
+        date: Fecha
+        client: Cliente
+        note: Comentario
+
+

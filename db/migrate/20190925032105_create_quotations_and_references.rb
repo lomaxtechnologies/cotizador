@@ -1,12 +1,10 @@
 class CreateQuotationsAndReferences < ActiveRecord::Migration[6.0]
   def change # rubocop:disable Metrics/MethodLength
     create_table :quotations do |t|
-      t.integer :code
       t.integer :quotation_type
       t.integer :state, default: 0
       t.date :quotation_date
       t.string :currency
-      t.text :credits
       t.text :payment_condition
       t.text :warranty
       t.references :client, null: false, foreign_key: true
@@ -15,5 +13,6 @@ class CreateQuotationsAndReferences < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+    execute "ALTER SEQUENCE quotations_id_seq RESTART 100;"
   end
 end

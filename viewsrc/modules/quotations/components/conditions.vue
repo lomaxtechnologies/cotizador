@@ -14,7 +14,7 @@
 
     data(){
       return {
-        translations: I18n.t('quotations.new.conditions'),
+        translations: I18n.t('quotations.new_edit.conditions'),
         quotation:{
           payment_condition:'',
           credits:'',
@@ -23,19 +23,41 @@
       }
     },
 
+    mounted(){
+      this.getConditions();
+    },
+
     methods:{
-      updateConditions(){
+      getConditions(){
+        if(this.quotation_id){
+          this.http
+          .get(`/api/quotations/${this.quotation_id}/conditions`)
+          .then((response)=>{
+            if(response.successful){
+              this.quotation = response.data;
+            }else{
+              this.handleError(response.error);
+            }
+          }).catch((err)=>{
+            console.log("Error", err.stack, err.name, err.message);
+          })
+        }
+      },
+      
+      updateConditions(event){
+        event.preventDefault();
         this.$emit('update:section_valid', false);
         this.http
-        .put(`quotations/${this.quotation_id}`, {quotation: this.quotation})
+        .put(`/quotations/${this.quotation_id}`, {quotation: this.quotation})
         .then((response)=>{
           if(response.successful){
             this.$emit('update:section_valid', true);
+            this.alert(this.translations.notifications.conditions_updated,'success');
           }else{
-            console.log(JSON.stringify(response.error));
+            this.handleError(response.error);
           }
         }).catch((err)=>{
-          console.log(JSON.stringify(err));
+          console.log("Error", err.stack, err.name, err.message);
         });
       }
     }
@@ -51,10 +73,6 @@
             {{translations.titles.payment_condition}}
           </label>
           <b-textarea v-model=quotation.payment_condition></b-textarea>
-        </div>
-        <div class="col-12 mb-3">
-          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.credits}} </label>
-          <b-textarea v-model=quotation.credits></b-textarea>
         </div>
         <div class="col-12 mb-3">
           <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.warranty}} </label>

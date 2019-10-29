@@ -6,17 +6,14 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 user = User.create(email: 'admin@lomax.com.gt',password: 'lomax123', password_confirmation: 'lomax123', role: User.roles[:administrador])
-UserDetail.create(name: 'Administrador', last_name: 'Lomax', phone: '(502) 2296 6131', user: user)
+UserDetail.create(name: 'Administrador', last_name: 'Lomax', user: user)
 
-brands = %w[Ninguna Siemon Supranet]
+brands = %w[Genérica Siemon Supranet]
 brands.each do |name|
   Brand.create(name: name)
 end
 
+MeasureUnit.create(name:'Unidad',unit_type: 'Unidad')
 MeasureUnit.create(name:'Metro',unit_type: 'Longitud')
 MeasureUnit.create(name:'Pie',unit_type: 'Longitud')
 MeasureUnit.create(name:'Bobina',unit_type: 'Longitud')
-MeasureUnit.create(name:'Unidad',unit_type: 'Unidad')
-
-Client.create(name:'Cliente de prueba')
-Quotation.create(quotation_date:'15/10/2019',client:Client.first,user: User.first, quotation_type: Quotation.quotation_types[:t_comparative])

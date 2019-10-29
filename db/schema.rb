@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2019_10_02_172151) do
   end
 
   create_table "attachments", force: :cascade do |t|
+    t.string "name"
     t.text "location"
     t.datetime "deleted_at"
     t.bigint "quotation_id", null: false
@@ -154,7 +155,6 @@ ActiveRecord::Schema.define(version: 2019_10_02_172151) do
     t.integer "state", default: 0
     t.date "quotation_date"
     t.string "currency"
-    t.text "credits"
     t.text "payment_condition"
     t.text "warranty"
     t.bigint "client_id", null: false

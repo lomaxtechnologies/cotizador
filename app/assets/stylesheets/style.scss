@@ -28,7 +28,7 @@
   height:80px;
 }
 
-.alert{
+.rails-alert{
     font-weight: bold;
     margin-top:10px;
     z-index: 999;
@@ -37,7 +37,7 @@
     background-color: rgb(248, 108, 107);
 }
 
-.notice{
+.rails-notice{
     font-weight: bold;
     margin-top:10px;
     z-index: 999;
@@ -46,6 +46,7 @@
     background-color: rgb(99, 194, 222);
 }
 
+.bg-lomax,
 .bg-nav-color{
 background-color: rgb(61, 133, 198);
 }
@@ -62,6 +63,7 @@ background-color: rgb(61, 133, 198);
 
 a:hover{
     color: #6d20d8;
+    text-decoration: none;
 }
 
 
