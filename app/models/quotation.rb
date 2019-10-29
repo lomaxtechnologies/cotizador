@@ -101,15 +101,18 @@ class Quotation < ApplicationRecord
     end
   end
 
-  # Returns an array containing the ids of the services
+  # Returns an array containing the ids of the quotation_services
   def services_ids
     quotation_services.map do |element|
-      element = element[:id]
+      element[:id]
     end
   end
 
+  # Returns an array containing the ids of the quotation_products
   def products_ids
-    nil
+    quotation_products.map do |element|
+      element[:id]
+    end
   end
 
   private
