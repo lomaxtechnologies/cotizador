@@ -101,6 +101,17 @@ class Quotation < ApplicationRecord
     end
   end
 
+  # Returns an array containing the ids of the services
+  def services_ids
+    quotation_services.map do |element|
+      element = element[:id]
+    end
+  end
+
+  def products_ids
+    nil
+  end
+
   private
 
   def products_only_comparative_format

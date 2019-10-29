@@ -115,6 +115,13 @@
         .put(`/quotations/${this.quotation_id}`, data)
         .then((response)=>{
           if(response.successful){
+            //We assign an ID received from the server to every service element,
+            //so the next time, it will update instead of insert
+            var ids = response.data.quotation_services;
+            var x = this.quotation_services.map((element,index)=>{
+              element.id = ids[index];
+              return element;
+            });
             this.alert(this.translations.notifications.services_updated,'success');
             this.$emit('update:section_valid', true);
           }else{
