@@ -64,6 +64,20 @@
         }).catch((err)=>{
           console.log("Error", err.stack, err.name, err.message);
         });
+      },
+      expireQuotation: function(){
+        this.http
+        .put(`/api/quotations/${this.quotation_id}/expire`)
+        .then((response)=>{
+          if(response.successful){
+            this.quotation_state = this.STATE_EXPIRED;
+            this.alert(this.translations.notifications.quotation_expired,'success');
+          }else{
+            this.handleError(response.error);
+          }
+        }).catch((err)=>{
+          console.log("Error", err.stack, err.name, err.message);
+        });
       }
     },
     components:{
@@ -84,7 +98,7 @@
             <i class="fas fa-check-circle"></i>
             {{translations.buttons.approve}}
           </b-button>
-          <b-button v-if="stateActive" variant="danger">
+          <b-button v-if="stateActive" variant="danger" v-on:click="expireQuotation">
             <i class="fas fa-trash"></i>
             {{translations.buttons.expire}}
           </b-button>

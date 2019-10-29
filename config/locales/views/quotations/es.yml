@@ -155,6 +155,7 @@ es:
       generate_Excel: Generar Excel
       notifications:
         quotation_approved: La cotización ha sido aprobada satisfactoriamente
+        quotation_expired: La cotización ha sido expirada satisfactoriamente
       company:
         name: Lomax Technologies,
         address: 25 Avenida 1-89, Zona 15, Vista Hermosa 2, Edificio Insigne, Oficina 711.
