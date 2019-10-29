@@ -161,6 +161,7 @@ es:
           expire: Si, expírala
           approve: Si, apruébala
       generate_Excel: Generar Excel
+      generate_PDF: Descargar PDF
       notifications:
         quotation_approved: La cotización ha sido aprobada satisfactoriamente
         quotation_expired: La cotización ha sido expirada satisfactoriamente

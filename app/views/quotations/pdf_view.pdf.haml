@@ -1,0 +1,31 @@
+.row
+  .col-3
+    = wicked_pdf_image_tag('lomax-logo.png',height: '60', width: '180')
+  .col-3.offset-9.text-right
+    %b= t('quotations.show.titles.quotation_number')
+    %b.text-danger
+      101
+  .col-3.offset-9.text-right
+    %b= t('quotations.show.titles.quotation.date')
+    %b= Date.today.strftime('%d/%m/%Y')
+  .col-3
+    %p
+      %b= t('quotations.show.titles.client.info')
+      %br
+      %b= t('quotations.show.titles.client.client')
+      = @quotation.client.name
+      %br
+      %b= t('quotations.show.titles.client.address')
+      = @quotation.client.address
+      %br
+      %b= t('quotations.show.titles.client.nit')
+      = @quotation.client.nit
+      %br
+      %b= t('quotations.show.titles.client.phone')
+      = @quotation.client.phone
+  -if @quotation.quotation_products.length > 0
+    
+  %h5.text-danger= t('quotations.show.titles.option_a')
+  %h5.text-danger= t('quotations.show.titles.option_b')
+
+    

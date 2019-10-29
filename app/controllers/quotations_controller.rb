@@ -139,6 +139,23 @@ class QuotationsController < ApplicationController
     return send_data workbook, filename: filename, type: 'application/excel', disposition: 'inline'
   end
 
+  def generate_PDF
+    @quotation = Quotation.find(params[:id])
+    p "CONTROLADOR"
+    p @quotation
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: "prueba",
+        template:'quotations/pdf_view.pdf.haml', 
+        layout: 'pdf_layout.html.haml'
+      end
+    end
+    #pdf_html = ActionController::Base.new.render_to_string(template: 'quotations/pdf_view.pdf.haml', layout: 'pdf_layout.html.haml')
+    #pdf = WickedPdf.new.pdf_from_string(pdf_html)
+    #send_data pdf, filename: 'prueba.pdf'
+  end
+
   private
 
   def quotation_params
