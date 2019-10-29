@@ -54,11 +54,14 @@ Rails.application.routes.draw do
       get "/", to: "quotations#api_index"
       get "/types", to: "quotations#api_types"
       get "/:id/type", to: "quotations#api_type"
+      get "/:id/state", to: "quotations#api_state"
       get "/:id/conditions", to: "quotations#api_conditions"
       get "/:id/header", to: "quotations#api_header"
       get "/:id/services", to: "quotations#api_services"
       get "/:id/products", to: "quotations#api_products"
       put "/:id/activate", to: "quotations#api_activate"
+      put "/:id/approve", to: "quotations#api_approve"
+      put "/:id/expire", to: "quotations#api_expire"
       put "/:id/update", to: "quotations#update"
 
       # Attachments routes with basic actions

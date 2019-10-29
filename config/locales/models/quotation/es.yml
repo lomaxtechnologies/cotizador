@@ -13,3 +13,5 @@ es:
             state:
               destroy_impossible: no permite la eliminación de la cotización
               activation_impossible: no permite la activación de la cotización
+              approve_impossible: no permite la aprobación de la cotización
+              expiration_impossible: no permite la expiración de la cotización

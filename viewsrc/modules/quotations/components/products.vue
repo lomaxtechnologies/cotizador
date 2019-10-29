@@ -348,12 +348,14 @@ export default {
       if (this.quotation_type === "t_comparative") {
         var product_attributes = [];
         this.selected_materials.forEach(material => {
-          product_attributes.push({
-            id: material.quotation_product_supranet_id,
-            amount: material.amount,
-            percent: material.percent_supranet,
-            product_id: material.supranet_id
-          });
+          if(material.supranet_id){
+            product_attributes.push({
+              id: material.quotation_product_supranet_id,
+              amount: material.amount,
+              percent: material.percent_supranet,
+              product_id: material.supranet_id
+            });
+          }
           if (material.siemon_id) {
             product_attributes.push({
               id: material.quotation_product_siemon_id,
