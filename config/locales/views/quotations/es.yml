@@ -152,6 +152,14 @@ es:
       attachments_view:
         title: "Attachments"
     show:
+      confirmation_modal:
+        title: ¿Realmente deseas continuar?
+        approve_body: Solo realiza esta opción si el cliente a aprobado la cotización
+        expire_body: Esta cotización expirará automáticamente si no es aprobada luego de 15 días de la fecha de creación, pero si deseas expirarla antes de tiempo, puedes continuar.
+        buttons: 
+          cancel: Cancelar
+          expire: Si, expírala
+          approve: Si, apruébala
       generate_Excel: Generar Excel
       notifications:
         quotation_approved: La cotización ha sido aprobada satisfactoriamente

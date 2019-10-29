@@ -8,6 +8,7 @@
    export default {
     data() {
       return {
+        action: '',
         STATE_CREATED: 'created',
         STATE_ACTIVE: 'active',
         STATE_EXPIRED: 'expired',
@@ -35,6 +36,17 @@
       }
     },
     methods:{
+      confirmApproval: function(){
+        this.action = this.STATE_APPROVED;
+        this.$bvModal.show('confirmation_modal');
+      },
+      confirmExpiration: function(){
+        this.action = this.STATE_EXPIRED;
+        this.$bvModal.show('confirmation_modal');
+      },
+      hideConfirmationModal: function(){
+        this.$bvModal.hide('confirmation_modal');
+      },
       getQuotationState: function(){
         this.http
         .get(`api/quotations/${this.quotation_id}/state`)
@@ -55,6 +67,7 @@
         this.http
         .put(`/api/quotations/${this.quotation_id}/approve`)
         .then((response)=>{
+          this.hideConfirmationModal();
           if(response.successful){
             this.quotation_state = this.STATE_APPROVED;
             this.alert(this.translations.notifications.quotation_approved,'success');
@@ -69,6 +82,7 @@
         this.http
         .put(`/api/quotations/${this.quotation_id}/expire`)
         .then((response)=>{
+          this.hideConfirmationModal();
           if(response.successful){
             this.quotation_state = this.STATE_EXPIRED;
             this.alert(this.translations.notifications.quotation_expired,'success');
@@ -92,13 +106,47 @@
 <template>
   <div class="row" >
     <div class="col-lg-12 offset-xl-1 col-xl-10">
+    
+      <b-modal
+        id="confirmation_modal"
+        :title=translations.confirmation_modal.title
+      >
+        <p v-if="action==STATE_APPROVED" class="text-justify">
+          {{translations.confirmation_modal.approve_body}}
+        </p>
+        <p v-if="action==STATE_EXPIRED" class="text-justify">
+          {{translations.confirmation_modal.expire_body}}
+        </p>
+        <template v-slot:modal-footer>
+          <div>
+            <b-button
+              variant="success"
+              v-on:click=approveQuotation
+              v-if="action==STATE_APPROVED"
+            > {{translations.confirmation_modal.buttons.approve}}
+            </b-button>
+            <b-button
+              variant="danger"
+              v-on:click=expireQuotation
+              v-if="action==STATE_EXPIRED"
+            > {{translations.confirmation_modal.buttons.expire}}
+            </b-button>
+            <b-button
+              class="btn btn-secondary"
+              v-on:click=hideConfirmationModal
+            > {{translations.confirmation_modal.buttons.cancel}}
+            </b-button>
+          </div>
+        </template>
+      </b-modal>
+
       <div class="row">
         <div class="col-8">
-          <b-button v-if="stateActive" variant="success" v-on:click="approveQuotation">
+          <b-button v-if="stateActive" variant="success" v-on:click="confirmApproval">
             <i class="fas fa-check-circle"></i>
             {{translations.buttons.approve}}
           </b-button>
-          <b-button v-if="stateActive" variant="danger" v-on:click="expireQuotation">
+          <b-button v-if="stateActive" variant="danger" v-on:click="confirmExpiration">
             <i class="fas fa-trash"></i>
             {{translations.buttons.expire}}
           </b-button>
