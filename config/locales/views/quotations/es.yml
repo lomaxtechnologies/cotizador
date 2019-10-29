@@ -153,10 +153,13 @@ es:
         title: "Attachments"
     show:
       generate_Excel: Generar Excel
+      notifications:
+        quotation_approved: La cotización ha sido aprobada satisfactoriamente
       company:
         name: Lomax Technologies,
         address: 25 Avenida 1-89, Zona 15, Vista Hermosa 2, Edificio Insigne, Oficina 711.
         email: info@lomax.com.gt
+        phone: +502 2296-6131
         web_page: http://lomax.com.gt
       anchors:
         return: Regresar

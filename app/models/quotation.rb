@@ -51,6 +51,24 @@ class Quotation < ApplicationRecord
     end
   end
 
+  def approve
+    if active?
+      accepted!
+    else
+      errors.add(:state, :approve_impossible)
+      false
+    end
+  end
+
+  def expire
+    if active?
+      expired!
+    else
+      errors.add(:state, :expiration_impossible)
+      false
+    end
+  end
+
   # Returns a hash with client information, and detailed products and
   # services information
   def detailed_info

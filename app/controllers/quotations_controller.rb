@@ -6,6 +6,9 @@ class QuotationsController < ApplicationController
     show
     api_type
     api_activate
+    api_approve
+    api_expire
+    api_state
     api_conditions
     api_header
     api_services
@@ -73,6 +76,11 @@ class QuotationsController < ApplicationController
     response_with_success(Quotation.type(params))
   end
 
+  # GET /api/quotations/:id/state
+  def api_state
+    response_with_success(@quotation.state)
+  end
+
   # GET /api/quotations/:id/conditions
   def api_conditions
     response_with_success(@quotation.conditions_only)
@@ -102,6 +110,27 @@ class QuotationsController < ApplicationController
       response_with_error( t('.error'), errors )
     end
   end
+
+  # PUT /api/quotations/:id/approve
+  def api_approve
+    if @quotation.approve
+      response_with_success
+    else
+      errors = @quotation.errors.full_messages
+      response_with_error( t('.error'), errors )
+    end
+  end
+
+  # PUT /api/quotations/:id/expire
+  def api_expire
+    if @quotation.expire
+      response_with_success
+    else
+      errors = @quotation.errors.full_messages
+      response_with_error( t('.error'), errors )
+    end
+  end
+
 
   def generate_excel
     workbook = CreateExcelQuotation.new(id: params[:id]).create

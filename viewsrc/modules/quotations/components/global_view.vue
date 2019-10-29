@@ -12,6 +12,10 @@
       refresh_quotation:{
         type: Boolean,
         default: false
+      },
+      quotation_state:{
+        type: String,
+        default: null
       }
     },
 
@@ -128,6 +132,9 @@
           this.$emit('update:refresh_quotation', false);
           this.refreshQuotation();
         }
+      },
+      quotation_state: function(){
+        this.quotation.state = this.quotation_state;
       }
     }
   }
