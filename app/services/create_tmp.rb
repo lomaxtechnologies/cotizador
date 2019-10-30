@@ -8,7 +8,7 @@ class CreateTmp
     def create
         file = Tempfile.new([@name,@ext],"#{Rails.root.to_s}/tmp/")
         file.binmode
-        open(@src_file) { |f| file.write(@src_file.read) }
+        File.open(@src_file) { |f| file.write(@src_file.read) }
         file.rewind
         file.close
         return file

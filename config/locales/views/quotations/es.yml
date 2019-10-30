@@ -38,7 +38,9 @@ es:
       search_fields:
         titles:
           code: Código de la Cotización
-          date: Fecha
+          date_initial: Fecha Inicial
+          date_final: Fecha Final
+          state: Estado
     new_edit:
       anchors:
         return: Regresar
@@ -165,6 +167,7 @@ es:
           clone: Si, clónala
           duplicate: Si, regenérala
       generate_Excel: Generar Excel
+      generate_PDF: Descargar PDF
       notifications:
         quotation_approved: La cotización ha sido aprobada satisfactoriamente
         quotation_expired: La cotización ha sido expirada satisfactoriamente
@@ -208,7 +211,7 @@ es:
         quotation_number: Cotización No.
         option: Opción a Elegir
         materials: Detalle de Materiales
-        services: Propuesta Económica/Resumen
+        services: Propuesta Económica
         credits: Crédito
         warranty: Garantía
         payment_condition: Condiciones de Pago

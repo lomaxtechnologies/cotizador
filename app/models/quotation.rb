@@ -22,7 +22,7 @@ class Quotation < ApplicationRecord
   paginates_per 10
 
   scope :type, ->(params) { select(:quotation_type).where(id: params[:id]) }
-
+  
   def self.header_fields
     Quotation.joins(:client).select(
       'quotations.id',

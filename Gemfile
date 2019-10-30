@@ -96,3 +96,7 @@ gem 'i18n-js'
 
 # jquery for the views that don't use Vue
 gem 'jquery-rails'
+
+#PDF
+gem 'wicked_pdf', '~> 1.1'
+gem 'wkhtmltopdf-binary'
