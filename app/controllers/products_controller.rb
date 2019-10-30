@@ -23,7 +23,7 @@ class ProductsController < ApplicationController
         format.html { redirect_to products_path, notice: notice}
       else
         alert = @product.errors.full_messages.join('.')
-        format.html { redirect_to products_path, alert: alert}
+        format.html { redirect_to new_product_path, alert: alert}
       end
     end
   end
