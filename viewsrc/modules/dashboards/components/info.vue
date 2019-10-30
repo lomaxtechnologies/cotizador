@@ -18,10 +18,13 @@ export default {
           key: 'id',
           label: this.translations.components.quotation
       }, {
-          key: 'user_id',
+          key: 'name_user',
           label: this.translations.components.user
       }, {
-          key: 'created_at',
+          key: 'name',
+          labe: this.translations.components.client
+      }, {
+          key: 'date',
           label: this.translations.components.date
       }
     ]

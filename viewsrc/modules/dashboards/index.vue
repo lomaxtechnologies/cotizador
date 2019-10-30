@@ -5,7 +5,7 @@
     import dashboardQuotationAttachment from './components/attachment.vue'
     import dashboardQuotationUpdated from './components/quotation.vue'
     import dashboardInfoState from './components/info.vue'
-    import dashboardStateQuotationExpired from './components/statequotationexpired.vue'
+    import dashboardInfoExpiredSoon from './components/statequotationexpired.vue'
     export default {
       data(){
         return{
@@ -16,12 +16,11 @@
               expired: 0
               },
           info_states: {
-              created: [],
-              active: [],
-              accepted: [],
-              expired: []
+            created: [],
+            created: [],
+            accepted: [],
+            expired: [],
           },
-          expired_quotation_state: [],
           tabIndex: 1,
           expired_quotation: {},
           translations: {
@@ -43,7 +42,7 @@
         'dashboard-quotation-active-info' : dashboardInfoState,
         'dashboard-quotation-accepted-info' : dashboardInfoState,
         'dashboard-quotation-expired-info' : dashboardInfoState,
-        'dashboard-quotation-expired-soon-info' : dashboardStateQuotationExpired,
+        'dashboard-quotation-info-expired-soon': dashboardInfoExpiredSoon,
       },
       methods: {
           getStatesCounts: function() {
@@ -86,25 +85,11 @@
               console.log(JSON.stringify(err))
           })
           },
-          getInfoExpiredState: function() {
-          this.http
-          .get('api/dashboard/state-expired-soon')
-          .then((response) => {
-              if(response.successful){
-                this.expired_quotation_state = response.data
-              }else{
-                console.log(JSON.stringify(response));
-              }
-          }).catch((err) => {
-              console.log(JSON.stringify(err))
-          })
-          }
         },
       mounted: function() {
         this.getStatesCounts();
         this.getExpiredQuotations();
         this.getInfoStates();
-        this.getInfoExpiredState();
       }
       }
 </script>
@@ -169,12 +154,6 @@
                   :info=info_states.accepted
                   >
                   </dashboard-quotation-accepted-info>
-                </b-collapse>
-                <b-collapse id="collapse-a4" class="mt-2">
-                  <dashboard-quotation-expired-soon-info
-                  :expired=expired_quotation_state
-                  >
-                  </dashboard-quotation-expired-soon-info>
                 </b-collapse>
                 <b-collapse id="collapse-a5" class="mt-2">
                   <dashboard-quotation-expired-info
