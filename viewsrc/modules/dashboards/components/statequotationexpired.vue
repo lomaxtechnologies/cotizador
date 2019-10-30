@@ -1,7 +1,7 @@
 <script>
 export default {
   props: {
-    expired: {
+    info: {
       type: Array
     }
   },
@@ -18,10 +18,13 @@ export default {
           key: 'id',
           label: this.translations.components.quotation
       }, {
-          key: 'user_id',
+          key: 'user',
           label: this.translations.components.user
       }, {
-          key: 'created_at',
+          key: 'name',
+          label: this.translations.components.client
+      }, {
+          key: 'date',
           label: this.translations.components.date
       }
     ]
@@ -32,7 +35,7 @@ export default {
 <template>
       <b-table striped 
             :fields="table_fields"
-            :items="expired" 
+            :items="info" 
             >
           </b-table>
 </template>

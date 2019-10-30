@@ -22,7 +22,8 @@
             expired: [],
           },
           tabIndex: 1,
-          expired_quotation: {},
+          expired_quotation:{},
+          info_expired_quotation: {},
           translations: {
               index: I18n.t('dashboards.index')
             }
@@ -85,11 +86,25 @@
               console.log(JSON.stringify(err))
           })
           },
+          getInfoExpiredSoon: function(){
+          this.http
+          .get('api/dashboard/state-expired-soon')
+          .then((response) => {
+              if(response.successful){
+                this.info_expired_quotation = response.data
+              }else{
+                console.log(JSON.stringify(response));
+              }
+          }).catch((err) => {
+              console.log(JSON.stringify(err))
+          })
+          }
         },
       mounted: function() {
         this.getStatesCounts();
         this.getExpiredQuotations();
         this.getInfoStates();
+        this.getInfoExpiredSoon();
       }
       }
 </script>
@@ -154,6 +169,11 @@
                   :info=info_states.accepted
                   >
                   </dashboard-quotation-accepted-info>
+                </b-collapse>
+                <b-collapse id="collapse-a4" class="mt-2">
+                   <dashboard-quotation-info-expired-soon
+                   :info=info_expired_quotation>
+                  </dashboard-quotation-info-expired-soon>
                 </b-collapse>
                 <b-collapse id="collapse-a5" class="mt-2">
                   <dashboard-quotation-expired-info
