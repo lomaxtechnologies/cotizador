@@ -156,14 +156,20 @@ es:
         title: ¿Realmente deseas continuar?
         approve_body: Solo realiza esta opción si el cliente a aprobado la cotización
         expire_body: Esta cotización expirará automáticamente si no es aprobada luego de 15 días de la fecha de creación, pero si deseas expirarla antes de tiempo, puedes continuar.
+        clone_body: Al clonar esta cotización se generará una cotización nueva en estado activo, con los mismos materiales y servicios, pero con precios actuales
+        duplicate_body: Al regenerar esta cotización se creará una cotización nueva en estado creado para que la puedas editar, con los mismos materiales y servicios, pero con precios actuales
         buttons: 
           cancel: Cancelar
           expire: Si, expírala
           approve: Si, apruébala
+          clone: Si, clónala
+          duplicate: Si, regenérala
       generate_Excel: Generar Excel
       notifications:
         quotation_approved: La cotización ha sido aprobada satisfactoriamente
         quotation_expired: La cotización ha sido expirada satisfactoriamente
+        quotation_cloned: La cotización ha sido clonada satisfactoriamente
+        quotation_duplicated: La cotización ha sido regenerada satisfactoriamente
       company:
         name: Lomax Technologies,
         address: 25 Avenida 1-89, Zona 15, Vista Hermosa 2, Edificio Insigne, Oficina 711.

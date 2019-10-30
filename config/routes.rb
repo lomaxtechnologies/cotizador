@@ -59,6 +59,8 @@ Rails.application.routes.draw do
       get "/:id/header", to: "quotations#api_header"
       get "/:id/services", to: "quotations#api_services"
       get "/:id/products", to: "quotations#api_products"
+      post "/:id/clone", to: "quotations#api_clone"
+      post "/:id/duplicate", to: "quotations#api_duplicate"
       put "/:id/activate", to: "quotations#api_activate"
       put "/:id/approve", to: "quotations#api_approve"
       put "/:id/expire", to: "quotations#api_expire"

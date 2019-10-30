@@ -108,10 +108,9 @@ class Product < ApplicationRecord
       )
       if product_exists
         errors.add(:base, :product_already_exists)
-        false
-      else
-        super
+        return false
       end
     end
+    super
   end
 end

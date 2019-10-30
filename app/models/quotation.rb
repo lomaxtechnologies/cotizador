@@ -115,6 +115,21 @@ class Quotation < ApplicationRecord
     end
   end
 
+  # Clones a quotation and updates prices and services to their current value
+  def clone_and_update
+    new_quotation = dup
+    new_quotation.quotation_date = Date.today.to_s
+    quotation_services.each do |quotation_service|
+      new_quotation_service = quotation_service.dup
+      new_quotation.quotation_services << new_quotation_service
+    end
+    quotation_products.each do |quotation_product|
+      new_quotation_product = quotation_product.dup
+      new_quotation.quotation_products << new_quotation_product
+    end
+    new_quotation
+  end
+
   private
 
   def products_only_comparative_format
