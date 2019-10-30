@@ -348,12 +348,14 @@ export default {
       if (this.quotation_type === "t_comparative") {
         var product_attributes = [];
         this.selected_materials.forEach(material => {
-          product_attributes.push({
-            id: material.quotation_product_supranet_id,
-            amount: material.amount,
-            percent: material.percent_supranet,
-            product_id: material.supranet_id
-          });
+          if(material.supranet_id){
+            product_attributes.push({
+              id: material.quotation_product_supranet_id,
+              amount: material.amount,
+              percent: material.percent_supranet,
+              product_id: material.supranet_id
+            });
+          }
           if (material.siemon_id) {
             product_attributes.push({
               id: material.quotation_product_siemon_id,
@@ -383,6 +385,9 @@ export default {
         .put(`/api/quotations/${this.quotation_id}/update`, this.formatData())
         .then(response => {
           if (response.successful) {
+            //We assign an ID received from the server to every product element,
+            //so the next time, it will update instead of insert
+            this.assignIds(response.data.quotation_products);
             this.$emit("update:section_valid", true);
             this.alert(this.translations.notifications.materials_updated,'success');
           } else {
@@ -392,6 +397,23 @@ export default {
         .catch(err => {
           console.log("Error", err.stack, err.name, err.message);
         });
+    },
+    assignIds: function(ids){
+      if(this.quotation_type === 't_comparative'){
+        var index = 0;
+        this.selected_materials.map((element)=>{
+          ['supranet_id','siemon_id'].forEach((id_name)=>{
+            if(element[id_name]){
+              element[`quotation_product_${id_name}`] = ids[index++];
+            }
+          });
+          return element;
+        });
+      }else{
+        this.selected_materials.map((element,index)=>{
+          element.id = ids[index]
+        });
+      }
     }
   },
   watch: {

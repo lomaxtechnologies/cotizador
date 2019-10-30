@@ -22,7 +22,7 @@ class Quotation < ApplicationRecord
   paginates_per 10
 
   scope :type, ->(params) { select(:quotation_type).where(id: params[:id]) }
-
+  
   def self.header_fields
     Quotation.joins(:client).select(
       'quotations.id',
@@ -47,6 +47,24 @@ class Quotation < ApplicationRecord
       active!
     else
       errors.add(:state, :activation_impossible)
+      false
+    end
+  end
+
+  def approve
+    if active?
+      accepted!
+    else
+      errors.add(:state, :approve_impossible)
+      false
+    end
+  end
+
+  def expire
+    if active?
+      expired!
+    else
+      errors.add(:state, :expiration_impossible)
       false
     end
   end
@@ -80,6 +98,20 @@ class Quotation < ApplicationRecord
       products_only_comparative_format
     else
       products_only_single_brand_format
+    end
+  end
+
+  # Returns an array containing the ids of the quotation_services
+  def services_ids
+    quotation_services.map do |element|
+      element[:id]
+    end
+  end
+
+  # Returns an array containing the ids of the quotation_products
+  def products_ids
+    quotation_products.map do |element|
+      element[:id]
     end
   end
 
@@ -214,16 +246,15 @@ class Quotation < ApplicationRecord
       p["#{brand_name_tag}_id"] = p["product_id"];
       p["quotation_product_#{brand_name_tag}_id"] = p.delete("id");
 
-      if %w[siemon supranet].include? brand_name
-        # When the brand is siemon or supranet, we push the prices 1 time
+      if grouped_products[id]
+        # If the key exists, one brand is there alredy, so we push only once
         p.each do |key, value|
           new_data[key.to_s.gsub('t_comparative', "t_#{brand_name}_only")] = value
         end
         products_totals["t_#{brand_name}_only"][:without_percent] += p[:t_comparative_total]
         products_totals["t_#{brand_name}_only"][:with_percent] += p[:t_comparative_total_with_percent]
       else
-        # When the brand is not siemon or supranet, we push the prices 2 times,
-        # so it appears in both columns on the views
+        # If it does not exists, we push twice
         %w[t_supranet_only t_siemon_only].each do |name|
           p.each do |key, value|
             new_data[key.to_s.gsub('t_comparative', name)] = value

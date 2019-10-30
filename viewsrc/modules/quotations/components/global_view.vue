@@ -12,6 +12,10 @@
       refresh_quotation:{
         type: Boolean,
         default: false
+      },
+      quotation_state:{
+        type: String,
+        default: null
       }
     },
 
@@ -128,6 +132,9 @@
           this.$emit('update:refresh_quotation', false);
           this.refreshQuotation();
         }
+      },
+      quotation_state: function(){
+        this.quotation.state = this.quotation_state;
       }
     }
   }
@@ -219,9 +226,13 @@
                   v-if="quotation.quotation_type=='t_simple'"
                   rowspan="2"
                   colspan="4"
-                  class="bg-lomax text-white"
-                ></b-th>
-                <b-th v-else rowspan="3" colspan="3" class="bg-lomax text-white"></b-th>
+                  class="align-middle bg-outline-primary"
+                >
+                  <h5><b>{{translations.show.titles.materials}}</b></h5>
+                </b-th>
+                <b-th v-else rowspan="3" colspan="3" class="align-middle bg-outline-primary">
+                  <h5><b>{{translations.show.titles.materials}}</b></h5>
+                </b-th>
                 <b-th colspan="4" class="bg-dark">{{translations.show.custom_headers.expression}}</b-th>
               </b-tr>
               <b-tr v-if="quotation.quotation_type!=='t_simple'" class="text-center text-danger">
@@ -298,9 +309,8 @@
           </b-table>
         </div>
         <div class="col-12 mt-2">
-          <h5><b>{{translations.show.titles.services}}</b></h5>
           <h5 v-if="quotation.quotation_type=='t_comparative'">
-            <b class="text-danger">{{translations.show.titles.option_a}}</b>
+            <b>{{translations.show.titles.services}}</b>
           </h5>
           <b-table
             :items=quotation.quotation_services
@@ -311,7 +321,14 @@
           >
             <template v-slot:thead-top="data">
               <b-tr class="text-center">
-                <b-th rowspan="3" colspan="3"  class="bg-lomax text-white"></b-th>
+                <b-th rowspan="3" colspan="3"  class="bg-outline-lomax align-middle">
+                  <h5 v-if="quotation.quotation_type=='t_comparative'">
+                    <b class="text-danger">{{translations.show.titles.option_a}}</b>
+                  </h5>
+                  <h5 v-else>
+                    <b>{{translations.show.titles.services}}</b>
+                  </h5>
+                </b-th>
                 <b-th colspan="4" class="bg-dark">{{translations.show.custom_headers.expression}}</b-th>
               </b-tr>
               <b-tr class="text-center text-danger">
@@ -412,9 +429,6 @@
               </b-tr>
             </template>
           </b-table>
-          <h5 v-if="quotation.quotation_type=='t_comparative'">
-            <b class="text-danger">{{translations.show.titles.option_b}}</b>
-          </h5>
           <b-table
             v-if="quotation.quotation_type=='t_comparative'"
             :items=quotation.quotation_services
@@ -425,7 +439,9 @@
           >
             <template v-slot:thead-top="data">
               <b-tr class="text-center">
-                <b-th rowspan="3" colspan="3"  class="bg-lomax text-white"></b-th>
+                <b-th rowspan="3" colspan="3"  class="bg-outline-primary align-middle">
+                  <h5><b class="text-danger">{{translations.show.titles.option_b}}</b></h5>
+                </b-th>
                 <b-th colspan="4" class="bg-dark">{{translations.show.custom_headers.expression}}</b-th>
               </b-tr>
               <b-tr class="text-center text-danger">
@@ -508,7 +524,7 @@
         </div>
         <div class="col-8 offset-2 mt-2">
           <table class="table table-sm table-bordered text-center">
-            <thead class="bg-lomax text-white">
+            <thead class="bg-custom-gray text-white">
               <th>{{translations.show.titles.signature}}</th>
               <th colspan="2">{{translations.show.titles.option}}</th>
             </thead>
@@ -528,6 +544,7 @@
             <b>{{translations.show.titles.address}}</b>: {{translations.show.company.address}}
             <b>{{translations.show.titles.email}}</b>: {{translations.show.company.email}}
             <b>{{translations.show.titles.web_page}}</b>: {{translations.show.company.web_page}}
+            <b>{{translations.show.titles.phone}}</b>: {{translations.show.company.phone}}
           </span>
         </div>
       </div>

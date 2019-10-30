@@ -27,7 +27,6 @@ Rails.application.routes.draw do
   resources :clients
 
   resources :products, except: [:show]
-  post "products/upload", to: "products#upload", as: "upload"
   get "products/download", to: "products#download_price", as: "download"
   get "products/dashboard", to: "prices#dashboard", as: "dashboard"
 
@@ -37,7 +36,7 @@ Rails.application.routes.draw do
 
   resources :quotations
   get "/quotations/:id/excel", to: "quotations#generate_excel"
-
+  get "/quotations/:id/pdf", to: "quotations#generate_pdf"
   resources :dashboards
 
   resources :comments
@@ -45,6 +44,7 @@ Rails.application.routes.draw do
   root to: 'dashboards#index'
 
   scope :api do
+    post "/products/upload", to: "products#api_upload", as: "upload"
     get "/clients", to: "clients#api_index"
     get "/comparative", to: "products#api_comparative"
     get "/simple", to: "products#api_simple"
@@ -54,11 +54,14 @@ Rails.application.routes.draw do
       get "/", to: "quotations#api_index"
       get "/types", to: "quotations#api_types"
       get "/:id/type", to: "quotations#api_type"
+      get "/:id/state", to: "quotations#api_state"
       get "/:id/conditions", to: "quotations#api_conditions"
       get "/:id/header", to: "quotations#api_header"
       get "/:id/services", to: "quotations#api_services"
       get "/:id/products", to: "quotations#api_products"
       put "/:id/activate", to: "quotations#api_activate"
+      put "/:id/approve", to: "quotations#api_approve"
+      put "/:id/expire", to: "quotations#api_expire"
       put "/:id/update", to: "quotations#update"
 
       # Attachments routes with basic actions
@@ -81,7 +84,7 @@ Rails.application.routes.draw do
       get 'attachments', to: 'dashboards#api_recent_attachments'
       get 'recent_quotations', to: 'dashboards#api_recent_quotations'
       get 'info-states', to: 'dashboards#api_info_states'
-      
+      get 'state-expired-soon', to: 'dashboards#api_state_expired_soon'
     end
   end
 end

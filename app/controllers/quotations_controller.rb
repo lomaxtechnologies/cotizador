@@ -6,6 +6,9 @@ class QuotationsController < ApplicationController
     show
     api_type
     api_activate
+    api_approve
+    api_expire
+    api_state
     api_conditions
     api_header
     api_services
@@ -37,7 +40,10 @@ class QuotationsController < ApplicationController
   # PUT /quotations/:id
   def update
     if @quotation.update(quotation_params.merge(user: current_user))
-      response_with_success
+      response_with_success({
+        quotation_services: @quotation.services_ids,
+        quotation_products: @quotation.products_ids
+      })
     else
       errors = @quotation.errors.full_messages
       response_with_error( t('.error'), errors )
@@ -54,7 +60,7 @@ class QuotationsController < ApplicationController
     end
   end
 
-  # GET api/quotations 
+  # GET api/quotations
   def api_index
     response_with_success(Quotation.header_fields.order(:id))
   end
@@ -71,6 +77,11 @@ class QuotationsController < ApplicationController
   # GET /api/quotations/:id/type
   def api_type
     response_with_success(Quotation.type(params))
+  end
+
+  # GET /api/quotations/:id/state
+  def api_state
+    response_with_success(@quotation.state)
   end
 
   # GET /api/quotations/:id/conditions
@@ -103,11 +114,56 @@ class QuotationsController < ApplicationController
     end
   end
 
+  # PUT /api/quotations/:id/approve
+  def api_approve
+    if @quotation.approve
+      response_with_success
+    else
+      errors = @quotation.errors.full_messages
+      response_with_error( t('.error'), errors )
+    end
+  end
+
+  # PUT /api/quotations/:id/expire
+  def api_expire
+    if @quotation.expire
+      response_with_success
+    else
+      errors = @quotation.errors.full_messages
+      response_with_error( t('.error'), errors )
+    end
+  end
+
+
   def generate_excel
     workbook = CreateExcelQuotation.new(id: params[:id]).create
     client = @quotation.client.name
-    filename = Date.today.strftime("%Y%m%d")+"-"+@quotation.id.to_s+"-"+client+".xlsx"
+    filename = "#{Date.today.strftime("%Y%m%d")}-#{@quotation.id.to_s}-#{client}.xlsx"
     return send_data workbook, filename: filename, type: 'application/excel', disposition: 'inline'
+  end
+
+  def generate_pdf
+    @quotation = Quotation.find(params[:id]).detailed_info
+    pdf = WickedPdf.new.pdf_from_string(
+      render_to_string(
+        'quotations/pdf_view.pdf.haml', 
+        layout: 'pdf_layout.html.haml'),
+      header: {
+        content: render_to_string(
+          'quotations/pdf_header.pdf.haml',
+          layout: 'pdf_layout.html.haml'
+        )
+      },
+      footer: {
+        content: render_to_string(
+          'quotations/pdf_footer.pdf.haml',
+          layout: 'pdf_layout.html.haml'
+        )
+      }
+    )
+    client = @quotation[:client].name
+    filename = "#{Date.today.strftime("%Y%m%d")}-#{@quotation['id'].to_s}-#{client}.pdf"
+    send_data pdf, filename: filename
   end
 
   private

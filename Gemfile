@@ -24,6 +24,7 @@ gem 'whenever', '~> 1.0'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
+gem "aws-sdk-s3", require: false
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -95,3 +96,7 @@ gem 'i18n-js'
 
 # jquery for the views that don't use Vue
 gem 'jquery-rails'
+
+#PDF
+gem 'wicked_pdf', '~> 1.1'
+gem 'wkhtmltopdf-binary'

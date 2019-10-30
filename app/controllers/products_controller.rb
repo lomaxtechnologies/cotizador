@@ -23,7 +23,7 @@ class ProductsController < ApplicationController
         format.html { redirect_to products_path, notice: notice}
       else
         alert = @product.errors.full_messages.join('.')
-        format.html { redirect_to products_path, alert: alert}
+        format.html { redirect_to new_product_path, alert: alert}
       end
     end
   end
@@ -50,19 +50,17 @@ class ProductsController < ApplicationController
       format.html { redirect_to products_url, notice: notice }
     end
   end
- 
-  def upload
-    file = CreateTmp.new(src: params[:csv_file],name: 'upload',ext: '.xlsx').create
-    active_thread = Thread.new do 
-      @result = MaterialsParser.new(file: file).load_data
-    end
-    redirect_to products_path, notice: t('.upload')
-  end
 
   def download_price
     workbook = CreateExcelProducts.new().create
     filename = "#{t('.filename_prefix')}#{Date.today.to_s}.xlsx"
     return send_data workbook, filename: filename, type: 'application/excel', disposition: 'inline'
+  end
+
+  def api_upload
+    file = CreateTmp.new(src: params[:csv_file],name: 'upload',ext: '.xlsx').create
+    @result = MaterialsParser.new(file: file).load_data
+    response_with_success
   end
 
   # API For prices controller
