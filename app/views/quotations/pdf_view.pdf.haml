@@ -3,8 +3,7 @@
     = wicked_pdf_image_tag('lomax-logo.png',height: '60', width: '180')
   .col-3.offset-9.text-right
     %b= t('quotations.show.titles.quotation_number')
-    %b.text-danger
-      101
+    %b.text-danger=@quotation['id']
   .col-3.offset-9.text-right
     %b= t('quotations.show.titles.quotation.date')
     %b= Date.today.strftime('%d/%m/%Y')
@@ -13,19 +12,229 @@
       %b= t('quotations.show.titles.client.info')
       %br
       %b= t('quotations.show.titles.client.client')
-      = @quotation.client.name
+      = @quotation[:client].name
       %br
       %b= t('quotations.show.titles.client.address')
-      = @quotation.client.address
+      = @quotation[:client].address
       %br
       %b= t('quotations.show.titles.client.nit')
-      = @quotation.client.nit
+      = @quotation[:client].nit
       %br
       %b= t('quotations.show.titles.client.phone')
-      = @quotation.client.phone
-  -if @quotation.quotation_products.length > 0
+      = @quotation[:client].phone
+  -if @quotation[:quotation_products].length > 0
+    - if @quotation['quotation_type'] == 't_comparative'
+      %table.table-striped.table-bordered.mb-3.mt-3
+        %colgroup.width-materials-cm{:span => "2"}
+        %colgroup.width-brands-cm-c{:span => "2"}
+        %colgroup.width-brands-cm-c{:span => "2"}
+        %tr 
+          %td.text-center{:rowspan => "2", :colspan => "2", :scope => "colgroup"}
+            %h4= t('quotations.show.titles.materials') 
+          %th.text-center{:colspan => "2", :scope => "colgroup", :class => "table-dark"} 
+            %b= t('quotations.show.custom_headers.expression')
+          %th.text-center{:colspan => "2", :scope => "colgroup", :class => "table-dark"} 
+            %b= t('quotations.show.custom_headers.expression')
+        %tr
+          %th.text-center{:colspan => "2", :scope => "colgroup"}
+            %b.text-danger= t('quotations.show.brands.t_supranet_only')
+          %th.text-center{:colspan => "2", :scope => "colgroup"}
+            %b.text-danger= t('quotations.show.brands.t_siemon_only')
+        %tr
+          %th.text-center.width-amount-cm.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.headers.amount')
+          %th.text-center.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.headers.material')
+          %th.text-center.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.headers.price')
+          %th.text-center.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.headers.total')
+          %th.text-center.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.headers.price')
+          %th.text-center.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.headers.total')
+        - @quotation[:quotation_products].map do |product|
+          %tr
+            %td.text-center.width-amount-cm{:scope => "row"}= product['amount'].to_i
+            %td= product['material']
+            %td.text-right= product['t_supranet_only_price_with_percent']
+            %td.text-right= product['t_supranet_only_total_with_percent']
+            %td.text-right= product['t_siemon_only_price_with_percent']
+            %td.text-right= product['t_siemon_only_total_with_percent']
+        %tr
+          %th.text-center{:colspan => "2", :scope => "row", :class => "table-dark"}= t('quotations.show.custom_headers.total')
+          %td{:class => "table-dark"}
+          %th.text-right{:class => "table-dark"}= @quotation[:products_totals]['t_supranet_only'][:with_percent]
+          %td{:class => "table-dark"}
+          %th.text-right{:class => "table-dark"}= @quotation[:products_totals]['t_siemon_only'][:with_percent]    
+    - else
+      %table.table-striped.table-bordered.mb-3.mt-3
+        %colgroup.width-materials-cm{:span => "2"}
+        %colgroup.width-brands-cm-s{:span => "2"}
+        -if @quotation['quotation_type'] == 't_simple'
+          %tr 
+            %td.text-center{:colspan => "2", :scope => "colgroup"}
+              %h4= t('quotations.show.titles.materials') 
+            %th.text-center{:colspan => "2", :scope => "colgroup", :class => "table-dark"} 
+              %b= t('quotations.show.custom_headers.expression')
+        -else
+          %tr 
+            %td.text-center{:rowspan => "2", :colspan => "2", :scope => "colgroup"}
+              %h4= t('quotations.show.titles.materials') 
+            %th.text-center{:colspan => "2", :scope => "colgroup", :class => "table-dark"} 
+              %b= t('quotations.show.custom_headers.expression')
+          -if @quotation['quotation_type'] == 't_supranet_only'
+            %tr
+              %th.text-center{:colspan => "2", :scope => "colgroup"}
+                %b.text-danger= t('quotations.show.brands.t_supranet_only')
+          -else
+            %tr
+              %th.text-center{:colspan => "2", :scope => "colgroup"}
+                %b.text-danger= t('quotations.show.brands.t_siemon_only')
+        %tr
+          %th.text-center.width-amount-cm.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.headers.amount')
+          %th.text-center.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.headers.material')
+          %th.text-center.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.headers.price')
+          %th.text-center.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.headers.total')
+        -p @quotation[:quotation_products]
+        -# @quotation[:quotation_products].map do |product|
+          %tr
+            %td.text-center.width-amount-cm{:scope => "row"}= product['amount'].to_i
+            %td= product['material']
+            %td.text-right= product['t_supranet_only_price_with_percent']
+            %td.text-right= product['t_supranet_only_total_with_percent']
+            %td.text-right= product['t_siemon_only_price_with_percent']
+            %td.text-right= product['t_siemon_only_total_with_percent']
+        %tr
+          %th.text-center{:colspan => "2", :scope => "row", :class => "table-dark"}= t('quotations.show.custom_headers.total')
+          %td{:class => "table-dark"}
+          %th.text-right{:class => "table-dark"}= @quotation[:products_totals][:with_percent]    
+        
+    %h5= t('quotations.show.titles.services')
     
-  %h5.text-danger= t('quotations.show.titles.option_a')
-  %h5.text-danger= t('quotations.show.titles.option_b')
-
+    %table.table-striped.table-bordered.mt-3.mb-3
+      %colgroup.width-materials-cm{:span => "2"}
+      %colgroup.width-brands-cm-s{:span => "2"}
+      -if @quotation['quotation_type'] == 't_comparative'
+        %tr 
+          %td.text-center{:rowspan => "2", :colspan => "2", :scope => "colgroup"}
+            %h4.text-danger= t('quotations.show.titles.option_a') 
+          %th.text-center{:colspan => "2", :scope => "colgroup", :class => "table-dark"} 
+            %b= t('quotations.show.custom_headers.expression')
+      -else 
+        %tr 
+          %td.text-center{:rowspan => "2", :colspan => "2", :scope => "colgroup"}
+            %h4.text-danger= t('quotations.show.titles.services') 
+          %th.text-center{:colspan => "2", :scope => "colgroup", :class => "table-dark"} 
+            %b= t('quotations.show.custom_headers.expression')
+      %tr
+        %th.text-center{:colspan => "2", :scope => "colgroup"}
+          %b.text-danger= t('quotations.show.custom_headers.prices')
+      -if @quotation[:quotation_services].length>0
+        %tr
+          %th.text-center.width-amount-cm.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.headers.amount')
+          %th.text-center.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.headers.service')
+          %th.text-center.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.headers.price')
+          %th.text-center.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.headers.total')
+      - @quotation[:quotation_services].map do |service|
+        %tr
+          %td.text-center.width-amount-cm{:scope => "row"}= service['amount'].to_i
+          %td= service['service']
+          %td.text-right= service[:price_with_percent]
+          %td.text-right= service[:total_with_percent]
+      -if @quotation['quotation_type'] == 't_comparative'
+        %tr
+          %th.text-center.width-amount-cm{:scope => "row"} 
+          %td= "#{t('quotations.show.custom_footers.materials')} #{t('quotations.show.brands.t_supranet_only')}"  
+          %td
+          %td.text-right= @quotation[:products_totals]['t_supranet_only'][:with_percent]
+        %tr
+          %th.text-center{:colspan => "2", :scope => "row", :class => "table-dark"}= t('quotations.show.custom_headers.total')
+          %td{:class => "table-dark"}
+          %th.text-right{:class => "table-dark"}= @quotation[:products_totals]['t_supranet_only'][:with_percent]+@quotation[:services_totals][:with_percent]
+      -else
+        %tr
+          %th.text-center.width-amount-cm{:scope => "row"} 
+          %td= "#{t('quotations.show.custom_footers.materials')}"  
+          %td
+          %td.text-right= @quotation[:products_totals][:with_percent]
+        %tr
+          %th.text-center{:colspan => "2", :scope => "row", :class => "table-dark"}= t('quotations.show.custom_headers.total')
+          %td{:class => "table-dark"}
+          %th.text-right{:class => "table-dark"}= @quotation[:products_totals][:with_percent]+@quotation[:services_totals][:with_percent]
     
+    -if @quotation['quotation_type'] == 't_comparative'
+      %table.table-striped.table-bordered.mt-3.mb-3
+        %colgroup.width-materials-cm{:span => "2"}
+        %colgroup.width-brands-cm-s{:span => "2"}
+        %tr 
+          %td.text-center{:rowspan => "2", :colspan => "2", :scope => "colgroup"}
+            %h4.text-danger= t('quotations.show.titles.option_b') 
+          %th.text-center{:colspan => "2", :scope => "colgroup", :class => "table-dark"} 
+            %b= t('quotations.show.custom_headers.expression')
+        %tr
+          %th.text-center{:colspan => "2", :scope => "colgroup"}
+            %b.text-danger= t('quotations.show.custom_headers.prices')
+        -if @quotation[:quotation_services].length>0
+          %tr
+            %th.text-center.width-amount-cm.bg-lomax.text-white{:scope => "colgroup"}
+              %b= t('quotations.show.headers.amount')
+            %th.text-center.bg-lomax.text-white{:scope => "colgroup"}
+              %b= t('quotations.show.headers.service')
+            %th.text-center.bg-lomax.text-white{:scope => "colgroup"}
+              %b= t('quotations.show.headers.price')
+            %th.text-center.bg-lomax.text-white{:scope => "colgroup"}
+              %b= t('quotations.show.headers.total')
+        - @quotation[:quotation_services].map do |service|
+          %tr
+            %td.text-center.width-amount-cm{:scope => "row"}= service['amount'].to_i
+            %td= service['service']
+            %td.text-right= service[:price_with_percent]
+            %td.text-right= service[:total_with_percent]
+        %tr
+          %th.text-center.width-amount-cm{:scope => "row"} 
+          %td= "#{t('quotations.show.custom_footers.materials')} #{t('quotations.show.brands.t_siemon_only')}"  
+          %td
+          %td.text-right= @quotation[:products_totals]['t_siemon_only'][:with_percent]
+        %tr
+          %th.text-center{:colspan => "2", :scope => "row", :class => "table-dark"}= t('quotations.show.custom_headers.total')
+          %td{:class => "table-dark"}
+          %th.text-right{:class => "table-dark"}= @quotation[:products_totals]['t_siemon_only'][:with_percent]+@quotation[:services_totals][:with_percent]
+  -else
+  %h5= t('quotations.show.titles.warranty')
+  %p.text-justify= @quotation['warranty'] 
+  %h5= t('quotations.show.titles.payment_condition')
+  %p.text-justify= @quotation['payment_condition']
+  -if @quotation['quotation_type'] == 't_comparative'
+    .offset-3.text-center
+      %table.table-bordered.mt-3.mb-3
+        %col{:span => "1"}
+        %colgroup{:span => "2"}
+        %tr 
+          %th.width-brands-cm-s.text-center.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.titles.signature')
+          %th.width-brands-cm-s.text-center.bg-lomax.text-white{:colspan => "2", :scope => "colgroup"}
+            %b= t('quotations.show.titles.option')
+        %tr.height-tr
+          %td
+          %td.text-center= t('quotations.show.brands.t_supranet_only')
+          %td.text-center= t('quotations.show.brands.t_siemon_only')
+  -else
+    .offset-4.text-center
+      %table.table-bordered.mt-3.mb-3
+        %col{:span => "1"}
+        %colgroup{:span => "2"}
+        %tr 
+          %th.width-brands-cm-s.text-center.bg-lomax.text-white{:scope => "colgroup"}
+            %b= t('quotations.show.titles.signature')
+        %tr.height-tr
+          %td
+   
