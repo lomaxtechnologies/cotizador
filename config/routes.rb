@@ -27,7 +27,6 @@ Rails.application.routes.draw do
   resources :clients
 
   resources :products, except: [:show]
-  post "products/upload", to: "products#upload", as: "upload"
   get "products/download", to: "products#download_price", as: "download"
   get "products/dashboard", to: "prices#dashboard", as: "dashboard"
 
@@ -45,6 +44,7 @@ Rails.application.routes.draw do
   root to: 'dashboards#index'
 
   scope :api do
+    post "/products/upload", to: "products#api_upload", as: "upload"
     get "/clients", to: "clients#api_index"
     get "/comparative", to: "products#api_comparative"
     get "/simple", to: "products#api_simple"
