@@ -40,7 +40,10 @@ class QuotationsController < ApplicationController
   # PUT /quotations/:id
   def update
     if @quotation.update(quotation_params.merge(user: current_user))
-      response_with_success
+      response_with_success({
+        quotation_services: @quotation.services_ids,
+        quotation_products: @quotation.products_ids
+      })
     else
       errors = @quotation.errors.full_messages
       response_with_error( t('.error'), errors )
@@ -57,7 +60,7 @@ class QuotationsController < ApplicationController
     end
   end
 
-  # GET api/quotations 
+  # GET api/quotations
   def api_index
     response_with_success(Quotation.header_fields.order(:id))
   end

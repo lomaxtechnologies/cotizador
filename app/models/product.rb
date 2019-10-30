@@ -88,7 +88,7 @@ class Product < ApplicationRecord
   end
 
   def self.fields_for_comparative
-    data =[]
+    data = []
     Product.select(:material_id).distinct.each do |product|
       data.push(
         id: product.material_id,
@@ -99,4 +99,19 @@ class Product < ApplicationRecord
     data
   end
 
+  def save
+    if new_record?
+      product_exists = Product.find_by(
+        material_id: material_id,
+        brand_id: brand_id,
+        measure_unit_id: measure_unit_id
+      )
+      if product_exists
+        errors.add(:base, :product_already_exists)
+        false
+      else
+        super
+      end
+    end
+  end
 end

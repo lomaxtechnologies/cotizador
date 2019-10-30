@@ -7,6 +7,10 @@
     = csp_meta_tag
     = stylesheet_link_tag "application", media: "all"
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
+      rel: "stylesheet",
+      integrity: "sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN",
+      crossorigin: "anonymous")
   %body
     .container-fluid
       - if notice || alert
