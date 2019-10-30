@@ -226,7 +226,11 @@
         </template>
         <template v-slot:cell(actions)=data>
           <div class="text-right">
-            <a class="btn btn-warning text-white" v-bind:href=generateShowLink(data.item.id)>
+            <a 
+              class="btn btn-warning text-white"
+              v-bind:href=generateShowLink(data.item.id)
+              v-bind:class="{disabled: data.item.state == 'created'}"
+            >
               <i class="fas fa-eye fa-xs"></i>
             </a>
             <a 

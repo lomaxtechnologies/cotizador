@@ -152,11 +152,23 @@ es:
       attachments_view:
         title: "Attachments"
     show:
+      confirmation_modal:
+        title: ¿Realmente deseas continuar?
+        approve_body: Solo realiza esta opción si el cliente a aprobado la cotización
+        expire_body: Esta cotización expirará automáticamente si no es aprobada luego de 15 días de la fecha de creación, pero si deseas expirarla antes de tiempo, puedes continuar.
+        buttons: 
+          cancel: Cancelar
+          expire: Si, expírala
+          approve: Si, apruébala
       generate_Excel: Generar Excel
+      notifications:
+        quotation_approved: La cotización ha sido aprobada satisfactoriamente
+        quotation_expired: La cotización ha sido expirada satisfactoriamente
       company:
         name: Lomax Technologies,
         address: 25 Avenida 1-89, Zona 15, Vista Hermosa 2, Edificio Insigne, Oficina 711.
         email: info@lomax.com.gt
+        phone: +502 2296-6131
         web_page: http://lomax.com.gt
       anchors:
         return: Regresar
@@ -232,3 +244,4 @@ es:
         t_siemon_only_percent: Holgura
     attachments:
       upload: "Por favor seleccione un archivo"
+      button: "Subir archivo"

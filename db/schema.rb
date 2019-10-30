@@ -151,7 +151,6 @@ ActiveRecord::Schema.define(version: 2019_10_02_172151) do
   end
 
   create_table "quotations", force: :cascade do |t|
-    t.integer "code"
     t.integer "quotation_type"
     t.integer "state", default: 0
     t.date "quotation_date"

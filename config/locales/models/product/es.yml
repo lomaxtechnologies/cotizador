@@ -9,4 +9,7 @@ es:
         brand_id: Marca
         product_price: Precio
         code: Código
-      
+    errors:
+      models:
+        product:
+          product_already_exists: Ya hay un producto registrado con esa marca, unidad de medida y material
