@@ -51,6 +51,24 @@ class Quotation < ApplicationRecord
     end
   end
 
+  def approve
+    if active?
+      accepted!
+    else
+      errors.add(:state, :approve_impossible)
+      false
+    end
+  end
+
+  def expire
+    if active?
+      expired!
+    else
+      errors.add(:state, :expiration_impossible)
+      false
+    end
+  end
+
   # Returns a hash with client information, and detailed products and
   # services information
   def detailed_info
@@ -214,16 +232,15 @@ class Quotation < ApplicationRecord
       p["#{brand_name_tag}_id"] = p["product_id"];
       p["quotation_product_#{brand_name_tag}_id"] = p.delete("id");
 
-      if %w[siemon supranet].include? brand_name
-        # When the brand is siemon or supranet, we push the prices 1 time
+      if grouped_products[id]
+        # If the key exists, one brand is there alredy, so we push only once
         p.each do |key, value|
           new_data[key.to_s.gsub('t_comparative', "t_#{brand_name}_only")] = value
         end
         products_totals["t_#{brand_name}_only"][:without_percent] += p[:t_comparative_total]
         products_totals["t_#{brand_name}_only"][:with_percent] += p[:t_comparative_total_with_percent]
       else
-        # When the brand is not siemon or supranet, we push the prices 2 times,
-        # so it appears in both columns on the views
+        # If it does not exists, we push twice
         %w[t_supranet_only t_siemon_only].each do |name|
           p.each do |key, value|
             new_data[key.to_s.gsub('t_comparative', name)] = value
