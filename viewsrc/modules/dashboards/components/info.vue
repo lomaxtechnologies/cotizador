@@ -22,7 +22,7 @@ export default {
           label: this.translations.components.user
       }, {
           key: 'name',
-          labe: this.translations.components.client
+          label: this.translations.components.client
       }, {
           key: 'date',
           label: this.translations.components.date
