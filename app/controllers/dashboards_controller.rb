@@ -7,16 +7,34 @@ class DashboardsController < ApplicationController
     count_states = Quotation.all.group(:state).count
     response_with_success(count_states)
   end
-  
+  def api_state_expired_soon
+    expired_quotation = Quotation.ransack(
+      state_in: [1],
+      created_at_lteq: 11.days.ago, 
+      created_at_gteq: 15.days.ago).result
+    response_with_success(expired_quotation)
+  end
   def api_info_states
-    count_states = Quotation.all.group(:state, :id)
-    response_with_success(count_states)
+    info_states = Quotation
+    .joins(:user, :client)
+    .joins("inner join user_details ud on ud.user_id = users.id")
+    .order(state: :desc)
+    .select(
+      'quotations.id',
+      'quotations.state',
+      "concat(ud.name, ' ', ud.last_name) as name",
+      'clients.name',
+      "TO_CHAR(quotations.created_at, 'dd/mm/yyyy HH:MI AM') Date"
+
+    )
+
+    response_with_success(info_states)
   end
 
   def api_expired_soon
     expired_quotation = Quotation.ransack(
-      state_in: [0, 1],
-      created_at_lteq: 11.days.ago, 
+      state_in: [1],
+      created_at_lteq: 12.days.ago, 
       created_at_gteq: 15.days.ago).result
     total_expired = expired_quotation.count
     response_with_success(total_expired)

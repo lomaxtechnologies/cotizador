@@ -81,7 +81,7 @@ Rails.application.routes.draw do
       get 'attachments', to: 'dashboards#api_recent_attachments'
       get 'recent_quotations', to: 'dashboards#api_recent_quotations'
       get 'info-states', to: 'dashboards#api_info_states'
-      
+      get 'state-expired-soon', to: 'dashboards#api_state_expired_soon'
     end
   end
 end

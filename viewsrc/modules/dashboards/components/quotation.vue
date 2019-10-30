@@ -48,6 +48,7 @@ export default {
           <b-table striped 
             :fields="table_fields" 
             :items="last_quotations_updated" 
+            v-bind:href="last_quotations_updated" 
             >
           </b-table>
         </div>
