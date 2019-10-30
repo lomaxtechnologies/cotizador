@@ -1,19 +1,36 @@
 .modal#new-price-modal{"aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}  
   .modal-dialog{:role => "document"}
     .modal-content
-      = form_tag upload_path, multipart: true do
+      = form_tag upload_path, multipart: true, id: "excel_form" do
         .modal-header
           %h5.modal-label= t('products.new_modal.title')
           %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
             %span{"aria-hidden" => "true"} &times;
           %div
-        .modal-body
-          = t('products.new_modal.instruction1')
-          %br
-          = t('products.new_modal.instruction2')
-          %br.my-1
-          = file_field_tag :csv_file
-          .modal-footer
-            .text-right
-              = submit_tag t('.import'), class: 'btn btn-primary'
+        .modal-body#new-price-modal-body
+          #new-price-modal-body-main
+            = t('products.new_modal.instruction1')
+            %br
+            = t('products.new_modal.instruction2')
+            %br.my-1
+            = file_field_tag :csv_file, required: true, id: "excel_field"
+          #new-price-modal-body-upload
+            .text-center
+              .text-primary.fa-3x
+                %i.fas.fa-circle-notch.fa-spin
+              %h4= t('products.new_modal.text_upload')
+          #new-price-modal-body-success
+            .text-center
+              .text-success.fa-3x
+                %i.fas.fa-check-circle
+              %h4= t('products.new_modal.text_success')
+          #new-price-modal-body-error
+            .text-center
+              .text-danger.fa-3x
+                %i.fas.fa-exclamation-circle
+              %h4= t('products.new_modal.text_error')
+        .modal-footer
+          .text-right
+            %button{class: 'btn btn-primary', type: "button", onclick: "upload_excel()", id: "submit-excel"}
+              = t('.import')
         

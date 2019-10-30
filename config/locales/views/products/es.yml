@@ -27,6 +27,9 @@ es:
       title: Precios
       instruction1: '1) Seleccione el archivo que desea cargar.'
       instruction2: '2) De click en importar para cargar el archivo.'
+      text_upload: Subiendo Archivo...
+      text_success: Archivo Subido...
+      text_error: Ha Ocurrido un Error al Subir el Archivo...
     dashboard:
       title: Nuevos
       new_material_text: Estos son los nuevos materiales

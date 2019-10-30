@@ -12,7 +12,45 @@ window.show_confirmation_modal = (element)=>{
    $(`#${confirmation_modal.name}`).modal();
 }
 
-const NEW_price_MODAL = 'new-price-modal';
+const NEW_PRICE_MODAL = 'new-price-modal';
 window.show_new_price_modal = (element)=>{
-   $(`#${NEW_price_MODAL}`).modal();
+   $('#submit-excel').attr("disabled", false);
+   show_modal_body(`#${NEW_PRICE_MODAL}-body-main`);
+   $(`#${NEW_PRICE_MODAL}`).modal();
+}
+
+window.show_modal_body = (name)=>{
+   [
+      `#${NEW_PRICE_MODAL}-body-main`,
+      `#${NEW_PRICE_MODAL}-body-upload`,
+      `#${NEW_PRICE_MODAL}-body-success`,
+      `#${NEW_PRICE_MODAL}-body-error`
+   ].forEach((selector)=>{
+      if(name === selector){
+         $(selector).show();
+      }else{
+         $(selector).hide();
+      }
+   });
+}
+
+window.upload_excel = ()=>{
+   var formData = new FormData($('#excel_form')[0]);
+   show_modal_body(`#${NEW_PRICE_MODAL}-body-upload`);
+   $('#submit-excel').attr("disabled", true);
+   $.post({
+      url: '/api/products/upload',
+      data: formData,
+      processData: false,
+      contentType: false
+   }).done(function(result){
+      $(`#${NEW_PRICE_MODAL}`).modal();
+      show_modal_body(`#${NEW_PRICE_MODAL}-body-success`);
+      setTimeout(()=>{
+         location.reload(); 
+      },100);
+   }).fail(function(error){
+      $(`#${NEW_PRICE_MODAL}`).modal();
+      show_modal_body(`#${NEW_PRICE_MODAL}-body-error`);
+   });
 }
