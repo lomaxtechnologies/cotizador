@@ -20,7 +20,9 @@
         quotations: [],
         filters:{
           id: '',
-          quotation_date: ''
+          quotation_initial_date: '',
+          quotation_final_date: this.date.today(),
+          state: ''
         }
       }
     },
@@ -34,7 +36,7 @@
 
       filteredQuotations: function(){
         var filtered_quotations = this.quotations.filter((quotation)=>{
-          return String(quotation.id+100).includes(this.filters.id) && quotation.quotation_date.includes(this.filters.quotation_date);
+          return String(quotation.id).includes(this.filters.id) && quotation.quotation_date>=this.filters.quotation_initial_date && quotation.quotation_date<=this.filters.quotation_final_date;
         });
         this.config.rows = filtered_quotations.length;
         this.config.current_page = 1;
@@ -159,7 +161,7 @@
                 </div>
               </div>
               <div class="form-row">
-                <div class="col-3">
+                <div class="col-2">
                   <b class="color-search-title">
                     {{translations.index.search_fields.titles.code}}
                   </b>
@@ -170,15 +172,26 @@
                     <b-input v-model=filters.id></b-input>
                   </div>
                 </div>
-                <div class="col-3">
+                <div class="col-2">
                   <b class="color-search-title">
-                    {{translations.index.search_fields.titles.date}}
+                    {{translations.index.search_fields.titles.date_initial}}
                   </b>
                   <div class="input-group-prepend">
                     <div class="input-group-text">
                       <i class="fas fa-calendar"></i>
                     </div>
-                    <b-input v-model=filters.quotation_date type="date"></b-input>
+                    <b-input v-model=filters.quotation_initial_date type="date"></b-input>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <b class="color-search-title">
+                    {{translations.index.search_fields.titles.date_final}}
+                  </b>
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <i class="fas fa-calendar"></i>
+                    </div>
+                    <b-input v-model=filters.quotation_final_date type="date"></b-input>
                   </div>
                 </div>
                 <div class="col-2 offset-4 text-right button-margin-top">
@@ -213,7 +226,7 @@
           </div>
         </template>
         <template v-slot:cell(id)=data>
-          {{data.item.id+100}}
+          {{data.item.id}}
         </template>
         <template v-slot:cell(quotation_type)=data>
           {{translations.types[data.item.quotation_type]}}
@@ -222,7 +235,7 @@
           {{translations.states[data.item.state]}}
         </template>
         <template v-slot:cell(quotation_date)=data>
-          {{date.toLocalFormat(data.item.quotation_date)}}
+          {{date.toLocalFormat(data.value)}}
         </template>
         <template v-slot:cell(actions)=data>
           <div class="text-right">

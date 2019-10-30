@@ -142,6 +142,30 @@ class QuotationsController < ApplicationController
     return send_data workbook, filename: filename, type: 'application/excel', disposition: 'inline'
   end
 
+  def generate_pdf
+    @quotation = Quotation.find(params[:id]).detailed_info
+    pdf = WickedPdf.new.pdf_from_string(
+      render_to_string(
+        'quotations/pdf_view.pdf.haml', 
+        layout: 'pdf_layout.html.haml'),
+      header: {
+        content: render_to_string(
+          'quotations/pdf_header.pdf.haml',
+          layout: 'pdf_layout.html.haml'
+        )
+      },
+      footer: {
+        content: render_to_string(
+          'quotations/pdf_footer.pdf.haml',
+          layout: 'pdf_layout.html.haml'
+        )
+      }
+    )
+    client = @quotation[:client].name
+    filename = Date.today.strftime("%Y%m%d")+"-"+@quotation['id'].to_s+"-"+client+".pdf"
+    send_data pdf, filename: filename
+  end
+
   private
 
   def quotation_params

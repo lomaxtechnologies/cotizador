@@ -36,7 +36,7 @@ Rails.application.routes.draw do
 
   resources :quotations
   get "/quotations/:id/excel", to: "quotations#generate_excel"
-
+  get "/quotations/:id/pdf", to: "quotations#generate_pdf"
   resources :dashboards
 
   resources :comments

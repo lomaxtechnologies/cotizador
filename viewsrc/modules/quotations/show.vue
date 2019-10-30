@@ -63,6 +63,9 @@
       generateExcel: function(){
         window.open(`/quotations/${this.$route.params.id}/excel`,"_self");
       },
+      generatePDF: function(){
+        window.open(`/quotations/${this.$route.params.id}/pdf`,"_self");
+      },
       approveQuotation: function(){
         this.http
         .put(`/api/quotations/${this.quotation_id}/approve`)
@@ -151,8 +154,12 @@
             {{translations.buttons.expire}}
           </b-button>
           <b-button v-if="!stateCreated" variant="primary" class="text-white" v-on:click="generateExcel">
-            <i class="fas fa-file"></i>
+            <i class="fas fa-file-excel"></i>
             {{this.translations.generate_Excel}}
+          </b-button>
+          <b-button v-if="!stateCreated" variant="dark" class="text-white" v-on:click="generatePDF">
+            <i class="fas fa-download"></i>
+            {{this.translations.generate_PDF}}
           </b-button>
           <b-button v-if="stateApproved||stateExpired" variant="warning" class="text-white">
             <i class="fas fa-redo"></i>
