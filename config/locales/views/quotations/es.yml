@@ -38,7 +38,9 @@ es:
       search_fields:
         titles:
           code: Código de la Cotización
-          date: Fecha
+          date_initial: Fecha Inicial
+          date_final: Fecha Final
+          state: Estado
     new_edit:
       anchors:
         return: Regresar

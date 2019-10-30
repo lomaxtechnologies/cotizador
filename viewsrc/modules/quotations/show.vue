@@ -154,10 +154,10 @@
             {{translations.buttons.expire}}
           </b-button>
           <b-button v-if="!stateCreated" variant="primary" class="text-white" v-on:click="generateExcel">
-            <i class="fas fa-file"></i>
+            <i class="fas fa-file-excel"></i>
             {{this.translations.generate_Excel}}
           </b-button>
-          <b-button v-if="!stateCreated" variant="primary" class="text-white" v-on:click="generatePDF">
+          <b-button v-if="!stateCreated" variant="dark" class="text-white" v-on:click="generatePDF">
             <i class="fas fa-download"></i>
             {{this.translations.generate_PDF}}
           </b-button>
