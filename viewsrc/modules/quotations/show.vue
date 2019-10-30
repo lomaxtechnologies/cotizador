@@ -64,7 +64,7 @@
         window.open(`/quotations/${this.$route.params.id}/excel`,"_self");
       },
       generatePDF: function(){
-        window.open(`/quotations/${this.$route.params.id}/excel`,"_self");
+        window.open(`/quotations/${this.$route.params.id}/pdf`,"_self");
       },
       approveQuotation: function(){
         this.http

@@ -34,7 +34,7 @@
 
       filteredQuotations: function(){
         var filtered_quotations = this.quotations.filter((quotation)=>{
-          return String(quotation.id+100).includes(this.filters.id) && quotation.quotation_date.includes(this.filters.quotation_date);
+          return String(quotation.id).includes(this.filters.id) && quotation.quotation_date.includes(this.filters.quotation_date);
         });
         this.config.rows = filtered_quotations.length;
         this.config.current_page = 1;
@@ -213,7 +213,7 @@
           </div>
         </template>
         <template v-slot:cell(id)=data>
-          {{data.item.id+100}}
+          {{data.item.id}}
         </template>
         <template v-slot:cell(quotation_type)=data>
           {{translations.types[data.item.quotation_type]}}

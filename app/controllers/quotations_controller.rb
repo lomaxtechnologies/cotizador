@@ -144,23 +144,26 @@ class QuotationsController < ApplicationController
 
   def generate_pdf
     @quotation = Quotation.find(params[:id]).detailed_info
-    respond_to do |format|
-      format.html
-      format.pdf do
-        render pdf: "prueba",
-        template:'quotations/pdf_view.pdf.haml', 
-        layout: 'pdf_layout.html.haml',
-        footer: {
-          html:{
-            template: 'quotations/pdf_footer.pdf.haml',
-            layout: 'pdf_layout.html.haml'
-          }
-        }
-      end
-    end
-    #pdf_html = ActionController::Base.new.render_to_string(template: 'quotations/pdf_view.pdf.haml', layout: 'pdf_layout.html.haml')
-    #pdf = WickedPdf.new.pdf_from_string(pdf_html)
-    #send_data pdf, filename: 'prueba.pdf'
+    pdf = WickedPdf.new.pdf_from_string(
+      render_to_string(
+        'quotations/pdf_view.pdf.haml', 
+        layout: 'pdf_layout.html.haml'),
+      header: {
+        content: render_to_string(
+          'quotations/pdf_header.pdf.haml',
+          layout: 'pdf_layout.html.haml'
+        )
+      },
+      footer: {
+        content: render_to_string(
+          'quotations/pdf_footer.pdf.haml',
+          layout: 'pdf_layout.html.haml'
+        )
+      }
+    )
+    client = @quotation[:client].name
+    filename = Date.today.strftime("%Y%m%d")+"-"+@quotation['id'].to_s+"-"+client+".pdf"
+    send_data pdf, filename: filename
   end
 
   private

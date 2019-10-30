@@ -129,20 +129,39 @@ body{
   filter: alpha(opacity=20);
 }
 
-.width-materials-cm{
+.width-materials{
   width: 10cm;
 }
-.width-brands-cm-c{
+.width-brands-c{
   width: 3cm;
 }
-.width-amount-cm{
+.width-amount{
   width: 1cm;
 }
-.width-brands-cm-s{
+.width-brand{
+  width: 2cm;
+}
+.width-brands-s{
   width: 6cm;
 }
-
+.width-brands{
+  width: 5cm;
+}
+.width-materials-brand{
+  width: 11cm;
+}
 .height-tr{
   height: 2cm;
 }
 
+.bg-signature{
+  background-color: #b6b6b6;
+}
+
+td div, th div{
+  page-break-inside: avoid;
+}
+
+.pagebreak{
+  page-break-inside: avoid;
+}
