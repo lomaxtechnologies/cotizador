@@ -8,18 +8,6 @@ class DashboardsController < ApplicationController
     response_with_success(count_states)
   end
   def api_state_expired_soon
-    #expired_quotation = Quotation
-    #.joins(:user, :client)
-    #.joins("inner join user_details ud
-    #  on ud.user_id = users.id")
-    #.where(state:[1])
-    #.order(id: :desc)
-    #.select(
-    #  'quotations.id',
-    #  "TO_CHAR(quotations.created_at, 'dd/mm/yyyy HH:MI AM') Date",
-    #  'clients.name',
-    #  "concat(ud.name, ' ', ud.last_name) as name_user",
-    #)
     expired_quotation = Quotation.ransack(
       state_in: [1],
       created_at_lteq: 12.days.ago,
@@ -50,7 +38,7 @@ class DashboardsController < ApplicationController
                  .select(
                    'quotations.id',
                    'quotations.state',
-                   "concat(ud.name, ' ', ud.last_name) as name_user",
+                   "concat(ud.name) as name_user",
                    'clients.name',
                    "TO_CHAR(quotations.quotation_date, 'dd/mm/yyyy') Date"
                  )
@@ -104,7 +92,7 @@ class DashboardsController < ApplicationController
   def api_recent_quotations
     last_quotations_updated = Quotation.order(updated_at: "desc").limit(5).map {|quotation| 
       quotation.attributes.merge({
-        user: quotation.user.user_detail.name,
+        user: quotation.user.user_detail.name, 
         client: quotation.client.name,
         quotation: quotation.id,
         date: quotation.created_at

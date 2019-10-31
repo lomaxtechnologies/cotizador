@@ -226,28 +226,23 @@
   %p.text-justify= @quotation['warranty'] 
   %h4= t('quotations.show.titles.payment_condition')
   %p.text-justify= @quotation['payment_condition']
+  %br
   -if @quotation['quotation_type'] == 't_comparative'
     .offset-3.text-center.pagebreak
-      %table.table-bordered.mt-3
-        %col{:span => "1"}
-        %colgroup{:span => "2"}
-        %tr 
-          %th.width-brands-s.text-center.bg-signature{:scope => "colgroup"}
-            %b= t('quotations.show.titles.signature')
-          %th.width-brands-s.text-center.bg-signature{:colspan => "2", :scope => "colgroup"}
-            %b= t('quotations.show.titles.option')
-        %tr.height-tr
-          %td
-          %td.align-top= t('quotations.show.brands.t_supranet_only')
-          %td.align-top= t('quotations.show.brands.t_siemon_only')
+    %br
+    %hr{:color => "black", :width => "35%"}/
+    %center
+      %b= t('quotations.show.titles.signature')
+      %br
+      %table
+        %tr
+          %th 
+            %b= "#{t('quotations.show.titles.option')}:"
+          %th
+            %b=t('quotations.show.titles.option_a_b')
   -else
     .offset-4.text-center.pagebreak
-      %table.table-bordered.mt-3
-        %col{:span => "1"}
-        %colgroup{:span => "2"}
-        %tr 
-          %th.width-brands-s.text-center.bg-signature{:scope => "colgroup"}
-            %b= t('quotations.show.titles.signature')
-        %tr.height-tr
-          %td
-   
+    %hr{:color => "black", :width => "35%"}/
+    %center
+      %b= t('quotations.show.titles.signature')
+      
