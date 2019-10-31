@@ -64,7 +64,7 @@ class QuotationsController < ApplicationController
 
   # GET api/quotations
   def api_index
-    response_with_success(Quotation.header_fields.order(:id))
+    response_with_success(Quotation.header_fields.order(id: "desc"))
   end
 
   # GET /api/quotations/types
@@ -74,6 +74,15 @@ class QuotationsController < ApplicationController
       quotation_types.push(value: key, text: t( ".#{key}" ))
     end
     response_with_success(quotation_types)
+  end
+
+  # GET /api/quotations/states
+  def api_states
+    quotation_states = []
+    Quotation.states.each do |key, _value|
+      quotation_states.push(value: key, text: t( ".#{key}" ))
+    end
+    response_with_success(quotation_states)
   end
 
   # GET /api/quotations/:id/type
