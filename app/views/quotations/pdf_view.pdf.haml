@@ -122,7 +122,7 @@
     %h4= t('quotations.show.titles.services')
     
     %table.table-striped.table-bordered.mt-3.mb-3
-      %colgroup.width-details{:span => "2"}
+      %colgroup.width-services{:span => "2"}
       %colgroup{:span => "2"}
       -if @quotation['quotation_type'] == 't_comparative'
         %tr 
@@ -211,8 +211,7 @@
           %td.text-right= number_to_currency_gt(@quotation[:products_totals]['t_siemon_only'][:with_percent])
         %tr
           %th.text-center{:colspan => "2", :scope => "row", :class => "table-dark"}= t('quotations.show.custom_headers.total')
-          %td{:class => "table-dark"}
-          %th.text-right{:class => "table-dark"}= number_to_currency_gt(@quotation[:products_totals]['t_siemon_only'][:with_percent]+@quotation[:services_totals][:with_percent])
+          %th.text-right{:colspan => "2",:class => "table-dark"}= number_to_currency_gt(@quotation[:products_totals]['t_siemon_only'][:with_percent]+@quotation[:services_totals][:with_percent])
   -else
     %table.table-striped.table-bordered.mt-3.mb-3
       %colgroup.width-details{:span => "2"}
@@ -243,8 +242,7 @@
           %td.text-right= number_to_currency_gt(service[:total_with_percent])
       %tr
         %th.text-center{:colspan => "2", :scope => "row", :class => "table-dark"}= t('quotations.show.custom_headers.total')
-        %td{:class => "table-dark"}
-        %th.text-right{:class => "table-dark"}= number_to_currency_gt(@quotation[:services_totals][:with_percent])
+        %th.text-right{:colspan => "2", :class => "table-dark"}= number_to_currency_gt(@quotation[:services_totals][:with_percent])
   %h4= t('quotations.show.titles.warranty')
   %p.text-justify= @quotation['warranty'] 
   %h4= t('quotations.show.titles.payment_condition')

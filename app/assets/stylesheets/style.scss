@@ -166,10 +166,6 @@ body{
   width: 21cm;
 }
 
-.bg-signature{
-  background-color: #b6b6b6;
-}
-
 td div, th div{
   page-break-inside: avoid;
 }
@@ -182,3 +178,35 @@ td div, th div{
   padding-left: 15px;
   padding-right: 15px;
 }
+
+@font-face {
+  font-family: 'Optima';
+  font-style: normal;
+  font-weight: normal;
+  src: url('OPTIMA.woff') format('woff');
+  }
+  
+  
+@font-face {
+  font-family: 'Optima Italic';
+  font-style: normal;
+  font-weight: normal;
+  src: url('Optima_Italic.woff') format('woff');
+}
+
+
+@font-face {
+  font-family: 'Optima Medium';
+  font-style: normal;
+  font-weight: normal;
+  src: url('Optima Medium.woff') format('woff');
+}
+
+
+@font-face {
+  font-family: 'Optima Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: url('OPTIMA_B.woff') format('woff');
+}
+
