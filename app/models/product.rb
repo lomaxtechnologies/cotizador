@@ -73,7 +73,7 @@ class Product < ApplicationRecord
   def self.fields_for_simple
     data = []
     Product.all.each do |product|
-      name = format_name(product)
+      name = Product.format_name(product)
       data.push(
         id: product.id,
         name: name,
@@ -92,7 +92,7 @@ class Product < ApplicationRecord
   def self.fields_for_comparative
     data = []
     Product.select(:material_id, :measure_unit_id).distinct.each do |product|
-      name = format_name(product)
+      name = Product.format_name(product)
       data.push(
         id: product.material_id,
         name: name
@@ -118,7 +118,7 @@ class Product < ApplicationRecord
 
   private
   # Formats the name of the product to add measure unit, material and description
-  def format_name(product)
+  def self.format_name(product)
     measure_unit_name = ''
     unless product.measure_unit.is_unit?
       measure_unit_name = "#{product.measure_unit.name.pluralize} #{I18n.t('of')} "
