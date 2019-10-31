@@ -129,8 +129,11 @@ body{
   filter: alpha(opacity=20);
 }
 
-.width-materials{
-  width: 10cm;
+.width-details{
+  width: 15cm;
+}
+.width-services{
+  width: 17cm;
 }
 .width-brands-c{
   width: 3cm;
@@ -153,6 +156,15 @@ body{
 .height-tr{
   height: 2cm;
 }
+.ht-header{
+  height: 2cm;
+}
+.ht-tr{
+  line-height: 15px;
+}
+.wd-td-header{
+  width: 21cm;
+}
 
 .bg-signature{
   background-color: #b6b6b6;
@@ -164,4 +176,9 @@ td div, th div{
 
 .pagebreak{
   page-break-inside: avoid;
+}
+
+.pd{
+  padding-left: 15px;
+  padding-right: 15px;
 }

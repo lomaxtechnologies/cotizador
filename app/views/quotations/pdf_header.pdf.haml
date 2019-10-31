@@ -1,2 +1,30 @@
-= wicked_pdf_image_tag('lomax-logo.png',height: '60', width: '180')
-  
+.header{style: "display:none"}
+  %table
+    %tr
+      %td.wd-td-logo{:rowspan => "5"}= wicked_pdf_image_tag('lomax-logo.png',height: '60', width: '180')
+      %td.wd-td-header.text-right
+        %h3
+          %b= t('quotations.show.titles.quotation_number')
+          %b.text-danger=@quotation['id']
+    %tr.ht-tr
+    %tr.ht-tr
+    %tr.ht-tr
+    %tr.ht-tr
+      %td.wd-td-header.text-right
+        %b= "#{t('quotations.show.titles.quotation.date')} #{Date.today.strftime('%d/%m/%Y')}"
+        %br
+        %b= t('quotations.show.titles.validates')
+.other{style: "display:block"}
+  %table
+    %tr
+      %td.wd-td-logo= wicked_pdf_image_tag('lomax-logo.png',height: '60', width: '180')
+:javascript
+  var headerCheck = function() {
+    var x=document.location.search.substring(1).split('&');
+    for (var i in x) {
+      if(x[i] == "page=1"){
+        document.getElementsByClassName("header")[0].style.display = "block";
+        document.getElementsByClassName("other")[0].style.display = "none";
+      }
+    }
+  }();

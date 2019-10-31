@@ -196,6 +196,7 @@ es:
         materials: Materiales
         not_used: --
       titles:
+        validates: 'Validez: 15 días'
         address: Dirección
         email: Correo Electónico
         web_page: Sitio Web
