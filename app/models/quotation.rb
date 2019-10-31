@@ -229,12 +229,19 @@ class Quotation < ApplicationRecord
       unit_price_with_percent = (unit_price * (1 + percent / 100)).round(2)
       total_with_percent = unit_price_with_percent * amount
 
+      # We add the measure unit only if it is not 'Unit'
+      measure_unit_name = ''
+      unless product.measure_unit.is_unit?
+        measure_unit_name = "#{product.measure_unit.name.pluralize} #{I18n.t('of')} "
+      end
+      material_name = "#{measure_unit_name}#{material.name} #{material.description}"
+
       # Pushing results to the hash
       data[:quotation_products].push(quotation_product.attributes.merge(
         code: product.code,
         measure_unit_id: product.measure_unit.id,
         material_id: material.id,
-        material: "#{material.name} #{material.description}",
+        material: material_name,
         brand: product.brand.name,
         deleted_at: product.deleted_at,
         "#{quotation_type}_percent": percent,

@@ -6,7 +6,9 @@ class Service < ApplicationRecord
   paginates_per 10
 
   # Returns all the services, but only the id, name description and price
-  scope :fields_for_quotation, -> {select(:id, :name, :description, :price).all}
+  scope :fields_for_quotation, -> {
+    select(:id, "concat(name, ' ', description) as name", :price).all.order(name: 'asc',description: 'asc')
+  }
 
   def save
     if name_changed? && Service.exists?(name: name, deleted_at: nil)

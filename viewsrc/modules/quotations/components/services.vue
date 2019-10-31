@@ -29,7 +29,7 @@
     },
 
     mounted() {
-      this.getService();
+      this.getServices();
       this.setTableHeaders();
       this.getQuotationServices();
     },
@@ -53,7 +53,7 @@
         }
       },
 
-      getService() {
+      getServices() {
         this.http
         .get('/api/services')
         .then((response)=>{
@@ -161,7 +161,7 @@
   <div>
     <b-form @submit=addService>
       <b-form-row>
-        <div class="col-4">
+        <div class="col-10">
           <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.service}} </label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -177,6 +177,12 @@
             >
             </b-form-select>
           </div>
+        </div>
+        <div class="col-2">
+          <label class="mb-0 text-primary font-weight-bold">&nbsp;</label>
+            <button class="btn btn-primary btn-block" type="submit">
+              {{translations.buttons.add_service}}
+            </button>
         </div>
         <div class="col-2">
           <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.price}} </label>
@@ -210,12 +216,6 @@
               </div>
             <b-form-input type="number" step="0.01" v-model=form_fields.percent></b-form-input>
           </div>
-        </div>
-        <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold">&nbsp;</label>
-            <button class="btn btn-primary btn-block" type="submit">
-              {{translations.buttons.add_service}}
-            </button>
         </div>
       </b-form-row>
     </b-form>
