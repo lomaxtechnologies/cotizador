@@ -7,8 +7,9 @@ Instalation steps:
 ```bash
 sudo service nginx stop
 git pull origin master
+bundle install
 rails assets:clean
 rails db:migrate
-rails assets:precompile RAIS_ENV=production
+rails assets:precompile RAILS_ENV=production
 sudo service nginx restart
 ```

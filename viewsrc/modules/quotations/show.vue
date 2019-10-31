@@ -219,12 +219,11 @@
             <i class="fas fa-file-excel"></i>
             {{this.translations.generate_Excel}}
           </b-button>
-          <b-button :disabled="!stateApproved&&!stateExpired" variant="warning" class="text-white" v-on:click="confirmDuplicate">
           <b-button :disabled="stateCreated" variant="dark" class="text-white" v-on:click="generatePDF">
             <i class="fas fa-download"></i>
             {{this.translations.generate_PDF}}
           </b-button>
-          <b-button v-if="stateApproved||stateExpired" variant="warning" class="text-white">
+          <b-button :disabled="!stateApproved&&!stateExpired" variant="warning" class="text-white" v-on:click="confirmDuplicate">
             <i class="fas fa-redo"></i>
             {{translations.buttons.regenerate}}
           </b-button>
