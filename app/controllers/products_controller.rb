@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
 
   def index
     @search = Product.ransack(search_params)
-    @products = @search.result.includes(:material, :price).order('code ASC')
+    @products = @search.result.includes(:material, :price).order(code: 'asc')
     @page_size = params.fetch(:page_size, 10)
     @products = @products.page(params[:page]).per(@page_size)
   end
