@@ -113,9 +113,8 @@
           this.hideConfirmationModal();
           if(response.successful){
             this.alert(this.translations.notifications.quotation_cloned,'success');
-            this.$router.push(`/index`);
-            /*location.href = '#/100/show';
-            location.reload()*/
+            window.location.href = `#/${response.data.quotation_id}/show`;
+            window.location.reload();
           }else{
             this.handleError(response.error);
           }
@@ -130,7 +129,8 @@
           this.hideConfirmationModal();
           if(response.successful){
             this.alert(this.translations.notifications.quotation_duplicated,'success');
-            this.$router.push(`/index`);
+            window.location.href = `#/${response.data.quotation_id}/edit`;
+            window.location.reload();
           }else{
             this.handleError(response.error);
           }

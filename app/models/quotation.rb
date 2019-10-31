@@ -121,7 +121,17 @@ class Quotation < ApplicationRecord
     new_quotation.quotation_date = Date.today.to_s
     quotation_services.each do |quotation_service|
       new_quotation_service = quotation_service.dup
-      new_quotation.quotation_services << new_quotation_service
+      # Retrieving the service associated with the quotation to be duplicated
+      old_service = Service.with_deleted.find_by(id: new_quotation_service.service_id)
+      # Retrieving the most recent service with that name and description
+      new_service = Service.find_by(name: old_service.name, description: old_service.description)
+      if(new_service)
+        new_quotation_service.service = new_service
+        new_quotation.quotation_services << new_quotation_service
+      else
+        errors.add(:base, :service_does_not_exist)
+        break
+      end
     end
     quotation_products.each do |quotation_product|
       new_quotation_product = quotation_product.dup

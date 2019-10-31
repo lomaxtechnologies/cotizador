@@ -183,14 +183,19 @@ class QuotationsController < ApplicationController
   # Duplicates a quotation and changes the user and state
   def duplicate_quotation(state, error_message)
     new_quotation = @quotation.clone_and_update
-    new_quotation.user = current_user
-    new_quotation.state = state
-    new_quotation.save
-    if new_quotation.errors.any?
-      errors = new_quotation.errors.full_messages
+    if @quotation.errors.any?
+      errors = @quotation.errors.full_messages
       response_with_error( error_message, errors )
     else
-      response_with_success
+      new_quotation.user = current_user
+      new_quotation.state = state
+      new_quotation.save
+      if new_quotation.errors.any?
+        errors = new_quotation.errors.full_messages
+        response_with_error( error_message, errors )
+      else
+        response_with_success({quotation_id: new_quotation.id})
+      end
     end
   end
 

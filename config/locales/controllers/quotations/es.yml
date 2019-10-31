@@ -6,6 +6,10 @@ es:
       error: Ha ocurrido un error al actualizar la cotización
     destroy:
       error: Ha ocurrido un error al eliminar la cotización
+    api_clone:
+      error: Ha ocurrido un error al clonar la cotización
+    api_duplicate:
+      error: Ha ocurrido un error al duplicar la cotización
     api_types:
       t_comparative: Comparativa
       t_siemon_only: Solo Siemon
