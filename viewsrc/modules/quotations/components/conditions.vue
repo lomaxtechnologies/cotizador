@@ -1,4 +1,6 @@
 <script type="text/javascript">
+  import richTextEditor from "./editor.vue";
+
   export default {
 
     props:{
@@ -10,6 +12,10 @@
         type:Number,
         default: null
       }
+    },
+
+    components: {
+      "rich-text-editor": richTextEditor
     },
 
     data(){
@@ -77,6 +83,11 @@
         <div class="col-12 mb-3">
           <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.warranty}} </label>
           <b-textarea v-model=quotation.warranty></b-textarea>
+        </div>
+        <div class="col-12 mb-3">
+          <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.warranty}} </label>
+          <rich-text-editor>
+          </rich-text-editor>
         </div>
         <div class="col-2 offset-10 mb-3">
           <b-button variant="primary" block type="submit">
