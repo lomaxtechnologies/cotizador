@@ -16,7 +16,7 @@
   -if @quotation[:quotation_products].length > 0
     - if @quotation['quotation_type'] == 't_comparative'
       %table.table-striped.table-bordered.mb-3.mt-3
-        %colgroup.width-details{:span => "2"}
+        %colgroup.width-details-comparative{:span => "2"}
         %colgroup{:span => "2"}
         %colgroup{:span => "2"}
         %tr 
@@ -60,16 +60,19 @@
       %table.table-striped.table-bordered.mb-3.mt-3
         -if @quotation['quotation_type'] == 't_simple'
           %colgroup.width-details{:span => "3"}
-          %colgroup{:span => "2"}
+          %colgroup.width-brand{:span => "2"}
         -else
-          %colgroup.width-details{:span => "2"}
+          %colgroup.width-details-simple{:span => "2"}
           %colgroup{:span => "2"}
         -if @quotation['quotation_type'] == 't_simple'
           %tr 
-            %td.text-center{:colspan => "3", :scope => "colgroup"}
+            %td.text-center{:rowspan => "2", :colspan => "3", :scope => "colgroup"}
               %h4= t('quotations.show.titles.materials') 
-            %th.text-center{:colspan => "2", :scope => "colgroup", :class => "table-dark"} 
+            %th.text-center{:colspan => "3", :scope => "colgroup", :class => "table-dark"} 
               %b= t('quotations.show.custom_headers.expression')
+            %tr
+              %th.text-center{:colspan => "3", :scope => "colgroup"}
+                %b.text-danger= t('quotations.show.custom_headers.prices')
         -else
           %tr 
             %td.text-center{:rowspan => "2", :colspan => "2", :scope => "colgroup"}
@@ -103,8 +106,8 @@
               %td.width-brand.text-center= product[:brand]
             %td= product[:material]
             -if @quotation['quotation_type'] == 't_simple'
-              %td.text-right= number_to_currency_gt(product[:t_simple_price_with_percent])
-              %td.text-right= number_to_currency_gt(product[:t_simple_total_with_percent])
+              %td.text-right.width-money-cell= number_to_currency_gt(product[:t_simple_price_with_percent])
+              %td.text-right.width-money-cell= number_to_currency_gt(product[:t_simple_total_with_percent])
             -elsif @quotation['quotation_type'] == 't_supranet_only'
               %td.text-right= number_to_currency_gt(product[:t_supranet_only_price_with_percent])
               %td.text-right= number_to_currency_gt(product[:t_supranet_only_total_with_percent])
@@ -116,14 +119,13 @@
             %th.text-center{:colspan => "3", :scope => "row", :class => "table-dark"}= t('quotations.show.custom_headers.total')
           -else
             %th.text-center{:colspan => "2", :scope => "row", :class => "table-dark"}= t('quotations.show.custom_headers.total')
-          %td{:class => "table-dark"}
-          %th.text-right{:class => "table-dark"}= number_to_currency_gt(@quotation[:products_totals][:with_percent])    
+          %th.text-right{:colspan => "2", :class => "table-dark"}= number_to_currency_gt(@quotation[:products_totals][:with_percent])    
         
     %h4= t('quotations.show.titles.services')
     
     %table.table-striped.table-bordered.mt-3.mb-3
       %colgroup.width-services{:span => "2"}
-      %colgroup{:span => "2"}
+      %colgroup.width-brand{:span => "2"}
       -if @quotation['quotation_type'] == 't_comparative'
         %tr 
           %td.text-center{:rowspan => "2", :colspan => "2", :scope => "colgroup"}
@@ -153,8 +155,8 @@
         %tr
           %td.text-center.width-amount{:scope => "row"}= service['amount'].to_i
           %td= service['service']
-          %td.text-right= number_to_currency_gt(service[:price_with_percent])
-          %td.text-right= number_to_currency_gt(service[:total_with_percent])
+          %td.text-right.width-money-cell= number_to_currency_gt(service[:price_with_percent])
+          %td.text-right.width-money-cell= number_to_currency_gt(service[:total_with_percent])
       -if @quotation['quotation_type'] == 't_comparative'
         %tr
           %th.text-center.width-amount{:scope => "row"} 
@@ -163,8 +165,7 @@
           %td.text-right= number_to_currency_gt(@quotation[:products_totals]['t_supranet_only'][:with_percent])
         %tr
           %th.text-center{:colspan => "2", :scope => "row", :class => "table-dark"}= t('quotations.show.custom_headers.total')
-          %td{:class => "table-dark"}
-          %th.text-right{:class => "table-dark"}= number_to_currency_gt(@quotation[:products_totals]['t_supranet_only'][:with_percent]+@quotation[:services_totals][:with_percent])
+          %th.text-right{:colspan => "2", :class => "table-dark"}= number_to_currency_gt(@quotation[:products_totals]['t_supranet_only'][:with_percent]+@quotation[:services_totals][:with_percent])
       -else
         %tr
           %th.text-center.width-amount{:scope => "row"} 
@@ -173,12 +174,11 @@
           %td.text-right= number_to_currency_gt(@quotation[:products_totals][:with_percent])
         %tr
           %th.text-center{:colspan => "2", :scope => "row", :class => "table-dark"}= t('quotations.show.custom_headers.total')
-          %td{:class => "table-dark"}
-          %th.text-right{:class => "table-dark"}= number_to_currency_gt(@quotation[:products_totals][:with_percent]+@quotation[:services_totals][:with_percent])
+          %th.text-right{:colspan => "2",:class => "table-dark"}= number_to_currency_gt(@quotation[:products_totals][:with_percent]+@quotation[:services_totals][:with_percent])
     
     -if @quotation['quotation_type'] == 't_comparative'
       %table.table-striped.table-bordered.mt-3.mb-3
-        %colgroup.width-details{:span => "2"}
+        %colgroup.width-services{:span => "2"}
         %colgroup{:span => "2"}
         %tr 
           %td.text-center{:rowspan => "2", :colspan => "2", :scope => "colgroup"}
@@ -202,8 +202,8 @@
           %tr
             %td.text-center.width-amount{:scope => "row"}= service['amount'].to_i
             %td= service['service']
-            %td.text-right= number_to_currency_gt(service[:price_with_percent])
-            %td.text-right= number_to_currency_gt(service[:total_with_percent])
+            %td.text-right.width-money-cell= number_to_currency_gt(service[:price_with_percent])
+            %td.text-right.width-money-cell= number_to_currency_gt(service[:total_with_percent])
         %tr
           %th.text-center.width-amount{:scope => "row"} 
           %td= "#{t('quotations.show.custom_footers.materials')} #{t('quotations.show.brands.t_siemon_only')}"  

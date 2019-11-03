@@ -130,28 +130,25 @@ body{
 }
 
 .width-details{
+  width: 13cm;
+}
+.width-details-comparative{
+  width: 12cm;
+}
+.width-details-simple{
   width: 15cm;
 }
 .width-services{
-  width: 17cm;
-}
-.width-brands-c{
-  width: 3cm;
+  width: 15cm;
 }
 .width-amount{
   width: 1cm;
 }
 .width-brand{
-  width: 2cm;
+  width: 3cm;
 }
-.width-brands-s{
-  width: 6cm;
-}
-.width-brands{
-  width: 5cm;
-}
-.width-materials-brand{
-  width: 11cm;
+.width-money-cell{
+  width: 1.5cm;
 }
 .height-tr{
   height: 2cm;
@@ -210,3 +207,7 @@ td div, th div{
   src: url('OPTIMA_B.woff') format('woff');
 }
 
+body {
+  font-family: 'Optima';
+  font-size: 14px;
+}
