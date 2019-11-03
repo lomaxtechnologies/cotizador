@@ -17,11 +17,11 @@
     - if @quotation['quotation_type'] == 't_comparative'
       %table.table-striped.table-bordered.mb-3.mt-3
         %colgroup.width-details-comparative{:span => "2"}
-        %colgroup{:span => "2"}
-        %colgroup{:span => "2"}
+        %colgroup.width-brand{:span => "2"}
+        %colgroup.width-brand{:span => "2"}
         %tr 
           %td.text-center{:rowspan => "2", :colspan => "2", :scope => "colgroup"}
-            %h4= t('quotations.show.titles.materials') 
+            %h4.pt-2= t('quotations.show.titles.materials') 
           %th.text-center{:colspan => "2", :scope => "colgroup", :class => "table-dark"} 
             %b= t('quotations.show.custom_headers.expression')
           %th.text-center{:colspan => "2", :scope => "colgroup", :class => "table-dark"} 
@@ -59,15 +59,15 @@
     - else
       %table.table-striped.table-bordered.mb-3.mt-3
         -if @quotation['quotation_type'] == 't_simple'
-          %colgroup.width-details{:span => "3"}
+          %colgroup.width-details-simple{:span => "3"}
           %colgroup.width-brand{:span => "2"}
         -else
-          %colgroup.width-details-simple{:span => "2"}
-          %colgroup{:span => "2"}
+          %colgroup.width-details{:span => "2"}
+          %colgroup.width-brand{:span => "2"}
         -if @quotation['quotation_type'] == 't_simple'
           %tr 
             %td.text-center{:rowspan => "2", :colspan => "3", :scope => "colgroup"}
-              %h4= t('quotations.show.titles.materials') 
+              %h4.pt-2= t('quotations.show.titles.materials') 
             %th.text-center{:colspan => "3", :scope => "colgroup", :class => "table-dark"} 
               %b= t('quotations.show.custom_headers.expression')
             %tr
@@ -76,7 +76,7 @@
         -else
           %tr 
             %td.text-center{:rowspan => "2", :colspan => "2", :scope => "colgroup"}
-              %h4= t('quotations.show.titles.materials') 
+              %h4.pt-2= t('quotations.show.titles.materials') 
             %th.text-center{:colspan => "2", :scope => "colgroup", :class => "table-dark"} 
               %b= t('quotations.show.custom_headers.expression')
           -if @quotation['quotation_type'] == 't_supranet_only'
@@ -129,13 +129,13 @@
       -if @quotation['quotation_type'] == 't_comparative'
         %tr 
           %td.text-center{:rowspan => "2", :colspan => "2", :scope => "colgroup"}
-            %h4.text-danger= t('quotations.show.titles.option_a') 
+            %h4.pt-2.text-danger= t('quotations.show.titles.option_a') 
           %th.text-center{:colspan => "2", :scope => "colgroup", :class => "table-dark"} 
             %b= t('quotations.show.custom_headers.expression')
       -else 
         %tr 
           %td.text-center{:rowspan => "2", :colspan => "2", :scope => "colgroup"}
-            %h4.text-danger= t('quotations.show.titles.services') 
+            %h4.pt-2.text-danger= t('quotations.show.titles.services') 
           %th.text-center{:colspan => "2", :scope => "colgroup", :class => "table-dark"} 
             %b= t('quotations.show.custom_headers.expression')
       %tr
@@ -179,10 +179,10 @@
     -if @quotation['quotation_type'] == 't_comparative'
       %table.table-striped.table-bordered.mt-3.mb-3
         %colgroup.width-services{:span => "2"}
-        %colgroup{:span => "2"}
+        %colgroup.width-brand{:span => "2"}
         %tr 
           %td.text-center{:rowspan => "2", :colspan => "2", :scope => "colgroup"}
-            %h4.text-danger= t('quotations.show.titles.option_b') 
+            %h4.pt-2.text-danger= t('quotations.show.titles.option_b') 
           %th.text-center{:colspan => "2", :scope => "colgroup", :class => "table-dark"} 
             %b= t('quotations.show.custom_headers.expression')
         %tr
@@ -215,10 +215,10 @@
   -else
     %table.table-striped.table-bordered.mt-3.mb-3
       %colgroup.width-details{:span => "2"}
-      %colgroup{:span => "2"}
+      %colgroup.width-brand{:span => "2"}
       %tr 
         %td.text-center{:rowspan => "2", :colspan => "2", :scope => "colgroup"}
-          %h4.text-danger= t('quotations.show.titles.services') 
+          %h4.pt-2.text-danger= t('quotations.show.titles.services') 
         %th.text-center{:colspan => "2", :scope => "colgroup", :class => "table-dark"} 
           %b= t('quotations.show.custom_headers.expression')
       %tr
@@ -238,15 +238,15 @@
         %tr
           %td.text-center.width-amount{:scope => "row"}= service['amount'].to_i
           %td= service['service']
-          %td.text-right= number_to_currency_gt(service[:price_with_percent])
-          %td.text-right= number_to_currency_gt(service[:total_with_percent])
+          %td.text-right.width-money-cell= number_to_currency_gt(service[:price_with_percent])
+          %td.text-right.width-money-cell= number_to_currency_gt(service[:total_with_percent])
       %tr
         %th.text-center{:colspan => "2", :scope => "row", :class => "table-dark"}= t('quotations.show.custom_headers.total')
         %th.text-right{:colspan => "2", :class => "table-dark"}= number_to_currency_gt(@quotation[:services_totals][:with_percent])
   %h4= t('quotations.show.titles.warranty')
-  %p.text-justify= @quotation['warranty'] 
+  %p.text-justify= sanitize(@quotation['warranty']) 
   %h4= t('quotations.show.titles.payment_condition')
-  %p.text-justify= @quotation['payment_condition']
+  %p.text-justify= sanitize(@quotation['payment_condition'])
   %br
   -if @quotation['quotation_type'] == 't_comparative'
     .offset-3.text-center.pagebreak
