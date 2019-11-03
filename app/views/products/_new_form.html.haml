@@ -18,13 +18,13 @@
         .form-row.mb-2
           .col-3
             = f.label :brand_id,  class: "mb-0 text-primary font-weight-bold "
-            = f.select :brand_id, Brand.all.collect {|b| [b.name, b.id] },{:prompt => :brand_id}, {class:"form-control"}
+            = f.select :brand_id, Brand.all.order(name: 'asc').collect {|b| [b.name, b.id] },{:prompt => :brand_id}, {class:"form-control"}
           .col-6
             = f.label :material_id,  class: "mb-0 text-primary font-weight-bold "
-            = f.select :material_id, Material.all.collect {|m| [m.name, m.id] }, {:prompt => :material_id},{class:"form-control"}
+            = f.select :material_id, Material.all.order(name: 'asc').collect {|m| [m.name, m.id] }, {:prompt => :material_id},{class:"form-control"}
           .col-3
             = f.label :measure_unit_id,  class: "mb-0 text-primary font-weight-bold "
-            = f.select :measure_unit_id, MeasureUnit.all.collect {|m| [m.name, m.id] }, {:prompt => :measure_unit_id},{class:"form-control"}
+            = f.select :measure_unit_id, MeasureUnit.order(name: 'asc').all.collect {|m| [m.name, m.id] }, {:prompt => :measure_unit_id},{class:"form-control"}
         .form-row.mb-2
           .col-12
             =nested_form.label :product_price, class:"mb-0 text-primary font-weight-bold"

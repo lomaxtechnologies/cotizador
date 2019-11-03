@@ -46,19 +46,21 @@ Rails.application.routes.draw do
   scope :api do
     post "/products/upload", to: "products#api_upload", as: "upload"
     get "/clients", to: "clients#api_index"
-    get "/comparative", to: "products#api_comparative"
-    get "/simple", to: "products#api_simple"
     get "/products_by_material", to: "products#products_by_material"
     get "/products_by_brand", to: "products#products_by_brand"
+
     scope :quotations do
       get "/", to: "quotations#api_index"
       get "/types", to: "quotations#api_types"
+      get "/states", to: "quotations#api_states"
       get "/:id/type", to: "quotations#api_type"
       get "/:id/state", to: "quotations#api_state"
       get "/:id/conditions", to: "quotations#api_conditions"
       get "/:id/header", to: "quotations#api_header"
       get "/:id/services", to: "quotations#api_services"
       get "/:id/products", to: "quotations#api_products"
+      post "/:id/clone", to: "quotations#api_clone"
+      post "/:id/duplicate", to: "quotations#api_duplicate"
       put "/:id/activate", to: "quotations#api_activate"
       put "/:id/approve", to: "quotations#api_approve"
       put "/:id/expire", to: "quotations#api_expire"
@@ -70,13 +72,16 @@ Rails.application.routes.draw do
       post "/:quotation_id/attachments/create", to: "attachments#create"
       delete "/:quotation_id/attachments/:id/destroy", to: "attachments#destroy"
     end
+    
     scope :services do
       put "/batch", to: "services#api_update_batch"
       get "/", to: "services#api_index"
     end
+    
     scope :comments do
       get '/:commentable_type/:commentable_id', to: 'comments#api_list'
     end
+    
     scope :dashboard do 
       get 'count-states', to: 'dashboards#api_count_states'
       get 'expired-soon', to: 'dashboards#api_expired_soon'
@@ -86,5 +91,11 @@ Rails.application.routes.draw do
       get 'info-states', to: 'dashboards#api_info_states'
       get 'state-expired-soon', to: 'dashboards#api_state_expired_soon'
     end
+
+    scope :products do
+      get "/comparative", to: "products#api_comparative"
+      get "/simple", to: "products#api_simple"
+    end
+
   end
 end

@@ -2,12 +2,12 @@ es:
   dashboards:
     title_nav: Panel de Cotizaciones
     index:
-      state_created: Creada
-      state_active: Activa
-      state_accepted: Aprobada
-      state_expired:  Expirada
-      expired_soon: Pronto expirarán
-      last_attachments: Últimos arhivos
+      state_created: Creadas
+      state_active: Activas
+      state_accepted: Aprobadas
+      state_expired:  Expiradas
+      expired_soon: Pronto Expirarán
+      last_attachments: Últimos archivos
       last_comments: Últimos comentarios
       last_quotation_update: Últimas Actualizaciones de Cotizaciones
       components:

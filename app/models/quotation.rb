@@ -115,6 +115,31 @@ class Quotation < ApplicationRecord
     end
   end
 
+  # Clones a quotation and updates prices and services to their current value
+  def clone_and_update
+    new_quotation = dup
+    new_quotation.quotation_date = Date.today.to_s
+    quotation_services.each do |quotation_service|
+      new_quotation_service = quotation_service.dup
+      # Retrieving the service associated with the quotation to be duplicated
+      old_service = Service.with_deleted.find_by(id: new_quotation_service.service_id)
+      # Retrieving the most recent service with that name and description
+      new_service = Service.find_by(name: old_service.name, description: old_service.description)
+      if(new_service)
+        new_quotation_service.service = new_service
+        new_quotation.quotation_services << new_quotation_service
+      else
+        errors.add(:base, :service_does_not_exist)
+        break
+      end
+    end
+    quotation_products.each do |quotation_product|
+      new_quotation_product = quotation_product.dup
+      new_quotation.quotation_products << new_quotation_product
+    end
+    new_quotation
+  end
+
   private
 
   def products_only_comparative_format
@@ -204,12 +229,19 @@ class Quotation < ApplicationRecord
       unit_price_with_percent = (unit_price * (1 + percent / 100)).round(2)
       total_with_percent = unit_price_with_percent * amount
 
+      # We add the measure unit only if it is not 'Unit'
+      measure_unit_name = ''
+      unless product.measure_unit.is_unit?
+        measure_unit_name = "#{product.measure_unit.name.pluralize} #{I18n.t('of')} "
+      end
+      material_name = "#{measure_unit_name}#{material.name} #{material.description}"
+
       # Pushing results to the hash
       data[:quotation_products].push(quotation_product.attributes.merge(
         code: product.code,
         measure_unit_id: product.measure_unit.id,
         material_id: material.id,
-        material: "#{material.name} #{material.description}",
+        material: material_name,
         brand: product.brand.name,
         deleted_at: product.deleted_at,
         "#{quotation_type}_percent": percent,

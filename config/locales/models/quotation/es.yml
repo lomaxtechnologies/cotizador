@@ -15,3 +15,4 @@ es:
               activation_impossible: no permite la activación de la cotización
               approve_impossible: no permite la aprobación de la cotización
               expiration_impossible: no permite la expiración de la cotización
+          service_does_not_exist: Al menos uno de los servicios ha sido eliminado

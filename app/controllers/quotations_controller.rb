@@ -13,6 +13,8 @@ class QuotationsController < ApplicationController
     api_header
     api_services
     api_products
+    api_clone
+    api_duplicate
     generate_excel
   ]
 
@@ -62,7 +64,7 @@ class QuotationsController < ApplicationController
 
   # GET api/quotations
   def api_index
-    response_with_success(Quotation.header_fields.order(:id))
+    response_with_success(Quotation.header_fields.order(id: "desc"))
   end
 
   # GET /api/quotations/types
@@ -72,6 +74,15 @@ class QuotationsController < ApplicationController
       quotation_types.push(value: key, text: t( ".#{key}" ))
     end
     response_with_success(quotation_types)
+  end
+
+  # GET /api/quotations/states
+  def api_states
+    quotation_states = []
+    Quotation.states.each do |key, _value|
+      quotation_states.push(value: key, text: t( ".#{key}" ))
+    end
+    response_with_success(quotation_states)
   end
 
   # GET /api/quotations/:id/type
@@ -102,6 +113,16 @@ class QuotationsController < ApplicationController
   # GET /api/quotations/:id/products
   def api_products
     response_with_success(@quotation.products_only)
+  end
+
+  # POST /api/quotations/:id/clone
+  def api_clone
+    duplicate_quotation(Quotation.states[:active], t('.error'))
+  end
+
+  # POST /api/quotations/:id/duplicate
+  def api_duplicate
+    duplicate_quotation(Quotation.states[:created], t('.error'))
   end
 
   # PUT /api/quotations/:id/activate
@@ -167,6 +188,25 @@ class QuotationsController < ApplicationController
   end
 
   private
+
+  # Duplicates a quotation and changes the user and state
+  def duplicate_quotation(state, error_message)
+    new_quotation = @quotation.clone_and_update
+    if @quotation.errors.any?
+      errors = @quotation.errors.full_messages
+      response_with_error( error_message, errors )
+    else
+      new_quotation.user = current_user
+      new_quotation.state = state
+      new_quotation.save
+      if new_quotation.errors.any?
+        errors = new_quotation.errors.full_messages
+        response_with_error( error_message, errors )
+      else
+        response_with_success({quotation_id: new_quotation.id})
+      end
+    end
+  end
 
   def quotation_params
     params.require(:quotation).permit(
