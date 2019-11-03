@@ -72,6 +72,7 @@ es:
         notifications:
           materials_updated: Cambios guardados en los materiales
           remember_save: Recuerda presionar 'Siguiente' para guardar los cambios
+          product_duplicated: Este producto ya se encuentra en la lista de materiales
         title: Materiales
         select-material: Seleccione un material
         titles:
