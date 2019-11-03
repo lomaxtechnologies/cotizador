@@ -290,13 +290,14 @@
             >
               <i class="fas fa-edit fa-xs"></i>
             </a>
-            <b-button 
+            <button 
               class="btn btn-danger text-white"
               v-on:click="showModal(data.item.id)"
               v-bind:class="{disabled: data.item.state != 'created'}"
+              :disabled="data.item.state!='created'"
             >
               <i class="fas fa-trash-alt fa-xs"></i>
-            </b-button>
+            </button>
           </div>
         </template>
       </b-table>

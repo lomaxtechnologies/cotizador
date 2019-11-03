@@ -192,7 +192,7 @@
                   <i class="fas fa-money-bill"></i>
                 </div>
               </div>
-            <b-form-input type="number" step="0.01" v-model=form_fields.price></b-form-input>
+            <b-form-input v-model=form_fields.price :readonly="true"></b-form-input>
           </div>
         </div>
         <div class="col-2">

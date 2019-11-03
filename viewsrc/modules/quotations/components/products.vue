@@ -287,6 +287,8 @@ export default {
         }
         this.product_id = null;
         this.alert(this.translations.notifications.remember_save,'info');
+      }else{
+        this.alert(this.translations.notifications.product_duplicated,'warning');
       }
     },
     editProduct: function(index) {

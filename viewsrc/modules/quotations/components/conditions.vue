@@ -114,7 +114,7 @@
 
     beforeDestroy() {
       this.editors.forEach((editor)=>{
-        this.editor.destroy();
+        editor.editor.destroy();
       });
     },
 
