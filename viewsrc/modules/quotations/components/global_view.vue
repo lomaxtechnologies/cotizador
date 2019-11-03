@@ -511,15 +511,13 @@
           </b-table>
         </div>
         <div class="col-12 mt-2">
-          <h5><b>{{translations.show.titles.warranty}}</b></h5>
-          <span class="text-justify">
-            {{quotation.warranty}}
+          <h5><b>{{translations.show.titles.payment_condition}}</b></h5>
+          <span class="text-justify" v-html="quotation.payment_condition">
           </span>
         </div>
         <div class="col-12 mt-2">
-          <h5><b>{{translations.show.titles.payment_condition}}</b></h5>
-          <span class="text-justify">
-            {{quotation.payment_condition}}
+          <h5><b>{{translations.show.titles.warranty}}</b></h5>
+          <span class="text-justify" v-html="quotation.warranty">
           </span>
         </div>
         <div v-if="quotation.quotation_type=='t_comparative'" class="col-8 offset-2 mt-2">
