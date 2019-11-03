@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
 
   def index
     @search = Product.ransack(search_params)
-    @products = @search.result.includes(:material, :price).order('code ASC')
+    @products = @search.result.includes(:material, :price).order(code: 'asc')
     @page_size = params.fetch(:page_size, 10)
     @products = @products.page(params[:page]).per(@page_size)
   end
@@ -33,6 +33,10 @@ class ProductsController < ApplicationController
       # This destroy is a soft delete, so we can keep track of the currend and old prices
       @product.price.destroy
       @product.build_price(price_params)
+      if @product.errors.any?
+        alert = @product.errors.full_messages.join('.')
+        format.html { redirect_to products_url, alert: alert }
+      end
       if @product.save
         notice = t('.update')
         format.html { redirect_to products_url, notice: notice }
@@ -66,11 +70,11 @@ class ProductsController < ApplicationController
   # API For prices controller
   # GET /prices/api/get-products
   def api_comparative
-    response_with_success(Product.fields_for_comparative)
+    response_with_success(Product.fields_for_comparative.sort_by{ |obj| obj[:name]})
   end
 
   def api_simple
-    response_with_success(Product.fields_for_simple)
+    response_with_success(Product.fields_for_simple.sort_by{ |obj| obj[:name]})
   end
 
   def api_only_brand

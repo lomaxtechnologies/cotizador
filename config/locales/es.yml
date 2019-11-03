@@ -2,6 +2,7 @@ es:
   title: Cotizador de Proyectos de Infraestructura
   date: Fecha
   currency: GTQ
+  of: de
   js_currency_locale: es-GT
   noformat: 'No utiliza el formato estandarizado'
   nofile: 'No a seleccionado un archivo'

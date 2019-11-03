@@ -73,12 +73,14 @@ class Product < ApplicationRecord
   def self.fields_for_simple
     data = []
     Product.all.each do |product|
+      name = Product.format_name(product)
       data.push(
+        id: product.id,
+        name: name,
+        name_and_brand: "#{product.brand.name} - #{name}",
         material_id: product.material_id,
-        name: product.material.name,
-        description: product.material.description,
-        brand: product.brand.name,
         product_id: product.id,
+        brand: product.brand.name,
         code: product.code,
         price: product.price.product_price,
         measure_unit: product.measure_unit.name
@@ -89,11 +91,11 @@ class Product < ApplicationRecord
 
   def self.fields_for_comparative
     data = []
-    Product.select(:material_id).distinct.each do |product|
+    Product.select(:material_id, :measure_unit_id).distinct.each do |product|
+      name = Product.format_name(product)
       data.push(
         id: product.material_id,
-        name: product.material.name,
-        description: product.material.description
+        name: name
       )
     end
     data
@@ -108,10 +110,20 @@ class Product < ApplicationRecord
       )
       if product_exists
         errors.add(:base, :product_already_exists)
-        false
-      else
-        super
+        return false
       end
     end
+    super
   end
+
+  private
+  # Formats the name of the product to add measure unit, material and description
+  def self.format_name(product)
+    measure_unit_name = ''
+    unless product.measure_unit.is_unit?
+      measure_unit_name = "#{product.measure_unit.name.pluralize} #{I18n.t('of')} "
+    end
+    "#{measure_unit_name}#{product.material.name} #{product.material.description}"
+  end
+
 end

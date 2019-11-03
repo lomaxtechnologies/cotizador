@@ -13,6 +13,8 @@
         STATE_ACTIVE: 'active',
         STATE_EXPIRED: 'expired',
         STATE_APPROVED: 'accepted',
+        STATE_CLONED: 'cloned',
+        STATE_DUPLICATED: 'duplicated',
         translations: I18n.t('quotations.show'),
         quotation_id: this.$route.params.id,
         quotation_state: 'active'
@@ -42,6 +44,14 @@
       },
       confirmExpiration: function(){
         this.action = this.STATE_EXPIRED;
+        this.$bvModal.show('confirmation_modal');
+      },
+      confirmClone: function(){
+        this.action = this.STATE_CLONED;
+        this.$bvModal.show('confirmation_modal');
+      },
+      confirmDuplicate: function(){
+        this.action = this.STATE_DUPLICATED;
         this.$bvModal.show('confirmation_modal');
       },
       hideConfirmationModal: function(){
@@ -95,6 +105,38 @@
         }).catch((err)=>{
           console.log("Error", err.stack, err.name, err.message);
         });
+      },
+      cloneQuotation: function(){
+        this.http
+        .post(`/api/quotations/${this.quotation_id}/clone`)
+        .then((response)=>{
+          this.hideConfirmationModal();
+          if(response.successful){
+            this.alert(this.translations.notifications.quotation_cloned,'success');
+            window.location.href = `#/${response.data.quotation_id}/show`;
+            window.location.reload();
+          }else{
+            this.handleError(response.error);
+          }
+        }).catch((err)=>{
+          console.log("Error", err.stack, err.name, err.message);
+        });
+      },
+      duplicateQuotation: function(){
+        this.http
+        .post(`/api/quotations/${this.quotation_id}/duplicate`)
+        .then((response)=>{
+          this.hideConfirmationModal();
+          if(response.successful){
+            this.alert(this.translations.notifications.quotation_duplicated,'success');
+            window.location.href = `#/${response.data.quotation_id}/edit`;
+            window.location.reload();
+          }else{
+            this.handleError(response.error);
+          }
+        }).catch((err)=>{
+          console.log("Error", err.stack, err.name, err.message);
+        });
       }
     },
     components:{
@@ -120,6 +162,12 @@
         <p v-if="action==STATE_EXPIRED" class="text-justify">
           {{translations.confirmation_modal.expire_body}}
         </p>
+        <p v-if="action==STATE_CLONED" class="text-justify">
+          {{translations.confirmation_modal.clone_body}}
+        </p>
+        <p v-if="action==STATE_DUPLICATED" class="text-justify">
+          {{translations.confirmation_modal.duplicate_body}}
+        </p>
         <template v-slot:modal-footer>
           <div>
             <b-button
@@ -135,7 +183,21 @@
             > {{translations.confirmation_modal.buttons.expire}}
             </b-button>
             <b-button
-              class="btn btn-secondary"
+              variant="info"
+              class="text-white"
+              v-on:click=cloneQuotation
+              v-if="action==STATE_CLONED"
+            > {{translations.confirmation_modal.buttons.clone}}
+            </b-button>
+            <b-button
+              variant="warning"
+              class="text-white"
+              v-on:click=duplicateQuotation
+              v-if="action==STATE_DUPLICATED"
+            > {{translations.confirmation_modal.buttons.duplicate}}
+            </b-button>
+            <b-button
+              variant="secondary"
               v-on:click=hideConfirmationModal
             > {{translations.confirmation_modal.buttons.cancel}}
             </b-button>
@@ -145,27 +207,27 @@
 
       <div class="row">
         <div class="col-8">
-          <b-button v-if="stateActive" variant="success" v-on:click="confirmApproval">
+          <b-button :disabled="!stateActive" variant="success" v-on:click="confirmApproval">
             <i class="fas fa-check-circle"></i>
             {{translations.buttons.approve}}
           </b-button>
-          <b-button v-if="stateActive" variant="danger" v-on:click="confirmExpiration">
+          <b-button :disabled="!stateActive" variant="danger" v-on:click="confirmExpiration">
             <i class="fas fa-trash"></i>
             {{translations.buttons.expire}}
           </b-button>
-          <b-button v-if="!stateCreated" variant="primary" class="text-white" v-on:click="generateExcel">
+          <b-button :disabled="stateCreated" variant="primary" class="text-white" v-on:click="generateExcel">
             <i class="fas fa-file-excel"></i>
             {{this.translations.generate_Excel}}
           </b-button>
-          <b-button v-if="!stateCreated" variant="dark" class="text-white" v-on:click="generatePDF">
+          <b-button :disabled="stateCreated" variant="dark" class="text-white" v-on:click="generatePDF">
             <i class="fas fa-download"></i>
             {{this.translations.generate_PDF}}
           </b-button>
-          <b-button v-if="stateApproved||stateExpired" variant="warning" class="text-white">
+          <b-button :disabled="!stateApproved&&!stateExpired" variant="warning" class="text-white" v-on:click="confirmDuplicate">
             <i class="fas fa-redo"></i>
             {{translations.buttons.regenerate}}
           </b-button>
-          <b-button v-if="stateApproved||stateExpired" variant="info" class="text-white">
+          <b-button :disabled="!stateApproved&&!stateExpired" variant="info" class="text-white" v-on:click="confirmClone">
             <i class="fas fa-clone"></i>
             {{translations.buttons.clone}}
           </b-button>
