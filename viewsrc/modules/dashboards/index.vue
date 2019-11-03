@@ -23,7 +23,7 @@
           },
           tabIndex: 1,
           expired_quotation:{},
-          info_expired_quotation: {},
+          info_expired_quotation: [],
           translations: {
               index: I18n.t('dashboards.index')
             }
