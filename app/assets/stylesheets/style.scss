@@ -129,11 +129,17 @@ body{
   filter: alpha(opacity=20);
 }
 
-.width-materials{
-  width: 10cm;
+.width-details{
+  width: 17cm;
 }
-.width-brands-c{
-  width: 3cm;
+.width-details-comparative{
+  width: 13.1cm;
+}
+.width-details-simple{
+  width: 15.5cm;
+}
+.width-services{
+  width: 17cm;
 }
 .width-amount{
   width: 1cm;
@@ -141,21 +147,20 @@ body{
 .width-brand{
   width: 2cm;
 }
-.width-brands-s{
-  width: 6cm;
-}
-.width-brands{
-  width: 5cm;
-}
-.width-materials-brand{
-  width: 11cm;
+.width-money-cell{
+  width: 1cm;
 }
 .height-tr{
   height: 2cm;
 }
-
-.bg-signature{
-  background-color: #b6b6b6;
+.ht-header{
+  height: 2cm;
+}
+.ht-tr{
+  line-height: 15px;
+}
+.wd-td-header{
+  width: 21cm;
 }
 
 td div, th div{
@@ -164,4 +169,22 @@ td div, th div{
 
 .pagebreak{
   page-break-inside: avoid;
+}
+
+.pd{
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@font-face {
+  font-family: 'Optima';
+  font-style: normal;
+  font-weight: normal;
+  src: url('unicode.optima.ttf') format('truetype');
+  }
+  
+
+.body-pdf {
+  font-family: 'Optima';
+  font-size: 12px;
 }

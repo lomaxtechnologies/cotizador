@@ -180,6 +180,11 @@ class QuotationsController < ApplicationController
           'quotations/pdf_footer.pdf.haml',
           layout: 'pdf_layout.html.haml'
         )
+      },
+      margin:{
+        top: '2cm',
+        bottom: '2cm'
+
       }
     )
     client = @quotation[:client].name
