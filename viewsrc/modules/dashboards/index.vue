@@ -1,97 +1,111 @@
 <script>
-    import dashboardQuotationStateCount from './components/state.vue'
-    import dashboardQuotationExpiredSoon from './components/expiredsoon.vue'
-    import dashboardQuotationComment from './components/comment.vue'
-    import dashboardQuotationAttachment from './components/attachment.vue'
-    import dashboardQuotationUpdated from './components/quotation.vue'
-    import dashboardInfoState from './components/info.vue'
-    import dashboardInfoExpiredSoon from './components/statequotationexpired.vue'
-    export default {
-      data(){
-        return{
-          states_count: {
-              created: 0,
-              active: 0,
-              accepted: 0,
-              expired: 0
-              },
-          info_states: {
-            created: [],
-            created: [],
-            accepted: [],
-            expired: [],
-          },
-          tabIndex: 1,
-          expired_quotation: {},
-          translations: {
-              index: I18n.t('dashboards.index')
-            }
-          }
-      },
-      components:{
-        'dashboard-quotation-created' : dashboardQuotationStateCount,
-        'dashboard-quotation-active' : dashboardQuotationStateCount,
-        'dashboard-quotation-accepted' : dashboardQuotationStateCount,
-        'dashboard-quotation-expired' : dashboardQuotationStateCount,
-        'dashboard-quotation-expired-soon' : dashboardQuotationExpiredSoon,
-        'dashboard-quotation-comment' : dashboardQuotationComment,
-        'dashboard-quotation-attachment' : dashboardQuotationAttachment,
-        'dashboard-quotation-updated' : dashboardQuotationUpdated,
-        //info-states
-        'dashboard-quotation-created-info' : dashboardInfoState,
-        'dashboard-quotation-active-info' : dashboardInfoState,
-        'dashboard-quotation-accepted-info' : dashboardInfoState,
-        'dashboard-quotation-expired-info' : dashboardInfoState,
-        'dashboard-quotation-info-expired-soon': dashboardInfoExpiredSoon,
-      },
-      methods: {
-          getStatesCounts: function() {
-          this.http
-          .get('api/dashboard/count-states')
-          .then((response) => {
-              if(response.successful){
-                this.states_count = response.data
-                console.log(JSON.stringify(this.states_count))
-              }else{
-                console.log(JSON.stringify(response));
-              }
-              }).catch((err)=>{
-                console.log(JSON.stringify(err));
-            });
-          },
-          getExpiredQuotations: function() {
-          this.http
-          .get('api/dashboard/expired-soon')
-          .then((response) => {
-              if(response.successful){
-                this.expired_quotation = response.data
-              }else{
-                console.log(JSON.stringify(response));
-              }
-              }).catch((err)=>{
-                console.log(JSON.stringify(err));
-              });
-            },
-          getInfoStates: function() {
-          this.http
-          .get('api/dashboard/info-states')
-          .then((response) => {
-              if(response.successful){
-                this.info_states = response.data
-              }else{
-                console.log(JSON.stringify(response));
-              }
-          }).catch((err) => {
-              console.log(JSON.stringify(err))
-          })
-          },
+  import dashboardQuotationStateCount from './components/state.vue'
+  import dashboardQuotationExpiredSoon from './components/expiredsoon.vue'
+  import dashboardQuotationComment from './components/comment.vue'
+  import dashboardQuotationAttachment from './components/attachment.vue'
+  import dashboardQuotationUpdated from './components/quotation.vue'
+  import dashboardInfoState from './components/info.vue'
+  import dashboardInfoExpiredSoon from './components/statequotationexpired.vue'
+  export default {
+    data(){
+      return{
+        states_count: {
+          created: 0,
+          active: 0,
+          accepted: 0,
+          expired: 0
         },
-      mounted: function() {
-        this.getStatesCounts();
-        this.getExpiredQuotations();
-        this.getInfoStates();
+        info_states: {
+          created: [],
+          created: [],
+          accepted: [],
+          expired: [],
+        },
+        tabIndex: 1,
+        expired_quotation:{},
+        info_expired_quotation: [],
+        translations: {
+            index: I18n.t('dashboards.index')
+          }
+        }
+    },
+    components:{
+      'dashboard-quotation-created' : dashboardQuotationStateCount,
+      'dashboard-quotation-active' : dashboardQuotationStateCount,
+      'dashboard-quotation-accepted' : dashboardQuotationStateCount,
+      'dashboard-quotation-expired' : dashboardQuotationStateCount,
+      'dashboard-quotation-expired-soon' : dashboardQuotationExpiredSoon,
+      'dashboard-quotation-comment' : dashboardQuotationComment,
+      'dashboard-quotation-attachment' : dashboardQuotationAttachment,
+      'dashboard-quotation-updated' : dashboardQuotationUpdated,
+      //info-states
+      'dashboard-quotation-created-info' : dashboardInfoState,
+      'dashboard-quotation-active-info' : dashboardInfoState,
+      'dashboard-quotation-accepted-info' : dashboardInfoState,
+      'dashboard-quotation-expired-info' : dashboardInfoState,
+      'dashboard-quotation-info-expired-soon': dashboardInfoExpiredSoon,
+    },
+    methods: {
+      getStatesCounts: function() {
+        this.http
+        .get('api/dashboard/count-states')
+        .then((response) => {
+          if(response.successful){
+            this.states_count = response.data;
+          }else{
+            this.handleError(response.error);
+          }
+        }).catch((err)=>{
+          console.log(JSON.stringify(err));
+        });
+      },
+      getExpiredQuotations: function() {
+        this.http
+        .get('api/dashboard/expired-soon')
+        .then((response) => {
+          if(response.successful){
+            this.expired_quotation = response.data;
+          }else{
+            this.handleError(response.error);
+          }
+        }).catch((err)=>{
+          console.log(JSON.stringify(err));
+        });
+      },
+      getInfoStates: function() {
+        this.http
+        .get('api/dashboard/info-states')
+        .then((response) => {
+          if(response.successful){
+            this.info_states = response.data;
+          }else{
+            this.handleError(response.error);
+          }
+        }).catch((err) => {
+            console.log(JSON.stringify(err));
+        });
+      },
+      getInfoExpiredSoon: function(){
+        this.http
+        .get('api/dashboard/state-expired-soon')
+        .then((response) => {
+          if(response.successful){
+            this.info_expired_quotation = response.data;
+          }else{
+            this.handleError(response.error);
+          }
+        }).catch((err) => {
+            console.log(JSON.stringify(err))
+        });
       }
-      }
+    },
+    mounted: function() {
+      this.getStatesCounts();
+      this.getExpiredQuotations();
+      this.getInfoStates();
+      this.getInfoExpiredSoon();
+    }
+  }
 </script>
 
 <template>
@@ -154,6 +168,11 @@
                   :info=info_states.accepted
                   >
                   </dashboard-quotation-accepted-info>
+                </b-collapse>
+                <b-collapse id="collapse-a4" class="mt-2">
+                   <dashboard-quotation-info-expired-soon
+                   :info=info_expired_quotation>
+                  </dashboard-quotation-info-expired-soon>
                 </b-collapse>
                 <b-collapse id="collapse-a5" class="mt-2">
                   <dashboard-quotation-expired-info

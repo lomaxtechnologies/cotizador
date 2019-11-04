@@ -92,16 +92,10 @@ export default {
     },
     comparativeMaterials: function(){
       this.http
-      .get("/api/comparative")
+      .get("/api/products/comparative")
       .then(response => {
         if(response.successful){
           this.materials = response.data;
-          this.materials = this.materials.map(function(material) {
-            return {
-              id: material.id,
-              name: `${material.name} ${material.description}`
-            };
-          });
           if (this.materials.length > 0) {
             this.material_id = this.materials[0].id;
           }
@@ -115,22 +109,10 @@ export default {
     },
     simpleMaterials: function(){
       this.http
-      .get("/api/simple")
+      .get("/api/products/simple")
       .then(response =>{
         if(response.successful){
           this.materials = response.data;
-          this.materials = this.materials.map(function(material){
-            return{
-              id: material.product_id,
-              name: `${material.brand} - ${material.name} ${material.description}`,
-              material_id: material.material_id,
-              product_id: material.product_id,
-              brand: material.brand,
-              code: material.code,
-              price: material.price,
-              measure_unit: material.measure_unit
-            }
-          });
           if (this.materials.length > 0) {
             this.material_id = this.materials[0].id;
             this.prices[0] = this.materials[0].price;
@@ -145,21 +127,14 @@ export default {
     },
     onlyBrandMaterials: function(){
       this.http
-      .get("/api/simple")
+      .get("/api/products/simple")
       .then(response =>{
         if(response.successful){
           this.materials = response.data;
           this.materials = this.materials.filter(material => material.brand !== this.brands[1]);
           this.materials = this.materials.map(function(material){
-            return{
-              id: material.material_id,
-              name: `${material.name} ${material.description}`,
-              product_id: material.product_id,
-              brand: material.brand,
-              code: material.code,
-              price: material.price,
-              measure_unit: material.measure_unit
-            }
+            material.id = material.material_id;
+            return material;
           });
           if (this.materials.length > 0) {
             this.material_id = this.materials[0].id;
@@ -312,6 +287,8 @@ export default {
         }
         this.product_id = null;
         this.alert(this.translations.notifications.remember_save,'info');
+      }else{
+        this.alert(this.translations.notifications.product_duplicated,'warning');
       }
     },
     editProduct: function(index) {
@@ -443,7 +420,7 @@ export default {
   <div>
     <b-form>
       <b-form-row>
-        <div class="col-6">
+        <div class="col-10">
           <label class="mb-0 text-primary font-weight-bold">{{translations.titles.material}}</label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -452,14 +429,22 @@ export default {
               </div>
             </div>
             <b-form-select
+              v-if="quotation_type==='t_comparative'"
               v-model="material_id"
               :options="materials"
               value-field="id"
               text-field="name"
             ></b-form-select>
+            <b-form-select
+              v-else
+              v-model="material_id"
+              :options="materials"
+              value-field="id"
+              text-field="name_and_brand"
+            ></b-form-select>
           </div>
         </div>
-        <div class="col-2 offset-4">
+        <div class="col-2">
           <br />
           <b-button variant="primary" block v-on:click="addProducts">{{translations.buttons.add_material}}</b-button>
         </div>
@@ -468,7 +453,7 @@ export default {
         <div class="col-1" v-if="quotation_type!=='t_simple'">
           <label class="text-primary font-weight-bold">{{brands[0]}}</label>
         </div>
-        <div class="col-3">
+        <div class="col-2">
           <label class="mb-0 text-primary font-weight-bold">{{translations.titles.amount}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
@@ -479,7 +464,7 @@ export default {
             <b-form-input v-model="quotation_products.amount"></b-form-input>
           </div>
         </div>
-        <div class="col-3">
+        <div class="col-2">
           <label class="mb-0 text-primary font-weight-bold">{{translations.titles.price}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
@@ -490,7 +475,7 @@ export default {
             <b-form-input disabled v-model="prices[0]"></b-form-input>
           </div>
         </div>
-        <div class="col-3">
+        <div class="col-2">
           <label class="mb-0 text-primary font-weight-bold">{{translations.titles.percent}}</label>
           <div class="input-group mb-2">
             <div class="input-group-prepend">

@@ -511,31 +511,38 @@
           </b-table>
         </div>
         <div class="col-12 mt-2">
-          <h5><b>{{translations.show.titles.warranty}}</b></h5>
-          <span class="text-justify">
-            {{quotation.warranty}}
+          <h5><b>{{translations.show.titles.payment_condition}}</b></h5>
+          <span class="text-justify" v-html="quotation.payment_condition">
           </span>
         </div>
         <div class="col-12 mt-2">
-          <h5><b>{{translations.show.titles.payment_condition}}</b></h5>
-          <span class="text-justify">
-            {{quotation.payment_condition}}
+          <h5><b>{{translations.show.titles.warranty}}</b></h5>
+          <span class="text-justify" v-html="quotation.warranty">
           </span>
         </div>
-        <div class="col-8 offset-2 mt-2">
-          <table class="table table-sm table-bordered text-center">
-            <thead class="bg-custom-gray text-white">
-              <th>{{translations.show.titles.signature}}</th>
-              <th colspan="2">{{translations.show.titles.option}}</th>
-            </thead>
-            <tbody>
+        <div v-if="quotation.quotation_type=='t_comparative'" class="col-8 offset-2 mt-2">
+          <center>
+            <br>
+            <hr size="20" color="black" width="35%">
+            <b>{{translations.show.titles.signature}}</b>
+            <table>
               <tr>
-                <td  class="py-4 text-left">&nbsp;</td>
-                <td  class="text-left align-top"><b>{{translations.show.brands.t_supranet_only}}</b></td>
-                <td  class="text-left align-top"><b>{{translations.show.brands.t_siemon_only}}</b></td>
+                <th>
+                  <p>{{translations.show.titles.option}}: </p>
+                </th>
+                <th>
+                   <b><p>{{translations.show.titles.option_a_b}}</p></b>
+                </th>
               </tr>
-            </tbody>
-          </table>
+            </table>
+          </center>
+        </div>
+        <div v-if="quotation.quotation_type!='t_comparative'" class="col-8 offset-2 mt-2">
+          <hr size="20" color="black" width="35%">
+            <center>
+              <b>{{translations.show.titles.signature}}</b>
+              <br/>
+            </center>
         </div>
         <div class="col-12 mt-3">
           <hr>

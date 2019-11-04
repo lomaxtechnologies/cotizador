@@ -3,8 +3,8 @@
   %head
     %meta{:charset => "utf-8"}
     %title= t('application.title')
-    = wicked_pdf_stylesheet_link_tag "application", media: "all", 'data-turbolinks-track' => true
+    = wicked_pdf_stylesheet_link_tag "application"
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-  %body
+  %body.body-pdf
     .container-fluid
       = yield

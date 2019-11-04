@@ -18,11 +18,12 @@
         },
         table_headers:[],
         quotations: [],
+        states: [],
         filters:{
           id: '',
           quotation_initial_date: '',
           quotation_final_date: this.date.today(),
-          state: ''
+          selected_states: []
         }
       }
     },
@@ -30,13 +31,19 @@
     mounted: function(){
       this.getQuotations();
       this.setTableHeaders();
+      this.getStates();
     },
 
     computed:{
 
       filteredQuotations: function(){
         var filtered_quotations = this.quotations.filter((quotation)=>{
-          return String(quotation.id).includes(this.filters.id) && quotation.quotation_date>=this.filters.quotation_initial_date && quotation.quotation_date<=this.filters.quotation_final_date;
+          var filtered = String(quotation.id).includes(this.filters.id) && 
+            quotation.quotation_date >= this.filters.quotation_initial_date && 
+            quotation.quotation_date <= this.filters.quotation_final_date &&
+            this.filters.selected_states.includes(quotation.state)
+          ;
+          return filtered;
         });
         this.config.rows = filtered_quotations.length;
         this.config.current_page = 1;
@@ -45,6 +52,25 @@
     },
 
     methods:{
+
+      getStates: function(){
+        this.http
+        .get('/api/quotations/states')
+        .then((response)=>{
+          if(response.successful){
+            this.states = response.data;
+            // We copy all the values to this.filters.selected_states so they appear selected
+            // from the begining
+            this.filters.selected_states = this.states.map((state)=>{
+              return state.value;
+            });
+          }else{
+            this.handleError(response.error);
+          }
+        }).catch((err)=>{
+          console.log("Error", err.stack, err.name, err.message);
+        });
+      },
 
       deleteSelectedQuotation: function(){
         this.http
@@ -161,7 +187,7 @@
                 </div>
               </div>
               <div class="form-row">
-                <div class="col-2">
+                <div class="col-4 col-xl-2">
                   <b class="color-search-title">
                     {{translations.index.search_fields.titles.code}}
                   </b>
@@ -172,7 +198,7 @@
                     <b-input v-model=filters.id></b-input>
                   </div>
                 </div>
-                <div class="col-2">
+                <div class="col-4 col-xl-2">
                   <b class="color-search-title">
                     {{translations.index.search_fields.titles.date_initial}}
                   </b>
@@ -183,7 +209,7 @@
                     <b-input v-model=filters.quotation_initial_date type="date"></b-input>
                   </div>
                 </div>
-                <div class="col-2">
+                <div class="col-4 col-xl-2">
                   <b class="color-search-title">
                     {{translations.index.search_fields.titles.date_final}}
                   </b>
@@ -194,7 +220,18 @@
                     <b-input v-model=filters.quotation_final_date type="date"></b-input>
                   </div>
                 </div>
-                <div class="col-2 offset-4 text-right button-margin-top">
+                <div class="col-6 col-xl-4">
+                  <b class="color-search-title">
+                    {{translations.index.search_fields.titles.state}}
+                  </b>
+                  <b-form-group>
+                    <b-form-checkbox-group
+                      v-model="filters.selected_states"
+                      :options="states"
+                    ></b-form-checkbox-group>
+                  </b-form-group>
+                </div>
+                <div class=" offset-4 offset-xl-0 col-2 col-xl-2 text-right button-margin-top">
                   <button class="btn-block btn btn-purple" type="submit" value="Search">
                     <i class="fas fa-search fa-sm"></i>
                      {{translations.index.buttons.search}}
@@ -253,13 +290,14 @@
             >
               <i class="fas fa-edit fa-xs"></i>
             </a>
-            <b-button 
+            <button 
               class="btn btn-danger text-white"
               v-on:click="showModal(data.item.id)"
               v-bind:class="{disabled: data.item.state != 'created'}"
+              :disabled="data.item.state!='created'"
             >
               <i class="fas fa-trash-alt fa-xs"></i>
-            </b-button>
+            </button>
           </div>
         </template>
       </b-table>
