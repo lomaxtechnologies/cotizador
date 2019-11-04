@@ -4,7 +4,8 @@ export default {
       //date will be returned in standard format YYYY-MM-DD
       let today = function(){
          var date = new Date();
-         return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+         //We do not use time so date type inputs will accept the value
+         return date.toISOString().substr(0, 10);
       }
 
       let date_options = {
