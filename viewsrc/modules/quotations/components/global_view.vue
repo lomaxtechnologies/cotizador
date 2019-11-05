@@ -145,7 +145,7 @@
     <div class="card-header">
       <div class="row">
         <div class="col-2 mb-4">
-          <b-img src="/assets/lomax-logo.png" fluid alt="Fluid image"></b-img>
+          <b-img src="/lomax-logo.png" fluid alt="Fluid image"></b-img>
         </div>
         <div class="col-10 mb-4 text-right">
           <h3><b>{{translations.show.titles.quotation_number}}

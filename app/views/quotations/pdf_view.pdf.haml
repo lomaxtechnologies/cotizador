@@ -257,10 +257,25 @@
       %br
       %table
         %tr
-          %th 
-            %b= "#{t('quotations.show.titles.option')}:"
+          %th{:rowspan => "2"} 
+            %b
+              = "#{t('quotations.show.titles.option')}:"
+              &nbsp;&nbsp;
           %th
-            %b=t('quotations.show.titles.option_a_b')
+            %b
+              =t('quotations.show.titles.opt_A')
+              &nbsp;
+          %th
+            %span.border.border-dark.pl-1.pr-2
+              &nbsp;
+          %th
+            %b
+              &nbsp;
+              =t('quotations.show.titles.opt_B')
+              &nbsp;
+          %th    
+            %span.border.border-dark.pl-1.pr-2
+              &nbsp;
   -else
     .offset-4.text-center.pagebreak
     %hr{:color => "black", :width => "35%"}/
