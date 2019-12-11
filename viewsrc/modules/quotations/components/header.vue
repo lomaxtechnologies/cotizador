@@ -1,5 +1,11 @@
 <script type="text/javascript">
+  
+  import componentAutocomplete from '../components/autocomplete.vue';
+  
   export default {
+    components:{
+      'component-autocomplete': componentAutocomplete
+    },
 
     props:{
       section_valid: {
@@ -27,9 +33,9 @@
     },
 
     mounted(){
-      this.getClients();
       this.getQuotationTypes();
       this.getHeader();
+      this.setListener();
     },
 
     computed:{
@@ -42,6 +48,19 @@
     },
 
     methods:{
+      setListener(){
+        this.bus.$on("autocomplete:selected",(client)=>{
+          if(client){
+            this.quotation.client_id = client.id;
+            this.$set(this.quotation, 'client_nit', client.nit);
+          }
+        });
+
+        this.bus.$on("autocomplete:unselected",(client)=>{
+          this.quotation.client_id = null;
+          this.$set(this.quotation, 'client_nit', '');
+        });
+      },
 
       getHeader(){
         if(this.quotation_id){
@@ -57,24 +76,6 @@
             console.log("Error", err.stack, err.name, err.message);
           });
         }
-      },
-
-      getClients(){
-        this.http
-        .get('/api/clients')
-        .then((response)=>{
-          if(response.successful){
-            this.clients = response.data;
-            if(!this.quotation_id && this.clients.length > 0){
-              this.quotation.client_id = this.clients[0].id;
-              this.quotation.client_nit = this.clients[0].nit;
-            }
-          }else{
-            this.handleError(response.error);
-          }
-        }).catch((err)=>{
-          console.log("Error", err.stack, err.name, err.message);
-        });
       },
 
       getQuotationTypes(){
@@ -105,19 +106,23 @@
 
       createHeader(){
         this.$emit('update:section_valid', false);
-        this.http
-        .post('/quotations', {quotation: this.quotation})
-        .then((response)=>{
-          if(response.successful){
-            this.alert(this.translations.notifications.header_updated,'success');
-            this.$emit('update:quotation_id', response.data.id);
-            this.$emit('update:section_valid', true);
-          }else{
-            this.handleError(response.error);
-          }
-        }).catch((err)=>{
-          console.log("Error", err.stack, err.name, err.message);
-        });
+        if(this.quotation.client_id){
+          this.http
+          .post('/quotations', {quotation: this.quotation})
+          .then((response)=>{
+            if(response.successful){
+              this.alert(this.translations.notifications.header_updated,'success');
+              this.$emit('update:quotation_id', response.data.id);
+              this.$emit('update:section_valid', true);
+            }else{
+              this.handleError(response.error);
+            }
+          }).catch((err)=>{
+            console.log("Error", err.stack, err.name, err.message);
+          });
+        }else{
+          this.alert(this.translations.errors.client)
+        }
       },
 
       updateHeader(){
@@ -134,18 +139,6 @@
         }).catch((err)=>{
           console.log("Error", err.stack, err.name, err.message);
         });
-      }
-    },
-
-    watch:{
-      //updates the client's nit when the user changes 
-      'quotation.client_id': function(){
-        if(this.clients.length > 0){
-          var selected_client = this.clients.filter((client)=>{
-            return client.id == this.quotation.client_id;
-          });
-          this.quotation.client_nit = selected_client[0].nit;
-        }
       }
     }
   }
@@ -166,9 +159,9 @@
               </div>
             </div>
             <b-input 
-              v-model=quotationCode
+              v-model="quotationCode"
               type="text"
-              :disabled=true
+              :readonly="true"
             ></b-input>
           </div>
         </div>
@@ -177,19 +170,10 @@
             {{translations.titles.client}}
           </label>
           <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <div class="input-group-text bg-white text-primary">
-                <i class="fas fa-user-alt"></i>
-              </div>
-            </div>
-            <b-form-select 
-              v-model=quotation.client_id
-              value-field="id"
-              text-field="name"
-              :required=true
-              :options=clients
-            >
-            </b-form-select>
+            <component-autocomplete
+              :placeholder="translations.autocomplete.title"
+              :source="`/api/clients`"
+            />
           </div>
         </div>
         <div class="col-3">
@@ -197,12 +181,7 @@
             {{translations.titles.nit}}
           </label>
           <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <div class="input-group-text bg-white text-primary">
-                <i class="fas fa-hashtag"></i>
-              </div>
-            </div>
-            <b-input type="text" v-model=quotation.client_nit :disabled=true></b-input>
+            <b-input type="text" v-model="quotation.client_nit" :readonly="true"></b-input>
 
           </div>
         </div>
@@ -216,7 +195,7 @@
                 <i class="fas fa-calendar"></i>
               </div>
             </div>
-            <b-input type="date" v-model=quotation.quotation_date :disabled=true ></b-input>
+            <b-input type="date" v-model=quotation.quotation_date :readonly="true" ></b-input>
           </div>
         </div>
         <div class="col-3">
@@ -232,8 +211,8 @@
             <b-form-select
               v-model="quotation.quotation_type"
               :disabled="quotation_id!=null"
-              :required=true
-              :options=quotation_types
+              :required="true"
+              :options="quotation_types"
             ></b-form-select>
           </div>
         </div>
