@@ -86,7 +86,15 @@ class Quotation < ApplicationRecord
   end
 
   def header_only
-    attributes.slice("client_id","quotation_date","quotation_type")
+    Quotation.joins(:client).select(
+      "quotations.client_id",
+      "quotations.quotation_date",
+      "quotations.quotation_type",
+      "clients.nit as client_nit",
+      "clients.name as client_name"
+    ).where(
+      id: id
+    ).first
   end
 
   def services_only

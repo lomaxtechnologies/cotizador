@@ -63,7 +63,7 @@ class ClientsController < ApplicationController
 
   # GET /api/clients
   def api_index
-    search = params[:search].split
+    search = params.fetch(:search, "").split
     query = ""
     search.each do |str|
       if query.empty?

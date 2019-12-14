@@ -123,6 +123,8 @@ es:
         supranet: Supranet
         siemon: Siemon
       services:
+        autocomplete:
+          title: Selecciona un Servicio
         notifications:
           services_updated: Cambios guardados en los servicios
           remember_save: Recuerda presionar 'Siguiente' para guardar los cambios

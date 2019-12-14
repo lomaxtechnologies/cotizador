@@ -1,5 +1,5 @@
 <script type="text/javascript">
-  
+
   import componentAutocomplete from '../components/autocomplete.vue';
   
   export default {
@@ -20,6 +20,7 @@
 
     data(){
       return {
+        display_section: false,
         translations: I18n.t('quotations.new_edit.header'),
         quotation:{
           client_id: null,
@@ -36,15 +37,6 @@
       this.getQuotationTypes();
       this.getHeader();
       this.setListener();
-    },
-
-    computed:{
-      quotationCode: function(){
-        if(this.quotation_id){
-          return this.quotation_id;
-        }
-        return null;
-      }
     },
 
     methods:{
@@ -67,6 +59,7 @@
           this.http
           .get(`/api/quotations/${this.quotation_id}/header`)
           .then((response)=>{
+            this.display_section = true
             if(response.successful){
               this.quotation = response.data;
             }else{
@@ -75,6 +68,8 @@
           }).catch((err)=>{
             console.log("Error", err.stack, err.name, err.message);
           });
+        }else{
+          this.display_section = true
         }
       },
 
@@ -145,7 +140,7 @@
 </script>
 
 <template>
-  <div>
+  <section v-if="display_section">
     <b-form v-on:submit=submitForm>
       <b-form-row>
         <div class="col-2">
@@ -159,7 +154,7 @@
               </div>
             </div>
             <b-input 
-              v-model="quotationCode"
+              v-model="quotation_id"
               type="text"
               :readonly="true"
             ></b-input>
@@ -171,8 +166,10 @@
           </label>
           <div class="input-group mb-3">
             <component-autocomplete
+              :prefix="'header'"
               :placeholder="translations.autocomplete.title"
               :source="`/api/clients`"
+              :value="{id: quotation.client_id, value: quotation.client_name}"
             />
           </div>
         </div>
@@ -182,7 +179,6 @@
           </label>
           <div class="input-group mb-3">
             <b-input type="text" v-model="quotation.client_nit" :readonly="true"></b-input>
-
           </div>
         </div>
         <div class="col-3">
@@ -227,5 +223,5 @@
         </div>
       </b-form-row>
     </b-form>
-  </div>
+  </section>
 </template>

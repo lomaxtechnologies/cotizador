@@ -7,7 +7,7 @@ class Service < ApplicationRecord
 
   # Returns all the services, but only the id, name description and price
   scope :fields_for_quotation, -> {
-    select(:id, "concat(name, ' ', description) as name", :price).all.order(name: 'asc',description: 'asc')
+    select(:id, "concat(name, ' ', description) as value", :price).all
   }
 
   def save

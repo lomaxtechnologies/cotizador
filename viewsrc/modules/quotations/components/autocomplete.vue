@@ -1,7 +1,7 @@
 <script>
 export default {
 
-  props: ["value", "source", "placeholder"],
+  props: ["value", "source", "placeholder","prefix"],
 
   data() {
     return {
@@ -13,7 +13,7 @@ export default {
         value: ""
       },
       childs: null,
-      index: 0
+      index: -1
     };
   },
 
@@ -33,14 +33,28 @@ export default {
   methods: {
     listeners() {
       this.childs = this.$refs.list.querySelectorAll("li");
-      document.getElementById("autocomplete-component").onkeydown = e => {
+      document.getElementById('autocomplete-wrap').onkeydown = e =>{
+        if(e.keyCode == 8){
+          e.preventDefault();
+          if(this.search.length > 0){
+            this.search = this.search.slice(0, -1)
+          }
+          document.getElementById("autocomplete-input").focus();
+        }
+      }
+
+      document.getElementById(`${this.prefix}-autocomplete-component`).onkeydown = e => {
         if([38, 40, 13].includes(e.keyCode)){
           e.preventDefault()
         }
         switch (e.keyCode) {
           case 38:
-            if (this.index > 0) {
+            if (this.index >= 0) {
               this.index--;
+            }
+            if(this.index < 0){
+              document.getElementById("autocomplete-input").focus();
+              break;
             }
             this.childs[this.index].focus();
             break;
@@ -58,7 +72,7 @@ export default {
     },
 
     loadOptions() {
-      this.index = 0
+      this.index = -1
       this.bus.$emit("autocomplete:unselected");
       this.http.get(this.$props.source, {
         params: {
@@ -88,34 +102,26 @@ export default {
   watch: {
 
     search(value) {
-      if (!this.disableSearch) {
+      if (! this.disableSearch) {
         if (value !== "") {
           this.loadOptions();
         } else {
           this.options.length = 0;
         }
       }
-    },
-
-    value(value) {
-      if (typeof value === "object") {
-        this.search = value.value;
-      } else {
-        this.search = value;
-      }
     }
-
   }
 }
 </script>
 <template>
-  <div id="autocomplete-component" class="component w-100">
+  <div :id="`${prefix}-autocomplete-component`" class="component w-100">
     <input
       id="autocomplete-input"
       class="form-control text_input"
       type="text"
       v-model="search"
       :required="true"
+      autocomplete="off"
       :placeholder="placeholder"
       ref="result"
     />

@@ -1,5 +1,11 @@
 <script type="text/javascript">
+  
+  import componentAutocomplete from '../components/autocomplete.vue';
+
   export default {
+    components:{
+      'component-autocomplete': componentAutocomplete
+    },
 
     props:{
       section_valid: {
@@ -164,18 +170,11 @@
         <div class="col-10">
           <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.service}} </label>
           <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <div class="input-group-text bg-white text-primary">
-                <i class="fas fa-user-alt"></i>
-              </div>
-            </div>
-            <b-form-select 
-              v-model=form_fields.service_id
-              :options=services
-              value-field="id"
-              text-field="name" 
-            >
-            </b-form-select>
+            <component-autocomplete
+              :prefix="'services'"
+              :placeholder="translations.autocomplete.title"
+              :source="`/api/services`"
+            />
           </div>
         </div>
         <div class="col-2">

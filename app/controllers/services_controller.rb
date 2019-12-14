@@ -60,7 +60,21 @@ class ServicesController < ApplicationController
 
   # GET /api/services
   def api_index
-    response_with_success(Service.fields_for_quotation)
+    search = params.fetch(:search, "").split
+    query = ""
+    search.each do |str|
+      if query.empty?
+        query += "(lower(name) like '%#{str}%' OR lower(description) like '%#{str}%')"
+      else
+        query += "AND (lower(name) like '%#{str}%' OR lower(description) like '%#{str}%')"
+      end
+    end
+
+    puts query
+
+    response_with_success(
+      Service.where(query).fields_for_quotation
+    )
   end
 
   # PUT api/services/batch
