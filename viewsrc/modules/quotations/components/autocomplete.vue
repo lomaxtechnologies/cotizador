@@ -1,7 +1,7 @@
 <script>
 export default {
 
-  props: ["value", "source", "placeholder","prefix"],
+  props: ["value", "source", "placeholder","clear"],
 
   data() {
     return {
@@ -33,17 +33,17 @@ export default {
   methods: {
     listeners() {
       this.childs = this.$refs.list.querySelectorAll("li");
-      document.getElementById('autocomplete-wrap').onkeydown = e =>{
+      this.$refs.list.onkeydown = e =>{
         if(e.keyCode == 8){
           e.preventDefault();
           if(this.search.length > 0){
             this.search = this.search.slice(0, -1)
           }
-          document.getElementById("autocomplete-input").focus();
+          this.$refs.input.focus();
         }
       }
 
-      document.getElementById(`${this.prefix}-autocomplete-component`).onkeydown = e => {
+      this.$refs.component.onkeydown = e => {
         if([38, 40, 13].includes(e.keyCode)){
           e.preventDefault()
         }
@@ -53,7 +53,7 @@ export default {
               this.index--;
             }
             if(this.index < 0){
-              document.getElementById("autocomplete-input").focus();
+              this.$refs.input.focus();
               break;
             }
             this.childs[this.index].focus();
@@ -73,7 +73,7 @@ export default {
 
     loadOptions() {
       this.index = -1
-      this.bus.$emit("autocomplete:unselected");
+      this.$emit("autocomplete:unselected");
       this.http.get(this.$props.source, {
         params: {
           search: this.search.toLowerCase()
@@ -89,8 +89,8 @@ export default {
       this.options = [];
       this.selected = option;
       this.search = option.value;
-      this.bus.$emit("autocomplete:selected", this.selected);
-      document.getElementById("autocomplete-input").focus(); 
+      this.$emit("autocomplete:selected", this.selected);
+      this.$refs.input.focus(); 
       setTimeout(() => {
         this.disableSearch = false;
       }, 300);
@@ -109,23 +109,29 @@ export default {
           this.options.length = 0;
         }
       }
+    },
+
+    clear(){
+      if(this.clear){
+        this.search = ''
+        this.$refs.input.focus()
+        this.$emit('update:clear', false)
+      }
     }
   }
 }
 </script>
 <template>
-  <div :id="`${prefix}-autocomplete-component`" class="component w-100">
+  <div ref="component" class="component w-100">
     <input
-      id="autocomplete-input"
       class="form-control text_input"
       type="text"
       v-model="search"
-      :required="true"
       autocomplete="off"
       :placeholder="placeholder"
-      ref="result"
+      ref="input"
     />
-    <ul id="autocomplete-wrap" class="list-group w-100" v-show="options.length > 0" ref="list">
+    <ul class="list-group w-100 autocomplete-wrap" v-show="options.length > 0" ref="list">
         <li
           class="list-group-item list-group-item-action"
           v-for="(option, index) in options"
@@ -139,12 +145,12 @@ export default {
   </div>
 </template>
 <style lang="scss">
-#autocomplete-wrap {
+.autocomplete-wrap {
   background-color: #FFFFFF;
   position: absolute;
   z-index: 200;
 }
-#autocomplete-wrap li {
+.autocomplete-wrap li {
   padding: 0.25rem;
 }
 </style>

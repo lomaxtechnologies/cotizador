@@ -36,22 +36,19 @@
     mounted(){
       this.getQuotationTypes();
       this.getHeader();
-      this.setListener();
     },
 
     methods:{
-      setListener(){
-        this.bus.$on("autocomplete:selected",(client)=>{
-          if(client){
-            this.quotation.client_id = client.id;
-            this.$set(this.quotation, 'client_nit', client.nit);
-          }
-        });
+      clientSelected(client){
+        if(client){
+          this.quotation.client_id = client.id;
+          this.$set(this.quotation, 'client_nit', client.nit);
+        }
+      },
 
-        this.bus.$on("autocomplete:unselected",(client)=>{
-          this.quotation.client_id = null;
-          this.$set(this.quotation, 'client_nit', '');
-        });
+      clientUnselected(){
+        this.quotation.client_id = null;
+        this.$set(this.quotation, 'client_nit', '');
       },
 
       getHeader(){
@@ -166,7 +163,8 @@
           </label>
           <div class="input-group mb-3">
             <component-autocomplete
-              :prefix="'header'"
+              @autocomplete:selected="clientSelected"
+              @autocomplete:unselected="clientUnselected"
               :placeholder="translations.autocomplete.title"
               :source="`/api/clients`"
               :value="{id: quotation.client_id, value: quotation.client_name}"

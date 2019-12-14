@@ -125,6 +125,8 @@ es:
       services:
         autocomplete:
           title: Selecciona un Servicio
+        errors:
+          service_not_selected: Por favor selecciona un servicio de la lista
         notifications:
           services_updated: Cambios guardados en los servicios
           remember_save: Recuerda presionar 'Siguiente' para guardar los cambios
