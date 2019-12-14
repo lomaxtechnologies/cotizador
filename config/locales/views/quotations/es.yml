@@ -50,6 +50,8 @@ es:
         quotation_activated: La cotización ha sido activada satisfactoriamente
         quotation_discarded: La cotización ha sido descartada satifactoriamente
       header:
+        autocomplete:
+          title: Nombre del Cliente
         notifications:
           header_updated: Cambios guardados en el encabezado
         titles:
@@ -66,8 +68,8 @@ es:
           use_supranet: Usar Supranet
           use_siemon: Usar Siemon
         errors:
-          date: Debe ingresar una fecha válida
-          client: Debe seleccionar un cliente
+          date: Debes ingresar una fecha válida
+          client: Debes seleccionar un cliente del listado
       materials:
         notifications:
           materials_updated: Cambios guardados en los materiales
@@ -121,6 +123,10 @@ es:
         supranet: Supranet
         siemon: Siemon
       services:
+        autocomplete:
+          title: Selecciona un Servicio
+        errors:
+          service_not_selected: Por favor selecciona un servicio de la lista
         notifications:
           services_updated: Cambios guardados en los servicios
           remember_save: Recuerda presionar 'Siguiente' para guardar los cambios

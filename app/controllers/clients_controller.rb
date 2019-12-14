@@ -63,7 +63,21 @@ class ClientsController < ApplicationController
 
   # GET /api/clients
   def api_index
-    response_with_success(Client.fields_for_quotation.order(:name))
+    search = params.fetch(:search, "").split
+    query = ""
+    search.each do |str|
+      if query.empty?
+        query += "lower(name) like '%#{str}%'"
+      else
+        query += "AND lower(name) like '%#{str}%'"
+      end
+    end
+
+    puts query
+
+    response_with_success(
+      Client.where(query).fields_for_quotation
+    )
   end
 
   private
