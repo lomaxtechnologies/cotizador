@@ -68,15 +68,16 @@ export default {
 </script>
 
 <template>
-  <section>
-    <div v-if="quotation_type === 't_comparative'">
-    </div>
-    <div v-else>
-      <quotation-simple
-        :quotation_type="quotation_type"
-        :quotation_id="quotation_id"
+  <div v-if="quotation_type === 't_comparative'">
+    <quotation-complex 
+    :quotation_id="quotation_id">  
+    </quotation-complex>
+  </div>
+  <div v-else>
+    <quotation-simple
+      :quotation_type="quotation_type"
+      :quotation_id="quotation_id"
         :section_valid.sync="component_simple_valid"
-      ></quotation-simple>
-    </div>
-  </section>
+    ></quotation-simple>
+  </div>
 </template>
