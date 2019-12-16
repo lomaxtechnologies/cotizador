@@ -95,7 +95,7 @@ Rails.application.routes.draw do
     scope :products do
       get "/comparative", to: "products#api_comparative"
       get "/simple", to: "products#api_simple"
-      get "/per_brand", to: "products#api_per_brand"
+      get "/per_brand/:quotation_type", to: "products#api_per_brand"
     end
 
   end

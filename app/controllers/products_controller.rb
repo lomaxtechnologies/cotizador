@@ -92,12 +92,13 @@ class ProductsController < ApplicationController
 
   def api_per_brand
     products = ""
-    if params[:quotation_type] == "t_supranet"
+    if params[:quotation_type] == "t_supranet_only"
       products = Product.fields_for_supranet
     else 
       products = Product.fields_for_siemon
     end
-
+    
+    search = params.fetch(:search, "").split
     query = ""
 
     search.each do |str|
@@ -107,7 +108,11 @@ class ProductsController < ApplicationController
         query += "AND (lower(materials.name) like '%#{str}%' OR lower(materials.description) like '%#{str}%')"
       end
     end
-    response_with_success(products.where(query))
+    products = products.where(query).map do |product|
+      product.attributes
+    end
+
+    response_with_success(products)
   end
 
   def products_by_material

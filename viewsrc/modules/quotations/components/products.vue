@@ -58,6 +58,7 @@ export default {
   <div v-else>
     <quotation-simple
       :quotation_type="quotation_type"
+      :quotation_id="quotation_id"
     ></quotation-simple>
   </div>
 </template>

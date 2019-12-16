@@ -5,11 +5,12 @@ export default {
       'component-autocomplete': componentAutocomplete
   },
 
-  props: ["quotation_type"],
+  props: ["quotation_type","quotation_id"],
   data() {
     return {
       translations: I18n.t('quotations.new_edit.materials'),
       material: {},
+      source_api: '/api/products/simple',
       quotation_products: {
         material_id: 0,
         amount: 1,
@@ -37,6 +38,13 @@ export default {
         });
       }
     },
+    setSource: function(){
+      if (this.quotation_type === 't_simple'){
+        this.source_api = '/api/products/simple'
+      }else{
+        this.source_api = '/api/products/per_brand/'+this.quotation_type
+      }
+    },
     setTableHeaders: function(){
       switch(this.quotation_type){
         case 't_simple':
@@ -59,7 +67,6 @@ export default {
       this.table_headers.push({actions: ''});
     },
     materialSelected(material){
-      console.log(material);
       this.material = material
       this.quotation_products.material_id = material.id
       this.quotation_products.price = material.product_price
@@ -74,11 +81,13 @@ export default {
       let total = this.quotation_products.amount * this.quotation_products.price
       let total_percent = total * this.percentage.format(this.quotation_products.percent)
       this.selected_materials.push({
-        id: this.quotation_products.material_id,
+        id: this.quotation_products.id,
+        material_id: this.quotation_products.material_id,
         amount: this.quotation_products.amount,
         code: this.material.code,
         material: this.material.value,
-        brand: this.material.brand.name,
+        brand: this.material.brand,
+        product_id: this.quotation_products.id,
         percent: this.quotation_products.percent,
         price: this.quotation_products.price,
         total: this.currency.format(total),
@@ -87,21 +96,42 @@ export default {
       });
       this.quotation_products.material_id = null
       this.quotation_products.price=0
+      this.quotation_products.percent = 15
+      this.quotation_products.amount = 1
+    },
+    formatData: function(){
+      var data =  {
+          quotation: {
+            quotation_products_attributes: this.selected_materials
+          }
+        };
+      return data
     },
     submit(){
       this.$emit("update:section_valid", false);
-
+      this.http
+        .put(`/api/quotations/${this.quotation_id}/update`, this.formatData())
+        .then(response => {
+          if (response.successful) {
+            this.$emit("update:section_valid", true);
+            this.alert(this.translations.notifications.materials_updated,'success');
+          } else {
+            this.handleError(response.error);
+          }
+        })
+        .catch(err => {
+          console.log("Error", err.stack, err.name, err.message);
+        });
+    },
+    deleteProduct: function(index){
+      this.selected_materials.splice(index,1);
     }
   },
   watch: {
     quotation_type: function(){
       this.setTableHeaders();
       this.getQuotationProducts();
-      if (this.quotation_type === 't_simple'){
-        this.source = '/api/products/simple'
-      }else{
-        this.source = '/api/products/per_brand/'+this.quotation_type
-      }
+      this.setSource();
     }
   }
 }
@@ -121,7 +151,7 @@ export default {
           <component-autocomplete
             :clear.sync="clear_autocomplete"
             :placeholder="translations.autocomplete.title"
-            :source="source"
+            :source="source_api"
             @autocomplete:selected="materialSelected"
             @autocomplete:unselected="materialUnselected"
           />
@@ -205,9 +235,6 @@ export default {
       </template>
       <template v-slot:cell(name)="data">{{ data.item.name }}</template>
       <template v-slot:cell(actions)="data">
-        <b-button class="btn btn-success text-white mr-1" v-on:click="editProduct(data.index)">
-          <i class="fas fa-edit fa-xs text-white"></i>
-        </b-button>
         <b-button class="btn btn-danger" type="submit" v-on:click="deleteProduct(data.index)">
           <i class="fas fa-trash-alt fa-xs"></i>
         </b-button>
