@@ -92,7 +92,6 @@ export default {
         let total_percent_siemon = this.quotation_products.amount * siemon_price_percent;
         let total_supranet = this.quotation_products.amount * this.quotation_products.supranet_price;
         let supranet_price_percent = (this.quotation_products.supranet_price * this.percentage.format(this.quotation_products.supranet_percent)).toFixed(2);
-
         let total_percent_supranet = this.quotation_products.amount * supranet_price_percent;
       
         this.selected_materials.push({
@@ -128,26 +127,27 @@ export default {
         this.quotation_products.siemon_price = 0
         this.quotation_products.supranet_price = 0
         this.quotation_products.amount = 1
+
       }else if(this.siemon_material !== null){
         this.clear_siemon_autocomplete = true;
         this.clear_supranet_autocomplete = true;    
         
         let total_siemon = this.quotation_products.amount * this.quotation_products.siemon_price
-        let siemon_price_percent = this.quotation_products.siemon_price * this.percentage.format(this.quotation_products.siemon_percent) 
-        let total_percent_siemon = total_siemon * this.percentage.format(this.quotation_products.siemon_percent)
+        let siemon_price_percent = (this.quotation_products.siemon_price * this.percentage.format(this.quotation_products.siemon_percent)).toFixed(2) 
+        let total_percent_siemon = this.quotation_products.amount * siemon_price_percent
     
         this.selected_materials.push({
           amount: this.quotation_products.amount,
           material: this.siemon_material.value,
           percent_supranet: this.quotation_products.siemon_percent,
           price_supranet: this.quotation_products.siemon_price,
-          total_supranet: `${total_siemon.toFixed(2)}`,
-          price_percent_supranet: siemon_price_percent.toFixed(2),
+          total_supranet: total_siemon.toFixed(2),
+          price_percent_supranet: siemon_price_percent,
           total_percent_supranet: total_percent_siemon.toFixed(2),
           percent_siemon: this.quotation_products.siemon_percent,
           price_siemon: this.quotation_products.siemon_price,
-          total_siemon: `${total_siemon.toFixed(2)}`,
-          price_percent_siemon: siemon_price_percent.toFixed(2),
+          total_siemon: total_siemon.toFixed(2),
+          price_percent_siemon: siemon_price_percent,
           total_percent_siemon: total_percent_siemon.toFixed(2)
         });
 
@@ -168,26 +168,27 @@ export default {
         this.quotation_products.siemon_price = 0
         this.quotation_products.supranet_price = 0
         this.quotation_products.amount = 1
+
       }else if(this.supranet_material!==null){
         this.clear_siemon_autocomplete = true;
         this.clear_supranet_autocomplete = true;    
         
         let total_supranet = this.quotation_products.amount * this.quotation_products.supranet_price;
-        let supranet_price_percent = this.quotation_products.supranet_price * this.percentage.format(this.quotation_products.supranet_percent)
-        let total_percent_supranet = total_supranet * this.percentage.format(this.quotation_products.supranet_percent)
+        let supranet_price_percent = (this.quotation_products.supranet_price * this.percentage.format(this.quotation_products.supranet_percent)).toFixed(2);
+        let total_percent_supranet = this.quotation_products.amount * supranet_price_percent;
       
         this.selected_materials.push({
           amount: this.quotation_products.amount,
           material: this.supranet_material.value,
           percent_supranet: this.quotation_products.supranet_percent,
           price_supranet: this.quotation_products.supranet_price,
-          total_supranet: `${total_supranet.toFixed(2)}`,
-          price_percent_supranet: supranet_price_percent.toFixed(2),
+          total_supranet: total_supranet.toFixed(2),
+          price_percent_supranet: supranet_price_percent,
           total_percent_supranet: total_percent_supranet.toFixed(2),
           percent_siemon: this.quotation_products.supranet_percent,
           price_siemon: this.quotation_products.supranet_price,
-          total_siemon: `${total_supranet.toFixed(2)}`,
-          price_percent_siemon: supranet_price_percent.toFixed(2),
+          total_siemon: total_supranet.toFixed(2),
+          price_percent_siemon: supranet_price_percent,
           total_percent_siemon: total_percent_supranet.toFixed(2)
         });
 
@@ -263,20 +264,13 @@ export default {
         <br />
         <label class="text-primary font-weight-bold">Siemon</label>
         <div class="input-group mb-3" >
-          <div class="input-group-prepend">
-            <div class="input-group-text bg-white text-primary">
-              <i class="fas fa-user-alt"></i>
-            </div>
-          </div>
-          <div class="col-7">
-            <component-autocomplete
-                :clear.sync="clear_siemon_autocomplete"
-                :placeholder="translations.autocomplete.title"
-                :source="`/api/products/per_brand/t_siemon_only`"
-                @autocomplete:selected="materialSiemonSelected"
-                @autocomplete:unselected="materialSiemonUnselected"
-              />
-          </div>
+          <component-autocomplete
+              :clear.sync="clear_siemon_autocomplete"
+              :placeholder="translations.autocomplete.title"
+              :source="`/api/products/per_brand/t_siemon_only`"
+              @autocomplete:selected="materialSiemonSelected"
+              @autocomplete:unselected="materialSiemonUnselected"
+            />
         </div>
       </div>
     </b-form-row>
@@ -318,20 +312,13 @@ export default {
     <b-form-row>
       <label class="text-primary font-weight-bold">Supranet</label>
       <div class="input-group mb-3" >
-        <div class="input-group-prepend">
-          <div class="input-group-text bg-white text-primary">
-            <i class="fas fa-user-alt"></i>
-          </div>
-        </div>
-        <div class="col-7">
-          <component-autocomplete
-              :clear.sync="clear_supranet_autocomplete"
-              :placeholder="translations.autocomplete.title"
-              :source="`/api/products/per_brand/t_supranet_only`"
-              @autocomplete:selected="materialSupranetSelected"
-              @autocomplete:unselected="materialSupranetUnselected"
-            />
-        </div>
+        <component-autocomplete
+            :clear.sync="clear_supranet_autocomplete"
+            :placeholder="translations.autocomplete.title"
+            :source="`/api/products/per_brand/t_supranet_only`"
+            @autocomplete:selected="materialSupranetSelected"
+            @autocomplete:unselected="materialSupranetUnselected"
+          />
       </div>
     </b-form-row>
     <b-form-row>
@@ -368,7 +355,7 @@ export default {
             <b-form-input v-model="quotation_products.supranet_percent"></b-form-input>
           </div>
         </div>
-        <div class="col-2 offset-2">
+        <div class="col-2 offset-4">
         <br />
           <b-button variant="primary" block @click="addMaterial()">{{translations.buttons.add_material}}</b-button>
         </div>
@@ -404,14 +391,14 @@ export default {
       <template v-slot:cell(amount)="data">{{ parseInt(data.item.amount) }}</template>
       <template v-slot:cell(name)="data">{{ data.item.name }}</template>
       <template v-slot:cell(actions)="data">
-        <b-button class="btn btn-danger" type="submit" v-on:click="deleteProduct(data.index)">
+        <b-button class="btn btn-danger" type="button" v-on:click="deleteProduct(data.index)">
           <i class="fas fa-trash-alt fa-xs"></i>
         </b-button>
       </template>
     </b-table>
     <div class="row">
       <div class="col-2 offset-10">
-        <button class="btn btn-primary btn-block" type="submit" v-on:click="submit">{{translations.buttons.next}}</button>
+        <button class="btn btn-primary btn-block" type="button" v-on:click="submit">{{translations.buttons.next}}</button>
       </div>
     </div>
   </b-form>
