@@ -5,14 +5,14 @@ export default {
       'component-autocomplete': componentAutocomplete
   },
 
-  props: ["quotation_type","quotation_id"],
+  props: ["quotation_type","quotation_id","section_valid"],
   data() {
     return {
       translations: I18n.t('quotations.new_edit.materials'),
       material: {},
       source_api: '/api/products/simple',
       quotation_products: {
-        material_id: 0,
+        product_id: 0,
         amount: 1,
         percent: 15.0,
         price: 0.0 
@@ -68,36 +68,41 @@ export default {
     },
     materialSelected(material){
       this.material = material
-      this.quotation_products.material_id = material.id
+      this.quotation_products.product_id = material.id
       this.quotation_products.price = material.product_price
     },
     materialUnselected(){
-      this.quotation_products.material_id = null
+      this.quotation_products.product_id = null
       this.quotation_products.price=null
     },
     addMaterial(){
-      this.clear_autocomplete = true;
+      if(this.quotation_products.product_id != null){
+        this.clear_autocomplete = true;
+        let percentage = this.percentage.format(this.quotation_products.percent)
+        let price_percent = (this.quotation_products.price * percentage).toFixed(2)
+        let total = this.quotation_products.amount * this.quotation_products.price
+        let total_percent = this.quotation_products.amount * price_percent
+        
+        this.selected_materials.push({
+          product_id: this.quotation_products.product_id,
+          amount: this.quotation_products.amount,
+          code: this.material.code,
+          material: this.material.value,
+          brand: this.material.brand,
+          percent: this.quotation_products.percent,
+          price: this.currency.format(this.quotation_products.price),
+          total: this.currency.format(total),
+          price_percent: this.currency.format(price_percent),
+          total_percent: this.currency.format(total_percent)
+        });
+        this.quotation_products.product_id = null
+        this.quotation_products.price = 0
+        this.quotation_products.percent = 15
+        this.quotation_products.amount = 1
+      }else{
+        this.alert(this.translations.errors.product_not_selected, 'danger')
+      }
       
-      let total = this.quotation_products.amount * this.quotation_products.price
-      let total_percent = total * this.percentage.format(this.quotation_products.percent)
-      this.selected_materials.push({
-        id: this.quotation_products.id,
-        material_id: this.quotation_products.material_id,
-        amount: this.quotation_products.amount,
-        code: this.material.code,
-        material: this.material.value,
-        brand: this.material.brand,
-        product_id: this.quotation_products.id,
-        percent: this.quotation_products.percent,
-        price: this.quotation_products.price,
-        total: this.currency.format(total),
-        price_percent: this.quotation_products.price,
-        total_percent: this.currency.format(total_percent)
-      });
-      this.quotation_products.material_id = null
-      this.quotation_products.price=0
-      this.quotation_products.percent = 15
-      this.quotation_products.amount = 1
     },
     formatData: function(){
       var data =  {
@@ -143,11 +148,6 @@ export default {
       <div class="col-12">
         <label class="mb-0 text-primary font-weight-bold">{{translations.titles.material}}</label>
         <div class="input-group mb-3" >
-          <div class="input-group-prepend">
-            <div class="input-group-text bg-white text-primary">
-              <i class="fas fa-user-alt"></i>
-            </div>
-          </div>
           <component-autocomplete
             :clear.sync="clear_autocomplete"
             :placeholder="translations.autocomplete.title"
@@ -173,7 +173,7 @@ export default {
               <i class="fas fa-sort-amount-up"></i>
             </div>
           </div>
-          <b-form-input v-model="quotation_products.amount"></b-form-input>
+          <b-form-input v-model="quotation_products.amount" type="number" min="0" step="1"></b-form-input>
         </div>
       </div>
       <div class="col-2">
@@ -195,7 +195,7 @@ export default {
               <i class="fas fa-percentage"></i>
             </div>
           </div>
-          <b-form-input v-model="quotation_products.percent"></b-form-input>
+          <b-form-input v-model="quotation_products.percent" type="number" min="0" step="0.01"></b-form-input>
         </div>
       </div>
       <div class="col-2">
@@ -235,14 +235,14 @@ export default {
       </template>
       <template v-slot:cell(name)="data">{{ data.item.name }}</template>
       <template v-slot:cell(actions)="data">
-        <b-button class="btn btn-danger" type="submit" v-on:click="deleteProduct(data.index)">
+        <b-button class="btn btn-danger" type="button" v-on:click="deleteProduct(data.index)">
           <i class="fas fa-trash-alt fa-xs"></i>
         </b-button>
       </template>
     </b-table>
     <div class="row">
       <div class="col-2 offset-10">
-        <button class="btn btn-primary btn-block" type="submit" v-on:click="submit">{{translations.buttons.next}}</button>
+        <button class="btn btn-primary btn-block" type="button" v-on:click="submit">{{translations.buttons.next}}</button>
       </div>
     </div>
   </b-form>

@@ -20,13 +20,18 @@ export default {
   },
   data() {
     return {
+      component_simple_valid: false,
       quotation_type: null
     };
   },
   mounted(){
     this.getQuotationType();
+    this.syncFlags();
   },
   methods: {
+    syncFlags(){
+      this.component_simple_valid = this.section_valid;
+    },
     getQuotationType: function() {
       if(this.quotation_id){
         this.http
@@ -47,18 +52,31 @@ export default {
   watch: {
     quotation_id: function() {
       this.getQuotationType();
+    },
+    component_simple_valid: function(){
+      if(this.section_valid != this.component_simple_valid){
+        this.$emit('update:section_valid', this.component_simple_valid)
+      }
+    },
+    section_valid: function(){
+      if(this.section_valid != this.component_simple_valid){
+        this.component_simple_valid = this.section_valid
+      }
     }
   }
 };
 </script>
 
 <template>
-  <div v-if="quotation_type === 't_comparative'">
-  </div>
-  <div v-else>
-    <quotation-simple
-      :quotation_type="quotation_type"
-      :quotation_id="quotation_id"
-    ></quotation-simple>
-  </div>
+  <section>
+    <div v-if="quotation_type === 't_comparative'">
+    </div>
+    <div v-else>
+      <quotation-simple
+        :quotation_type="quotation_type"
+        :quotation_id="quotation_id"
+        :section_valid.sync="component_simple_valid"
+      ></quotation-simple>
+    </div>
+  </section>
 </template>
