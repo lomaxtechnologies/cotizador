@@ -1,5 +1,11 @@
 <script type="text/javascript">
+
+  import componentAutocomplete from '../components/autocomplete.vue';
+  
   export default {
+    components:{
+      'component-autocomplete': componentAutocomplete
+    },
 
     props:{
       section_valid: {
@@ -14,6 +20,7 @@
 
     data(){
       return {
+        display_section: false,
         translations: I18n.t('quotations.new_edit.header'),
         quotation:{
           client_id: null,
@@ -27,27 +34,29 @@
     },
 
     mounted(){
-      this.getClients();
       this.getQuotationTypes();
       this.getHeader();
     },
 
-    computed:{
-      quotationCode: function(){
-        if(this.quotation_id){
-          return this.quotation_id;
-        }
-        return null;
-      }
-    },
-
     methods:{
+      clientSelected(client){
+        if(client){
+          this.quotation.client_id = client.id;
+          this.$set(this.quotation, 'client_nit', client.nit);
+        }
+      },
+
+      clientUnselected(){
+        this.quotation.client_id = null;
+        this.$set(this.quotation, 'client_nit', '');
+      },
 
       getHeader(){
         if(this.quotation_id){
           this.http
           .get(`/api/quotations/${this.quotation_id}/header`)
           .then((response)=>{
+            this.display_section = true
             if(response.successful){
               this.quotation = response.data;
             }else{
@@ -56,25 +65,9 @@
           }).catch((err)=>{
             console.log("Error", err.stack, err.name, err.message);
           });
+        }else{
+          this.display_section = true
         }
-      },
-
-      getClients(){
-        this.http
-        .get('/api/clients')
-        .then((response)=>{
-          if(response.successful){
-            this.clients = response.data;
-            if(!this.quotation_id && this.clients.length > 0){
-              this.quotation.client_id = this.clients[0].id;
-              this.quotation.client_nit = this.clients[0].nit;
-            }
-          }else{
-            this.handleError(response.error);
-          }
-        }).catch((err)=>{
-          console.log("Error", err.stack, err.name, err.message);
-        });
       },
 
       getQuotationTypes(){
@@ -105,19 +98,23 @@
 
       createHeader(){
         this.$emit('update:section_valid', false);
-        this.http
-        .post('/quotations', {quotation: this.quotation})
-        .then((response)=>{
-          if(response.successful){
-            this.alert(this.translations.notifications.header_updated,'success');
-            this.$emit('update:quotation_id', response.data.id);
-            this.$emit('update:section_valid', true);
-          }else{
-            this.handleError(response.error);
-          }
-        }).catch((err)=>{
-          console.log("Error", err.stack, err.name, err.message);
-        });
+        if(this.quotation.client_id){
+          this.http
+          .post('/quotations', {quotation: this.quotation})
+          .then((response)=>{
+            if(response.successful){
+              this.alert(this.translations.notifications.header_updated,'success');
+              this.$emit('update:quotation_id', response.data.id);
+              this.$emit('update:section_valid', true);
+            }else{
+              this.handleError(response.error);
+            }
+          }).catch((err)=>{
+            console.log("Error", err.stack, err.name, err.message);
+          });
+        }else{
+          this.alert(this.translations.errors.client)
+        }
       },
 
       updateHeader(){
@@ -135,24 +132,12 @@
           console.log("Error", err.stack, err.name, err.message);
         });
       }
-    },
-
-    watch:{
-      //updates the client's nit when the user changes 
-      'quotation.client_id': function(){
-        if(this.clients.length > 0){
-          var selected_client = this.clients.filter((client)=>{
-            return client.id == this.quotation.client_id;
-          });
-          this.quotation.client_nit = selected_client[0].nit;
-        }
-      }
     }
   }
 </script>
 
 <template>
-  <div>
+  <section v-if="display_section">
     <b-form v-on:submit=submitForm>
       <b-form-row>
         <div class="col-2">
@@ -166,9 +151,9 @@
               </div>
             </div>
             <b-input 
-              v-model=quotationCode
+              v-model="quotation_id"
               type="text"
-              :disabled=true
+              :readonly="true"
             ></b-input>
           </div>
         </div>
@@ -177,19 +162,13 @@
             {{translations.titles.client}}
           </label>
           <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <div class="input-group-text bg-white text-primary">
-                <i class="fas fa-user-alt"></i>
-              </div>
-            </div>
-            <b-form-select 
-              v-model=quotation.client_id
-              value-field="id"
-              text-field="name"
-              :required=true
-              :options=clients
-            >
-            </b-form-select>
+            <component-autocomplete
+              @autocomplete:selected="clientSelected"
+              @autocomplete:unselected="clientUnselected"
+              :placeholder="translations.autocomplete.title"
+              :source="`/api/clients`"
+              :value="{id: quotation.client_id, value: quotation.client_name}"
+            />
           </div>
         </div>
         <div class="col-3">
@@ -197,13 +176,7 @@
             {{translations.titles.nit}}
           </label>
           <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <div class="input-group-text bg-white text-primary">
-                <i class="fas fa-hashtag"></i>
-              </div>
-            </div>
-            <b-input type="text" v-model=quotation.client_nit :disabled=true></b-input>
-
+            <b-input type="text" v-model="quotation.client_nit" :readonly="true"></b-input>
           </div>
         </div>
         <div class="col-3">
@@ -216,7 +189,7 @@
                 <i class="fas fa-calendar"></i>
               </div>
             </div>
-            <b-input type="date" v-model=quotation.quotation_date :disabled=true ></b-input>
+            <b-input type="date" v-model=quotation.quotation_date :readonly="true" ></b-input>
           </div>
         </div>
         <div class="col-3">
@@ -232,8 +205,8 @@
             <b-form-select
               v-model="quotation.quotation_type"
               :disabled="quotation_id!=null"
-              :required=true
-              :options=quotation_types
+              :required="true"
+              :options="quotation_types"
             ></b-form-select>
           </div>
         </div>
@@ -248,5 +221,5 @@
         </div>
       </b-form-row>
     </b-form>
-  </div>
+  </section>
 </template>

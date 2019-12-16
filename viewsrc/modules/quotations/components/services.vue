@@ -1,5 +1,11 @@
 <script type="text/javascript">
+  
+  import componentAutocomplete from '../components/autocomplete.vue';
+
   export default {
+    components:{
+      'component-autocomplete': componentAutocomplete
+    },
 
     props:{
       section_valid: {
@@ -15,6 +21,7 @@
     data() {
       return {
         translations: I18n.t('quotations.new_edit.services'),
+        clear_autocomplete: false,
         form_fields: {
           service_id: 0,
           price: 0,
@@ -29,7 +36,6 @@
     },
 
     mounted() {
-      this.getServices();
       this.setTableHeaders();
       this.getQuotationServices();
     },
@@ -53,22 +59,15 @@
         }
       },
 
-      getServices() {
-        this.http
-        .get('/api/services')
-        .then((response)=>{
-          if(response.successful){
-            this.services = response.data;
-            if(this.services.length > 0){
-              this.form_fields.service_id = this.services[0].id;
-              this.form_fields.price = this.services[0].price;
-            }
-          }else{
-            this.handleError(response.error);
-          }
-        }).catch((err)=>{
-          console.log("Error", err.stack, err.name, err.message);
-        });
+      serviceSelected(service){
+        this.form_fields.service_id = service.id
+        this.form_fields.price = service.price
+        this.form_fields.service_name = service.value
+      },
+
+      serviceUnselected(){
+        this.form_fields.service_id = null
+        this.form_fields.price = null
       },
 
       setTableHeaders() {
@@ -86,20 +85,22 @@
       addService(event) {
         event.preventDefault();
         var form_data = this.form_fields;
-        var selected_service = this.services.filter((service)=>{
-          return service.id == form_data.service_id;
-        });
-        var total = form_data.amount * form_data.price;
-        //Using ES6 to merge form_data and some extra fields into table_data
-        var table_data = { ...form_data, ...{
-          total: total,
-          total_with_percent: total * (1+form_data.percent/100),
-          service: selected_service[0].name
-        }};
-        //Remove the ID field if it exists
-        delete this.form_fields.id;
-        this.quotation_services.push(table_data);
-        this.alert(this.translations.notifications.remember_save,'info');
+        if(form_data.price){
+          var total = form_data.amount * form_data.price;
+          //Using ES6 to merge form_data and some extra fields into table_data
+          var table_data = { ...form_data, ...{
+            total: total,
+            total_with_percent: total * (1+form_data.percent/100),
+            service: this.form_fields.service_name
+          }};
+          //Remove the ID field if it exists
+          delete this.form_fields.id;
+          this.quotation_services.push(table_data);
+          this.alert(this.translations.notifications.remember_save,'info');
+          this.clear_autocomplete = true
+        }else{
+          this.alert(this.translations.errors.service_not_selected, 'danger')
+        }
       },
 
       updateServices(event) {
@@ -138,20 +139,6 @@
         if(quotation_service.id){
           this.deleted_quotation_services.push({id: quotation_service.id, _destroy: true})
         }
-      },
-
-      editService: function(table_row_data) {
-        this.form_fields = table_row_data.item;
-        this.quotation_services.splice(table_row_data.index, 1);
-      },
-    },
-    
-    watch: {
-      'form_fields.service_id': function(){
-        var selected_service = this.services.filter((service)=>{
-          return service.id == this.form_fields.service_id;
-        });
-        this.form_fields.price  = selected_service[0].price;
       }
     }
   }
@@ -161,28 +148,17 @@
   <div>
     <b-form @submit=addService>
       <b-form-row>
-        <div class="col-10">
+        <div class="col-12">
           <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.service}} </label>
           <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <div class="input-group-text bg-white text-primary">
-                <i class="fas fa-user-alt"></i>
-              </div>
-            </div>
-            <b-form-select 
-              v-model=form_fields.service_id
-              :options=services
-              value-field="id"
-              text-field="name" 
-            >
-            </b-form-select>
+            <component-autocomplete
+              :clear.sync="clear_autocomplete"
+              :placeholder="translations.autocomplete.title"
+              :source="`/api/services`"
+              @autocomplete:selected="serviceSelected"
+              @autocomplete:unselected="serviceUnselected"
+            />
           </div>
-        </div>
-        <div class="col-2">
-          <label class="mb-0 text-primary font-weight-bold">&nbsp;</label>
-            <button class="btn btn-primary btn-block" type="submit">
-              {{translations.buttons.add_service}}
-            </button>
         </div>
         <div class="col-2">
           <label class="mb-0 text-primary font-weight-bold"> {{translations.titles.price}} </label>
@@ -192,7 +168,7 @@
                   <i class="fas fa-money-bill"></i>
                 </div>
               </div>
-            <b-form-input v-model=form_fields.price :readonly="true"></b-form-input>
+            <b-form-input v-model="form_fields.price" :readonly="true"></b-form-input>
           </div>
         </div>
         <div class="col-2">
@@ -203,7 +179,7 @@
                   <i class="fas fa-sort-amount-up-alt"></i>
                 </div>
               </div>
-            <b-form-input type="number" v-model=form_fields.amount></b-form-input>
+            <b-form-input type="number" v-model="form_fields.amount"></b-form-input>
           </div>
         </div>
         <div class="col-2">
@@ -217,9 +193,15 @@
             <b-form-input type="number" step="0.01" v-model=form_fields.percent></b-form-input>
           </div>
         </div>
+        <div class="col-2 offset-4">
+          <label class="mb-0 text-primary font-weight-bold">&nbsp;</label>
+            <button class="btn btn-primary btn-block" type="submit">
+              {{translations.buttons.add_service}}
+            </button>
+        </div>
       </b-form-row>
     </b-form>
-    <b-form v-on:submit=updateServices>
+    <b-form v-on:submit=updateServices id="services-form">
       <b-form-row>
         <b-table thead-tr-class="bg-lomax text-white text-center" class="table table-sm table-striped" 
           striped
@@ -244,13 +226,6 @@
           </template>
           <template v-slot:cell(actions)="data">
             <div class="text-right">
-              <b-button 
-                class="btn btn-success text-white" 
-                v-on:click=editService(data)
-                v-bind:disabled="data.item.deleted_at != null"
-              >
-                <i class="fas fa-edit fa-xs text-white"></i>
-              </b-button>
               <b-button class="btn btn-danger" v-on:click=deleteService(data)>
                 <i class="fas fa-trash-alt fa-xs"></i>
               </b-button>
@@ -259,7 +234,7 @@
         </b-table>
         <div class="col-2 offset-10">
           <label class="mb-0 text-primary font-weight-bold">&nbsp;</label>
-          <b-button variant="primary" block type="submit">
+          <b-button variant="primary" block type="submit" form="services-form">
             {{translations.buttons.next}}
           </b-button>
         </div>
