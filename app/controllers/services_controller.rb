@@ -70,8 +70,6 @@ class ServicesController < ApplicationController
       end
     end
 
-    puts query
-
     response_with_success(
       Service.where(query).fields_for_quotation
     )
