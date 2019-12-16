@@ -79,7 +79,7 @@ export default {
     
       this.selected_materials.push({
         amount: this.quotation_products.amount,
-        material: this.supranet_material.value,
+        material: this.siemon_material.value,
         percent_supranet: this.quotation_products.percents[1],
         price_supranet: this.quotation_products.prices[1],
         total_supranet: `${total_supranet.toFixed(2)}`,
