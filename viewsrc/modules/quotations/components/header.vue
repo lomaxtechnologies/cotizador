@@ -113,7 +113,7 @@
             console.log("Error", err.stack, err.name, err.message);
           });
         }else{
-          this.alert(this.translations.errors.client)
+          this.alert(this.translations.errors.client, 'danger')
         }
       },
 

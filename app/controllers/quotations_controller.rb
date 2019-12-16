@@ -122,6 +122,11 @@ class QuotationsController < ApplicationController
     response_with_success(@quotation.products_only)
   end
 
+  # GET /api/quotations/:id/complex_products
+  def api_complex_products
+    response_with_success(@quotation.products_only)
+  end
+
   # POST /api/quotations/:id/clone
   def api_clone
     duplicate_quotation(Quotation.states[:active], t('.error'))

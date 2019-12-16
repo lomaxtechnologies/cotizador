@@ -275,7 +275,7 @@ class Quotation < ApplicationRecord
     }
     grouped_products = []
     brands = ['siemon', 'supranet']
-    products.in_groups_of(2).each_with_index.each do |products_group, index|
+    products.in_groups(2).each_with_index.each do |products_group, index|
 
       products_group.each_with_index do |product, j|
         product_data = {}

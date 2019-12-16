@@ -87,25 +87,26 @@ export default {
         this.clear_siemon_autocomplete = true;
         this.clear_supranet_autocomplete = true;    
         
-        let total_siemon = this.quotation_products.amount * this.quotation_products.siemon_price
-        let siemon_price_percent = this.quotation_products.siemon_price * this.percentage.format(this.quotation_products.siemon_percent) 
-        let total_percent_siemon = total_siemon * this.percentage.format(this.quotation_products.siemon_percent)
+        let total_siemon = this.quotation_products.amount * this.quotation_products.siemon_price;
+        let siemon_price_percent = (this.quotation_products.siemon_price * this.percentage.format(this.quotation_products.siemon_percent)).toFixed(2);
+        let total_percent_siemon = this.quotation_products.amount * siemon_price_percent;
         let total_supranet = this.quotation_products.amount * this.quotation_products.supranet_price;
-        let supranet_price_percent = this.quotation_products.supranet_price * this.percentage.format(this.quotation_products.supranet_percent)
-        let total_percent_supranet = total_supranet * this.percentage.format(this.quotation_products.supranet_percent)
+        let supranet_price_percent = (this.quotation_products.supranet_price * this.percentage.format(this.quotation_products.supranet_percent)).toFixed(2);
+
+        let total_percent_supranet = this.quotation_products.amount * supranet_price_percent;
       
         this.selected_materials.push({
           amount: this.quotation_products.amount,
           material: this.siemon_material.value,
           percent_supranet: this.quotation_products.supranet_percent,
           price_supranet: this.quotation_products.supranet_price,
-          total_supranet: `${total_supranet.toFixed(2)}`,
-          price_percent_supranet: supranet_price_percent.toFixed(2),
+          total_supranet: total_supranet.toFixed(2),
+          price_percent_supranet: supranet_price_percent,
           total_percent_supranet: total_percent_supranet.toFixed(2),
           percent_siemon: this.quotation_products.siemon_percent,
           price_siemon: this.quotation_products.siemon_price,
-          total_siemon: `${total_siemon.toFixed(2)}`,
-          price_percent_siemon: siemon_price_percent.toFixed(2),
+          total_siemon: total_siemon.toFixed(2),
+          price_percent_siemon: siemon_price_percent,
           total_percent_siemon: total_percent_siemon.toFixed(2)
         });
 
@@ -316,7 +317,7 @@ export default {
            <b-th colspan="1" class="text-white"></b-th>
         </b-tr>
       </template>
-       
+      <template v-slot:cell(amount)="data">{{ parseInt(data.item.amount) }}</template>
       <template v-slot:cell(name)="data">{{ data.item.name }}</template>
       <template v-slot:cell(actions)="data">
         <b-button class="btn btn-danger" type="submit" v-on:click="deleteProduct(data.index)">
