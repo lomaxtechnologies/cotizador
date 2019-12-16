@@ -148,6 +148,22 @@ class Quotation < ApplicationRecord
     new_quotation
   end
 
+  def complex_products
+    products = format_products.deep_stringify_keys["quotation_products"]
+    brands = ['siemon', 'supranet']
+
+    products.in_groups(2).each_with_index.each do |products_group, index|
+      products_group.each do |product|
+        product["percent_#{brands[index]}"] = product.delete("t_comparative_percent")
+        product["price_#{brands[index]}"] = product.delete("t_comparative_price")
+        product["total_#{brands[index]}"] = product.delete("t_comparative_total")
+        product["price_percent_#{brands[index]}"] = product.delete("t_comparative_price_with_percent")
+        product["total_percent_#{brands[index]}"] = product.delete("t_comparative_total_with_percent")
+      end
+    end
+    products
+  end
+
   private
 
   def products_only_comparative_format
@@ -172,9 +188,6 @@ class Quotation < ApplicationRecord
       product["total"] = product.delete("#{quotation_type}_total")
       product["price_percent"] = product.delete("#{quotation_type}_price_with_percent")
       product["total_percent"] = product.delete("#{quotation_type}_total_with_percent")
-      if t_simple?
-        product["material_id"] = product.delete("product_id")
-      end
     end
     products
   end
@@ -275,7 +288,7 @@ class Quotation < ApplicationRecord
     }
     grouped_products = []
     brands = ['siemon', 'supranet']
-    products.in_groups_of(2).each_with_index.each do |products_group, index|
+    products.in_groups(2).each_with_index.each do |products_group, index|
 
       products_group.each_with_index do |product, j|
         product_data = {}

@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-      component_simple_valid: false,
+      component_valid: false,
       quotation_type: null
     };
   },
@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     syncFlags(){
-      this.component_simple_valid = this.section_valid;
+      this.component_valid = this.section_valid;
     },
     getQuotationType: function() {
       if(this.quotation_id){
@@ -53,14 +53,14 @@ export default {
     quotation_id: function() {
       this.getQuotationType();
     },
-    component_simple_valid: function(){
-      if(this.section_valid != this.component_simple_valid){
-        this.$emit('update:section_valid', this.component_simple_valid)
+    component_valid: function(){
+      if(this.section_valid != this.component_valid){
+        this.$emit('update:section_valid', this.component_valid)
       }
     },
     section_valid: function(){
-      if(this.section_valid != this.component_simple_valid){
-        this.component_simple_valid = this.section_valid
+      if(this.section_valid != this.component_valid){
+        this.component_valid = this.section_valid
       }
     }
   }
@@ -70,14 +70,16 @@ export default {
 <template>
   <div v-if="quotation_type === 't_comparative'">
     <quotation-complex 
-      :quotation_id="quotation_id">  
+      :quotation_id="quotation_id"
+      :section_valid.sync="component_valid"
+    >
     </quotation-complex>
   </div>
   <div v-else>
     <quotation-simple
       :quotation_type="quotation_type"
       :quotation_id="quotation_id"
-        :section_valid.sync="component_simple_valid"
+      :section_valid.sync="component_valid"
     ></quotation-simple>
   </div>
 </template>

@@ -16,6 +16,7 @@ class QuotationsController < ApplicationController
     api_clone
     api_duplicate
     generate_excel
+    api_complex_products
   ]
 
   # POST /quotations
@@ -120,6 +121,11 @@ class QuotationsController < ApplicationController
   # GET /api/quotations/:id/products
   def api_products
     response_with_success(@quotation.products_only)
+  end
+
+  # GET /api/quotations/:id/complex_products
+  def api_complex_products
+    response_with_success(@quotation.complex_products)
   end
 
   # POST /api/quotations/:id/clone
