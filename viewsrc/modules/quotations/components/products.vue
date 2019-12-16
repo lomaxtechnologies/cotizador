@@ -70,7 +70,7 @@ export default {
 <template>
   <div v-if="quotation_type === 't_comparative'">
     <quotation-complex 
-    :quotation_id="quotation_id">  
+      :quotation_id="quotation_id">  
     </quotation-complex>
   </div>
   <div v-else>

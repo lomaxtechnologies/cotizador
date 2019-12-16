@@ -4,7 +4,6 @@ export default {
   components:{
       'component-autocomplete': componentAutocomplete
   },
-
   props: ["quotation_id"],
   data() {
     return {
@@ -12,8 +11,10 @@ export default {
       material: {},
       quotation_products: {
         amount: 1,
-        percents: [15.0,15.0],
-        prices: [0.0,0.0] 
+        siemon_percent: 15,
+        supranet_percent: 15,
+        supranet_price: 0,
+        siemon_price: 0 
       },
       supranet_material: {},
       siemon_material: {},
@@ -54,55 +55,57 @@ export default {
     },
     materialSiemonSelected(material){
       this.siemon_material = material
-      this.quotation_products.prices[0] = material.product_price
+      this.quotation_products.siemon_price = material.product_price
     },
     materialSiemonUnselected(){
       this.siemon_material = null
-      this.quotation_products.prices[0]=0
+      this.quotation_products.siemon_price=0
     },
     materialSupranetSelected(material){
       this.supranet_material = material
-      this.quotation_products.prices[1] = material.product_price
+      this.quotation_products.supranet_price = material.product_price
     },
     materialSupranetUnselected(){
       this.supranet_material = null
-      this.quotation_products.prices[1]=0
+      this.quotation_products.supranet_price=0
     },
     addMaterial(){
       this.clear_siemon_autocomplete = true;
       this.clear_supranet_autocomplete = true;
 
-      let total_siemon = this.quotation_products.amount * this.quotation_products.prices[0];
-      let total_percent_siemon = total_siemon * this.percentage.format(this.quotation_products.percents[0])
-      let total_supranet = this.quotation_products.amount * this.quotation_products.prices[1];
-      let total_percent_supranet = total_supranet * this.percentage.format(this.quotation_products.percents[1])
+      let total_siemon = this.quotation_products.amount * this.quotation_products.siemon_price;
+      let total_percent_siemon = total_siemon * this.percentage.format(this.quotation_products.siemon_percent)
+      let total_supranet = this.quotation_products.amount * this.quotation_products.supranet_price;
+      let total_percent_supranet = total_supranet * this.percentage.format(this.quotation_products.supranet_percent)
     
       this.selected_materials.push({
         amount: this.quotation_products.amount,
         material: this.siemon_material.value,
-        percent_supranet: this.quotation_products.percents[1],
-        price_supranet: this.quotation_products.prices[1],
+        percent_supranet: this.quotation_products.supranet_percent,
+        price_supranet: this.quotation_products.supranet_price,
         total_supranet: `${total_supranet.toFixed(2)}`,
-        price_percent_supranet: this.quotation_products.prices[1],
+        price_percent_supranet: this.quotation_products.supranet_price,
         total_percent_supranet: total_percent_supranet.toFixed(2),
-        percent_siemon: this.quotation_products.percents[0],
-        price_siemon: this.quotation_products.prices[0],
+        percent_siemon: this.quotation_products.siemon_percent,
+        price_siemon: this.quotation_products.siemon_price,
         total_siemon: `${total_siemon.toFixed(2)}`,
-        price_percent_siemon: this.quotation_products.prices[0],
+        price_percent_siemon: this.quotation_products.siemon_price,
         total_percent_siemon: total_percent_siemon.toFixed(2)
       });
       this.selected_supranet_materials.push({
         amount: this.quotation_products.amount,
-        percent: this.quotation_products.percents[1],
+        percent: this.quotation_products.supranet_percent,
         product_id: this.supranet_material.id,
       })
       this.selected_siemon_materials.push({
         amount: this.quotation_products.amount,
-        percent: this.quotation_products.percents[0],
+        percent: this.quotation_products.siemon_percent,
         product_id: this.siemon_material.id,
       })
-      this.quotation_products.prices = [0,0]
-      this.quotation_products.percents = [15,15]
+      this.quotation_products.supranet_percent = 15
+      this.quotation_products.siemon_percent = 15
+      this.quotation_products.siemon_price = 0
+      this.quotation_products.supranet_price = 0
       this.quotation_products.amount = 1
     },
     formatData: function(){
@@ -139,11 +142,9 @@ export default {
       this.selected_supranet_materials.splice(index,1);
     }
   },
-  watch: {
-    quotation_id: function(){
-      this.setTableHeaders();
-      this.getQuotationProducts();
-    }
+  mounted() {
+    this.setTableHeaders();
+    this.getQuotationProducts();
   }
 }
 </script>
@@ -193,7 +194,7 @@ export default {
                 <i class="fas fa-money-bill-wave"></i>
               </div>
             </div>
-            <b-form-input disabled v-model="quotation_products.prices[0]"></b-form-input>
+            <b-form-input disabled v-model="quotation_products.siemon_price"></b-form-input>
           </div>
         </div>
         <div class="col-2">
@@ -204,7 +205,7 @@ export default {
                 <i class="fas fa-percentage"></i>
               </div>
             </div>
-            <b-form-input v-model="quotation_products.percents[0]"></b-form-input>
+            <b-form-input v-model="quotation_products.siemon_percent"></b-form-input>
           </div>
         </div>
     </b-form-row>
@@ -247,7 +248,7 @@ export default {
                 <i class="fas fa-money-bill-wave"></i>
               </div>
             </div>
-            <b-form-input disabled v-model="quotation_products.prices[1]"></b-form-input>
+            <b-form-input disabled v-model="quotation_products.supranet_price"></b-form-input>
           </div>
         </div>
         <div class="col-2">
@@ -258,7 +259,7 @@ export default {
                 <i class="fas fa-percentage"></i>
               </div>
             </div>
-            <b-form-input v-model="quotation_products.percents[1]"></b-form-input>
+            <b-form-input v-model="quotation_products.supranet_percent"></b-form-input>
           </div>
         </div>
         <div class="col-2 offset-2">
