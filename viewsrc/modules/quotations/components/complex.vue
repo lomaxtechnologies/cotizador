@@ -34,6 +34,18 @@ export default {
         .then((response)=>{
           if(response.successful){
             this.selected_materials = response.data;
+            this.selected_siemon_materials = response.data.splice(0,this.selected_materials.length/2)
+            this.selected_supranet_materials = this.selected_materials.slice(0)
+            let cont = 0
+            this.selected_siemon_materials.forEach(material => {
+              this.selected_materials[cont].material = material.material
+              this.selected_materials[cont].percent_siemon = material.percent_siemon
+              this.selected_materials[cont].price_percent_siemon = material.price_percent_siemon
+              this.selected_materials[cont].price_siemon = material.price_siemon
+              this.selected_materials[cont].total_percent_siemon = material.total_percent_siemon
+              this.selected_materials[cont].total_siemon = material.total_siemon
+              cont++
+            })
           }else{
             this.handleError(response.error);
           }
@@ -70,43 +82,52 @@ export default {
       this.quotation_products.supranet_price=0
     },
     addMaterial(){
-      this.clear_siemon_autocomplete = true;
-      this.clear_supranet_autocomplete = true;
+      
+      if (this.siemon_material !== null  && this.supranet_material !== null){
+        this.clear_siemon_autocomplete = true;
+        this.clear_supranet_autocomplete = true;    
+        
+        let total_siemon = this.quotation_products.amount * this.quotation_products.siemon_price
+        let siemon_price_percent = this.quotation_products.siemon_price * this.percentage.format(this.quotation_products.siemon_percent) 
+        let total_percent_siemon = total_siemon * this.percentage.format(this.quotation_products.siemon_percent)
+        let total_supranet = this.quotation_products.amount * this.quotation_products.supranet_price;
+        let supranet_price_percent = this.quotation_products.supranet_price * this.percentage.format(this.quotation_products.supranet_percent)
+        let total_percent_supranet = total_supranet * this.percentage.format(this.quotation_products.supranet_percent)
+      
+        this.selected_materials.push({
+          amount: this.quotation_products.amount,
+          material: this.siemon_material.value,
+          percent_supranet: this.quotation_products.supranet_percent,
+          price_supranet: this.quotation_products.supranet_price,
+          total_supranet: `${total_supranet.toFixed(2)}`,
+          price_percent_supranet: supranet_price_percent.toFixed(2),
+          total_percent_supranet: total_percent_supranet.toFixed(2),
+          percent_siemon: this.quotation_products.siemon_percent,
+          price_siemon: this.quotation_products.siemon_price,
+          total_siemon: `${total_siemon.toFixed(2)}`,
+          price_percent_siemon: siemon_price_percent.toFixed(2),
+          total_percent_siemon: total_percent_siemon.toFixed(2)
+        });
 
-      let total_siemon = this.quotation_products.amount * this.quotation_products.siemon_price;
-      let total_percent_siemon = total_siemon * this.percentage.format(this.quotation_products.siemon_percent)
-      let total_supranet = this.quotation_products.amount * this.quotation_products.supranet_price;
-      let total_percent_supranet = total_supranet * this.percentage.format(this.quotation_products.supranet_percent)
-    
-      this.selected_materials.push({
-        amount: this.quotation_products.amount,
-        material: this.siemon_material.value,
-        percent_supranet: this.quotation_products.supranet_percent,
-        price_supranet: this.quotation_products.supranet_price,
-        total_supranet: `${total_supranet.toFixed(2)}`,
-        price_percent_supranet: this.quotation_products.supranet_price,
-        total_percent_supranet: total_percent_supranet.toFixed(2),
-        percent_siemon: this.quotation_products.siemon_percent,
-        price_siemon: this.quotation_products.siemon_price,
-        total_siemon: `${total_siemon.toFixed(2)}`,
-        price_percent_siemon: this.quotation_products.siemon_price,
-        total_percent_siemon: total_percent_siemon.toFixed(2)
-      });
-      this.selected_supranet_materials.push({
-        amount: this.quotation_products.amount,
-        percent: this.quotation_products.supranet_percent,
-        product_id: this.supranet_material.id,
-      })
-      this.selected_siemon_materials.push({
-        amount: this.quotation_products.amount,
-        percent: this.quotation_products.siemon_percent,
-        product_id: this.siemon_material.id,
-      })
-      this.quotation_products.supranet_percent = 15
-      this.quotation_products.siemon_percent = 15
-      this.quotation_products.siemon_price = 0
-      this.quotation_products.supranet_price = 0
-      this.quotation_products.amount = 1
+        this.selected_supranet_materials.push({
+          amount: this.quotation_products.amount,
+          percent: this.quotation_products.supranet_percent,
+          product_id: this.supranet_material.id,
+        })
+        this.selected_siemon_materials.push({
+          amount: this.quotation_products.amount,
+          percent: this.quotation_products.siemon_percent,
+          product_id: this.siemon_material.id,
+        })
+        
+        this.quotation_products.supranet_percent = 15
+        this.quotation_products.siemon_percent = 15
+        this.quotation_products.siemon_price = 0
+        this.quotation_products.supranet_price = 0
+        this.quotation_products.amount = 1
+      }else{
+        this.alert(this.translations.errors.product_not_selected, 'danger')
+      }
     },
     formatData: function(){
 
