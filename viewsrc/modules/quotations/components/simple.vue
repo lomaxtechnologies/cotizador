@@ -59,7 +59,7 @@ export default {
       this.table_headers.push({actions: ''});
     },
     materialSelected(material){
-      console.log(material)
+      console.log(material);
       this.material = material
       this.quotation_products.material_id = material.id
       this.quotation_products.price = material.product_price
@@ -78,7 +78,7 @@ export default {
         amount: this.quotation_products.amount,
         code: this.material.code,
         material: this.material.value,
-        brand: this.material.brands,
+        brand: this.material.brand.name,
         percent: this.quotation_products.percent,
         price: this.quotation_products.price,
         total: this.currency.format(total),
@@ -89,12 +89,15 @@ export default {
       this.quotation_products.price=0
     },
     submit(){
+      this.$emit("update:section_valid", false);
       
     }
   },
-  mounted() {
-    this.setTableHeaders();
-    this.getQuotationProducts();
+  watch: {
+    quotation_type: function(){
+      this.setTableHeaders();
+      this.getQuotationProducts();
+    }
   }
 }
 </script>
