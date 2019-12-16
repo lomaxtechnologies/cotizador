@@ -82,19 +82,29 @@ class ProductsController < ApplicationController
         query += "AND (lower(materials.name) like '%#{str}%' OR lower(brands.name) like '%#{str}%' OR lower(materials.description) like '%#{str}%')"
       end
     end
-    
-    p query
     response_with_success(products.where(query))
   end
 
-  def api_supranet
-    response_with_success(Product.fields_for_simple.sort_by{ |obj| obj[:name]})
-  end
 
-  def api_siemons
-    response_with_success(Product.fields_for_simple.sort_by{ |obj| obj[:name]})
-  end
+  def api_per_brand
+    products = ""
+    if params[:quotation_type] == "t_supranet"
+      products = Product.fields_for_supranet
+    else 
+      products = Product.fields_for_siemon
+    end
 
+    query = ""
+
+    search.each do |str|
+      if query.empty?
+        query += "(lower(materials.name) like '%#{str}%' OR lower(materials.description) like '%#{str}%')"
+      else
+        query += "AND (lower(materials.name) like '%#{str}%' OR lower(materials.description) like '%#{str}%')"
+      end
+    end
+    response_with_success(products.where(query))
+  end
 
   def products_by_material
     return response_with_error(t('.errors.unespecified_material')) unless params[:material_id]

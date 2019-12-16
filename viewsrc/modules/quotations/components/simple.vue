@@ -90,13 +90,18 @@ export default {
     },
     submit(){
       this.$emit("update:section_valid", false);
-      
+
     }
   },
   watch: {
     quotation_type: function(){
       this.setTableHeaders();
       this.getQuotationProducts();
+      if (this.quotation_type === 't_simple'){
+        this.source = '/api/products/simple'
+      }else{
+        this.source = '/api/products/per_brand/'+this.quotation_type
+      }
     }
   }
 }
@@ -107,7 +112,7 @@ export default {
     <b-form-row>
       <div class="col-12">
         <label class="mb-0 text-primary font-weight-bold">{{translations.titles.material}}</label>
-        <div class="input-group mb-3">
+        <div class="input-group mb-3" >
           <div class="input-group-prepend">
             <div class="input-group-text bg-white text-primary">
               <i class="fas fa-user-alt"></i>
@@ -116,7 +121,7 @@ export default {
           <component-autocomplete
             :clear.sync="clear_autocomplete"
             :placeholder="translations.autocomplete.title"
-            :source="`/api/products/simple`"
+            :source="source"
             @autocomplete:selected="materialSelected"
             @autocomplete:unselected="materialUnselected"
           />

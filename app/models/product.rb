@@ -23,7 +23,7 @@ class Product < ApplicationRecord
 
 
   scope :fields_for_siemon, -> {
-    select("products.id as id","concat(brands.name,' - ',materials.name,' ',materials.description) as value","brands.name as brand","products.code as code","prices.product_price as price", "measure_units.name as measure_unit")
+    select("products.id as id","concat(materials.name,' ',materials.description) as value","products.brand_id as brand_id", "products.measure_unit_id as measure_unit_id","products.material_id as material_id","products.code","prices.product_price", "measure_units.name", "brands.name as brand")
     .joins(:material)
     .joins(:brand)
     .joins(:measure_unit)
@@ -32,12 +32,12 @@ class Product < ApplicationRecord
   }
 
   scope :fields_for_supranet, -> {
-    select("products.id as id","concat(brands.name,' - ',materials.name,' ',materials.description) as value","brands.name as brand","products.code as code","prices.product_price as price", "measure_units.name as measure_unit")
+    select("products.id as id","concat(materials.name,' ',materials.description) as value","products.brand_id as brand_id", "products.measure_unit_id as measure_unit_id","products.material_id as material_id","products.code","prices.product_price", "measure_units.name", "brands.name as brand")
     .joins(:material)
     .joins(:brand)
     .joins(:measure_unit)
     .joins(:price)
-    .where("brand_id != 2")
+    .where("brands.id != 2")
   }
 
   def find_even_if_deleted(tag)
