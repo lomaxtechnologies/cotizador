@@ -278,9 +278,6 @@ class Quotation < ApplicationRecord
     products.in_groups_of(2).each_with_index.each do |products_group, index|
 
       products_group.each_with_index do |product, j|
-
-        puts product.to_json
-        puts "--------------------------------------"
         product_data = {}
         if index == 0
           grouped_products.push(product_data)
@@ -297,7 +294,6 @@ class Quotation < ApplicationRecord
         products_totals["t_#{brands[index]}_only"][:with_percent] += product[:t_comparative_total_with_percent]
       end
     end
-    puts ({ quotation_products: grouped_products,products_totals: products_totals }).to_s
     { quotation_products: grouped_products,products_totals: products_totals }
   end
 
