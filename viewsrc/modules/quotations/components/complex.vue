@@ -16,8 +16,8 @@ export default {
         supranet_price: 0,
         siemon_price: 0 
       },
-      supranet_material: {},
-      siemon_material: {},
+      supranet_material: null,
+      siemon_material: null,
       selected_siemon_materials: [],
       selected_supranet_materials: [],
       selected_materials: [],
@@ -120,6 +120,89 @@ export default {
           product_id: this.siemon_material.id,
         })
         
+        this.supranet_material = null;
+        this.siemon_material = null;
+        this.quotation_products.supranet_percent = 15
+        this.quotation_products.siemon_percent = 15
+        this.quotation_products.siemon_price = 0
+        this.quotation_products.supranet_price = 0
+        this.quotation_products.amount = 1
+      }else if(this.siemon_material !== null){
+        this.clear_siemon_autocomplete = true;
+        this.clear_supranet_autocomplete = true;    
+        
+        let total_siemon = this.quotation_products.amount * this.quotation_products.siemon_price
+        let siemon_price_percent = this.quotation_products.siemon_price * this.percentage.format(this.quotation_products.siemon_percent) 
+        let total_percent_siemon = total_siemon * this.percentage.format(this.quotation_products.siemon_percent)
+    
+        this.selected_materials.push({
+          amount: this.quotation_products.amount,
+          material: this.siemon_material.value,
+          percent_supranet: this.quotation_products.siemon_percent,
+          price_supranet: this.quotation_products.siemon_price,
+          total_supranet: `${total_siemon.toFixed(2)}`,
+          price_percent_supranet: siemon_price_percent.toFixed(2),
+          total_percent_supranet: total_percent_siemon.toFixed(2),
+          percent_siemon: this.quotation_products.siemon_percent,
+          price_siemon: this.quotation_products.siemon_price,
+          total_siemon: `${total_siemon.toFixed(2)}`,
+          price_percent_siemon: siemon_price_percent.toFixed(2),
+          total_percent_siemon: total_percent_siemon.toFixed(2)
+        });
+
+        this.selected_supranet_materials.push({
+          amount: this.quotation_products.amount,
+          percent: this.quotation_products.siemon_percent,
+          product_id: this.siemon_material.id,
+        })
+        this.selected_siemon_materials.push({
+          amount: this.quotation_products.amount,
+          percent: this.quotation_products.siemon_percent,
+          product_id: this.siemon_material.id,
+        })
+        this.supranet_material = null;
+        this.siemon_material = null;
+        this.quotation_products.supranet_percent = 15
+        this.quotation_products.siemon_percent = 15
+        this.quotation_products.siemon_price = 0
+        this.quotation_products.supranet_price = 0
+        this.quotation_products.amount = 1
+      }else if(this.supranet_material!==null){
+        this.clear_siemon_autocomplete = true;
+        this.clear_supranet_autocomplete = true;    
+        
+        let total_supranet = this.quotation_products.amount * this.quotation_products.supranet_price;
+        let supranet_price_percent = this.quotation_products.supranet_price * this.percentage.format(this.quotation_products.supranet_percent)
+        let total_percent_supranet = total_supranet * this.percentage.format(this.quotation_products.supranet_percent)
+      
+        this.selected_materials.push({
+          amount: this.quotation_products.amount,
+          material: this.supranet_material.value,
+          percent_supranet: this.quotation_products.supranet_percent,
+          price_supranet: this.quotation_products.supranet_price,
+          total_supranet: `${total_supranet.toFixed(2)}`,
+          price_percent_supranet: supranet_price_percent.toFixed(2),
+          total_percent_supranet: total_percent_supranet.toFixed(2),
+          percent_siemon: this.quotation_products.supranet_percent,
+          price_siemon: this.quotation_products.supranet_price,
+          total_siemon: `${total_supranet.toFixed(2)}`,
+          price_percent_siemon: supranet_price_percent.toFixed(2),
+          total_percent_siemon: total_percent_supranet.toFixed(2)
+        });
+
+        this.selected_supranet_materials.push({
+          amount: this.quotation_products.amount,
+          percent: this.quotation_products.supranet_percent,
+          product_id: this.supranet_material.id,
+        })
+        this.selected_siemon_materials.push({
+          amount: this.quotation_products.amount,
+          percent: this.quotation_products.supranet_percent,
+          product_id: this.supranet_material.id,
+        })
+        
+        this.supranet_material = null;
+        this.siemon_material = null;
         this.quotation_products.supranet_percent = 15
         this.quotation_products.siemon_percent = 15
         this.quotation_products.siemon_price = 0
