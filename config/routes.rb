@@ -59,6 +59,7 @@ Rails.application.routes.draw do
       get "/:id/header", to: "quotations#api_header"
       get "/:id/services", to: "quotations#api_services"
       get "/:id/products", to: "quotations#api_products"
+      get "/:id/complex_products", to: "quotations#api_complex_products"
       post "/:id/clone", to: "quotations#api_clone"
       post "/:id/duplicate", to: "quotations#api_duplicate"
       put "/:id/activate", to: "quotations#api_activate"
@@ -95,6 +96,7 @@ Rails.application.routes.draw do
     scope :products do
       get "/comparative", to: "products#api_comparative"
       get "/simple", to: "products#api_simple"
+      get "/per_brand/:quotation_type", to: "products#api_per_brand"
     end
 
   end

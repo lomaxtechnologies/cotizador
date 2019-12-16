@@ -71,35 +71,38 @@
       },
 
       setTableHeaders() {
-        ['service','price','amount','percent','total','total_with_percent','actions'].forEach((element)=>{
+        ['amount','service','percent','price','total','total_with_percent','actions'].forEach((element)=>{
           this.table_headers.push({
             key:element,
             label:this.translations.headers[element],
             sortable:true
           });
-          //Setting max width for service column
-          this.table_headers[0]['tdClass'] = 'w-50';
         });
+        //Setting max width for service column
+        this.table_headers[1]['tdClass'] = 'w-50';
       },
 
       addService(event) {
         event.preventDefault();
         var form_data = this.form_fields;
         if(form_data.price){
-          var total = form_data.amount * form_data.price;
+          var total = form_data.amount * form_data.price
+
+
+
           //Using ES6 to merge form_data and some extra fields into table_data
           var table_data = { ...form_data, ...{
             total: total,
-            total_with_percent: total * (1+form_data.percent/100),
+            total_with_percent: form_data.amount * (form_data.price * (1+form_data.percent/100)).toFixed(2),
             service: this.form_fields.service_name
           }};
           //Remove the ID field if it exists
           delete this.form_fields.id;
           this.quotation_services.push(table_data);
           this.alert(this.translations.notifications.remember_save,'info');
-          this.clear_autocomplete = true
+          this.clear_autocomplete = true;
         }else{
-          this.alert(this.translations.errors.service_not_selected, 'danger')
+          this.alert(this.translations.errors.service_not_selected, 'danger');
         }
       },
 

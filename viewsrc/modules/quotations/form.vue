@@ -13,7 +13,8 @@ export default {
     "quotation-services": quotationServices,
     "quotation-conditions": quotationConditions,
     "quotation-global-view": quotationGlobalView,
-    "quotation-attachments": quotationAttachments
+    "quotation-attachments": quotationAttachments,
+
   },
 
   props:{

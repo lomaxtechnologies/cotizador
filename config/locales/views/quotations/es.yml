@@ -71,6 +71,10 @@ es:
           date: Debes ingresar una fecha válida
           client: Debes seleccionar un cliente del listado
       materials:
+        errors:
+          product_not_selected: Por favor selecciona un material de la lista
+        autocomplete:
+          title: Selecciona un Material
         notifications:
           materials_updated: Cambios guardados en los materiales
           remember_save: Recuerda presionar 'Siguiente' para guardar los cambios
@@ -132,7 +136,7 @@ es:
           remember_save: Recuerda presionar 'Siguiente' para guardar los cambios
         headers:
           service: Servicio
-          price: Precio
+          price: Unitario
           amount: Cantidad
           percent: Holgura
           total_with_percent: Total con Holgura

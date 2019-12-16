@@ -148,6 +148,22 @@ class Quotation < ApplicationRecord
     new_quotation
   end
 
+  def complex_products
+    products = format_products.deep_stringify_keys["quotation_products"]
+    brands = ['siemon', 'supranet']
+
+    products.in_groups(2).each_with_index.each do |products_group, index|
+      products_group.each do |product|
+        product["percent_#{brands[index]}"] = product.delete("t_comparative_percent")
+        product["price_#{brands[index]}"] = product.delete("t_comparative_price")
+        product["total_#{brands[index]}"] = product.delete("t_comparative_total")
+        product["price_percent_#{brands[index]}"] = product.delete("t_comparative_price_with_percent")
+        product["total_percent_#{brands[index]}"] = product.delete("t_comparative_total_with_percent")
+      end
+    end
+    products
+  end
+
   private
 
   def products_only_comparative_format
@@ -172,9 +188,6 @@ class Quotation < ApplicationRecord
       product["total"] = product.delete("#{quotation_type}_total")
       product["price_percent"] = product.delete("#{quotation_type}_price_with_percent")
       product["total_percent"] = product.delete("#{quotation_type}_total_with_percent")
-      if t_simple?
-        product["material_id"] = product.delete("product_id")
-      end
     end
     products
   end
@@ -273,39 +286,28 @@ class Quotation < ApplicationRecord
       "t_siemon_only"=>{with_percent: 0, without_percent: 0},
       "t_supranet_only"=>{with_percent: 0, without_percent: 0}
     }
-    grouped_products = {}
-    products.each do |p|
-      # To group the same product in different both brands an ID is generated.
-      # That ID will be made of the material id and the measure unit id.
-      id = "#{p[:material_id]}_#{p[:measure_unit_id]}"
-      new_data = grouped_products[id] || {}
-      brand_name = p[:brand].downcase
+    grouped_products = []
+    brands = ['siemon', 'supranet']
+    products.in_groups(2).each_with_index.each do |products_group, index|
 
-      # These 3 lines helps the frontend associate a product_id when the brand is not siemon or supranet
-      brand_name_tag = brand_name == "siemon" ? brand_name : "supranet"
-      p["#{brand_name_tag}_id"] = p["product_id"];
-      p["quotation_product_#{brand_name_tag}_id"] = p.delete("id");
+      products_group.each_with_index do |product, j|
+        product_data = {}
+        if index == 0
+          grouped_products.push(product_data)
+        else
+          product_data = grouped_products[j]
+        end
 
-      if grouped_products[id]
-        # If the key exists, one brand is there alredy, so we push only once
-        p.each do |key, value|
-          new_data[key.to_s.gsub('t_comparative', "t_#{brand_name}_only")] = value
+        product.each do |key, value|
+          new_key = key.to_s.gsub('t_comparative', "t_#{brands[index]}_only")
+          product_data[new_key] = value unless product_data[new_key]
         end
-        products_totals["t_#{brand_name}_only"][:without_percent] += p[:t_comparative_total]
-        products_totals["t_#{brand_name}_only"][:with_percent] += p[:t_comparative_total_with_percent]
-      else
-        # If it does not exists, we push twice
-        %w[t_supranet_only t_siemon_only].each do |name|
-          p.each do |key, value|
-            new_data[key.to_s.gsub('t_comparative', name)] = value
-          end
-          products_totals[name][:without_percent] += p[:t_comparative_total]
-          products_totals[name][:with_percent] += p[:t_comparative_total_with_percent]
-        end
+
+        products_totals["t_#{brands[index]}_only"][:without_percent] += product[:t_comparative_total]
+        products_totals["t_#{brands[index]}_only"][:with_percent] += product[:t_comparative_total_with_percent]
       end
-      grouped_products[id] = new_data
     end
-    { quotation_products: grouped_products.values,products_totals: products_totals }
+    { quotation_products: grouped_products,products_totals: products_totals }
   end
 
   def find_product_price(product_id,creation_date)
