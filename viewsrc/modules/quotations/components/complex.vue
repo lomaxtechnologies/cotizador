@@ -30,7 +30,7 @@ export default {
     getQuotationProducts: function(){
       if(this.quotation_id){
         this.http
-        .get(`/api/quotations/${this.quotation_id}/products`)
+        .get(`/api/quotations/${this.quotation_id}/complex_products`)
         .then((response)=>{
           if(response.successful){
             this.selected_materials = response.data;
@@ -217,6 +217,7 @@ export default {
       var product_attributes = [];
 
       product_attributes = this.selected_siemon_materials.concat(this.selected_supranet_materials)
+      console.log(product_attributes)
       var data = {
         quotation: {
           quotation_products_attributes: product_attributes
