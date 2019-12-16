@@ -10,18 +10,19 @@ export default {
     return {
       translations: I18n.t('quotations.new_edit.materials'),
       material: {},
-      source_api: '/api/products/simple',
       quotation_products: {
-        material_id: 0,
         amount: 1,
-        percent: 15.0,
-        price: 0.0 
+        percents: [15.0,15.0],
+        prices: [0.0,0.0] 
       },
+      supranet_material: {},
+      siemon_material: {},
       selected_siemon_materials: [],
       selected_supranet_materials: [],
-      table_selected: [],
+      selected_materials: [],
       table_headers: [],
-      clear_autocomplete: false
+      clear_siemon_autocomplete: false,
+      clear_supranet_autocomplete: false
     } 
   },
   methods: {
@@ -40,73 +41,80 @@ export default {
         });
       }
     },
-    setSource: function(){
-      if (this.quotation_type === 't_simple'){
-        this.source_api = '/api/products/simple'
-      }else{
-        this.source_api = '/api/products/per_brand/'+this.quotation_type
-      }
-    },
     setTableHeaders: function(){
-      switch(this.quotation_type){
-        case 't_simple':
-          ['amount','code','material','brand','percent','price','total','price_percent','total_percent'].forEach((element)=>{
-            this.table_headers.push({
-              key:element,
-              label:this.translations.headers[element]
-            });
-          });   
-        break;
-        default: 
-          ['amount','code','material','percent','price','total','price_percent','total_percent'].forEach((element)=>{
-            this.table_headers.push({
-              key:element,
-              label:this.translations.headers[element]
-            });
-          });    
-        break;
-      }
+    ['amount','material','percent_siemon','price_siemon','total_siemon','price_percent_siemon',
+        'total_percent_siemon','percent_supranet','price_supranet','total_supranet','price_percent_supranet',
+      'total_percent_supranet'].forEach((element)=>{
+          this.table_headers.push({
+            key: element,
+            label: this.translations.headers[element]
+          });
+          });
       this.table_headers.push({actions: ''});
     },
-    materialSelected(material){
-      this.material = material
-      this.quotation_products.material_id = material.id
-      this.quotation_products.price = material.product_price
+    materialSiemonSelected(material){
+      this.siemon_material = material
+      this.quotation_products.prices[0] = material.product_price
     },
-    materialUnselected(){
-      this.quotation_products.material_id = null
-      this.quotation_products.price=null
+    materialSiemonUnselected(){
+      this.siemon_material = null
+      this.quotation_products.prices[0]=0
+    },
+    materialSupranetSelected(material){
+      this.supranet_material = material
+      this.quotation_products.prices[1] = material.product_price
+    },
+    materialSupranetUnselected(){
+      this.supranet_material = null
+      this.quotation_products.prices[1]=0
     },
     addMaterial(){
-      this.clear_autocomplete = true;
-      
-      let total = this.quotation_products.amount * this.quotation_products.price
-      let total_percent = total * this.percentage.format(this.quotation_products.percent)
+      this.clear_siemon_autocomplete = true;
+      this.clear_supranet_autocomplete = true;
+
+      let total_siemon = this.quotation_products.amount * this.quotation_products.prices[0];
+      let total_percent_siemon = total_siemon * this.percentage.format(this.quotation_products.percents[0])
+      let total_supranet = this.quotation_products.amount * this.quotation_products.prices[1];
+      let total_percent_supranet = total_supranet * this.percentage.format(this.quotation_products.percents[1])
+    
       this.selected_materials.push({
-        id: this.quotation_products.id,
-        material_id: this.quotation_products.material_id,
         amount: this.quotation_products.amount,
-        code: this.material.code,
-        material: this.material.value,
-        brand: this.material.brand,
-        product_id: this.quotation_products.id,
-        percent: this.quotation_products.percent,
-        price: this.quotation_products.price,
-        total: this.currency.format(total),
-        price_percent: this.quotation_products.price,
-        total_percent: this.currency.format(total_percent)
+        material: this.supranet_material.value,
+        percent_supranet: this.quotation_products.percents[1],
+        price_supranet: this.quotation_products.prices[1],
+        total_supranet: `${total_supranet.toFixed(2)}`,
+        price_percent_supranet: this.quotation_products.prices[1],
+        total_percent_supranet: total_percent_supranet.toFixed(2),
+        percent_siemon: this.quotation_products.percents[0],
+        price_siemon: this.quotation_products.prices[0],
+        total_siemon: `${total_siemon.toFixed(2)}`,
+        price_percent_siemon: this.quotation_products.prices[0],
+        total_percent_siemon: total_percent_siemon.toFixed(2)
       });
-      this.quotation_products.material_id = null
-      this.quotation_products.price=0
-      this.quotation_products.percent = 15
+      this.selected_supranet_materials.push({
+        amount: this.quotation_products.amount,
+        percent: this.quotation_products.percents[1],
+        product_id: this.supranet_material.id,
+      })
+      this.selected_siemon_materials.push({
+        amount: this.quotation_products.amount,
+        percent: this.quotation_products.percents[0],
+        product_id: this.siemon_material.id,
+      })
+      this.quotation_products.prices = [0,0]
+      this.quotation_products.percents = [15,15]
       this.quotation_products.amount = 1
     },
     formatData: function(){
-      var data =  {
-          quotation: {
-            quotation_products_attributes: this.selected_materials
-          }
-        };
+
+      var product_attributes = [];
+
+      product_attributes = this.selected_siemon_materials.concat(this.selected_supranet_materials)
+      var data = {
+        quotation: {
+          quotation_products_attributes: product_attributes
+        }
+      };
       return data;
     },
     submit(){
@@ -127,13 +135,14 @@ export default {
     },
     deleteProduct: function(index){
       this.selected_materials.splice(index,1);
+      this.selected_siemon_materials.splice(index,1);
+      this.selected_supranet_materials.splice(index,1);
     }
   },
   watch: {
-    quotation_type: function(){
+    quotation_id: function(){
       this.setTableHeaders();
       this.getQuotationProducts();
-      this.setSource();
     }
   }
 }
@@ -144,66 +153,118 @@ export default {
     <b-form-row>
       <div class="col-12">
         <label class="mb-0 text-primary font-weight-bold">{{translations.titles.material}}</label>
+        <br />
+        <label class="text-primary font-weight-bold">Siemon</label>
         <div class="input-group mb-3" >
           <div class="input-group-prepend">
             <div class="input-group-text bg-white text-primary">
               <i class="fas fa-user-alt"></i>
             </div>
           </div>
-          <component-autocomplete
-            :clear.sync="clear_autocomplete"
-            :placeholder="translations.autocomplete.title"
-            :source="source_api"
-            @autocomplete:selected="materialSelected"
-            @autocomplete:unselected="materialUnselected"
-          />
+          <div class="col-7">
+            <component-autocomplete
+                :clear.sync="clear_siemon_autocomplete"
+                :placeholder="translations.autocomplete.title"
+                :source="`/api/products/per_brand/t_siemon_only`"
+                @autocomplete:selected="materialSiemonSelected"
+                @autocomplete:unselected="materialSiemonUnselected"
+              />
+          </div>
         </div>
       </div>
     </b-form-row>
     <b-form-row>
-      <div class="col-1" v-if="quotation_type==='t_supranet'">
-        <label class="text-primary font-weight-bold">Supranet</label>
-      </div>
-      <div class="col-1" v-else-if="quotation_type==='t_simple'">
-        <label class="text-primary font-weight-bold">Simple</label>
-      </div>
       <div class="col-2">
-        <label class="mb-0 text-primary font-weight-bold">{{translations.titles.amount}}</label>
-        <div class="input-group mb-2">
-          <div class="input-group-prepend">
-            <div class="input-group-text bg-white text-primary">
-              <i class="fas fa-sort-amount-up"></i>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.amount}}</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-white text-primary">
+                <i class="fas fa-sort-amount-up"></i>
+              </div>
             </div>
+            <b-form-input v-model="quotation_products.amount"></b-form-input>
           </div>
-          <b-form-input v-model="quotation_products.amount"></b-form-input>
+        </div>
+        <div class="col-2">
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.price}}</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-white text-primary">
+                <i class="fas fa-money-bill-wave"></i>
+              </div>
+            </div>
+            <b-form-input disabled v-model="quotation_products.prices[0]"></b-form-input>
+          </div>
+        </div>
+        <div class="col-2">
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.percent}}</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-white text-primary">
+                <i class="fas fa-percentage"></i>
+              </div>
+            </div>
+            <b-form-input v-model="quotation_products.percents[0]"></b-form-input>
+          </div>
+        </div>
+    </b-form-row>
+    <b-form-row>
+      <label class="text-primary font-weight-bold">Supranet</label>
+      <div class="input-group mb-3" >
+        <div class="input-group-prepend">
+          <div class="input-group-text bg-white text-primary">
+            <i class="fas fa-user-alt"></i>
+          </div>
+        </div>
+        <div class="col-7">
+          <component-autocomplete
+              :clear.sync="clear_supranet_autocomplete"
+              :placeholder="translations.autocomplete.title"
+              :source="`/api/products/per_brand/t_supranet_only`"
+              @autocomplete:selected="materialSupranetSelected"
+              @autocomplete:unselected="materialSupranetUnselected"
+            />
         </div>
       </div>
+    </b-form-row>
+    <b-form-row>
       <div class="col-2">
-        <label class="mb-0 text-primary font-weight-bold">{{translations.titles.price}}</label>
-        <div class="input-group mb-2">
-          <div class="input-group-prepend">
-            <div class="input-group-text bg-white text-primary">
-              <i class="fas fa-money-bill-wave"></i>
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.amount}}</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-white text-primary">
+                <i class="fas fa-sort-amount-up"></i>
+              </div>
             </div>
+            <b-form-input v-model="quotation_products.amount"></b-form-input>
           </div>
-          <b-form-input disabled v-model="quotation_products.price"></b-form-input>
         </div>
-      </div>
-      <div class="col-2">
-        <label class="mb-0 text-primary font-weight-bold">{{translations.titles.percent}}</label>
-        <div class="input-group mb-2">
-          <div class="input-group-prepend">
-            <div class="input-group-text bg-white text-primary">
-              <i class="fas fa-percentage"></i>
+        <div class="col-2">
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.price}}</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-white text-primary">
+                <i class="fas fa-money-bill-wave"></i>
+              </div>
             </div>
+            <b-form-input disabled v-model="quotation_products.prices[1]"></b-form-input>
           </div>
-          <b-form-input v-model="quotation_products.percent"></b-form-input>
         </div>
-      </div>
-      <div class="col-2">
-      <br />
-        <b-button variant="primary" block @click="addMaterial()">{{translations.buttons.add_material}}</b-button>
-      </div>
+        <div class="col-2">
+          <label class="mb-0 text-primary font-weight-bold">{{translations.titles.percent}}</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-white text-primary">
+                <i class="fas fa-percentage"></i>
+              </div>
+            </div>
+            <b-form-input v-model="quotation_products.percents[1]"></b-form-input>
+          </div>
+        </div>
+        <div class="col-2 offset-2">
+        <br />
+          <b-button variant="primary" block @click="addMaterial()">{{translations.buttons.add_material}}</b-button>
+        </div>
     </b-form-row>
     <b-table
       thead-tr-class="bg-lomax text-white"
@@ -211,30 +272,29 @@ export default {
       :items="selected_materials"
       :fields="table_headers"
     >
-      <template v-if="this.quotation_type==='t_simple'" v-slot:thead-top="data">
+      <template v-slot:thead-top="data">
         <b-tr class="text-center">
-          <b-th rowspan="2" colspan="5" class="bg-dark text-white"></b-th>
-          <b-th colspan="4" class="bg-dark">{{translations.custom_headers.expression}}</b-th>
-          <b-th colspan="1" class="bg-dark"></b-th>
+          <b-th rowspan="3" colspan="2" class="bg-dark text-white"></b-th>
+          <b-th colspan="5" class="bg-dark">{{translations.custom_headers.expression}}</b-th>
+          <b-th colspan="5" class="bg-dark">{{translations.custom_headers.expression}}</b-th>
+          <b-th colspan="1" class="bg-dark text-white"></b-th>
         </b-tr>
         <b-tr class="text-center text-danger">
-          <b-th colspan="2" class="text-center">{{translations.custom_headers.without_percentage}}</b-th>
-          <b-th colspan="2" class="text-center">{{translations.custom_headers.with_percentage}}</b-th>
-          <b-th></b-th>
-        </b-tr>
-      </template>
-      <template v-else v-slot:thead-top="data">
-        <b-tr class="text-center">
-          <b-th rowspan="2" colspan="4" class="bg-dark text-white"></b-th>
-          <b-th colspan="4" class="bg-dark">{{translations.custom_headers.expression}}</b-th>
-          <b-th  class="bg-dark"></b-th>
+          <b-th colspan="5" class="text-center">Siemon</b-th>
+          <b-th colspan="5" class="text-center">Supranet</b-th>
+          <b-th colspan="1" class="text-white"></b-th>
         </b-tr>
         <b-tr class="text-center text-danger">
+          <b-th colspan="1" class="text-white"></b-th>
           <b-th colspan="2" class="text-center">{{translations.custom_headers.without_percentage}}</b-th>
           <b-th colspan="2" class="text-center">{{translations.custom_headers.with_percentage}}</b-th>
-          <b-th></b-th>
+          <b-th colspan="1" class="text-white"></b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.without_percentage}}</b-th>
+          <b-th colspan="2" class="text-center">{{translations.custom_headers.with_percentage}}</b-th>
+           <b-th colspan="1" class="text-white"></b-th>
         </b-tr>
       </template>
+       
       <template v-slot:cell(name)="data">{{ data.item.name }}</template>
       <template v-slot:cell(actions)="data">
         <b-button class="btn btn-danger" type="submit" v-on:click="deleteProduct(data.index)">

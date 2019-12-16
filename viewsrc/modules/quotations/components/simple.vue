@@ -72,6 +72,7 @@ export default {
       this.quotation_products.price = material.product_price
     },
     materialUnselected(){
+      this.material = null
       this.quotation_products.material_id = null
       this.quotation_products.price=null
     },
@@ -82,7 +83,6 @@ export default {
       let total_percent = total * this.percentage.format(this.quotation_products.percent)
       this.selected_materials.push({
         id: this.quotation_products.id,
-        material_id: this.quotation_products.material_id,
         amount: this.quotation_products.amount,
         code: this.material.code,
         material: this.material.value,
@@ -148,13 +148,15 @@ export default {
               <i class="fas fa-user-alt"></i>
             </div>
           </div>
-          <component-autocomplete
-            :clear.sync="clear_autocomplete"
-            :placeholder="translations.autocomplete.title"
-            :source="source_api"
-            @autocomplete:selected="materialSelected"
-            @autocomplete:unselected="materialUnselected"
-          />
+          <div class="col-6">
+            <component-autocomplete
+              :clear.sync="clear_autocomplete"
+              :placeholder="translations.autocomplete.title"
+              :source="source_api"
+              @autocomplete:selected="materialSelected"
+              @autocomplete:unselected="materialUnselected"
+            />
+          </div>
         </div>
       </div>
     </b-form-row>
