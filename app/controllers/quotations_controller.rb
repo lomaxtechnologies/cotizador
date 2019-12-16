@@ -41,7 +41,12 @@ class QuotationsController < ApplicationController
 
   # PUT /quotations/:id
   def update
-    if @quotation.update(quotation_params.merge(user: current_user))
+    updated_params = quotation_params.merge(user: current_user)
+    if updated_params[:quotation_products_attributes]
+      @quotation.quotation_products.destroy_all
+    end
+    
+    if @quotation.update(updated_params)
       response_with_success({
         quotation_services: @quotation.services_ids,
         quotation_products: @quotation.products_ids
@@ -220,7 +225,7 @@ class QuotationsController < ApplicationController
       :payment_condition,
       :warranty,
       :client_id,
-      quotation_products_attributes: %i[id amount percent product_id _destroy],
+      quotation_products_attributes: %i[amount percent product_id],
       quotation_services_attributes: %i[id amount percent service_id _destroy]
     )
   end
