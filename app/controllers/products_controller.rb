@@ -71,7 +71,6 @@ class ProductsController < ApplicationController
   # GET /prices/api/get-products
 
   def api_simple
-    products = Product.fields_for_simple
     search = params.fetch(:search, "").split
     query = ""
 
@@ -82,7 +81,12 @@ class ProductsController < ApplicationController
         query += "AND (lower(materials.name) like '%#{str}%' OR lower(brands.name) like '%#{str}%' OR lower(materials.description) like '%#{str}%')"
       end
     end
-    response_with_success(products.where(query))
+
+    products = Product.fields_for_simple.where(query).map do |product|
+      product.attributes
+    end
+
+    response_with_success(products)
   end
 
 
