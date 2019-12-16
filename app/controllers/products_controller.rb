@@ -69,17 +69,32 @@ class ProductsController < ApplicationController
 
   # API For prices controller
   # GET /prices/api/get-products
-  def api_comparative
-    response_with_success(Product.fields_for_comparative.sort_by{ |obj| obj[:name]})
-  end
 
   def api_simple
+    products = Product.fields_for_simple
+    search = params.fetch(:search, "").split
+    query = ""
+
+    search.each do |str|
+      if query.empty?
+        query += "(lower(materials.name) like '%#{str}%' OR lower(brands.name) like '%#{str}%' OR lower(materials.description) like '%#{str}%')"
+      else
+        query += "AND (lower(materials.name) like '%#{str}%' OR lower(brands.name) like '%#{str}%' OR lower(materials.description) like '%#{str}%')"
+      end
+    end
+    
+    p query
+    response_with_success(products.where(query))
+  end
+
+  def api_supranet
     response_with_success(Product.fields_for_simple.sort_by{ |obj| obj[:name]})
   end
 
-  def api_only_brand
-    response_with_success(Product.fields_for_only_brand(params[:brand_name]))
+  def api_siemons
+    response_with_success(Product.fields_for_simple.sort_by{ |obj| obj[:name]})
   end
+
 
   def products_by_material
     return response_with_error(t('.errors.unespecified_material')) unless params[:material_id]

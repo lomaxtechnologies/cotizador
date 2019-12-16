@@ -71,6 +71,8 @@ es:
           date: Debes ingresar una fecha válida
           client: Debes seleccionar un cliente del listado
       materials:
+        autocomplete:
+          title: Selecciona un Material
         notifications:
           materials_updated: Cambios guardados en los materiales
           remember_save: Recuerda presionar 'Siguiente' para guardar los cambios

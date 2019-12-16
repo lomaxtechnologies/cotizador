@@ -13,6 +13,33 @@ class Product < ApplicationRecord
 
   paginates_per 10
 
+  scope :fields_for_simple, -> {
+    select("products.id as id","concat(brands.name,' - ',materials.name,' ',materials.description) as value","products.brand_id as brand_id", "products.measure_unit_id as measure_unit_id","products.material_id as material_id","products.code","prices.product_price", "measure_units.name", "brands.name as brand")
+    .joins(:material)
+    .joins(:brand)
+    .joins(:measure_unit)
+    .joins(:price)
+  }
+
+
+  scope :fields_for_siemon, -> {
+    select("products.id as id","concat(brands.name,' - ',materials.name,' ',materials.description) as value","brands.name as brand","products.code as code","prices.product_price as price", "measure_units.name as measure_unit")
+    .joins(:material)
+    .joins(:brand)
+    .joins(:measure_unit)
+    .joins(:price)
+    .where("brands.id != 3")
+  }
+
+  scope :fields_for_supranet, -> {
+    select("products.id as id","concat(brands.name,' - ',materials.name,' ',materials.description) as value","brands.name as brand","products.code as code","prices.product_price as price", "measure_units.name as measure_unit")
+    .joins(:material)
+    .joins(:brand)
+    .joins(:measure_unit)
+    .joins(:price)
+    .where("brand_id != 2")
+  }
+
   def find_even_if_deleted(tag)
     case tag
     when :material
@@ -64,25 +91,6 @@ class Product < ApplicationRecord
         code: product.code,
         price: product.price.product_price,
         brand: product.brand.name,
-        measure_unit: product.measure_unit.name
-      )
-    end
-    data
-  end
-
-  def self.fields_for_simple
-    data = []
-    Product.all.each do |product|
-      name = Product.format_name(product)
-      data.push(
-        id: product.id,
-        name: name,
-        name_and_brand: "#{product.brand.name} - #{name}",
-        material_id: product.material_id,
-        product_id: product.id,
-        brand: product.brand.name,
-        code: product.code,
-        price: product.price.product_price,
         measure_unit: product.measure_unit.name
       )
     end
