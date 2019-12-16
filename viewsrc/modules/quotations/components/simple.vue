@@ -233,6 +233,7 @@ export default {
           <b-th></b-th>
         </b-tr>
       </template>
+      <template v-slot:cell(amount)="data">{{ parseInt(data.item.amount) }}</template>
       <template v-slot:cell(name)="data">{{ data.item.name }}</template>
       <template v-slot:cell(actions)="data">
         <b-button class="btn btn-danger" type="button" v-on:click="deleteProduct(data.index)">
