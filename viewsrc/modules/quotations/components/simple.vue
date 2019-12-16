@@ -105,7 +105,7 @@ export default {
             quotation_products_attributes: this.selected_materials
           }
         };
-      return data
+      return data;
     },
     submit(){
       this.$emit("update:section_valid", false);
